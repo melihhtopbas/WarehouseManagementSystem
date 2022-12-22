@@ -1,0 +1,57 @@
+﻿@model Warehouse.ViewModels.Admin.OrderAddViewModel
+@using WarehouseManagementSystem.Extensions
+@using (Html.BeginForm("Add", "Order", FormMethod.Post, new { id = "orderAddForm", role = "form" }))
+{
+    
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
+            @Html.HiddenFor(m => m.CargoServiceTypeId, new { data_val = "false" })
+            @Html.HiddenFor(m => m.ProductCurrencyUnitId, new { data_val = "false" })
+            @Html.HiddenFor(m => m.RecipientCountryId, new { data_val = "false" })
+            @Html.RenderValidationSummary(true)
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.SenderName)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.SenderPhone)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber)
+        </div>
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientName)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientAddress)
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.Country)
+            </div>
+        </div>
+         
+
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+}

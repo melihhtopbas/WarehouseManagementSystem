@@ -1,0 +1,43 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.OrderListViewModel>
+
+<div class="order-list-tools clearfix">
+
+
+    <a class="btn btn-default btn-sm"
+       data-modal-form="true"
+       data-modal-size="modal-lg"
+       data-modal-prepend="tbody#OrderList"
+       data-modal-title="Gönderi Ekle Partial"
+       data-hook-beforeunload="true"
+       href="@Url.Action("Add", "Order")">
+        <i class="fa fa-plus"></i>Gönderi Ekle
+    </a>
+
+
+
+
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Gönderici Adı</th>
+            <th>Gönderici Telefon</th>
+            <th>Alıcı Adı</th>
+            <th>Alıcı Adres</th>
+            <th>Alıcı Şehir</th>
+            <th>Alıcı ZipCode</th>
+            <th>Alıcı Telefon</th>
+            <th>Gönderi İçeriği</th>
+            <th>Koli Adeti</th>
+            <th style="width:50px">Düzenle</th>
+            <th style="width:50px">Sil</th>
+        </tr>
+    </thead>
+    <tbody id="OrderList">
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+
