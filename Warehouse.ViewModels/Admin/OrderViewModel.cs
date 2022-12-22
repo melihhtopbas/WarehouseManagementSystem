@@ -14,9 +14,9 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderCrudBaseViewModel
     {
-        public OrderCountryIdSelectViewModel Country { get; set; }
-        public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
-        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
+        public OrderCountryIdSelectViewModel Country { get; set; } //yapıldı
+        public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; } //yapılmadı
+        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }//yapılmadı
     }
      public class OrderAddViewModel : OrderCrudBaseViewModel
     {
