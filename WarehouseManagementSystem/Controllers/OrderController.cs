@@ -36,9 +36,20 @@ namespace WarehouseManagementSystem.Controllers
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
+            //Personels = new List<NewPersonelVM>() { new NewPersonelVM { Ad = null,Cinsiyet=false,DepartmanId=null,EvliMi=false,DogumTarihi=null,
+            //   Maas=null,Id=0,PersonelGorsel=null,Soyad=null,Resim=null,DepartmanlarListesi=db.Departman.ToList()} },
             var model = new OrderAddViewModel
             {
-               ProductTransactionGroup = new List<ProductTransactionGroupViewModel>()
+               ProductTransactionGroup = new List<ProductTransactionGroupViewModel>() {new ProductTransactionGroupViewModel {
+                   Content = null,
+                   Count = 0,
+                   GtipCode = null,
+                   QuantityPerUnit = 0,
+                   SKU = null,
+                   CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel(),
+                   
+               
+               } },
             };
             return PartialView("~/Views/Order/_OrderAdd.cshtml", model);
         }
@@ -71,9 +82,12 @@ namespace WarehouseManagementSystem.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
-          
-             
+
+
+
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
             return Json(
                 new
                 {

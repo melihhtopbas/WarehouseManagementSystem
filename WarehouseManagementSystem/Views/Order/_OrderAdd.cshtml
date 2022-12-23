@@ -2,7 +2,7 @@
 @using WarehouseManagementSystem.Extensions
 @using (Html.BeginForm("Add", "Order", FormMethod.Post, new { id = "orderAddForm", role = "form" }))
 {
-    
+
     <div class="row">
         <div class="col-xs-12">
             @Html.AntiForgeryToken()
@@ -13,10 +13,17 @@
             @Html.RenderValidationSummary(true)
         </div>
     </div>
+    //    .col -{ value}
+    //.col - sm -{ value}
+    //.col - md -{ value}
+    //.col - lg -{ value}
+    //.col - xl -{ value}
+
 
     <div class="row">
 
 
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.SenderName)
         </div>
@@ -30,18 +37,88 @@
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber)
         </div>
 
+        <div class="clearfix"></div>
+        <hr />
+        <div class="clearfix"></div>
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Alıcı</h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientName)
         </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12  ">
-            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientAddress)
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientCity)
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="row">
                 @Html.EditorFor(m => m.Country)
             </div>
         </div>
-         
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientZipCode)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientPhone)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.RecipientMail)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.RecipientAddress)" style="width: 875px; height: 55px;">
+            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "form-control", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+        <div class="clearfix"></div>
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Ürün İşlemleri</h5>
+        <div id="transactionGroupRow">
+            @foreach (var item in Model.ProductTransactionGroup)
+            {
+                @Html.Partial("~/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
+            }
+
+        </div>
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a id="addProductTransactionGroup" class="label-success">Ürün Ekle</a>
+        </div>
+
+        <div class="clearfix"></div>
+        <hr />
+        <div class="clearfix"></div>
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Paket İşlemleri</h5>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.CargoService)
+            </div>
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.PackageCount)
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+        <div class="clearfix"></div>
+
+        <a id="packaceDetails" class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Paket Detayları</a>
+        <div class="packageDetailsShow">
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.PackageHeight)
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.PackageWeight)
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.PackageWidth)
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.PackageLength)
+            </div>
+        </div>
+
+
+
+
+
 
 
     </div>
@@ -53,6 +130,27 @@
         </div>
     </div>
     <div class="clearfix"></div>
+        
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 }
+<style>
+
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<script>
+    $('.packageDetailsShow').hide();
+    $("#packaceDetails").click(function () {
+        if ($('#packaceDetails').hasClass("clicked-once")) {
+            $('.packageDetailsShow').slideUp(1000);
+            $('#packaceDetails').removeClass("clicked-once");
+        }
+        else {
+            $('#packaceDetails').addClass("clicked-once");
+            $('.packageDetailsShow').slideDown(1000);
+        }
+    });
+</script>

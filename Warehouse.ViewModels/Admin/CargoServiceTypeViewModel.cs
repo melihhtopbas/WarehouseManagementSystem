@@ -15,9 +15,17 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
 
     }
+    public class CargoServiceTypeListViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Kargo Servis Tipi")]
+        
+        public string Name { get; set; }
+
+    }
     public class OrderCargoServiceTypeIdSelectViewModel
     {
         [Display(Name = "Kargo Servis Tipi")]
-        public long? CargoServiceId;
+        public long? CargoServiceId { get; set; }
     }
 }

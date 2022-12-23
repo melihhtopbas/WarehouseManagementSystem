@@ -15,9 +15,17 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
 
     }
+    public class CurrencyUnitListViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Para Birimi")]
+        
+        public string Name { get; set; }
+
+    }
     public class OrderCurrencyUnitIdSelectViewModel
     {
         [Display(Name = "Para Birimi")]
-        public long? CurrencyUnitId;
+        public long? CurrencyUnitId { get; set; }
     }
 }

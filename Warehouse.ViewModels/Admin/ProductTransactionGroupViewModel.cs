@@ -15,9 +15,11 @@ namespace Warehouse.ViewModels.Admin
         public string Content { get; set; }
         [Display(Name = "Ürün Adeti")]
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [Range(0, long.MaxValue, ErrorMessage = "Ürün adeti 0 olamaz!")]
         public int Count { get; set; }
         [Display(Name = "Birim Fiyatı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [Range(0, long.MaxValue, ErrorMessage = "Ürün fiyatı 0 olamaz!")]
         public long QuantityPerUnit { get; set; }
         [Display(Name = "SKU(isteğe bağlı)")]
          
@@ -27,6 +29,8 @@ namespace Warehouse.ViewModels.Admin
         public long? OrderId { get; set; }
 
         public virtual OrderAddViewModel Orders { get; set; }
-         
+
+        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }//yapılmadı
+
     }
 }

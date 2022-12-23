@@ -57,10 +57,10 @@ namespace Warehouse.Service
             }).ToList();
             return result;
         }
-        public List<CurrencyUnitViewModel> GetOrderCurrencyUnitList()
+        public List<CurrencyUnitListViewModel> GetOrderCurrencyUnitList()
         {
 
-            var result = _context.Orders.Select(b => new CurrencyUnitViewModel
+            var result = _context.Orders.Select(b => new CurrencyUnitListViewModel
             {
 
                Id = b.CurrencyUnits.Id,
@@ -69,10 +69,10 @@ namespace Warehouse.Service
             }).ToList();
             return result;
         }
-        public List<CargoServiceTypeViewModel> GetOrderCargoServiceTypeList()
+        public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList()
         {
 
-            var result = _context.Orders.Select(b => new CargoServiceTypeViewModel
+            var result = _context.Orders.Select(b => new CargoServiceTypeListViewModel
             {
 
                 Id = b.CargoServiceTypes.Id,
