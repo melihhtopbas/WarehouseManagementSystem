@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Warehouse.Data;
 using Warehouse.Service;
 using Warehouse.ViewModels.Admin;
 using WarehouseManagementSystem.Controllers.Abstract;
@@ -15,7 +16,8 @@ namespace WarehouseManagementSystem.Controllers
     public class OrderController : AdminBaseController
     {
         private readonly OrderService _orderService;
-         
+        WarehouseManagementSystemEntities db = new WarehouseManagementSystemEntities();
+
         public OrderController(OrderService orderService)
         {
             _orderService = orderService;
@@ -37,8 +39,7 @@ namespace WarehouseManagementSystem.Controllers
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
-            //Personels = new List<NewPersonelVM>() { new NewPersonelVM { Ad = null,Cinsiyet=false,DepartmanId=null,EvliMi=false,DogumTarihi=null,
-            //   Maas=null,Id=0,PersonelGorsel=null,Soyad=null,Resim=null,DepartmanlarListesi=db.Departman.ToList()} },
+             
             var model = new OrderAddViewModel
             {
                ProductTransactionGroup = new List<ProductTransactionGroupViewModel>() {new ProductTransactionGroupViewModel {
@@ -64,19 +65,34 @@ namespace WarehouseManagementSystem.Controllers
                 var callResult = await _orderService.AddOrderAsync(model);
                 if (callResult.Success)
                 {
-
+ 
                     ModelState.Clear();
-                    var viewModel = (OrderListViewModel)callResult.Item;
+                    var countryName = db.Countries.Find(model.Country.CountryId);
+                    var currencyUnitName = db.CurrencyUnits.Find(model.CurrenyUnit.CurrencyUnitId);
+                    var cargoName = db.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
+                    var viewModel = new OrderListViewModel
+                    {
+                        SenderName = model.SenderName,
+                        RecipientAddress = model.RecipientAddress,
+                        RecipientCity = model.RecipientCity,
+                        RecipientName = model.RecipientName,
+                        RecipientCountry = countryName.Name,
+                        CurrencyUnit = currencyUnitName.Name,
+                        RecipientZipCode = model.RecipientZipCode,
+                        CargoService = cargoName.Name,
+                        PackageCount = model.PackageCount
+                    };
                     var jsonResult = Json(
                         new
                         {
                             success = true,
-                            responseText = View("Index", viewModel),
+                            responseText = View("Index",viewModel),
 
                             item = viewModel
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;
                     return jsonResult;
+
 
                 }
                 foreach (var error in callResult.ErrorMessages)
