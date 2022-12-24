@@ -29,6 +29,7 @@ namespace WarehouseManagementSystem.Controllers
             return View("~/Views/Order/Index.cshtml",result);
         }
         [AjaxOnly]
+        [HttpGet]
         public ActionResult Add()
         {
 
@@ -42,13 +43,13 @@ namespace WarehouseManagementSystem.Controllers
             {
                ProductTransactionGroup = new List<ProductTransactionGroupViewModel>() {new ProductTransactionGroupViewModel {
                    Content = null,
-                   Count = 0,
+                   //Count = 0,
                    GtipCode = null,
-                   QuantityPerUnit = 0,
+                   //QuantityPerUnit = 0,
                    SKU = null,
                    CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel(),
-                   
-               
+
+
                } },
             };
             return PartialView("~/Views/Order/_OrderAdd.cshtml", model);
@@ -76,6 +77,7 @@ namespace WarehouseManagementSystem.Controllers
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;
                     return jsonResult;
+
                 }
                 foreach (var error in callResult.ErrorMessages)
                 {
@@ -95,6 +97,13 @@ namespace WarehouseManagementSystem.Controllers
                     responseText = RenderPartialViewToString("~/Views/Order/_OrderAdd.cshtml", model)
                 });
 
+        }
+        public PartialViewResult ProductTransactionGroupRow()
+        {
+            ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
+            return PartialView("~/Views/Order/_OrderProductTransactionGroupAdd.cshtml", new ProductTransactionGroupViewModel());
         }
 
 

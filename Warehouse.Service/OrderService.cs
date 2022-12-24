@@ -24,7 +24,7 @@ namespace Warehouse.Service
         {
             var result = _context.Orders.Select(b => new OrderListViewModel
             {
-                CargoServiceTypeId = b.CargoServiceTypeId,
+
                 Id = b.Id,
                 PackageCount = b.PackageCount,
                 RecipientAddress = b.RecipientAddress,
@@ -34,11 +34,12 @@ namespace Warehouse.Service
                 RecipientZipCode = b.RecipientZipCode,
                 SenderName = b.SenderName,
                 SenderPhone = b.SenderPhone,
-                RecipientCountryId = b.RecipientCountryId,
-                OrderDescription = b.ProductOrderDescription,
                 RecipientCountry = b.Countries.Name,
-                CurrencyUnit = b.CurrencyUnits.Name
-                  
+                CurrencyUnit = b.CurrencyUnits.Name,
+                CargoService = b.CargoServiceTypes.Name
+
+
+
 
 
             }).ToList();
@@ -47,11 +48,11 @@ namespace Warehouse.Service
         public List<CountryListViewModel> GetOrderCountryList()
         {
 
-            var result = _context.Orders.Select(b => new CountryListViewModel
+            var result = _context.Countries.Select(b => new CountryListViewModel
             {
-      
-                Id = b.Countries.Id,
-                Name = b.Countries.Name
+
+                Id = b.Id,
+                Name = b.Name
 
 
             }).ToList();
@@ -60,11 +61,11 @@ namespace Warehouse.Service
         public List<CurrencyUnitListViewModel> GetOrderCurrencyUnitList()
         {
 
-            var result = _context.Orders.Select(b => new CurrencyUnitListViewModel
+            var result = _context.CurrencyUnits.Select(b => new CurrencyUnitListViewModel
             {
 
-               Id = b.CurrencyUnits.Id,
-               Name = b.CurrencyUnits.Name,
+                Id = b.Id,
+                Name = b.Name,
 
             }).ToList();
             return result;
@@ -72,12 +73,12 @@ namespace Warehouse.Service
         public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList()
         {
 
-            var result = _context.Orders.Select(b => new CargoServiceTypeListViewModel
+            var result = _context.CargoServiceTypes.Select(b => new CargoServiceTypeListViewModel
             {
 
-                Id = b.CargoServiceTypes.Id,
-                Name = b.CargoServiceTypes.Name
-                
+                Id =  b.Id,
+                Name = b.Name
+
 
             }).ToList();
             return result;
@@ -91,47 +92,52 @@ namespace Warehouse.Service
         public async Task<ServiceCallResult> AddOrderAsync(OrderAddViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
-
-            
-
-            var order = new Orders()
+            var order = new Orders
             {
-                SenderPhone = model.SenderPhone,
-                SenderIdentityNumber = model.SenderIdentityNumber,
-                SenderName = model.SenderName,
-                SenderMail = model.SenderMail,
-                RecipientCountryId = model.RecipientCountryId,
-                CargoServiceTypeId = model.CargoServiceTypeId,
                 Id = model.Id,
+                SenderIdentityNumber = model.SenderIdentityNumber,
+                SenderMail = model.SenderMail,
+                SenderName = model.SenderName,
+                SenderPhone = model.SenderPhone,
+                RecipientCity = model.RecipientCity,
+                RecipientMail = model.RecipientMail,
+                RecipientName = model.RecipientName,
+                RecipientAddress = model.RecipientAddress,
+                RecipientPhone = model.RecipientPhone,
                 PackageCount = model.PackageCount,
                 PackageHeight = model.PackageHeight,
                 PackageLength = model.PackageLength,
-                ProductCurrencyUnitId = model.ProductCurrencyUnitId,
                 PackageWeight = model.PackageWeight,
                 PackageWidth = model.PackageWidth,
-                ProductOrderDescription = model.ProductOrderDescription,
-                RecipientAddress = model.RecipientAddress,
-                RecipientCity = model.RecipientCity,
+                ProductOrderDescription = model.OrderDescription,
                 RecipientIdentityNumber = model.RecipientIdentityNumber,
-                RecipientName = model.RecipientName,
-                RecipientMail = model.RecipientMail,
-                RecipientPhone = model.RecipientPhone,
-                RecipientZipCode = model.RecipientPhone,
+                RecipientZipCode = model.RecipientZipCode,
+                CargoServiceTypeId = model.CargoService.CargoServiceId,
+                ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
+                RecipientCountryId = model.Country.CountryId
+                
+                
+                
+                
+                
+                
+
+
 
             };
             foreach (var productGroup in model.ProductTransactionGroup)
             {
-                
+
 
                 order.ProductTransactionGroup.Add(new ProductTransactionGroup()
                 {
-                     Content = productGroup.Content,
-                     Count = productGroup.Count,
-                     SKU = productGroup.SKU,
-                     GtipCode = productGroup.GtipCode,
-                     Id = productGroup.Id,
-                     OrderId = productGroup.OrderId,
-                     QuantityPerUnit = productGroup.QuantityPerUnit
+                    Content = productGroup.Content,
+                    Count = productGroup.Count,
+                    SKU = productGroup.SKU,
+                    GtipCode = productGroup.GtipCode,
+                    Id = productGroup.Id,
+                    OrderId = productGroup.OrderId,
+                    QuantityPerUnit = productGroup.QuantityPerUnit
                 });
             }
 
@@ -147,7 +153,7 @@ namespace Warehouse.Service
 
 
                     callResult.Success = true;
-                     
+
                     return callResult;
                 }
                 catch (Exception exc)

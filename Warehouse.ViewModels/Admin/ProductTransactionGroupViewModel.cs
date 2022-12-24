@@ -15,12 +15,12 @@ namespace Warehouse.ViewModels.Admin
         public string Content { get; set; }
         [Display(Name = "Ürün Adeti")]
         [Required(ErrorMessage = "Lütfen giriniz")]
-        [Range(0, long.MaxValue, ErrorMessage = "Ürün adeti 0 olamaz!")]
-        public int Count { get; set; }
+       
+        public int? Count { get; set; }
         [Display(Name = "Birim Fiyatı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
-        [Range(0, long.MaxValue, ErrorMessage = "Ürün fiyatı 0 olamaz!")]
-        public long QuantityPerUnit { get; set; }
+        
+        public long? QuantityPerUnit { get; set; }
         [Display(Name = "SKU(isteğe bağlı)")]
          
         public string SKU { get; set; }

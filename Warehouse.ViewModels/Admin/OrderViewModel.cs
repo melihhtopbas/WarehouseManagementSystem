@@ -14,9 +14,9 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderCrudBaseViewModel
     {
-        public OrderCountryIdSelectViewModel Country { get; set; } //yapıldı
-        public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; } //yapılmadı
-        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }//yapılmadı
+        public OrderCountryIdSelectViewModel Country { get; set; }  
+        public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; } 
+        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; } 
     }
      public class OrderAddViewModel : OrderCrudBaseViewModel
     {
@@ -25,11 +25,12 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Gönderici Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string SenderName { get; set; }
-        [Display(Name = "Gönderici Mail-i")]
+        [Display(Name = "Gönderici Mail")]
         
         public string SenderMail { get; set; }
         [Display(Name = "Gönderici Telefonu")]
-        
+        [Required(ErrorMessage = "Lütfen giriniz")]
+
         public string SenderPhone { get; set; }
         [Display(Name = "Gönderici Kimlik No")]
       
@@ -43,11 +44,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Alıcı Şehir")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientCity { get; set; }
-        [Display(Name = "Alıcı Ülke")]
-         
-        public long? RecipientCountryId { get; set; }
-
-        public List<CountryViewModel> CountryList { get; set; }
+ 
         [Display(Name = "Alıcı Posta Kodu")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientZipCode { get; set; }
@@ -55,36 +52,17 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientPhone { get; set; }
         [Display(Name = "Alıcı Kimlik No")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
+       
         public string RecipientIdentityNumber { get; set; }
         [Display(Name = "Alıcı Mail")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
+       
         public string RecipientMail { get; set; }
-        [Display(Name = "Para Birimi")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        public long ProductCurrencyUnitId { get; set; }
-        public List<CurrencyUnitViewModel> CurrencyUnitList { get; set; }
-        [Display(Name = "Ürün Açıklaması")]
+ 
       
-        public string ProductOrderDescription { get; set; }
-        [Display(Name = "Ürün Fiyatı")]
-
-        public string ProductQuantityPerUnit { get; set; }
-        [Display(Name = "Ürün Adeti")]
-
-        public string ProductCount { get; set; }
-        [Display(Name = "SKU")]
-
-        public string ProductSKU { get; set; }
-        [Display(Name = "Gtip Kod")]
-
-        public string ProductGtipCode { get; set; }
-        [Display(Name = "Kargo Servis Tipi")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        public long CargoServiceTypeId { get; set; }
         [Display(Name = "Koli Adeti")]
-         
-        public int PackageCount { get; set; }
+        [Required(ErrorMessage = "Lütfen giriniz")]
+
+        public int? PackageCount { get; set; }
         [Display(Name = "Ağırlık(kg)")]
         
         public long? PackageWeight { get; set; }
@@ -94,6 +72,9 @@ namespace Warehouse.ViewModels.Admin
         public long? PackageLength { get; set; }
         [Display(Name = "En(cm)")]
         public long? PackageWidth { get; set; }
+        [Display(Name = "Sipariş Açıklaması")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
+        public string OrderDescription { get; set; }
 
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }
         public virtual CountryViewModel Countries { get; set; }
@@ -138,10 +119,10 @@ namespace Warehouse.ViewModels.Admin
         
         [Display(Name = "Kargo Servis Tipi")]
          
-        public long CargoServiceTypeId { get; set; }
+        public long? CargoServiceTypeId { get; set; }
         [Display(Name = "Koli Adeti")]
 
-        public int PackageCount { get; set; }
+        public int? PackageCount { get; set; }
         [Display(Name = "Sipariş Açıklaması")]
 
         public string OrderDescription { get; set; }
@@ -151,6 +132,9 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Para Birimi")]
 
         public string CurrencyUnit { get; set; }
+        [Display(Name = "Kargo Servis Tipi")]
+
+        public string CargoService { get; set; }
 
 
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }

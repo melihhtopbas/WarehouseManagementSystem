@@ -16,8 +16,8 @@ namespace Warehouse.Data
     {
         public long Id { get; set; }
         public string Content { get; set; }
-        public int Count { get; set; }
-        public long QuantityPerUnit { get; set; }
+        public int? Count { get; set; }
+        public long? QuantityPerUnit { get; set; }
         public string SKU { get; set; }
         public string GtipCode { get; set; }
         public Nullable<long> OrderId { get; set; }

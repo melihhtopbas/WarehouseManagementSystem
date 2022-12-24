@@ -34,8 +34,8 @@ namespace Warehouse.Data
         public string RecipientMail { get; set; }
         public Nullable<long> ProductCurrencyUnitId { get; set; }
         public string ProductOrderDescription { get; set; }
-        public long CargoServiceTypeId { get; set; }
-        public int PackageCount { get; set; }
+        public Nullable<long> CargoServiceTypeId { get; set; }
+        public int? PackageCount { get; set; }
         public Nullable<long> PackageWeight { get; set; }
         public Nullable<long> PackageHeight { get; set; }
         public Nullable<long> PackageLength { get; set; }
