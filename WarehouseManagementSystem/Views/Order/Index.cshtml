@@ -1,109 +1,44 @@
-﻿
-@model List<Warehouse.ViewModels.Admin.OrderListViewModel>
+﻿@model Warehouse.ViewModels.Admin.OrderSearchViewModel
+@using WarehouseManagementSystem.Extensions
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Siparişler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="box-header">
-    <i class="fa fa-book"></i>
-    <h3 class="box-title">Gönderi Listesi</h3>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa-solid fa-boxes-packing"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("OrderList", "Order", FormMethod.Post, new { role = "form", id = "orderSearchForm", data_ajax_form = "true", data_target_container = "#OrderListContainer" }))
+                {
+                    <div class="row">
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchName)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchName)
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-6 col-lg-3 @Html.ModelStateFor(m => m.LanguageId)">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon as-label">@Html.DisplayNameFor(m => m.LanguageId) </span>
+                                @Html.DropDownListFor(a => a.LanguageId, new SelectList(ViewBag.Languages, "Id", "Name"), new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.LanguageId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-4 col-sm-push-3 col-md-4 col-md-push-3">
+                            <div class="input-group">
+                                <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <div>
+                    <div id="OrderListContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<a class="btn btn-warning btn-sm"
-   data-modal-form="true"
-   data-modal-size="modal-lg"
-   data-modal-prepend="tbody#OrderList"
-   data-modal-title="Yeni Gönderi Oluştur Partial"
-   data-hook-beforeunload="true"
-   href="@Url.Action("Add", "Order")">
-    <i class="fa fa-plus"></i>Yeni Gönderi Oluştur
-</a>
-<table id="tblOrders" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Gönderici Adı</th>
-            <th>Gönderici Telefon</th>
-            <th>Alıcı Adı</th>
-            <th>Alıcı Telefon</th>
-            <th>Alıcı Şehir</th>
-            <th>Alıcı Ülke</th>
-            <th>Para Birimi</th>
-            <th>Alıcı ZipCode</th>
-            <th>Alıcı Adres</th>
-            <th>Kargo Servis Tipi</th>
-            <th>Koli Adeti</th>
-            <th>Düzenle</th>
-            <th>Sil</th>
-
-
-
-
-        </tr>
-    </thead>
-    <tbody id="OrderList">
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>
-                    @order.SenderName
-                </td>
-                <td>
-                    @order.SenderPhone
-                </td>
-                <td>@order.RecipientName</td>
-                <td>
-                    @order.RecipientPhone
-                </td>
-                <td>@order.RecipientCity</td>
-                <td>@order.RecipientCountry</td>
-                <td>@order.CurrencyUnit</td>
-                <td>@order.RecipientZipCode</td>
-                <td>@order.RecipientAddress</td>
-                <td>@order.CargoService</td>
-                <td>@order.PackageCount</td>
-                <td style="width:50px">
-                    <a data-modal-form="true"
-                       data-modal-size="modal-lg"
-                       data-modal-update="#service_@order.Id"
-                       data-modal-highlight="#service_@order.Id"
-                       data-modal-title="Gönderi Düzenle"
-                       data-hook-beforeunload="true"
-                       class="btn btn-block btn-success btn-sm"
-                       href="@Url.Action("Edit", "Order", routeValues: new {OrderId=order.Id})">
-                        <i class="fa fa-edit fa-fw text-success"></i> Gönderi Düzenle
-                    </a>
-
-                </td>
-                <td style="width:50px">
-                    <a href="javascript:void(0);"
-                       data-toggle="confirmation"
-                       title="Emin Misiniz"
-                       data-btn-ok-label="Evet"
-                       data-btn-cancel-label="Hayır"
-                       data-placement="top"
-                       data-service-id="@order.Id"
-                       data-on-confirm="deleteOrder"
-                       class="btn btn-block btn-danger btn-sm">
-                        <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
-                    </a>
-
-                </td>
-
-            </tr>
-        }
-
-    </tbody>
-
-
-</table>
-<script>
-    $(function () {
-        $("#tblOrders").dataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
-            }
-        });
-
-
-    });
-</script>
-

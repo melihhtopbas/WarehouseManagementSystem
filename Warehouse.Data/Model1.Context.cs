@@ -30,5 +30,6 @@ namespace Warehouse.Data
         public DbSet<CurrencyUnits> CurrencyUnits { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<ProductTransactionGroup> ProductTransactionGroup { get; set; }
+        public DbSet<Languages> Languages { get; set; }
     }
 }

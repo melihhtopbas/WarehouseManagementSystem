@@ -1,1 +1,59 @@
-﻿ORDER LİST VİEW
+﻿@model IEnumerable<Warehouse.ViewModels.Admin.OrderListViewModel>
+@{
+    var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
+}
+<div class="box-header">
+    <i class="fa-solid fa-truck-moving"></i>
+    <h3 class="box-title">Gönderi Listesi</h3>
+</div>
+@foreach (var language in languages)
+{
+    <a class="pressActive btn btn-warning btn-sm"
+       data-modal-form="true"
+       data-modal-size="modal-lg"
+       data-modal-prepend="tbody#OrderList"
+       data-modal-title="@language.Name Yeni Gönderi Oluştur"
+       data-hook-beforeunload="true"
+       href="@Url.Action("Add", "Order")">
+        <i class="fa fa-plus"></i>Yeni Gönderi Oluştur
+    </a>
+}
+<table id="tblOrders" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Gönderici Adı</th>
+            <th>Gönderici Telefon</th>
+            <th>Alıcı Adı</th>
+            <th>Alıcı Telefon</th>
+            <th>Alıcı Şehir</th>
+            <th>Alıcı Ülke</th>
+            <th>Para Birimi</th>
+            <th>Alıcı ZipCode</th>
+            <th>Alıcı Adres</th>
+            <th>Kargo Servis Tipi</th>
+            <th>Koli Adeti</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody id="OrderList">
+        @Html.DisplayFor(m => m)
+
+    </tbody>
+
+
+</table>
+<script>
+    $(function () {
+        $("#tblOrders").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            }
+        });
+
+
+    });</script>

@@ -21,4 +21,11 @@ namespace Warehouse.ViewModels.Common
         public IList<string> SuccessMessages { get; set; }
         public IList<string> WarningMessages { get; set; }
     }
+    public class LanguageListModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string ShortName { get; set; }
+
+    }
 }

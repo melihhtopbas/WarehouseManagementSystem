@@ -5,17 +5,11 @@
 
     <div class="row">
         <div class="col-xs-12">
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
-            
+            @Html.AntiForgeryToken()                    
             @Html.RenderValidationSummary(true)
         </div>
     </div>
-    //    .col -{ value}
-    //.col - sm -{ value}
-    //.col - md -{ value}
-    //.col - lg -{ value}
-    //.col - xl -{ value}
+ 
 
 
 <div class="row">

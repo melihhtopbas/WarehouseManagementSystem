@@ -26,6 +26,13 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="5" Nullable="false" />
         </EntityType>
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="Id" />
@@ -46,11 +53,12 @@
           <Property Name="ProductCurrencyUnitId" Type="bigint" />
           <Property Name="ProductOrderDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CargoServiceTypeId" Type="bigint" />
-          <Property Name="PackageCount" Type="int" Nullable="false" />
+          <Property Name="PackageCount" Type="int" />
           <Property Name="PackageWeight" Type="bigint" />
           <Property Name="PackageHeight" Type="bigint" />
           <Property Name="PackageLength" Type="bigint" />
           <Property Name="PackageWidth" Type="bigint" />
+          <Property Name="LanguageId" Type="bigint" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
           <Key>
@@ -58,45 +66,21 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Count" Type="int" Nullable="false" />
-          <Property Name="QuantityPerUnit" Type="bigint" Nullable="false" />
+          <Property Name="Count" Type="int" />
+          <Property Name="QuantityPerUnit" Type="bigint" />
           <Property Name="SKU" Type="nvarchar(max)" />
           <Property Name="GtipCode" Type="nvarchar(max)" />
           <Property Name="OrderId" Type="bigint" />
         </EntityType>
-        <Association Name="FK_Orders_CargoServiceTypes">
-          <End Role="CargoServiceTypes" Type="Self.CargoServiceTypes" Multiplicity="0..1" />
+        <Association Name="FK_Orders_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CargoServiceTypes">
+            <Principal Role="Languages">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="CargoServiceTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Countries">
-          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Countries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="RecipientCountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_CurrencyUnits">
-          <End Role="CurrencyUnits" Type="Self.CurrencyUnits" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CurrencyUnits">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ProductCurrencyUnitId" />
+              <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -116,18 +100,11 @@
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyUnits" EntityType="Self.CurrencyUnits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductTransactionGroup" EntityType="Self.ProductTransactionGroup" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="Self.FK_Orders_CargoServiceTypes">
-            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Countries" Association="Self.FK_Orders_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_CurrencyUnits" Association="Self.FK_Orders_CurrencyUnits">
-            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
+          <AssociationSet Name="FK_Orders_Languages" Association="Self.FK_Orders_Languages">
+            <End Role="Languages" EntitySet="Languages" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_1_Orders" Association="Self.FK_Table_1_Orders">
@@ -160,6 +137,11 @@
           <AssociationSet Name="FK_Table_1_Orders" Association="WarehouseManagementSystemModel.FK_Table_1_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
+          </AssociationSet>
+          <EntitySet Name="Languages" EntityType="WarehouseManagementSystemModel.Languages" />
+          <AssociationSet Name="FK_Orders_Languages" Association="WarehouseManagementSystemModel.FK_Orders_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CargoServiceTypes">
@@ -206,7 +188,7 @@
           <Property Name="ProductCurrencyUnitId" Type="Int64" />
           <Property Name="ProductOrderDescription" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CargoServiceTypeId" Type="Int64" />
-          <Property Name="PackageCount" Type="Int32" Nullable="false" />
+          <Property Name="PackageCount" Type="Int32" />
           <Property Name="PackageWeight" Type="Int64" />
           <Property Name="PackageHeight" Type="Int64" />
           <Property Name="PackageLength" Type="Int64" />
@@ -215,6 +197,8 @@
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
           <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="Orders" ToRole="CurrencyUnits" />
           <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_Table_1_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
+          <Property Name="LanguageId" Type="Int64" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
           <Key>
@@ -222,8 +206,8 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Content" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Count" Type="Int32" Nullable="false" />
-          <Property Name="QuantityPerUnit" Type="Int64" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="QuantityPerUnit" Type="Int64" />
           <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderId" Type="Int64" />
@@ -277,6 +261,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Orders_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -310,6 +314,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="PackageWidth" ColumnName="PackageWidth" />
                 <ScalarProperty Name="PackageLength" ColumnName="PackageLength" />
                 <ScalarProperty Name="PackageHeight" ColumnName="PackageHeight" />
@@ -343,6 +348,14 @@
                 <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Languages">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -14,6 +14,8 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Table_1_Orders" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Languages" Width="1.5" PointX="5.375" PointY="0.875" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

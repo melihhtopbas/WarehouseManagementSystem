@@ -35,15 +35,17 @@ namespace Warehouse.Data
         public Nullable<long> ProductCurrencyUnitId { get; set; }
         public string ProductOrderDescription { get; set; }
         public Nullable<long> CargoServiceTypeId { get; set; }
-        public int? PackageCount { get; set; }
+        public Nullable<int> PackageCount { get; set; }
         public Nullable<long> PackageWeight { get; set; }
         public Nullable<long> PackageHeight { get; set; }
         public Nullable<long> PackageLength { get; set; }
         public Nullable<long> PackageWidth { get; set; }
+        public Nullable<long> LanguageId { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
         public virtual Countries Countries { get; set; }
         public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual ICollection<ProductTransactionGroup> ProductTransactionGroup { get; set; }
+        public virtual Languages Languages { get; set; }
     }
 }

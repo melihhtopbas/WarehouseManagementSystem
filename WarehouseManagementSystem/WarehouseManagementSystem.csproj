@@ -255,6 +255,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-confirmation\bootstrap-confirmation.js" />
     <Content Include="Scripts\bootstrap-confirmation\bootstrap-confirmation.min.js" />
+    <Content Include="Scripts\bootstrap-confirmation\confirmation.js" />
     <Content Include="Scripts\bootstrap-maxlength\bootstrap-maxlength.js" />
     <Content Include="Scripts\bootstrap-maxlength\bootstrap-maxlength.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -754,6 +755,7 @@
     <Content Include="Scripts\custom.modal.view.js" />
     <Content Include="Scripts\custom.modal.view.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\custom.window.form.js" />
     <Content Include="Scripts\dataTables.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -2009,6 +2011,8 @@
     <Content Include="Views\Shared\EditorTemplates\OrderCurrencyUnitIdSelectViewModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\OrderCargoServiceTypeIdSelectViewModel.cshtml" />
     <Content Include="Views\Order\_OrderProductTransactionGroupAdd.cshtml" />
+    <Content Include="Views\Shared\_ItemNotFoundPartial.cshtml" />
+    <Content Include="Views\Order\_OrderEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

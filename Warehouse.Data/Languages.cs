@@ -12,16 +12,16 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductTransactionGroup
+    public partial class Languages
     {
-        public long Id { get; set; }
-        public string Content { get; set; }
-        public Nullable<int> Count { get; set; }
-        public Nullable<long> QuantityPerUnit { get; set; }
-        public string SKU { get; set; }
-        public string GtipCode { get; set; }
-        public Nullable<long> OrderId { get; set; }
+        public Languages()
+        {
+            this.Orders = new HashSet<Orders>();
+        }
     
-        public virtual Orders Orders { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

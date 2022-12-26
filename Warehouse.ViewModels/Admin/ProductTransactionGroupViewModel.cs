@@ -21,7 +21,8 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
         
         public long? QuantityPerUnit { get; set; }
-        [Display(Name = "SKU(isteğe bağlı)")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
+        [Display(Name = "SKU")]
          
         public string SKU { get; set; }
         [Display(Name = "GtipCode(isteğe bağlı)")]
@@ -29,8 +30,7 @@ namespace Warehouse.ViewModels.Admin
         public long? OrderId { get; set; }
 
         public virtual OrderAddViewModel Orders { get; set; }
-
-        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }//yapılmadı
+ 
 
     }
 }
