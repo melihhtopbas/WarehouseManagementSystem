@@ -1,5 +1,4 @@
-﻿
-@model Warehouse.ViewModels.Admin.OrderListViewModel
+﻿@model Warehouse.ViewModels.Admin.OrderListViewModel
 
 <tr id="@("order_"+Model.Id)" class="master-row">
     <td>
@@ -33,19 +32,31 @@
 
     </td>
     <td style="width:50px">
-        <a href="javascript:void(0);"
-           data-toggle="confirmation"
-           title="Emin Misiniz"
-           data-btn-ok-label="Evet"
-           data-btn-cancel-label="Hayır"
-           data-placement="top"
-           data-order-id="@Model.Id"
-           data-on-confirm="orderDelete"
-           class="btn btn-block btn-danger btn-sm">
+        <a data-id="@Model.Id"
+           class="deleteOrder btn btn-block btn-danger btn-sm">
             <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
         </a>
-         
+        @*<a href="javascript:void(0);"
+               data-toggle="confirmation"
+               title="Emin Misiniz"
+               data-btn-ok-label="Evet"
+               data-btn-cancel-label="Hayır"
+               data-placement="top"
+               data-id="@Model.Id"
+               data-on-confirm="deleteOrder"
+               class="btn btn-block btn-danger btn-sm">
+                <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
+            </a>*@
+        @*<a class="tooltips deleteOrg" data-container="body" data-placement="bottom" data-toggle="confirmation" data-original-title="Delete organization" data-id="test">
+                Click
+            </a>*@
+
+
 
     </td>
 
 </tr>
+
+
+
+

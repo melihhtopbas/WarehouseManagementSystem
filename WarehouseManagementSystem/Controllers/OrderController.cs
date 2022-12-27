@@ -78,7 +78,7 @@ namespace WarehouseManagementSystem.Controllers
                    GtipCode = null,
                    //QuantityPerUnit = 0,
                    SKU = null,
-                    
+
 
 
                } },
@@ -102,6 +102,7 @@ namespace WarehouseManagementSystem.Controllers
                     var cargoName = db.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
                     var viewModel = new OrderListViewModel
                     {
+
                         SenderName = model.SenderName,
                         RecipientAddress = model.RecipientAddress,
                         RecipientCity = model.RecipientCity,
@@ -168,10 +169,10 @@ namespace WarehouseManagementSystem.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(OrderEditViewModel model)
         {
-             
 
 
-           
+
+
 
 
             if (ModelState.IsValid)
@@ -202,7 +203,7 @@ namespace WarehouseManagementSystem.Controllers
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
-              
+
             return Json(
                 new
                 {
@@ -211,10 +212,10 @@ namespace WarehouseManagementSystem.Controllers
                 });
 
         }
-        [AjaxOnly, HttpPost]
-        public async Task<ActionResult> Delete(int orderId)
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
         {
-            var callResult = await _orderService.DeleteOrderAsync(orderId);
+            var callResult = await _orderService.DeleteOrderAsync(id);
             if (callResult.Success)
             {
 
