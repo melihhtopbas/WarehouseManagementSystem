@@ -10,23 +10,26 @@
             @Html.RenderValidationSummary(true)
         </div>
     </div>
- 
+
+
 
     <div class="row">
 
 
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName)
+            @*@Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.ProductName, new { @class = "kt_docs_maxlength_basic", maxlength = "50", autofocus = "true" })*@
+
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderPhone)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderPhone, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
         </div>
 
         <div class="clearfix"></div>
@@ -35,10 +38,10 @@
 
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Alıcı</h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientName)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientName, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientCity)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientCity, new { @class = "kt_docs_maxlength_basic", maxlength = "50" })
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="row">
@@ -49,16 +52,16 @@
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientZipCode, new { placeholder = "Posta Kodu" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientPhone)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientPhone, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientMail)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientIdentityNumber)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.RecipientAddress)" style="position: relative;">
-            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "form-control", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
+            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "500", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
             @Html.ValidationMessageFor(m => m.RecipientAddress)
         </div>
         <div class="clearfix"></div>
@@ -72,7 +75,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderDescription)
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderDescription, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
         <div class="clearfix"></div>
         <hr />
@@ -131,11 +134,12 @@
 
 
 
-        
+
 
 
 
     </div>
+
     <hr />
     <div class="form-group form-group-sm row">
         <div class="col-xs-12">
@@ -156,7 +160,13 @@
     }
 </style>
 <script>
-    
+    $('.kt_docs_maxlength_basic').maxlength({
+        alwaysShow: true,
+        threshold: 5,
+        placement: 'top-right',
+        warningClass: "label label-danger label-rounded label-inline",
+        limitReachedClass: "label label-primary label-rounded label-inline"
+    });
     $('#hideDeleteRow').hide();
     var counter;
     $('.packageDetailsShow').hide();

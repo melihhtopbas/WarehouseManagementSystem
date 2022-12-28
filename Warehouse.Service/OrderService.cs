@@ -200,6 +200,7 @@ namespace Warehouse.Service
 
 
                     callResult.Success = true;
+                    callResult.Item = await GetOrderListViewAsync(order.Id).ConfigureAwait(false);
 
                     return callResult;
                 }
@@ -216,53 +217,53 @@ namespace Warehouse.Service
         public async Task<OrderEditViewModel> GetOrderEditViewModelAsync(int orderId)
         {
             var order = await (from p in _context.Orders
-                                 where p.Id == orderId
-                                 select new OrderEditViewModel()
-                                 {
-                                     
-                                     Id = p.Id,
-                                     SenderName = p.SenderName,
-                                     SenderIdentityNumber = p.SenderIdentityNumber,
-                                     SenderMail = p.SenderMail,
-                                     SenderPhone = p.SenderPhone,
-                                     RecipientAddress = p.RecipientAddress,
-                                     RecipientCity = p.RecipientCity,
-                                     RecipientIdentityNumber = p.RecipientIdentityNumber,
-                                     RecipientMail = p.RecipientMail,
-                                     RecipientName = p.RecipientName,
-                                     RecipientPhone = p.RecipientPhone,
-                                     RecipientZipCode = p.RecipientZipCode,
-                                     CargoService = new OrderCargoServiceTypeIdSelectViewModel()
-                                     {
-                                         CargoServiceId = p.CargoServiceTypeId
-                                     },
-                                     Country = new OrderCountryIdSelectViewModel()
-                                     {
-                                         CountryId = p.RecipientCountryId
-                                     },
-                                     CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel()
-                                     {
-                                         CurrencyUnitId = p.ProductCurrencyUnitId
-                                     },
-                                     PackageCount = p.PackageCount,
-                                     PackageHeight = p.PackageHeight,
-                                     PackageLength = p.PackageLength,
-                                     PackageWeight = p.PackageWeight,
-                                     PackageWidth = p.PackageWidth,
-                                     OrderDescription = p.ProductOrderDescription,
-                                     ProductTransactionGroup = from i in p.ProductTransactionGroup
-                                                               select new ProductTransactionGroupViewModel
-                                                               {
-                                                                   Content = i.Content,
-                                                                   Count = i.Count,
-                                                                   QuantityPerUnit = i.QuantityPerUnit,
-                                                                   GtipCode = i.GtipCode,
-                                                                   SKU = i.SKU
-                                                                   
-                                                               },
- 
+                               where p.Id == orderId
+                               select new OrderEditViewModel()
+                               {
 
-                                 }).FirstOrDefaultAsync();
+                                   Id = p.Id,
+                                   SenderName = p.SenderName,
+                                   SenderIdentityNumber = p.SenderIdentityNumber,
+                                   SenderMail = p.SenderMail,
+                                   SenderPhone = p.SenderPhone,
+                                   RecipientAddress = p.RecipientAddress,
+                                   RecipientCity = p.RecipientCity,
+                                   RecipientIdentityNumber = p.RecipientIdentityNumber,
+                                   RecipientMail = p.RecipientMail,
+                                   RecipientName = p.RecipientName,
+                                   RecipientPhone = p.RecipientPhone,
+                                   RecipientZipCode = p.RecipientZipCode,
+                                   CargoService = new OrderCargoServiceTypeIdSelectViewModel()
+                                   {
+                                       CargoServiceId = p.CargoServiceTypeId
+                                   },
+                                   Country = new OrderCountryIdSelectViewModel()
+                                   {
+                                       CountryId = p.RecipientCountryId
+                                   },
+                                   CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel()
+                                   {
+                                       CurrencyUnitId = p.ProductCurrencyUnitId
+                                   },
+                                   PackageCount = p.PackageCount,
+                                   PackageHeight = p.PackageHeight,
+                                   PackageLength = p.PackageLength,
+                                   PackageWeight = p.PackageWeight,
+                                   PackageWidth = p.PackageWidth,
+                                   OrderDescription = p.ProductOrderDescription,
+                                   ProductTransactionGroup = from i in p.ProductTransactionGroup
+                                                             select new ProductTransactionGroupViewModel
+                                                             {
+                                                                 Content = i.Content,
+                                                                 Count = i.Count,
+                                                                 QuantityPerUnit = i.QuantityPerUnit,
+                                                                 GtipCode = i.GtipCode,
+                                                                 SKU = i.SKU
+
+                                                             },
+
+
+                               }).FirstOrDefaultAsync();
             return order;
         }
         public async Task<ServiceCallResult> EditOrderAsync(OrderEditViewModel model)
@@ -277,7 +278,7 @@ namespace Warehouse.Service
             //        return callResult;
             //    }
             //}
-            
+
 
 
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
@@ -307,10 +308,10 @@ namespace Warehouse.Service
             order.PackageWidth = model.PackageWidth;
             order.ProductOrderDescription = model.OrderDescription;
             order.PackageCount = model.PackageCount;
-             
-            
 
- 
+
+
+
             var deletedProductGroupsList = new List<string>();
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
                 .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU)))
@@ -342,7 +343,7 @@ namespace Warehouse.Service
 
                     imageOrder++;
                 }
-                
+
 
             }
 
@@ -357,7 +358,7 @@ namespace Warehouse.Service
                     {
 
 
-                         
+
 
                     }
 
@@ -403,7 +404,7 @@ namespace Warehouse.Service
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
 
-                    
+
 
                     callResult.Success = true;
                     callResult.Item = await GetOrderListViewAsync(order.Id).ConfigureAwait(false);

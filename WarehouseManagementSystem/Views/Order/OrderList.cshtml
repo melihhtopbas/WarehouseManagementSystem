@@ -3,22 +3,22 @@
     var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
 }
 <div class="box-header">
-    <i class="fa-solid fa-truck-moving"></i>
+    <i class="fa fa-book"></i>
     <h3 class="box-title">Gönderi Listesi</h3>
 </div>
 @foreach (var language in languages)
 {
-    <a class="pressActive btn btn-warning btn-sm"
+    <a class="btn btn-warning btn-sm"
        data-modal-form="true"
        data-modal-size="modal-lg"
        data-modal-prepend="tbody#OrderList"
        data-modal-title="@language.Name Yeni Gönderi Oluştur"
        data-hook-beforeunload="true"
        href="@Url.Action("Add", "Order")">
-        <i class="fa fa-plus"></i>Yeni Gönderi Oluştur
+        <i class="fa-solid fa-cart-plus"></i> Yeni Gönderi Oluştur
     </a>
 }
-<table class="table table-bordered">
+<table id="tblOrders" class="table table-bordered">
     <thead>
         <tr>
             <th>Gönderici Adı</th>

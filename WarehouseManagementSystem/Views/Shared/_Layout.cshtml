@@ -84,7 +84,7 @@
 <script src="~/Content/admin-lte/js/adminlte.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-<script src="~/Scripts/bootstrap-confirmation/confirmation.js"></script>
+<script src="~/Scripts/bootstrap-confirmation/bootstrap-confirmation.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
@@ -98,6 +98,8 @@
     $(document).ready(function () {
         $('#orderSearchForm').submit();
 
+        
+
         $("#OrderListContainer").on("click", ".deleteOrder", function () {
             gelenID = new Object();
             gelenID.ID = $(this).attr("data-id");
@@ -110,29 +112,31 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Evet, sil!'
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'İptal'
             }).then((result) => {
                 if (result.isConfirmed) {
 
                     $.ajax({
                         type: "POST",
                         url: "/Order/Delete/" + gelenID.ID,
-                        success: function () {
+
+                    }).done(function (result) {
+                        if (result.success) {
                             btn.parent().parent().remove();
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'İşlem başarıyla tamamlandı',
+                                showConfirmButton: false,
+                                timer: 1500,
 
-
+                            });
                         }
                     });
 
 
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'İşlem başarıyla tamamlandı',
-                        showConfirmButton: false,
-                        timer: 1500,
 
-                    })
 
 
                 }

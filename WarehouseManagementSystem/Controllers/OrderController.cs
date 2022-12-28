@@ -97,28 +97,12 @@ namespace WarehouseManagementSystem.Controllers
                 {
 
                     ModelState.Clear();
-                    var countryName = db.Countries.Find(model.Country.CountryId);
-                    var currencyUnitName = db.CurrencyUnits.Find(model.CurrenyUnit.CurrencyUnitId);
-                    var cargoName = db.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
-                    var viewModel = new OrderListViewModel
-                    {
-
-                        SenderName = model.SenderName,
-                        RecipientAddress = model.RecipientAddress,
-                        RecipientCity = model.RecipientCity,
-                        RecipientName = model.RecipientName,
-                        RecipientCountry = countryName.Name,
-                        CurrencyUnit = currencyUnitName.Name,
-                        RecipientZipCode = model.RecipientZipCode,
-                        CargoService = cargoName.Name,
-                        PackageCount = model.PackageCount
-                    };
+                    var viewModel = (OrderListViewModel)callResult.Item;
                     var jsonResult = Json(
                         new
                         {
                             success = true,
                             responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderListViewModel.cshtml", viewModel),
-
                             item = viewModel
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;

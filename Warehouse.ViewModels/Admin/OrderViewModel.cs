@@ -21,12 +21,18 @@ namespace Warehouse.ViewModels.Admin
 
         [Display(Name = "Gönderici Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [StringLength(200)]
+
         public string SenderName { get; set; }
         [Display(Name = "Gönderici Mail")]
-
+        
         public string SenderMail { get; set; }
         [Display(Name = "Gönderici Telefonu")]
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [MaxLength(11)]
+        [MinLength(7,ErrorMessage = "Lütfen geçerli bir telefon numarası giriniz!")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarası numerik olmalıdır!")]
+
 
         public string SenderPhone { get; set; }
         [Display(Name = "Gönderici Kimlik No")]
@@ -47,6 +53,9 @@ namespace Warehouse.ViewModels.Admin
         public string RecipientZipCode { get; set; }
         [Display(Name = "Alıcı Telefon")]
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [MaxLength(11)]
+        [MinLength(7, ErrorMessage = "Lütfen geçerli bir telefon numarası giriniz!")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarası numerik olmalıdır!")]
         public string RecipientPhone { get; set; }
         [Display(Name = "Alıcı Kimlik No")]
 
