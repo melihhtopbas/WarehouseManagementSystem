@@ -2013,6 +2013,7 @@
     <Content Include="Views\Order\_OrderProductTransactionGroupAdd.cshtml" />
     <Content Include="Views\Shared\_ItemNotFoundPartial.cshtml" />
     <Content Include="Views\Order\_OrderEdit.cshtml" />
+    <Content Include="Views\Order\_OrderProductGroupShow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

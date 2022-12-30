@@ -12,18 +12,12 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CargoServiceTypes
+    public partial class SenderAddresses
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CargoServiceTypes()
-        {
-            this.Orders = new HashSet<Orders>();
-        }
-    
         public long Id { get; set; }
         public string Name { get; set; }
+        public Nullable<long> OrderId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

@@ -15,40 +15,26 @@ namespace Warehouse.Service
     public class OrderService
     {
 
-        private readonly WarehouseManagementSystemEntities _context;
+        private readonly WarehouseManagementSystemEntities1 _context;
 
-        public OrderService(WarehouseManagementSystemEntities context)
+        public OrderService(WarehouseManagementSystemEntities1 context)
         {
             _context = context;
         }
-        public IQueryable<OrderListViewModel> GetOrderList()
-        {
-            return (from b in _context.Orders/*.Where(expr)*/
-                    select new OrderListViewModel()
-                    {
-                        Id = b.Id,
-                        PackageCount = b.PackageCount,
-                        RecipientAddress = b.RecipientAddress,
-                        RecipientCity = b.RecipientCity,
-                        RecipientName = b.RecipientName,
-                        RecipientPhone = b.RecipientPhone,
-                        RecipientZipCode = b.RecipientZipCode,
-                        SenderName = b.SenderName,
-                        SenderPhone = b.SenderPhone,
-                        RecipientCountry = b.Countries.Name,
-                        CurrencyUnit = b.CurrencyUnits.Name,
-                        CargoService = b.CargoServiceTypes.Name
 
-                    });
-        }
         private IQueryable<OrderListViewModel> _getServiceListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
             return (from b in _context.Orders.AsExpandable().Where(expr)
+                    join sAd in _context.SenderAddresses
+                    on b.Id equals sAd.OrderId
+                    join rAd in _context.RecipientAddresses
+                    on b.Id equals rAd.OrderId
                     select new OrderListViewModel()
                     {
                         Id = b.Id,
                         PackageCount = b.PackageCount,
-                        RecipientAddress = b.RecipientAddress,
+                        RecipientAddress = rAd.Name,
+                        SenderAddress = sAd.Name,
                         RecipientCity = b.RecipientCity,
                         RecipientName = b.RecipientName,
                         RecipientPhone = b.RecipientPhone,
@@ -60,6 +46,7 @@ namespace Warehouse.Service
                         CargoService = b.CargoServiceTypes.Name
 
                     });
+
         }
         public IQueryable<OrderListViewModel> GetServiceListIQueryable(OrderSearchViewModel model)
         {
@@ -145,11 +132,12 @@ namespace Warehouse.Service
                 SenderMail = model.SenderMail,
                 SenderName = model.SenderName,
                 SenderPhone = model.SenderPhone,
+                SenderInvoiceNumber = model.SenderInvoiceNumber,
                 RecipientCity = model.RecipientCity,
                 RecipientMail = model.RecipientMail,
                 RecipientName = model.RecipientName,
-                RecipientAddress = model.RecipientAddress,
                 RecipientPhone = model.RecipientPhone,
+                RecipientInvoiceNumber = model.RecipientInvoiceNumber,
                 PackageCount = model.PackageCount,
                 PackageHeight = model.PackageHeight,
                 PackageLength = model.PackageLength,
@@ -162,16 +150,18 @@ namespace Warehouse.Service
                 ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
                 RecipientCountryId = model.Country.CountryId,
                 LanguageId = 1
-
-
-
-
-
-
-
-
-
             };
+            var sAddress = new SenderAddresses
+            {
+                OrderId = order.Id,
+                Name = model.SenderAddress
+            };
+            var rAddress = new RecipientAddresses
+            {
+                OrderId = order.Id,
+                Name = model.RecipientAddress
+            };
+
             foreach (var productGroup in model.ProductTransactionGroup)
             {
 
@@ -191,6 +181,8 @@ namespace Warehouse.Service
 
 
             _context.Orders.Add(order);
+            _context.SenderAddresses.Add(sAddress);
+            _context.RecipientAddresses.Add(rAddress);
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try
@@ -218,6 +210,10 @@ namespace Warehouse.Service
         {
             var order = await (from p in _context.Orders
                                where p.Id == orderId
+                               join sAd in _context.SenderAddresses
+                               on p.Id equals sAd.OrderId
+                               join rAd in _context.RecipientAddresses
+                               on p.Id equals rAd.OrderId
                                select new OrderEditViewModel()
                                {
 
@@ -226,7 +222,10 @@ namespace Warehouse.Service
                                    SenderIdentityNumber = p.SenderIdentityNumber,
                                    SenderMail = p.SenderMail,
                                    SenderPhone = p.SenderPhone,
-                                   RecipientAddress = p.RecipientAddress,
+                                   SenderInvoiceNumber = p.SenderInvoiceNumber,
+                                   RecipientInvoiceNumber = p.RecipientInvoiceNumber,
+                                   RecipientAddress = rAd.Name,
+                                   SenderAddress = sAd.Name,
                                    RecipientCity = p.RecipientCity,
                                    RecipientIdentityNumber = p.RecipientIdentityNumber,
                                    RecipientMail = p.RecipientMail,
@@ -280,8 +279,9 @@ namespace Warehouse.Service
             //}
 
 
-
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
+            var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var recipientAddress = await _context.RecipientAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
             if (order == null)
             {
                 callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
@@ -292,7 +292,10 @@ namespace Warehouse.Service
             order.SenderIdentityNumber = model.SenderIdentityNumber;
             order.SenderPhone = model.SenderPhone;
             order.SenderMail = model.SenderMail;
-            order.RecipientAddress = model.RecipientAddress;
+            order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+            order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+            recipientAddress.Name = model.RecipientAddress;
+            senderAddress.Name = model.SenderAddress;
             order.RecipientPhone = model.RecipientPhone;
             order.RecipientCity = model.RecipientCity;
             order.RecipientIdentityNumber = model.RecipientIdentityNumber;
@@ -312,16 +315,19 @@ namespace Warehouse.Service
 
 
 
+
+            
+
             var deletedProductGroupsList = new List<string>();
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
-                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU)))
+                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU )))
             {
                 deletedProductGroupsList.Add(groupDb.SKU);
                 order.ProductTransactionGroup.Remove(groupDb);
                 _context.ProductTransactionGroup.Remove(groupDb);
             }
-
-
+            // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
+            
 
 
             byte imageOrder = 0;
@@ -346,6 +352,7 @@ namespace Warehouse.Service
 
 
             }
+            //bu işlem ise silinen verinin yerine düzenlenen stok koduna ait grubu yeniden ekliyor.
 
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
@@ -374,12 +381,32 @@ namespace Warehouse.Service
             }
 
         }
+        
+        public async Task<List<ProductGroupShowViewModel>> GetOrderProductGroup(int orderId)
+        {
+
+            var result = _context.ProductTransactionGroup.Where(p=>p.OrderId==orderId).Select(p => new ProductGroupShowViewModel
+            {
+                Content = p.Content,
+                Count = p.Count,
+                GtipCode = p.GtipCode,
+                Id = p.Id,
+                OrderId = p.OrderId,
+                QuantityPerUnit = p.QuantityPerUnit,
+                SKU = p.SKU
+
+            }).ToList();
+            return result;
+        }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)
         {
             var callResult = new ServiceCallResult() { Success = false };
 
 
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == orderId).ConfigureAwait(false);
+            var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == orderId).ConfigureAwait(false);
+            var recipientAddress = await _context.RecipientAddresses.FirstOrDefaultAsync(a => a.OrderId == orderId).ConfigureAwait(false);
+
             if (order == null)
             {
                 callResult.ErrorMessages.Add("Böyle bir servis bulunamadı.");
@@ -397,6 +424,9 @@ namespace Warehouse.Service
 
 
             _context.Orders.Remove(order);
+            _context.RecipientAddresses.Remove(recipientAddress);
+            _context.SenderAddresses.Remove(senderAddress);
+
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try

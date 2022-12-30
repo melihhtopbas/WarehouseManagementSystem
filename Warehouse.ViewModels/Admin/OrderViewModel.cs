@@ -38,12 +38,18 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Gönderici Kimlik No")]
 
         public string SenderIdentityNumber { get; set; }
+        [Display(Name = "Gönderici Fatura No")]
+
+        public string SenderInvoiceNumber { get; set; }
         [Display(Name = "Alıcı Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientName { get; set; }
         [Display(Name = "Alıcı Adres")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientAddress { get; set; }
+        [Display(Name = "Gönderici Adres")]
+        
+        public string SenderAddress { get; set; }
         [Display(Name = "Alıcı Şehir")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientCity { get; set; }
@@ -60,6 +66,9 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Alıcı Kimlik No")]
 
         public string RecipientIdentityNumber { get; set; }
+        [Display(Name = "Alıcı Fatura No")]
+
+        public string RecipientInvoiceNumber { get; set; }
         [Display(Name = "Alıcı Mail")]
 
         public string RecipientMail { get; set; }
@@ -106,9 +115,21 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Alıcı Adı")]
 
         public string RecipientName { get; set; }
+        [Display(Name = "Alıcı Fatura No")]
+
+        public string RecipientInvoiceNumber { get; set; }
+        [Display(Name = "Gönderici Fatura No")]
+
+        public string SenderInvoiceNumber { get; set; }
         [Display(Name = "Alıcı Adres")]
 
         public string RecipientAddress { get; set; }
+        [Display(Name = "Gönderici Adres")]
+
+        public string SenderAddress { get; set; }
+        [Display(Name = "Gönderici Adres(diğer)")]
+
+        public string SenderAddressOther { get; set; }
         [Display(Name = "Alıcı Şehir")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientCity { get; set; }
@@ -162,6 +183,14 @@ namespace Warehouse.ViewModels.Admin
     public class OrderEditViewModel : OrderCrudBaseViewModel
     {
         public long Id { get; set; }
+
+    }
+    public class OrderAdressViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Adress")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
+        public string Name { get; set; }
 
     }
 }

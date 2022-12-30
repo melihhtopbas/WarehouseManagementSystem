@@ -26,6 +26,7 @@ namespace Warehouse.ViewModels.Admin
     public class OrderCargoServiceTypeIdSelectViewModel
     {
         [Display(Name = "Kargo Servis Tipi")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CargoServiceId { get; set; }
     }
 }

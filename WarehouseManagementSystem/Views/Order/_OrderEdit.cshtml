@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
+            @Html.HiddenFor(m => m.Id, new { data_val = "false" }) 
             @Html.RenderValidationSummary(true)
         </div>
     </div>
@@ -14,12 +14,9 @@
 
 
     <div class="row">
-
-
+        @*row start*@
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @*@Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.ProductName, new { @class = "kt_docs_maxlength_basic", maxlength = "50", autofocus = "true" })*@
-
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
@@ -30,6 +27,12 @@
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.SenderAddress)" style="position: relative;">
+            @Html.TextAreaFor(m => m.SenderAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.SenderAddress).ToString()) })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderInvoiceNumber)
         </div>
 
         <div class="clearfix"></div>
@@ -60,10 +63,14 @@
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
         </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientInvoiceNumber)
+        </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.RecipientAddress)" style="position: relative;">
-            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "500", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
+            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
             @Html.ValidationMessageFor(m => m.RecipientAddress)
         </div>
+
         <div class="clearfix"></div>
         <hr />
         <div class="clearfix"></div>
@@ -88,14 +95,14 @@
                 foreach (var item in Model.ProductTransactionGroup)
                 {
                     @Html.Partial("~/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
-                    <hr />
+                     
                 }
             }
         </div>
 
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <a id="addProductTransactionGroup" class="pressActive btn btn-info btn-sm">
-                <i class="fa fa-plus"></i>Ürün Ekle
+                <i class="fa fa-plus"></i> Ürün Ekle
             </a>
         </div>
 
@@ -132,13 +139,7 @@
             </div>
         </div>
 
-
-
-
-
-
-
-    </div>
+    </div> @*row end*@
 
     <hr />
     <div class="form-group form-group-sm row">

@@ -1,0 +1,45 @@
+﻿@model List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>
+<table id="showProductGroup" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Ürün İçeriği</th>
+            <th>Ürün Adeti</th>
+            <th>Birim Fiyatı</th>
+            <th>SKU</th>
+            <th>Gtip Code</th>
+
+
+
+
+
+        </tr>
+    </thead>
+    <tbody id="OrderList">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Content</td>
+                <td>@item.Count</td>
+                <td>@item.QuantityPerUnit</td>
+                <td>@item.SKU</td>
+                <td>@item.GtipCode</td>
+
+            </tr>
+        }
+
+
+    </tbody>
+
+
+</table>
+<div class="clearfix"></div>
+<hr />
+<div class="clearfix"></div>
+
+
+<div class="form-group form-group-sm row">
+    <div class="col-xs-12">
+         
+        <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;Kapat</button>
+    </div>
+</div>

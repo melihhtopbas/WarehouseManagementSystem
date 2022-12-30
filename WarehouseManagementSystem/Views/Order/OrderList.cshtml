@@ -3,12 +3,12 @@
     var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
 }
 <div class="box-header">
-    <i class="fa fa-book"></i>
+    <i class="fa-solid fa-truck-fast"></i>
     <h3 class="box-title">Gönderi Listesi</h3>
 </div>
 @foreach (var language in languages)
 {
-    <a class="btn btn-warning btn-sm"
+    <a id="MyModal" class="pressActive btn btn-warning btn-sm"
        data-modal-form="true"
        data-modal-size="modal-lg"
        data-modal-prepend="tbody#OrderList"
@@ -18,11 +18,13 @@
         <i class="fa-solid fa-cart-plus"></i> Yeni Gönderi Oluştur
     </a>
 }
+<div class="clearfix"><div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"></div></div>
 <table id="tblOrders" class="table table-bordered">
     <thead>
         <tr>
             <th>Gönderici Adı</th>
             <th>Gönderici Telefon</th>
+            <th>Gönderici Adres</th>
             <th>Alıcı Adı</th>
             <th>Alıcı Telefon</th>
             <th>Alıcı Şehir</th>
@@ -30,10 +32,10 @@
             <th>Para Birimi</th>
             <th>Alıcı ZipCode</th>
             <th>Alıcı Adres</th>
-            <th>Kargo Servis Tipi</th>
-            <th>Koli Adeti</th>
+            <th>Kargo Servis Tipi</th> 
             <th>Düzenle</th>
             <th>Sil</th>
+            <th>Görüntüle</th>
 
 
 
@@ -57,3 +59,5 @@
 
 
     });</script>
+
+ 

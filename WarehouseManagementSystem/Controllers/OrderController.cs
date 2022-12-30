@@ -17,7 +17,7 @@ namespace WarehouseManagementSystem.Controllers
     public class OrderController : AdminBaseController
     {
         private readonly OrderService _orderService;
-        WarehouseManagementSystemEntities db = new WarehouseManagementSystemEntities();
+        WarehouseManagementSystemEntities1 db = new WarehouseManagementSystemEntities1();
 
         public OrderController(OrderService orderService)
         {
@@ -34,18 +34,14 @@ namespace WarehouseManagementSystem.Controllers
             return View("~/Views/Order/Index.cshtml");
         }
 
-        // GET: Admin/ServiceSetting
+         
         [AjaxOnly, HttpPost, ValidateInput(false)]
         public async Task<ActionResult> OrderList(OrderSearchViewModel model)
         {
 
-
             var result = _orderService.GetServiceListIQueryable(model)
                 .OrderBy(p => p.SenderName);
-
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
-
-
 
             ModelState.Clear();
             ViewBag.LanguageId = model.LanguageId;
@@ -73,14 +69,9 @@ namespace WarehouseManagementSystem.Controllers
             var model = new OrderAddViewModel
             {
                 ProductTransactionGroup = new List<ProductTransactionGroupViewModel>() {new ProductTransactionGroupViewModel {
-                   Content = null,
-                   //Count = 0,
+                   Content = null,                
                    GtipCode = null,
-                   //QuantityPerUnit = 0,
                    SKU = null,
-
-
-
                } },
             };
             return PartialView("~/Views/Order/_OrderAdd.cshtml", model);
@@ -148,17 +139,23 @@ namespace WarehouseManagementSystem.Controllers
                 ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
                 return PartialView("~/Views/Order/_OrderEdit.cshtml", model);
             }
-            return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Servis sistemde bulunamadı!");
+            return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
+        [HttpGet]
+        public async Task<ActionResult> ProductGroupShow(int orderId)
+        {
+
+            var model = await _orderService.GetOrderProductGroup(orderId);
+            if (model != null)
+            {
+                
+                return PartialView("~/Views/Order/_OrderProductGroupShow.cshtml", model);
+            }
+            return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(OrderEditViewModel model)
         {
-
-
-
-
-
-
             if (ModelState.IsValid)
             {
                 var callResult = await _orderService.EditOrderAsync(model);

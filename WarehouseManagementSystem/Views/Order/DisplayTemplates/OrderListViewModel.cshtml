@@ -7,6 +7,7 @@
     <td>
         @Model.SenderPhone
     </td>
+    <td>@Model.SenderAddress</td>
     <td>@Model.RecipientName</td>
     <td>
         @Model.RecipientPhone
@@ -15,9 +16,8 @@
     <td>@Model.RecipientCountry</td>
     <td>@Model.CurrencyUnit</td>
     <td>@Model.RecipientZipCode</td>
-    <td>@Model.RecipientAddress</td>
+    <td style="width:550px">@Model.RecipientAddress</td>
     <td>@Model.CargoService</td>
-    <td>@Model.PackageCount</td>
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"
@@ -25,7 +25,7 @@
            data-modal-highlight="#order_@Model.Id"
            data-modal-title="Gönderi Düzenle"
            data-hook-beforeunload="true"
-           class="btn btn-block btn-success btn-sm"
+           class="pressActive btn btn-block btn-success btn-sm"
            href="@Url.Action("Edit", "Order", routeValues: new {orderId=Model.Id})">
             <i class="fa fa-edit fa-fw text-success"></i> Gönderi Düzenle
         </a>
@@ -33,27 +33,24 @@
     </td>
     <td style="width:50px">
         <a data-id="@Model.Id"
-           class="deleteOrder btn btn-block btn-danger btn-sm">
+           class="pressActive deleteOrder btn btn-block btn-danger btn-sm">
             <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
         </a>
-        @*<a href="javascript:void(0);"
-               data-toggle="confirmation"
-               title="Emin Misiniz"
-               data-btn-ok-label="Evet"
-               data-btn-cancel-label="Hayır"
-               data-placement="top"
-               data-id="@Model.Id"
-               data-on-confirm="deleteOrder"
-               class="btn btn-block btn-danger btn-sm">
-                <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
-            </a>*@
-        @*<a class="tooltips deleteOrg" data-container="body" data-placement="bottom" data-toggle="confirmation" data-original-title="Delete organization" data-id="test">
-                Click
-            </a>*@
-
-
 
     </td>
+    <td style="width:50px">
+        <a data-modal-form="true"          
+           data-modal-title="Siparişteki Ürün Listesi"
+           data-hook-beforeunload="true"
+           class="pressActive btn btn-block btn-warning btn-sm"
+           href="@Url.Action("ProductGroupShow", "Order", routeValues: new {orderId=Model.Id})">
+            <i class="fa-solid fa-book"></i> Ürünleri Görüntüle
+        </a>
+
+    </td>
+    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch demo modal
+    </button>*@
 
 </tr>
 

@@ -26,6 +26,7 @@ namespace Warehouse.ViewModels.Admin
     public class OrderCurrencyUnitIdSelectViewModel
     {
         [Display(Name = "Para Birimi")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CurrencyUnitId { get; set; }
     }
 }

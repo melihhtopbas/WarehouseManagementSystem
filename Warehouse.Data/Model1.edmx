@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WarehouseManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WarehouseManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CargoServiceTypes">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,13 +40,14 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SenderName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SenderMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="SenderInvoiceNumber" Type="nvarchar(max)" />
           <Property Name="SenderPhone" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="SenderIdentityNumber" Type="nvarchar" MaxLength="11" />
           <Property Name="RecipientName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RecipientAddress" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="RecipientCity" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RecipientCountryId" Type="bigint" />
           <Property Name="RecipientZipCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="RecipientInvoiceNumber" Type="nvarchar(max)" />
           <Property Name="RecipientPhone" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="RecipientIdentityNumber" Type="nvarchar" MaxLength="11" />
           <Property Name="RecipientMail" Type="nvarchar" MaxLength="100" />
@@ -72,6 +73,58 @@
           <Property Name="GtipCode" Type="nvarchar(max)" />
           <Property Name="OrderId" Type="bigint" />
         </EntityType>
+        <EntityType Name="RecipientAddresses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="OrderId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="SenderAddresses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderId" Type="bigint" />
+        </EntityType>
+        <Association Name="FK_Orders_CargoServiceTypes">
+          <End Role="CargoServiceTypes" Type="Self.CargoServiceTypes" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CargoServiceTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CargoServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="RecipientCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_CurrencyUnits">
+          <End Role="CurrencyUnits" Type="Self.CurrencyUnits" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrencyUnits">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ProductCurrencyUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -84,7 +137,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_1_Orders">
+        <Association Name="FK_ProductTransactionGroup_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="ProductTransactionGroup" Type="Self.ProductTransactionGroup" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,6 +149,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RecipientAddresses_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="RecipientAddresses" Type="Self.RecipientAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipientAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SenderAddresses_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="SenderAddresses" Type="Self.SenderAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SenderAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WarehouseManagementSystemModelStoreContainer">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
@@ -103,25 +180,95 @@
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductTransactionGroup" EntityType="Self.ProductTransactionGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipientAddresses" EntityType="Self.RecipientAddresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SenderAddresses" EntityType="Self.SenderAddresses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="Self.FK_Orders_CargoServiceTypes">
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Countries" Association="Self.FK_Orders_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_CurrencyUnits" Association="Self.FK_Orders_CurrencyUnits">
+            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_Languages" Association="Self.FK_Orders_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_1_Orders" Association="Self.FK_Table_1_Orders">
+          <AssociationSet Name="FK_ProductTransactionGroup_Orders" Association="Self.FK_ProductTransactionGroup_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipientAddresses_Orders" Association="Self.FK_RecipientAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="RecipientAddresses" EntitySet="RecipientAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SenderAddresses_Orders" Association="Self.FK_SenderAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="SenderAddresses" EntitySet="SenderAddresses" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WarehouseManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="WarehouseManagementSystemEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CargoServiceTypes" EntityType="WarehouseManagementSystemModel.CargoServiceTypes" />
-          <EntitySet Name="Countries" EntityType="WarehouseManagementSystemModel.Countries" />
-          <EntitySet Name="CurrencyUnits" EntityType="WarehouseManagementSystemModel.CurrencyUnits" />
+        <EntityType Name="CargoServiceTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="CurrencyUnits">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="CurrencyUnits" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Languages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="ProductTransactionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="QuantityPerUnit" Type="Int64" />
+          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderId" Type="Int64" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
+        </EntityType>
+        <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" />
+          <EntitySet Name="CurrencyUnits" EntityType="Self.CurrencyUnits" />
+          <EntitySet Name="Languages" EntityType="Self.Languages" />
+          <EntitySet Name="ProductTransactionGroup" EntityType="Self.ProductTransactionGroup" />
+          <EntitySet Name="RecipientAddresses" EntityType="WarehouseManagementSystemModel.RecipientAddresses" />
+          <EntitySet Name="SenderAddresses" EntityType="WarehouseManagementSystemModel.SenderAddresses" />
           <EntitySet Name="Orders" EntityType="WarehouseManagementSystemModel.Orders" />
-          <EntitySet Name="ProductTransactionGroup" EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" />
           <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes">
             <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
             <End Role="Orders" EntitySet="Orders" />
@@ -134,39 +281,40 @@
             <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_1_Orders" Association="WarehouseManagementSystemModel.FK_Table_1_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
-          </AssociationSet>
-          <EntitySet Name="Languages" EntityType="WarehouseManagementSystemModel.Languages" />
           <AssociationSet Name="FK_Orders_Languages" Association="WarehouseManagementSystemModel.FK_Orders_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="CargoServiceTypes">
+          <AssociationSet Name="FK_ProductTransactionGroup_Orders" Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipientAddresses_Orders" Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="RecipientAddresses" EntitySet="RecipientAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SenderAddresses_Orders" Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="SenderAddresses" EntitySet="SenderAddresses" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="RecipientAddresses">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderId" Type="Int64" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="RecipientAddresses" ToRole="Orders" />
         </EntityType>
-        <EntityType Name="Countries">
+        <EntityType Name="SenderAddresses">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="CurrencyUnits">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="CurrencyUnits" ToRole="Orders" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderId" Type="Int64" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="SenderAddresses" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -175,13 +323,14 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SenderMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SenderInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SenderPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="SenderIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="RecipientName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientAddress" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="RecipientCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RecipientCountryId" Type="Int64" />
           <Property Name="RecipientZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RecipientPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="RecipientIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="RecipientMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -193,25 +342,14 @@
           <Property Name="PackageHeight" Type="Int64" />
           <Property Name="PackageLength" Type="Int64" />
           <Property Name="PackageWidth" Type="Int64" />
+          <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="Orders" ToRole="CargoServiceTypes" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
           <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="Orders" ToRole="CurrencyUnits" />
-          <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_Table_1_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
-          <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
-        </EntityType>
-        <EntityType Name="ProductTransactionGroup">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Count" Type="Int32" />
-          <Property Name="QuantityPerUnit" Type="Int64" />
-          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OrderId" Type="Int64" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Table_1_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
+          <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
+          <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
+          <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
         </EntityType>
         <Association Name="FK_Orders_CargoServiceTypes">
           <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
@@ -249,26 +387,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_1_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.ProductTransactionGroup" Role="ProductTransactionGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductTransactionGroup">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Languages">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
-        </EntityType>
         <Association Name="FK_Orders_Languages">
           <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
           <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
@@ -281,31 +399,106 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_ProductTransactionGroup_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.ProductTransactionGroup" Role="ProductTransactionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductTransactionGroup">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipientAddresses_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.RecipientAddresses" Role="RecipientAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipientAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SenderAddresses_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.SenderAddresses" Role="SenderAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SenderAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WarehouseManagementSystemModelStoreContainer" CdmEntityContainer="WarehouseManagementSystemEntities">
+        <EntityContainerMapping StorageEntityContainer="WarehouseManagementSystemModelStoreContainer" CdmEntityContainer="WarehouseManagementSystemEntities1">
           <EntitySetMapping Name="CargoServiceTypes">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.CargoServiceTypes">
               <MappingFragment StoreEntitySet="CargoServiceTypes">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Countries">
               <MappingFragment StoreEntitySet="Countries">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CurrencyUnits">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.CurrencyUnits">
               <MappingFragment StoreEntitySet="CurrencyUnits">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Languages">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductTransactionGroup">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ProductTransactionGroup">
+              <MappingFragment StoreEntitySet="ProductTransactionGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipientAddresses">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.RecipientAddresses">
+              <MappingFragment StoreEntitySet="RecipientAddresses">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SenderAddresses">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.SenderAddresses">
+              <MappingFragment StoreEntitySet="SenderAddresses">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -326,36 +519,16 @@
                 <ScalarProperty Name="RecipientMail" ColumnName="RecipientMail" />
                 <ScalarProperty Name="RecipientIdentityNumber" ColumnName="RecipientIdentityNumber" />
                 <ScalarProperty Name="RecipientPhone" ColumnName="RecipientPhone" />
+                <ScalarProperty Name="RecipientInvoiceNumber" ColumnName="RecipientInvoiceNumber" />
                 <ScalarProperty Name="RecipientZipCode" ColumnName="RecipientZipCode" />
                 <ScalarProperty Name="RecipientCountryId" ColumnName="RecipientCountryId" />
                 <ScalarProperty Name="RecipientCity" ColumnName="RecipientCity" />
-                <ScalarProperty Name="RecipientAddress" ColumnName="RecipientAddress" />
                 <ScalarProperty Name="RecipientName" ColumnName="RecipientName" />
                 <ScalarProperty Name="SenderIdentityNumber" ColumnName="SenderIdentityNumber" />
                 <ScalarProperty Name="SenderPhone" ColumnName="SenderPhone" />
+                <ScalarProperty Name="SenderInvoiceNumber" ColumnName="SenderInvoiceNumber" />
                 <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductTransactionGroup">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ProductTransactionGroup">
-              <MappingFragment StoreEntitySet="ProductTransactionGroup">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
-                <ScalarProperty Name="SKU" ColumnName="SKU" />
-                <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Languages">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Languages">
-              <MappingFragment StoreEntitySet="Languages">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -376,7 +549,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
