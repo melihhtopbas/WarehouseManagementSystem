@@ -61,7 +61,7 @@ namespace WarehouseManagementSystem.Controllers
         public ActionResult Add()
         {
 
-
+             
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
@@ -152,6 +152,13 @@ namespace WarehouseManagementSystem.Controllers
                 return PartialView("~/Views/Order/_OrderProductGroupShow.cshtml", model);
             }
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
+        [HttpGet]
+        public async Task<ActionResult> OrderPackageAdd(int orderId)
+        {
+
+             
+            return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", "Sipariş paketleme sayfası!");
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(OrderEditViewModel model)

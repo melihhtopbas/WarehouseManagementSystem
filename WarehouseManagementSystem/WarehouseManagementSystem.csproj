@@ -237,6 +237,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\loadingoverlay.css" />
+    <Content Include="Content\loadingoverlay.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\switchery.css" />
     <Content Include="Content\switchery.min.css" />
@@ -2014,6 +2016,7 @@
     <Content Include="Views\Shared\_ItemNotFoundPartial.cshtml" />
     <Content Include="Views\Order\_OrderEdit.cshtml" />
     <Content Include="Views\Order\_OrderProductGroupShow.cshtml" />
+    <Content Include="Views\Order\_OrderPackageAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

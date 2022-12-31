@@ -125,6 +125,36 @@ namespace Warehouse.Service
         public async Task<ServiceCallResult> AddOrderAsync(OrderAddViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
+            //eklenen her gruptaki skuyu tek tek kontrol eder. Bunlardan birisi bile VERİTABANINDA var ise hata verir.
+            foreach (var item in model.ProductTransactionGroup)
+            {
+                bool skuExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == item.SKU).ConfigureAwait(false);
+                if (skuExist)
+                {
+                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır!");
+                    return callResult;
+                }
+            }
+            if (model.ProductTransactionGroup.Count()>1)
+            {
+                for (int i = 0; i <= model.ProductTransactionGroup.Count()-1; i++)
+                {
+                    for (int j = i+1; j <= model.ProductTransactionGroup.Count()-1; j++)
+                    {
+                        bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
+                        if (skuexist)
+                        {
+                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır!");
+                            return callResult;
+
+
+                        }
+                    }
+                }
+            }
+
+          
+            
             var order = new Orders
             {
                 Id = model.Id,
@@ -253,6 +283,8 @@ namespace Warehouse.Service
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup
                                                              select new ProductTransactionGroupViewModel
                                                              {
+                                                                 Id = i.Id,
+                                                                 OrderId = i.OrderId,
                                                                  Content = i.Content,
                                                                  Count = i.Count,
                                                                  QuantityPerUnit = i.QuantityPerUnit,
@@ -268,16 +300,33 @@ namespace Warehouse.Service
         public async Task<ServiceCallResult> EditOrderAsync(OrderEditViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
-            //foreach (var item in model.ProductTransactionGroup)
-            //{
-            //    bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.Id != item.Id && a.SKU == item.SKU).ConfigureAwait(false);
-            //    if (nameExist)
-            //    {
-            //        callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır!");
-            //        return callResult;
-            //    }
-            //}
+            foreach (var item in model.ProductTransactionGroup)
+            {
+                bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.Id != item.Id && a.SKU == item.SKU).ConfigureAwait(false);
+                if (nameExist)
+                {
+                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır!");
+                    return callResult;
+                }
+            }
 
+            if (model.ProductTransactionGroup.Count() > 1)
+            {
+                for (int i = 0; i <= model.ProductTransactionGroup.Count() - 1; i++)
+                {
+                    for (int j = i + 1; j <= model.ProductTransactionGroup.Count() - 1; j++)
+                    {
+                        bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
+                        if (skuexist)
+                        {
+                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır!");
+                            return callResult;
+
+
+                        }
+                    }
+                }
+            }
 
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
             var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
@@ -316,18 +365,18 @@ namespace Warehouse.Service
 
 
 
-            
+
 
             var deletedProductGroupsList = new List<string>();
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
-                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU )))
+                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU || x.SKU == groupDb.SKU)))
             {
                 deletedProductGroupsList.Add(groupDb.SKU);
                 order.ProductTransactionGroup.Remove(groupDb);
                 _context.ProductTransactionGroup.Remove(groupDb);
             }
             // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
-            
+
 
 
             byte imageOrder = 0;
@@ -352,6 +401,7 @@ namespace Warehouse.Service
 
 
             }
+
             //bu işlem ise silinen verinin yerine düzenlenen stok koduna ait grubu yeniden ekliyor.
 
             using (var dbtransaction = _context.Database.BeginTransaction())
@@ -381,11 +431,11 @@ namespace Warehouse.Service
             }
 
         }
-        
+
         public async Task<List<ProductGroupShowViewModel>> GetOrderProductGroup(int orderId)
         {
 
-            var result = _context.ProductTransactionGroup.Where(p=>p.OrderId==orderId).Select(p => new ProductGroupShowViewModel
+            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId).Select(p => new ProductGroupShowViewModel
             {
                 Content = p.Content,
                 Count = p.Count,

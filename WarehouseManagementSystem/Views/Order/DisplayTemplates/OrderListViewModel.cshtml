@@ -39,7 +39,7 @@
 
     </td>
     <td style="width:50px">
-        <a data-modal-form="true"          
+        <a data-modal-form="true"
            data-modal-title="Siparişteki Ürün Listesi"
            data-hook-beforeunload="true"
            class="pressActive btn btn-block btn-warning btn-sm"
@@ -48,10 +48,23 @@
         </a>
 
     </td>
-    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-        Launch demo modal
-    </button>*@
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-title="Sipariş Paketle"
+           data-hook-beforeunload="true"
+           class="pressActive btn btn-block btn-sm showOrderPackage"
+           href="@Url.Action("OrderPackageAdd", "Order", routeValues: new {orderId=Model.Id})">
+            <i class="fa-solid fa-cube"></i> Sipariş Paketle
+        </a>
+
+    </td>
+
 
 </tr>
 
-
+ <style>
+     .showOrderPackage {
+         color: #ffffff;
+         background-color: #14ceb7
+     }
+ </style>

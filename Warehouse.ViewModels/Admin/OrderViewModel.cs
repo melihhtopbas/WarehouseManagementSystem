@@ -94,6 +94,7 @@ namespace Warehouse.ViewModels.Admin
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }
         public virtual CountryViewModel Countries { get; set; }
         public virtual CurrencyUnitViewModel CurrencyUnits { get; set; }
+        public virtual ProductTransactionGroupViewModel ProductTransactionGroupViewModel { get; set; }
         public IEnumerable<ProductTransactionGroupViewModel> ProductTransactionGroup { get; set; }
     }
     public class OrderAddViewModel : OrderCrudBaseViewModel
@@ -182,7 +183,7 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderEditViewModel : OrderCrudBaseViewModel
     {
-        public long Id { get; set; }
+        //public long Id { get; set; }
 
     }
     public class OrderAdressViewModel
