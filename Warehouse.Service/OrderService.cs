@@ -168,11 +168,6 @@ namespace Warehouse.Service
                 RecipientName = model.RecipientName,
                 RecipientPhone = model.RecipientPhone,
                 RecipientInvoiceNumber = model.RecipientInvoiceNumber,
-                PackageCount = model.PackageCount,
-                PackageHeight = model.PackageHeight,
-                PackageLength = model.PackageLength,
-                PackageWeight = model.PackageWeight,
-                PackageWidth = model.PackageWidth,
                 ProductOrderDescription = model.OrderDescription,
                 RecipientIdentityNumber = model.RecipientIdentityNumber,
                 RecipientZipCode = model.RecipientZipCode,
@@ -236,6 +231,50 @@ namespace Warehouse.Service
 
 
         }
+        public async Task<ServiceCallResult> AddOrderPackageAsync(OrderPackageViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+             
+
+
+            var package = new Packages
+            {
+                Id = model.Id,
+                Width = model.Width,
+                Weight = model.Weight,
+                Length = model.Length,
+                Height = model.Height,
+                OrderId = model.OrderId                 
+            };
+             
+
+
+
+            _context.Packages.Add(package);
+            
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+        }
         public async Task<OrderEditViewModel> GetOrderEditViewModelAsync(int orderId)
         {
             var order = await (from p in _context.Orders
@@ -274,11 +313,7 @@ namespace Warehouse.Service
                                    {
                                        CurrencyUnitId = p.ProductCurrencyUnitId
                                    },
-                                   PackageCount = p.PackageCount,
-                                   PackageHeight = p.PackageHeight,
-                                   PackageLength = p.PackageLength,
-                                   PackageWeight = p.PackageWeight,
-                                   PackageWidth = p.PackageWidth,
+
                                    OrderDescription = p.ProductOrderDescription,
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup
                                                              select new ProductTransactionGroupViewModel
@@ -354,12 +389,9 @@ namespace Warehouse.Service
             order.RecipientCountryId = model.Country.CountryId;
             order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
             order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-            order.PackageLength = model.PackageLength;
-            order.PackageHeight = model.PackageHeight;
-            order.PackageWeight = model.PackageWeight;
-            order.PackageWidth = model.PackageWidth;
+
             order.ProductOrderDescription = model.OrderDescription;
-            order.PackageCount = model.PackageCount;
+
 
 
 
@@ -431,7 +463,7 @@ namespace Warehouse.Service
             }
 
         }
-
+         
         public async Task<List<ProductGroupShowViewModel>> GetOrderProductGroup(int orderId)
         {
 

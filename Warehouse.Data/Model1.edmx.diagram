@@ -12,11 +12,13 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.RecipientAddresses" Width="1.5" PointX="12.25" PointY="2.375" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.SenderAddresses" Width="1.5" PointX="12.25" PointY="4.875" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="10" PointY="1.125" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Packages" Width="1.5" PointX="12.25" PointY="8.25" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="10" PointY="1.5" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Packages_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" />

@@ -34,7 +34,7 @@ namespace WarehouseManagementSystem.Controllers
             return View("~/Views/Order/Index.cshtml");
         }
 
-         
+
         [AjaxOnly, HttpPost, ValidateInput(false)]
         public async Task<ActionResult> OrderList(OrderSearchViewModel model)
         {
@@ -61,7 +61,7 @@ namespace WarehouseManagementSystem.Controllers
         public ActionResult Add()
         {
 
-             
+
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
@@ -69,7 +69,7 @@ namespace WarehouseManagementSystem.Controllers
             var model = new OrderAddViewModel
             {
                 ProductTransactionGroup = new List<ProductTransactionGroupViewModel>() {new ProductTransactionGroupViewModel {
-                   Content = null,                
+                   Content = null,
                    GtipCode = null,
                    SKU = null,
                } },
@@ -148,18 +148,30 @@ namespace WarehouseManagementSystem.Controllers
             var model = await _orderService.GetOrderProductGroup(orderId);
             if (model != null)
             {
-                
+
                 return PartialView("~/Views/Order/_OrderProductGroupShow.cshtml", model);
             }
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
-        [HttpGet]
-        public async Task<ActionResult> OrderPackageAdd(int orderId)
+        public PartialViewResult PackageTransactionGroupRow()
         {
 
-             
-            return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", "Sipariş paketleme sayfası!");
+            return PartialView("~/Views/Order/_OrderPackageGroupAdd.cshtml", new OrderPackageGroupViewModel());
         }
+        [HttpGet]
+        public async Task<ActionResult> OrderPackageAdd()
+        {
+            var model = new OrderPackageViewModel
+            {
+
+                OrderPackageGroups = new List<OrderPackageGroupViewModel>() {new OrderPackageGroupViewModel {
+
+
+               } },
+            };
+            return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", model);
+        }
+
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(OrderEditViewModel model)
         {

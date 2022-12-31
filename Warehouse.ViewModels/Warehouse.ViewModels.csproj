@@ -45,6 +45,7 @@
     <Compile Include="Admin\CargoServiceTypeViewModel.cs" />
     <Compile Include="Admin\CountryViewModel.cs" />
     <Compile Include="Admin\CurrencyUnitViewModel.cs" />
+    <Compile Include="Admin\OrderPackageViewModel.cs" />
     <Compile Include="Admin\OrderViewModel.cs" />
     <Compile Include="Admin\ProductTransactionGroupViewModel.cs" />
     <Compile Include="Common\ServiceCallResult.cs" />

@@ -1,14 +1,174 @@
-﻿@model String
- 
+﻿@model Warehouse.ViewModels.Admin.OrderPackageViewModel
+@using WarehouseManagementSystem.Extensions
 <div class="row">
     <div class="col-xs-12">
-        @Model
+        <div class="alert alert-warning alert-dismissible">            
+            <h4><i class="fa-solid fa-circle-info"></i> Bilgilendirme!</h4>
+            Herhangi bir gönderi 300 kg.'den daha ağır olamaz 30'dan daha fazla paket içeremez. Bu sınırların üzerinde kalan gönderilerinizi bölerek göndermenizi tavsiye ederiz.
+        </div>
     </div>
 </div>
-<hr />
-<div class="form-group form-group-sm row">
-    <div class="col-xs-12">
-        <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fas fa-times"></span>&nbsp;&nbsp;İptal</button>
+<div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <a id="addPackageTransactionGroup" class="pressActive btn btn-info btn-sm">
+        <i class="fa fa-plus"></i> Koli Ekle
+    </a>
+</div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+        </div>
+    </div>
+    <div class="row">
+        <div id="packageGroupRow">
+            @if (Model.OrderPackageGroups != null)
+            {
+                foreach (var item in Model.OrderPackageGroups)
+                {
+                    @Html.Partial("~/Views/Order/_OrderPackageGroupAdd.cshtml", item)
+                }
+            }
+
+        </div>
+
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+<style>
+
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<script>
+
+    $('.kt_docs_maxlength_basic').maxlength({
+        alwaysShow: true,
+        threshold: 5,
+        placement: 'top-right',
+        warningClass: "label label-danger label-rounded label-inline",
+        limitReachedClass: "label label-primary label-rounded label-inline"
+    });
+    $('#hideDeletePackageRow').hide();
+    var counter = 0;
+ 
+
+     $(function () {
+         $('#addPackageTransactionGroup').on('click', function () {
+             $('.spinner').css('display', 'block');
+            $.ajax({
+                url: '@Url.Action("PackageTransactionGroupRow","Order")',
+                    cache: false,
+                success: function (html) {
+                    $("#packageGroupRow").append(html);
+                    $('.spinner').hide();
+                    counter++;
+                    console.log(counter);
+                }
+                });
+                return false;
+         });
+
+         $('#packageGroupRow').on('click', '.deletePackageRow', function () {
+             if (counter!=0) {
+                 $(this).closest('.packageTransactionGroup').remove();
+                 counter--;
+             }
+             if (counter == 0) {
+                 $('#deletePackageRow').hide();
+             }
+
+
+             console.log(counter);
+
+
+
+
+         });
+
+
+     });
+
+</script>
+
+<div class="spinner" style="display:none">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
     </div>
 </div>
-<div class="clearfix"></div>
+<style>
+    .center-div {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+
+    .spinner {
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .loader {
+        margin: auto;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #15a0ec;
+        border-bottom: 16px solid #15a0ec;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    .inner-div {
+        background-color: white;
+        border-radius: 15px;
+        margin: auto;
+        padding: 2%;
+        width: 150px;
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
