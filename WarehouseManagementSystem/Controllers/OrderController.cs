@@ -30,7 +30,6 @@ namespace WarehouseManagementSystem.Controllers
         {
 
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
-
             return View("~/Views/Order/Index.cshtml");
         }
 
@@ -39,7 +38,7 @@ namespace WarehouseManagementSystem.Controllers
         public async Task<ActionResult> OrderList(OrderSearchViewModel model)
         {
 
-            var result = _orderService.GetServiceListIQueryable(model)
+            var result = _orderService.GetOrderListIQueryable(model)
                 .OrderBy(p => p.SenderName);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 

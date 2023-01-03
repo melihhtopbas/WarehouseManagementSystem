@@ -22,7 +22,7 @@ namespace Warehouse.Service
             _context = context;
         }
 
-        private IQueryable<OrderListViewModel> _getServiceListIQueryable(Expression<Func<Data.Orders, bool>> expr)
+        private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
@@ -50,7 +50,7 @@ namespace Warehouse.Service
                     });
 
         }
-        public IQueryable<OrderListViewModel> GetServiceListIQueryable(OrderSearchViewModel model)
+        public IQueryable<OrderListViewModel> GetOrderListIQueryable(OrderSearchViewModel model)
         {
             var predicate = PredicateBuilder.New<Data.Orders>(true);/*AND*/
             predicate.And(a => a.LanguageId == model.LanguageId);
@@ -59,15 +59,15 @@ namespace Warehouse.Service
                 predicate.And(a => a.SenderName.Contains(model.SearchName));
 
             }
-            return _getServiceListIQueryable(predicate);
+            return _getOrderListIQueryable(predicate);
         }
         public async Task<OrderListViewModel> GetOrderListViewAsync(long orderId)
         {
 
             var predicate = PredicateBuilder.New<Data.Orders>(true);/*AND*/
             predicate.And(a => a.Id == orderId);
-            var service = await _getServiceListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
-            return service;
+            var order = await _getOrderListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return order;
         }
         public List<CountryListViewModel> GetOrderCountryList()
         {
@@ -435,11 +435,11 @@ namespace Warehouse.Service
 
 
 
-            var deletedProductGroupsList = new List<string>();
+             
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
                 .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU || x.SKU == groupDb.SKU)))
             {
-                deletedProductGroupsList.Add(groupDb.SKU);
+                 
                 order.ProductTransactionGroup.Remove(groupDb);
                 _context.ProductTransactionGroup.Remove(groupDb);
             }
@@ -512,13 +512,7 @@ namespace Warehouse.Service
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
 
-                    if (deletedProductGroupsList.Any())
-                    {
-
-
-
-
-                    }
+                    
 
                     callResult.Success = true;
                     callResult.Item = await GetOrderListViewAsync(order.Id).ConfigureAwait(false);
@@ -565,10 +559,10 @@ namespace Warehouse.Service
             }
 
 
-            var deletedProductGroupsList = new List<string>();
+            
             foreach (var groupDb in order.ProductTransactionGroup.ToList())
             {
-                deletedProductGroupsList.Add(groupDb.SKU);
+                 
                 order.ProductTransactionGroup.Remove(groupDb);
                 _context.ProductTransactionGroup.Remove(groupDb);
             }
