@@ -16,7 +16,7 @@
         @*row start*@
 
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h5>
+        <h4 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h4>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true" })
         </div>
@@ -40,7 +40,7 @@
         <hr />
         <div class="clearfix"></div>
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Alıcı</h5>
+        <h4 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Alıcı</h4>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientName, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
@@ -67,7 +67,7 @@
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientInvoiceNumber)
         </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.RecipientAddress)" style="position: relative;">
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.RecipientAddress)">
             @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
             @Html.ValidationMessageFor(m => m.RecipientAddress)
         </div>
@@ -76,7 +76,7 @@
         <hr />
         <div class="clearfix"></div>
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Ürün İşlemleri</h5>
+        <h4 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Ürün İşlemleri</h4>
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
             <div class="row">
                 @Html.EditorFor(m => m.CurrenyUnit)
@@ -111,7 +111,7 @@
         <hr />
         <div class="clearfix"></div>
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Paket İşlemleri</h5>
+        <h4 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Paket İşlemleri</h4>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="row">
                 @Html.EditorFor(m => m.CargoService)

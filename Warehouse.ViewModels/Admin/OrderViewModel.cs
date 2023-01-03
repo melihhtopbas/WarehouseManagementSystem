@@ -41,6 +41,7 @@ namespace Warehouse.ViewModels.Admin
 
         public string SenderPhone { get; set; }
         [Display(Name = "Gönderici Kimlik No")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numerik olmalıdır!")]
 
         public string SenderIdentityNumber { get; set; }
         [Display(Name = "Gönderici Fatura No")]
@@ -60,6 +61,7 @@ namespace Warehouse.ViewModels.Admin
         public string RecipientCity { get; set; }
 
         [Display(Name = "Alıcı Posta Kodu")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numerik olmalıdır!")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientZipCode { get; set; }
         [Display(Name = "Alıcı Telefon")]
@@ -69,6 +71,7 @@ namespace Warehouse.ViewModels.Admin
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarası numerik olmalıdır!")]
         public string RecipientPhone { get; set; }
         [Display(Name = "Alıcı Kimlik No")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numerik olmalıdır!")]
 
         public string RecipientIdentityNumber { get; set; }
         [Display(Name = "Alıcı Fatura No")]
