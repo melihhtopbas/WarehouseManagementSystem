@@ -43,7 +43,9 @@ namespace Warehouse.Service
                         SenderPhone = b.SenderPhone,
                         RecipientCountry = b.Countries.Name,
                         CurrencyUnit = b.CurrencyUnits.Name,
-                        CargoService = b.CargoServiceTypes.Name
+                        CargoService = b.CargoServiceTypes.Name,
+                        isPackage = b.isPackage
+
 
                     });
 
@@ -135,11 +137,11 @@ namespace Warehouse.Service
                     return callResult;
                 }
             }
-            if (model.ProductTransactionGroup.Count()>1)
+            if (model.ProductTransactionGroup.Count() > 1)
             {
-                for (int i = 0; i <= model.ProductTransactionGroup.Count()-1; i++)
+                for (int i = 0; i <= model.ProductTransactionGroup.Count() - 1; i++)
                 {
-                    for (int j = i+1; j <= model.ProductTransactionGroup.Count()-1; j++)
+                    for (int j = i + 1; j <= model.ProductTransactionGroup.Count() - 1; j++)
                     {
                         bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
                         if (skuexist)
@@ -153,8 +155,10 @@ namespace Warehouse.Service
                 }
             }
 
-          
-            
+
+
+
+
             var order = new Orders
             {
                 Id = model.Id,
@@ -174,7 +178,8 @@ namespace Warehouse.Service
                 CargoServiceTypeId = model.CargoService.CargoServiceId,
                 ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
                 RecipientCountryId = model.Country.CountryId,
-                LanguageId = 1
+                LanguageId = 1,
+
             };
             var sAddress = new SenderAddresses
             {
@@ -202,6 +207,28 @@ namespace Warehouse.Service
                     QuantityPerUnit = productGroup.QuantityPerUnit
                 });
             }
+            int? counter = 0;
+            if (model.OrderPackageGroups.Count() > 0)
+            {
+                foreach (var orderPackage in model.OrderPackageGroups)
+                {
+                    counter += orderPackage.Count;
+                    order.Packages.Add(new Packages()
+                    {
+                        Count = orderPackage.Count,
+                        Id = orderPackage.Id,
+                        Height = orderPackage.Height,
+                        Weight = orderPackage.Weight,
+                        Width = orderPackage.Width,
+                        Length = orderPackage.Length,
+
+                    });
+                }
+                order.isPackage = true;
+                order.PackageCount = counter;
+
+            }
+
 
 
 
@@ -231,50 +258,50 @@ namespace Warehouse.Service
 
 
         }
-        public async Task<ServiceCallResult> AddOrderPackageAsync(OrderPackageViewModel model)
-        {
-            var callResult = new ServiceCallResult() { Success = false };
-
-             
-
-
-            var package = new Packages
-            {
-                Id = model.Id,
-                Width = model.Width,
-                Weight = model.Weight,
-                Length = model.Length,
-                Height = model.Height,
-                OrderId = model.OrderId                 
-            };
-             
+        //public async Task<ServiceCallResult> AddOrderPackageAsync(OrderPackageViewModel model)
+        //{
+        //    var callResult = new ServiceCallResult() { Success = false };
 
 
 
-            _context.Packages.Add(package);
-            
-            using (var dbtransaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    await _context.SaveChangesAsync().ConfigureAwait(false);
-                    dbtransaction.Commit();
 
-
-                    callResult.Success = true;
-                    
-                    return callResult;
-                }
-                catch (Exception exc)
-                {
-                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
-                    return callResult;
-                }
-            }
+        //    var package = new Packages
+        //    {
+        //        Id = model.Id,
+        //        Width = model.Width,
+        //        Weight = model.Weight,
+        //        Length = model.Length,
+        //        Height = model.Height,
+        //        OrderId = model.OrderId                 
+        //    };
 
 
 
-        }
+
+        //    _context.Packages.Add(package);
+
+        //    using (var dbtransaction = _context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            await _context.SaveChangesAsync().ConfigureAwait(false);
+        //            dbtransaction.Commit();
+
+
+        //            callResult.Success = true;
+
+        //            return callResult;
+        //        }
+        //        catch (Exception exc)
+        //        {
+        //            callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+        //            return callResult;
+        //        }
+        //    }
+
+
+
+        //}
         public async Task<OrderEditViewModel> GetOrderEditViewModelAsync(int orderId)
         {
             var order = await (from p in _context.Orders
@@ -327,6 +354,16 @@ namespace Warehouse.Service
                                                                  SKU = i.SKU
 
                                                              },
+                                   OrderPackageGroups = from i in p.Packages
+                                                        select new PackageListViewModel
+                                                        {
+                                                            Count = i.Count,
+                                                            Id = i.Id,
+                                                            Height = i.Height,
+                                                            Length = i.Length,
+                                                            Weight = i.Weight,
+                                                            Width = i.Width,
+                                                        },
 
 
                                }).FirstOrDefaultAsync();
@@ -389,7 +426,6 @@ namespace Warehouse.Service
             order.RecipientCountryId = model.Country.CountryId;
             order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
             order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-
             order.ProductOrderDescription = model.OrderDescription;
 
 
@@ -433,8 +469,41 @@ namespace Warehouse.Service
 
 
             }
+            foreach (var groupDb in order.Packages.ToArray())
+            {
 
-            //bu işlem ise silinen verinin yerine düzenlenen stok koduna ait grubu yeniden ekliyor.
+                order.Packages.Remove(groupDb);
+                _context.Packages.Remove(groupDb);
+                order.isPackage = false;
+                order.PackageCount = 0;
+            }
+            // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
+
+
+
+            int? counter = 0;
+            foreach (var groupViewModel in model.OrderPackageGroups)
+            {
+
+
+                counter += groupViewModel.Count;
+                order.Packages.Add(new Packages()
+                {
+                    Count = groupViewModel.Count,
+                    Height = groupViewModel.Height,
+                    Length = groupViewModel.Length,
+                    Weight = groupViewModel.Weight,
+                    Width = groupViewModel.Width
+
+                });
+
+
+
+
+                order.PackageCount = counter;
+                order.isPackage = true;
+            }
+
 
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
@@ -463,7 +532,7 @@ namespace Warehouse.Service
             }
 
         }
-         
+
         public async Task<List<ProductGroupShowViewModel>> GetOrderProductGroup(int orderId)
         {
 
@@ -502,6 +571,11 @@ namespace Warehouse.Service
                 deletedProductGroupsList.Add(groupDb.SKU);
                 order.ProductTransactionGroup.Remove(groupDb);
                 _context.ProductTransactionGroup.Remove(groupDb);
+            }
+            foreach (var packageDb in order.Packages.ToList())
+            {
+                order.Packages.Remove(packageDb);
+                _context.Packages.Remove(packageDb);
             }
 
 

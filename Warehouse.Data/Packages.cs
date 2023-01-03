@@ -15,10 +15,11 @@ namespace Warehouse.Data
     public partial class Packages
     {
         public long Id { get; set; }
-        public long Height { get; set; }
-        public long Width { get; set; }
-        public long Weight { get; set; }
-        public long Length { get; set; }
+        public Nullable<long> Height { get; set; }
+        public Nullable<long> Width { get; set; }
+        public Nullable<long> Weight { get; set; }
+        public Nullable<long> Length { get; set; }
+        public Nullable<int> Count { get; set; }
         public Nullable<long> OrderId { get; set; }
     
         public virtual Orders Orders { get; set; }

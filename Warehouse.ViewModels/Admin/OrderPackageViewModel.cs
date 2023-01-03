@@ -41,5 +41,28 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Uzunluk")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Length { get; set; }
+        [Display(Name = "Adet")]
+        [Required(ErrorMessage = "Lütfen giriniz")]
+        [Range(1, 30, ErrorMessage = "Enter number between 1 to 30")]
+        public int? Count { get; set; }
+    }
+    public class PackageListViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Boy")]
+       
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+        
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+        
+        public long? Width { get; set; }
+        [Display(Name = "Uzunluk")]
+         
+        public long? Length { get; set; }
+        [Display(Name = "Adet")]
+       
+        public int? Count { get; set; }
     }
 }

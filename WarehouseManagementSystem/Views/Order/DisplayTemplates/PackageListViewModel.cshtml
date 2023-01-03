@@ -1,0 +1,52 @@
+﻿@model Warehouse.ViewModels.Admin.PackageListViewModel
+
+
+
+<div class="packageGroup">
+    @using (Html.BeginCollectionItem("OrderPackageGroups"))
+    {
+        <table id="packageGroupTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Adet</th>
+                    <th>Boy</th>
+                    <th>Ağırlık</th>
+                    <th>Uzunluk</th>
+                    <th>En</th>
+                    <th>Sil</th>
+
+                </tr>
+            </thead>
+            <tbody id="packageGroupTableList">
+                <tr>
+                    <td>@Model.Count</td>
+                    <td>@Model.Height</td>
+                    <td>@Model.Weight</td>
+                    <td>@Model.Length</td>
+                    <td>@Model.Width</td>
+                    <td class="remove-pck">
+                        <a class="btn btn-sm btn-default">
+                            <i class="fas fa-trash-alt text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+
+        </table>
+        @Html.HiddenFor(a => a.Count)
+        @Html.HiddenFor(a => a.Height)
+        @Html.HiddenFor(a => a.Weight)
+        @Html.HiddenFor(a => a.Width)
+        @Html.HiddenFor(a => a.Length)
+        @Html.HiddenFor(a => a.Id)
+
+    }
+
+</div>
+<script>
+
+    $('.remove-pck').on('click', function () {
+        $(this).closest('.packageGroup').remove();
+    });
+</script>

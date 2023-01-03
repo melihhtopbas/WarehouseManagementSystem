@@ -56,16 +56,18 @@
           <Property Name="CargoServiceTypeId" Type="bigint" />
           <Property Name="PackageCount" Type="int" />
           <Property Name="LanguageId" Type="bigint" />
+          <Property Name="isPackage" Type="bit" />
         </EntityType>
         <EntityType Name="Packages">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Height" Type="bigint" Nullable="false" />
-          <Property Name="Width" Type="bigint" Nullable="false" />
-          <Property Name="Weight" Type="bigint" Nullable="false" />
-          <Property Name="Length" Type="bigint" Nullable="false" />
+          <Property Name="Height" Type="bigint" />
+          <Property Name="Width" Type="bigint" />
+          <Property Name="Weight" Type="bigint" />
+          <Property Name="Length" Type="bigint" />
+          <Property Name="Count" Type="int" />
           <Property Name="OrderId" Type="bigint" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
@@ -292,7 +294,6 @@
           <EntitySet Name="ProductTransactionGroup" EntityType="Self.ProductTransactionGroup" />
           <EntitySet Name="RecipientAddresses" EntityType="WarehouseManagementSystemModel.RecipientAddresses" />
           <EntitySet Name="SenderAddresses" EntityType="WarehouseManagementSystemModel.SenderAddresses" />
-          <EntitySet Name="Packages" EntityType="WarehouseManagementSystemModel.Packages" />
           <EntitySet Name="Orders" EntityType="WarehouseManagementSystemModel.Orders" />
           <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes">
             <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
@@ -310,10 +311,6 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Packages_Orders" Association="WarehouseManagementSystemModel.FK_Packages_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Packages" EntitySet="Packages" />
-          </AssociationSet>
           <AssociationSet Name="FK_ProductTransactionGroup_Orders" Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
@@ -325,6 +322,11 @@
           <AssociationSet Name="FK_SenderAddresses_Orders" Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="SenderAddresses" EntitySet="SenderAddresses" />
+          </AssociationSet>
+          <EntitySet Name="Packages" EntityType="WarehouseManagementSystemModel.Packages" />
+          <AssociationSet Name="FK_Packages_Orders" Association="WarehouseManagementSystemModel.FK_Packages_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Packages" EntitySet="Packages" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
@@ -344,18 +346,6 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="OrderId" Type="Int64" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="SenderAddresses" ToRole="Orders" />
-        </EntityType>
-        <EntityType Name="Packages">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Height" Type="Int64" Nullable="false" />
-          <Property Name="Width" Type="Int64" Nullable="false" />
-          <Property Name="Weight" Type="Int64" Nullable="false" />
-          <Property Name="Length" Type="Int64" Nullable="false" />
-          <Property Name="OrderId" Type="Int64" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Packages" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -384,10 +374,11 @@
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
           <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="Orders" ToRole="CurrencyUnits" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
-          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
           <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
           <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
           <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
+          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
+          <Property Name="isPackage" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Orders_CargoServiceTypes">
           <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
@@ -437,18 +428,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Packages_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Packages">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ProductTransactionGroup_Orders">
           <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
           <End Type="WarehouseManagementSystemModel.ProductTransactionGroup" Role="ProductTransactionGroup" Multiplicity="*" />
@@ -481,6 +460,31 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="SenderAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Packages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Height" Type="Int64" />
+          <Property Name="Width" Type="Int64" />
+          <Property Name="Weight" Type="Int64" />
+          <Property Name="Length" Type="Int64" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="OrderId" Type="Int64" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Packages" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Packages_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Packages">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
@@ -554,21 +558,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Packages">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Packages">
-              <MappingFragment StoreEntitySet="Packages">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Length" ColumnName="Length" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="isPackage" ColumnName="isPackage" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="PackageCount" ColumnName="PackageCount" />
                 <ScalarProperty Name="CargoServiceTypeId" ColumnName="CargoServiceTypeId" />
@@ -587,6 +580,19 @@
                 <ScalarProperty Name="SenderInvoiceNumber" ColumnName="SenderInvoiceNumber" />
                 <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Packages">
+              <MappingFragment StoreEntitySet="Packages">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

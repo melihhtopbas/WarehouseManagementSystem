@@ -73,6 +73,9 @@ namespace WarehouseManagementSystem.Controllers
                    GtipCode = null,
                    SKU = null,
                } },
+                 
+                
+                 
             };
             return PartialView("~/Views/Order/_OrderAdd.cshtml", model);
         }
@@ -161,15 +164,38 @@ namespace WarehouseManagementSystem.Controllers
         [HttpGet]
         public async Task<ActionResult> OrderPackageAdd()
         {
-            var model = new OrderPackageViewModel
+             
+            var model = new OrderPackageGroupViewModel
             {
 
-                OrderPackageGroups = new List<OrderPackageGroupViewModel>() {new OrderPackageGroupViewModel {
-
-
-               } },
+ 
             };
             return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", model);
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public ActionResult OrderPackageAdd(OrderPackageGroupViewModel model)
+        {
+             
+            var resultModel = new PackageListViewModel()
+            {
+                Count = model.Count,
+                Height = model.Height,
+                Length = model.Length,
+                Weight = model.Weight,
+                Width = model.Width
+            };
+            
+             
+
+            var jsonResult = Json(
+                new
+                {
+                    success = true,
+                    responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/PackageListViewModel.cshtml", resultModel),
+                    item = resultModel
+                });
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
 
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]

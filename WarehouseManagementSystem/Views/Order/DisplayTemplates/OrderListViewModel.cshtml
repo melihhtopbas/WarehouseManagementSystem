@@ -1,6 +1,7 @@
 ﻿@model Warehouse.ViewModels.Admin.OrderListViewModel
 
 <tr id="@("order_"+Model.Id)" class="master-row">
+    <td>@Model.Id</td>
     <td>
         @Model.SenderName
     </td>
@@ -18,6 +19,18 @@
     <td>@Model.RecipientZipCode</td>
     <td style="width:550px">@Model.RecipientAddress</td>
     <td>@Model.CargoService</td>
+    <td>
+        @if (@Model.isPackage==true)
+        {
+            <span>✅</span>
+        }
+        else
+        {
+            <span>⌛</span>
+        }
+
+    </td>
+    <td>@Model.PackageCount</td>
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"
@@ -49,7 +62,7 @@
         </a>
 
     </td>
- 
+
 
 
 </tr>

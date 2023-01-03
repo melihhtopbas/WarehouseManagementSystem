@@ -14,6 +14,11 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderCrudBaseViewModel
     {
+        public OrderCrudBaseViewModel()
+        {
+            ProductTransactionGroup = new List<ProductTransactionGroupViewModel>();
+            OrderPackageGroups = new List<PackageListViewModel>();
+        }
         public OrderCountryIdSelectViewModel Country { get; set; }
         public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
         public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
@@ -73,20 +78,7 @@ namespace Warehouse.ViewModels.Admin
 
         public string RecipientMail { get; set; }
 
-
-        //[Display(Name = "Koli Adeti")]
-        //[Required(ErrorMessage = "Lütfen giriniz")]
-
-        //public int? PackageCount { get; set; }
-        //[Display(Name = "Ağırlık(kg)")]
-
-        //public long? PackageWeight { get; set; }
-        //[Display(Name = "Boy(cm)")]
-        //public long? PackageHeight { get; set; }
-        //[Display(Name = "Uzunluk(cm)")]
-        //public long? PackageLength { get; set; }
-        //[Display(Name = "En(cm)")]
-        //public long? PackageWidth { get; set; }
+ 
         [Display(Name = "Sipariş Açıklaması")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string OrderDescription { get; set; }
@@ -98,7 +90,7 @@ namespace Warehouse.ViewModels.Admin
         public IEnumerable<ProductTransactionGroupViewModel> ProductTransactionGroup { get; set; }
 
         public virtual ICollection<OrderPackageGroupViewModel> OrderPackageGroupViewModel { get; set; }
-        public IEnumerable<OrderPackageGroupViewModel> OrderPackageGroups { get; set; }
+        public IEnumerable<PackageListViewModel> OrderPackageGroups { get; set; }
     }
     public class OrderAddViewModel : OrderCrudBaseViewModel
     {
@@ -170,6 +162,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
 
         public string CargoService { get; set; }
+        public bool? isPackage { get; set; }
 
 
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }

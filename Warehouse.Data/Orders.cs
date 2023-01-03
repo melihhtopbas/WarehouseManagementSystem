@@ -17,10 +17,10 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Orders()
         {
-            this.Packages = new HashSet<Packages>();
             this.ProductTransactionGroup = new HashSet<ProductTransactionGroup>();
             this.RecipientAddresses = new HashSet<RecipientAddresses>();
             this.SenderAddresses = new HashSet<SenderAddresses>();
+            this.Packages = new HashSet<Packages>();
         }
     
         public long Id { get; set; }
@@ -42,18 +42,19 @@ namespace Warehouse.Data
         public Nullable<long> CargoServiceTypeId { get; set; }
         public Nullable<int> PackageCount { get; set; }
         public Nullable<long> LanguageId { get; set; }
+        public Nullable<bool> isPackage { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
         public virtual Countries Countries { get; set; }
         public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Packages> Packages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductTransactionGroup> ProductTransactionGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Packages> Packages { get; set; }
     }
 }

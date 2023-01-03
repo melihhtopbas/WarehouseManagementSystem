@@ -32,7 +32,7 @@ namespace Warehouse.Data
         public virtual DbSet<ProductTransactionGroup> ProductTransactionGroup { get; set; }
         public virtual DbSet<RecipientAddresses> RecipientAddresses { get; set; }
         public virtual DbSet<SenderAddresses> SenderAddresses { get; set; }
-        public virtual DbSet<Packages> Packages { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Packages> Packages { get; set; }
     }
 }
