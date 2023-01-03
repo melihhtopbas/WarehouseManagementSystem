@@ -29,7 +29,7 @@ namespace Warehouse.ViewModels.Admin
     public class OrderPackageGroupViewModel
     {
         public long Id { get; set; }
-        [Display(Name = "Boy")]
+        [Display(Name = "Yükseklik")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
@@ -38,7 +38,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "En")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Width { get; set; }
-        [Display(Name = "Uzunluk")]
+        [Display(Name = "Boy")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Length { get; set; }
         [Display(Name = "Adet")]
@@ -49,7 +49,7 @@ namespace Warehouse.ViewModels.Admin
     public class PackageListViewModel
     {
         public long Id { get; set; }
-        [Display(Name = "Boy")]
+        [Display(Name = "Yükseklik")]
        
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
@@ -58,7 +58,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "En")]
         
         public long? Width { get; set; }
-        [Display(Name = "Uzunluk")]
+        [Display(Name = "Boy")]
          
         public long? Length { get; set; }
         [Display(Name = "Adet")]
@@ -68,7 +68,7 @@ namespace Warehouse.ViewModels.Admin
     public class OrderPackageListViewModel
     {
         public long Id { get; set; }
-        [Display(Name = "Boy")]
+        [Display(Name = "Yükseklik")]
 
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
@@ -77,7 +77,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "En")]
 
         public long? Width { get; set; }
-        [Display(Name = "Uzunluk")]
+        [Display(Name = "Boy")]
 
         public long? Length { get; set; }
         [Display(Name = "Adet")]
