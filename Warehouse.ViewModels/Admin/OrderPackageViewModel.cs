@@ -65,4 +65,24 @@ namespace Warehouse.ViewModels.Admin
        
         public int? Count { get; set; }
     }
+    public class OrderPackageListViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Boy")]
+
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+
+        public long? Width { get; set; }
+        [Display(Name = "Uzunluk")]
+
+        public long? Length { get; set; }
+        [Display(Name = "Adet")]
+
+        public int? Count { get; set; }
+    }
+
 }

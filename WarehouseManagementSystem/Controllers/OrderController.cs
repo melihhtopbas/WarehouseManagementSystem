@@ -155,6 +155,24 @@ namespace WarehouseManagementSystem.Controllers
             }
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
+        [HttpGet]
+        public async Task<ActionResult> OrderPackageGroupShow(int orderId)
+        {
+
+            var model = await _orderService.GetOrderPackageGroup(orderId);
+            
+            if (model != null && model.Count()>0)
+            {
+
+                return PartialView("~/Views/Order/_OrderPackageGroupShow.cshtml", model);
+            }
+            else
+            {
+                return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş paketlenmedi!");
+            }
+            return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
+
         public PartialViewResult PackageTransactionGroupRow()
         {
 

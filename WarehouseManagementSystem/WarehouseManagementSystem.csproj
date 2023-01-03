@@ -2017,7 +2017,7 @@
     <Content Include="Views\Order\_OrderEdit.cshtml" />
     <Content Include="Views\Order\_OrderProductGroupShow.cshtml" />
     <Content Include="Views\Order\_OrderPackageAdd.cshtml" />
-    <Content Include="Views\Order\_OrderPackageGroupAdd.cshtml" />
+    <Content Include="Views\Order\_OrderPackageGroupShow.cshtml" />
     <Content Include="Views\Order\DisplayTemplates\PackageListViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>

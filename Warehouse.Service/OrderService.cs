@@ -543,6 +543,21 @@ namespace Warehouse.Service
             }).ToList();
             return result;
         }
+        public async Task<List<OrderPackageListViewModel>> GetOrderPackageGroup(int orderId)
+        {
+
+            var result = _context.Packages.Where(p => p.OrderId == orderId).Select(p => new OrderPackageListViewModel
+            {
+                Id = p.Id,
+                Count = p.Count,
+                Height = p.Height,
+                Length = p.Length,
+                Weight = p.Weight,
+                Width = p.Width
+
+            }).ToList();
+            return result;
+        }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)
         {
             var callResult = new ServiceCallResult() { Success = false };

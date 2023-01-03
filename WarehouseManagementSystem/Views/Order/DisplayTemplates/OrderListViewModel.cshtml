@@ -20,7 +20,7 @@
     <td style="width:550px">@Model.RecipientAddress</td>
     <td>@Model.CargoService</td>
     <td>
-        @if (@Model.isPackage==true)
+        @if (@Model.isPackage == true)
         {
             <span>✅</span>
         }
@@ -30,7 +30,15 @@
         }
 
     </td>
-    <td>@Model.PackageCount</td>
+    <td>
+
+        <a data-modal-form="true"
+           data-modal-title="Siparişteki Paket Listesi"
+           data-hook-beforeunload="true"
+           href="@Url.Action("OrderPackageGroupShow", "Order", routeValues: new {orderId=Model.Id})">
+            @Model.PackageCount
+        </a>
+    </td>
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"

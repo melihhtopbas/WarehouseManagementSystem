@@ -1,12 +1,12 @@
-﻿@model List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>
-<table id="showOrderGroup" class="table table-bordered">
+﻿@model List<Warehouse.ViewModels.Admin.OrderPackageListViewModel>
+<table id="showOrderPackageGroup" class="table table-bordered">
     <thead>
         <tr>
-            <th>İçerik</th>
             <th>Adet</th>
-            <th>Birim Fiyat</th>
-            <th>SKU</th>
-            <th>Gtip Code</th>
+            <th>Boy(cm)</th>
+            <th>Ağırlık(kg)</th>
+            <th>Uzunluk(cm)</th>
+            <th>En(cm)</th>
 
 
 
@@ -14,15 +14,15 @@
 
         </tr>
     </thead>
-    <tbody id="OrderList">
+    <tbody id="OrderPackageList">
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Content</td>
                 <td>@item.Count</td>
-                <td>@item.QuantityPerUnit</td>
-                <td>@item.SKU</td>
-                <td>@item.GtipCode</td>
+                <td>@item.Height</td>
+                <td>@item.Weight</td>
+                <td>@item.Length</td>
+                <td>@item.Width</td>
 
             </tr>
         }
@@ -39,7 +39,7 @@
 
 <div class="form-group form-group-sm row">
     <div class="col-xs-12">
-         
+
         <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;Kapat</button>
     </div>
 </div>
