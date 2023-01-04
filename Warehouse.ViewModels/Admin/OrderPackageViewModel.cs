@@ -30,15 +30,19 @@ namespace Warehouse.ViewModels.Admin
     {
         public long Id { get; set; }
         [Display(Name = "Yükseklik")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
+        [Range(1, 300, ErrorMessage = "Enter number between 1 to 300")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Weight { get; set; }
         [Display(Name = "En")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Width { get; set; }
         [Display(Name = "Boy")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? Length { get; set; }
         [Display(Name = "Adet")]
