@@ -45,6 +45,9 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
         [Range(1, 30, ErrorMessage = "Enter number between 1 to 30")]
         public int? Count { get; set; }
+        [Display(Name = "Desi")]
+
+        public double? Desi { get; set; }
     }
     public class PackageListViewModel
     {
@@ -64,6 +67,9 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Adet")]
        
         public int? Count { get; set; }
+        [Display(Name = "Desi")]
+         
+        public decimal Desi { get; set; }
     }
     public class OrderPackageListViewModel
     {
@@ -83,6 +89,9 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Adet")]
 
         public int? Count { get; set; }
+        [Display(Name = "Desi")]
+
+        public decimal? Desi { get; set; }
     }
 
 }

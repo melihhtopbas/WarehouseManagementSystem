@@ -20,6 +20,7 @@ namespace Warehouse.Data
         public Nullable<long> Weight { get; set; }
         public Nullable<long> Length { get; set; }
         public Nullable<int> Count { get; set; }
+        public decimal Desi { get; set; }
         public Nullable<long> OrderId { get; set; }
     
         public virtual Orders Orders { get; set; }

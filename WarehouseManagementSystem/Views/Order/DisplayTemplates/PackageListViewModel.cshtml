@@ -9,10 +9,11 @@
             <thead>
                 <tr>
                     <th>Adet</th>
-                    <th>Boy(cm)</th>
                     <th>Ağırlık(kg)</th>
-                    <th>Uzunluk(cm)</th>
                     <th>En(cm)</th>
+                    <th>Yükselik(cm)</th>
+                    <th>Boy(cm)</th>
+                    <th>Desi</th>
                     <th>Sil</th>
 
                 </tr>
@@ -20,10 +21,11 @@
             <tbody id="packageGroupTableList">
                 <tr>
                     <td>@Model.Count</td>
-                    <td>@Model.Height</td>
                     <td>@Model.Weight</td>
-                    <td>@Model.Length</td>
                     <td>@Model.Width</td>
+                    <td>@Model.Height</td>
+                    <td>@Model.Length</td>
+                    <td>@Model.Desi.ToString("0.000")</td>
                     <td class="remove-pck">
                         <a class="btn btn-sm btn-default">
                             <i class="fas fa-trash-alt text-danger"></i>
@@ -40,6 +42,7 @@
         @Html.HiddenFor(a => a.Width)
         @Html.HiddenFor(a => a.Length)
         @Html.HiddenFor(a => a.Id)
+        @Html.HiddenFor(a => a.Desi)
 
     }
 

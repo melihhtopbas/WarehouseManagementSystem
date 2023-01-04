@@ -68,6 +68,7 @@
           <Property Name="Weight" Type="bigint" />
           <Property Name="Length" Type="bigint" />
           <Property Name="Count" Type="int" />
+          <Property Name="Desi" Type="decimal" Precision="9" Scale="3" Nullable="false" />
           <Property Name="OrderId" Type="bigint" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
@@ -377,8 +378,8 @@
           <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
           <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
           <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
-          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
           <Property Name="isPackage" Type="Boolean" />
+          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
         </EntityType>
         <Association Name="FK_Orders_CargoServiceTypes">
           <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
@@ -474,6 +475,7 @@
           <Property Name="Weight" Type="Int64" />
           <Property Name="Length" Type="Int64" />
           <Property Name="Count" Type="Int32" />
+          <Property Name="Desi" Type="Decimal" Nullable="false" Precision="9" Scale="3" />
           <Property Name="OrderId" Type="Int64" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Packages" ToRole="Orders" />
         </EntityType>
@@ -588,6 +590,7 @@
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Packages">
               <MappingFragment StoreEntitySet="Packages">
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Desi" ColumnName="Desi" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />

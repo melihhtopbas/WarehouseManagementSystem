@@ -39,7 +39,7 @@ namespace WarehouseManagementSystem.Controllers
         {
 
             var result = _orderService.GetOrderListIQueryable(model)
-                .OrderBy(p => p.SenderName);
+                .OrderBy(p => p.Id);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 
             ModelState.Clear();
@@ -159,6 +159,9 @@ namespace WarehouseManagementSystem.Controllers
         public async Task<ActionResult> OrderPackageGroupShow(int orderId)
         {
 
+            //var result = _orderService.GetOrderListIQueryable(model)
+            //   .OrderBy(p => p.SenderName);
+
             var model = await _orderService.GetOrderPackageGroup(orderId);
             
             if (model != null && model.Count()>0)
@@ -192,14 +195,15 @@ namespace WarehouseManagementSystem.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public ActionResult OrderPackageAdd(OrderPackageGroupViewModel model)
         {
-             
+
             var resultModel = new PackageListViewModel()
             {
                 Count = model.Count,
                 Height = model.Height,
                 Length = model.Length,
                 Weight = model.Weight,
-                Width = model.Width
+                Width = model.Width,
+                Desi = ((decimal)((model.Height * model.Length * model.Width) / 3000.00)),
             };
             
              

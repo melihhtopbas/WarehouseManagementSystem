@@ -221,6 +221,7 @@ namespace Warehouse.Service
                         Weight = orderPackage.Weight,
                         Width = orderPackage.Width,
                         Length = orderPackage.Length,
+                        Desi = orderPackage.Desi
 
                     });
                 }
@@ -363,6 +364,7 @@ namespace Warehouse.Service
                                                             Length = i.Length,
                                                             Weight = i.Weight,
                                                             Width = i.Width,
+                                                            Desi = i.Desi
                                                         },
 
 
@@ -493,7 +495,8 @@ namespace Warehouse.Service
                     Height = groupViewModel.Height,
                     Length = groupViewModel.Length,
                     Weight = groupViewModel.Weight,
-                    Width = groupViewModel.Width
+                    Width = groupViewModel.Width,
+                    Desi = groupViewModel.Desi
 
                 });
 
@@ -553,10 +556,12 @@ namespace Warehouse.Service
                 Height = p.Height,
                 Length = p.Length,
                 Weight = p.Weight,
-                Width = p.Width
+                Width = p.Width,
+                Desi = p.Desi
 
             }).ToList();
-            return result;
+            //return result;
+            return result.OrderBy(a => a.Count).ToList();
         }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)
         {
