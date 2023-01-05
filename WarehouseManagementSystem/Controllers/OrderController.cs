@@ -17,8 +17,7 @@ namespace WarehouseManagementSystem.Controllers
     public class OrderController : AdminBaseController
     {
         private readonly OrderService _orderService;
-        WarehouseManagementSystemEntities1 db = new WarehouseManagementSystemEntities1();
-
+        
         public OrderController(OrderService orderService)
         {
             _orderService = orderService;
@@ -72,9 +71,9 @@ namespace WarehouseManagementSystem.Controllers
                    GtipCode = null,
                    SKU = null,
                } },
-                 
-                
-                 
+
+
+
             };
             return PartialView("~/Views/Order/_OrderAdd.cshtml", model);
         }
@@ -163,13 +162,13 @@ namespace WarehouseManagementSystem.Controllers
             //   .OrderBy(p => p.SenderName);
 
             var model = await _orderService.GetOrderPackageGroup(orderId);
-            
-            if (model != null && model.Count()>0)
+
+            if (model != null && model.Count() > 0)
             {
 
                 return PartialView("~/Views/Order/_OrderPackageGroupShow.cshtml", model);
             }
-            else
+            else if(model!=null && model.Count() <=0)
             {
                 return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş paketlenmedi!");
             }
@@ -184,12 +183,8 @@ namespace WarehouseManagementSystem.Controllers
         [HttpGet]
         public async Task<ActionResult> OrderPackageAdd()
         {
-             
-            var model = new OrderPackageGroupViewModel
-            {
 
- 
-            };
+            var model = new OrderPackageGroupViewModel();
             return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", model);
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
@@ -205,8 +200,8 @@ namespace WarehouseManagementSystem.Controllers
                 Width = model.Width,
                 Desi = ((decimal)((model.Height * model.Length * model.Width) / 3000.00)),
             };
-            
-             
+
+
 
             var jsonResult = Json(
                 new
