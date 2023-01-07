@@ -207,28 +207,28 @@ namespace Warehouse.Service
                     QuantityPerUnit = productGroup.QuantityPerUnit
                 });
             }
-            int? counter = 0;
-            if (model.OrderPackageGroups.Count() > 0)
-            {
-                foreach (var orderPackage in model.OrderPackageGroups)
-                {
-                    counter += orderPackage.Count;
-                    order.Packages.Add(new Packages()
-                    {
-                        Count = orderPackage.Count,
-                        Id = orderPackage.Id,
-                        Height = orderPackage.Height,
-                        Weight = orderPackage.Weight,
-                        Width = orderPackage.Width,
-                        Length = orderPackage.Length,
-                        Desi = orderPackage.Desi
+            //int? counter = 0;
+            //if (model.OrderPackageGroups.Count() > 0)
+            //{
+            //    foreach (var orderPackage in model.OrderPackageGroups)
+            //    {
+            //        counter += orderPackage.Count;
+            //        order.Packages.Add(new Packages()
+            //        {
+            //            Count = orderPackage.Count,
+            //            Id = orderPackage.Id,
+            //            Height = orderPackage.Height,
+            //            Weight = orderPackage.Weight,
+            //            Width = orderPackage.Width,
+            //            Length = orderPackage.Length,
+            //            Desi = orderPackage.Desi
 
-                    });
-                }
-                order.isPackage = true;
-                order.PackageCount = counter;
+            //        });
+            //    }
+            //    order.isPackage = true;
+            //    order.PackageCount = counter;
 
-            }
+            //}
 
 
 
@@ -355,17 +355,17 @@ namespace Warehouse.Service
                                                                  SKU = i.SKU
 
                                                              },
-                                   OrderPackageGroups = from i in p.Packages
-                                                        select new PackageListViewModel
-                                                        {
-                                                            Count = i.Count,
-                                                            Id = i.Id,
-                                                            Height = i.Height,
-                                                            Length = i.Length,
-                                                            Weight = i.Weight,
-                                                            Width = i.Width,
-                                                            Desi = i.Desi
-                                                        },
+                                   //OrderPackageGroups = from i in p.Packages
+                                   //                     select new PackageListViewModel
+                                   //                     {
+                                   //                         Count = i.Count,
+                                   //                         Id = i.Id,
+                                   //                         Height = i.Height,
+                                   //                         Length = i.Length,
+                                   //                         Weight = i.Weight,
+                                   //                         Width = i.Width,
+                                   //                         Desi = i.Desi
+                                   //                     },
 
 
                                }).FirstOrDefaultAsync();
@@ -471,41 +471,41 @@ namespace Warehouse.Service
 
 
             }
-            foreach (var groupDb in order.Packages.ToArray())
-            {
+            //foreach (var groupDb in order.Packages.ToArray())
+            //{
 
-                order.Packages.Remove(groupDb);
-                _context.Packages.Remove(groupDb);
-                order.isPackage = false;
-                order.PackageCount = 0;
-            }
-            // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
-
-
-
-            int? counter = 0;
-            foreach (var groupViewModel in model.OrderPackageGroups)
-            {
-
-
-                counter += groupViewModel.Count;
-                order.Packages.Add(new Packages()
-                {
-                    Count = groupViewModel.Count,
-                    Height = groupViewModel.Height,
-                    Length = groupViewModel.Length,
-                    Weight = groupViewModel.Weight,
-                    Width = groupViewModel.Width,
-                    Desi = groupViewModel.Desi
-
-                });
+            //    order.Packages.Remove(groupDb);
+            //    _context.Packages.Remove(groupDb);
+            //    order.isPackage = false;
+            //    order.PackageCount = 0;
+            //}
+            //// bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
 
 
 
+            //int? counter = 0;
+            //foreach (var groupViewModel in model.OrderPackageGroups)
+            //{
 
-                order.PackageCount = counter;
-                order.isPackage = true;
-            }
+
+            //    counter += groupViewModel.Count;
+            //    order.Packages.Add(new Packages()
+            //    {
+            //        Count = groupViewModel.Count,
+            //        Height = groupViewModel.Height,
+            //        Length = groupViewModel.Length,
+            //        Weight = groupViewModel.Weight,
+            //        Width = groupViewModel.Width,
+            //        Desi = groupViewModel.Desi
+
+            //    });
+
+
+
+
+            //    order.PackageCount = counter;
+            //    order.isPackage = true;
+            //}
 
 
             using (var dbtransaction = _context.Database.BeginTransaction())
@@ -541,7 +541,30 @@ namespace Warehouse.Service
                 Id = p.Id,
                 OrderId = p.OrderId,
                 QuantityPerUnit = p.QuantityPerUnit,
-                SKU = p.SKU
+                SKU = p.SKU,
+                isPackage = p.isPackage,
+                isReadOnly =false
+                
+
+            }).ToList();
+            return result;
+        }
+        public async Task<List<ProductGroupShowViewModel>> GetOrderProductIsPackageGroup(int orderId)
+        {
+
+            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId && (p.isPackage!=true || p.isReadOnly!=true)).Select(p => new ProductGroupShowViewModel
+            {
+                Content = p.Content,
+                Count = p.Count,
+                GtipCode = p.GtipCode,
+                Id = p.Id,
+                OrderId = p.OrderId,
+                QuantityPerUnit = p.QuantityPerUnit,
+                SKU = p.SKU,
+                isPackage = p.isPackage,
+                isReadOnly = p.isReadOnly
+               
+
 
             }).ToList();
             return result;
@@ -617,5 +640,6 @@ namespace Warehouse.Service
                 }
             }
         }
+         
     }
 }

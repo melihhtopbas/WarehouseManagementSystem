@@ -70,7 +70,24 @@
         </a>
 
     </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="Sipariş Paketle"
+           data-hook-beforeunload="true" 
+           class="pressActive btn btn-block btn-sm showOrderPackage"
+           href="@Url.Action("OrderPackageAdd", "Order", routeValues: new {orderId=Model.Id})">
+            <i class="fa-solid fa-cube"></i> Sipariş Paketle
+        </a>
+
+    </td>
 
 
 
 </tr>
+<style>
+    .showOrderPackage {
+        color: #ffffff;
+        background-color: #14ceb7
+    }
+</style>

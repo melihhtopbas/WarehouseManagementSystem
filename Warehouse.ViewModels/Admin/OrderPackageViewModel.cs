@@ -14,7 +14,7 @@ namespace Warehouse.ViewModels.Admin
         {
             this.OrderPackageGroupViewModel = new HashSet<OrderPackageGroupViewModel>();
         }
-            
+
         public long Id { get; set; }
         public long Height { get; set; }
         public long Weight { get; set; }
@@ -23,6 +23,9 @@ namespace Warehouse.ViewModels.Admin
         public long? OrderId { get; set; }
         public virtual ICollection<OrderPackageGroupViewModel> OrderPackageGroupViewModel { get; set; }
         public IEnumerable<OrderPackageGroupViewModel> OrderPackageGroups { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderChechBoxes { get; set; }
+
 
 
     }
@@ -52,27 +55,28 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Desi")]
 
         public double? Desi { get; set; }
+        public long? OrderId { get; set; }
     }
     public class PackageListViewModel
     {
         public long Id { get; set; }
         [Display(Name = "Yükseklik")]
-       
+
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
-        
+
         public long? Weight { get; set; }
         [Display(Name = "En")]
-        
+
         public long? Width { get; set; }
         [Display(Name = "Boy")]
-         
+
         public long? Length { get; set; }
         [Display(Name = "Adet")]
-       
+
         public int? Count { get; set; }
         [Display(Name = "Desi")]
-         
+
         public decimal Desi { get; set; }
     }
     public class OrderPackageListViewModel
@@ -96,6 +100,64 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Desi")]
 
         public decimal? Desi { get; set; }
+    }
+    public class OrderPackageAddViewModel
+    {
+        public long Id { get; set; }
+        public long? OrderId { get; set; }
+
+
+        public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
+        public IEnumerable<OrderPackageProductAddViewModel> OrderPackageProductAddViewModels{ get; set; }
+        public IEnumerable<OrderPackageProductListViewModel> OrderPackageProductListViewModels{ get; set; }
+    }
+    public class OrderPackageProductAddViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Yükseklik")]
+        public long? OrderId { get; set; }
+
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+
+        public long? Width { get; set; }
+        [Display(Name = "Boy")]
+
+        public long? Length { get; set; }
+        [Display(Name = "Adet")]
+
+        public int? Count { get; set; }
+        [Display(Name = "Desi")]
+
+        public decimal? Desi { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
+    }
+    public class OrderPackageProductListViewModel
+    {
+        public long Id { get; set; }
+        [Display(Name = "Yükseklik")]
+
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+
+        public long? Width { get; set; }
+        [Display(Name = "Boy")]
+
+        public long? Length { get; set; }
+        [Display(Name = "Adet")]
+
+        public int? Count { get; set; }
+        [Display(Name = "Desi")]
+
+        public decimal? Desi { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderPackagedProductGroups { get; set; }
+
     }
 
 }

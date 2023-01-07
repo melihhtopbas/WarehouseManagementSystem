@@ -21,6 +21,8 @@ namespace Warehouse.Data
         public string SKU { get; set; }
         public string GtipCode { get; set; }
         public Nullable<long> OrderId { get; set; }
+        public Nullable<bool> isPackage { get; set; }
+        public Nullable<bool> isReadOnly { get; set; }
     
         public virtual Orders Orders { get; set; }
     }

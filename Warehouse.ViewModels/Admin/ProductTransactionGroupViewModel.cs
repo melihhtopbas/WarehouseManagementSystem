@@ -54,6 +54,10 @@ namespace Warehouse.ViewModels.Admin
         public string GtipCode { get; set; }
         public long? OrderId { get; set; }
 
+        public bool? isPackage { get; set; }
+        public bool isChecked { get; set; }
+        public bool? isReadOnly { get; set; }
+
         public virtual OrderAddViewModel Orders { get; set; }
 
     }

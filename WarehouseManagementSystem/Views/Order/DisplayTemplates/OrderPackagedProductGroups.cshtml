@@ -1,0 +1,15 @@
+﻿@model Warehouse.ViewModels.Admin.ProductGroupShowViewModel
+@{
+    var paymentMethodPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+}
+@using (Html.BeginCollectionItem(paymentMethodPrefix+".OrderPackagedProductGroups"))
+{
+    <span>@Model.Content</span>
+    <br />
+    @Html.HiddenFor(a => a.SKU)
+    @Html.HiddenFor(a => a.QuantityPerUnit)
+    @Html.HiddenFor(a => a.Id)
+    @Html.HiddenFor(a => a.Content)
+    @Html.HiddenFor(a => a.Count)
+    @Html.HiddenFor(a => a.isPackage)
+}

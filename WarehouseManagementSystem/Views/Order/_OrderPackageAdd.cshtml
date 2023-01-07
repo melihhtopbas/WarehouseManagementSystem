@@ -1,4 +1,4 @@
-﻿@model Warehouse.ViewModels.Admin.OrderPackageGroupViewModel
+﻿@model Warehouse.ViewModels.Admin.OrderPackageAddViewModel
 @using WarehouseManagementSystem.Extensions
 <div class="row">
     <div class="col-xs-12">
@@ -9,46 +9,80 @@
     </div>
 </div>
 @*<div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
-    <a id="addPackageTransactionGroup" class="pressActive btn btn-info btn-sm">
-        <i class="fa fa-plus"></i> Koli Ekle
-    </a>
-</div>*@
+        <a id="addPackageTransactionGroup" class="pressActive btn btn-info btn-sm">
+            <i class="fa fa-plus"></i> Yeni Koli Ekle
+        </a>
+    </div>*@
 @using (Html.BeginForm("OrderPackageAdd", "Order", FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
 {
     <div class="row">
         <div class="col-xs-12">
+
             @Html.AntiForgeryToken()
             @Html.RenderValidationSummary(true)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-
-            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
+            @Html.HiddenFor(a => a.OrderId)
 
         </div>
     </div>
-    <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11 no-padding">
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Count)
-        </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Weight, new { placeholder = "kg" })
-        </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Width, new { placeholder = "cm" })
-        </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Height, new { placeholder = "cm" })
-        </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Length, new { placeholder = "cm" })
-        </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <hr />
+    <div class="col-xs-12">
+        <strong>SİPARİŞTEKİ ÜRÜNLER LİSTESİ</strong>
+        @foreach (var item in Model.OrderProductGroups)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width:200px;">@item.Content</td>
+                        <td style="width:100px;">x @item.Count</td>
+                        @if (item.isPackage != true)
+                        {
+                            <td>PAKETLENMEDİ⌛</td>
+                        }
+                        @if (item.isPackage == true)
+                        {
+                            <td>PAKETLENDİ✅</td>
+                        }
+
+                    </tr>
+                </tbody>
+
+
+            </table>
+
+
+        }
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <a class="btn btn-default btn-sm"
+                   data-modal-form="true"
+                   data-modal-size="modal-lg"
+                   data-modal-title="Ürünleri Paketle"
+                   data-hook-beforeunload="true"
+                   data-modal-prepend="ul#packagedProductsList"
+                   href="@Url.Action("OrderPackageProductAdd", "Order", routeValues: new {orderId=Model.OrderId})">
+                    <i class="fa fa-plus"></i>Ürünleri Paketle
+                </a>
+
+                <ul id="packagedProductsList">
+                    @if (Model.OrderPackageProductListViewModels != null)
+                    {
+                        foreach (var entry in Model.OrderPackageProductListViewModels)
+                        {
+                            @Html.Partial("~/Views/Order/DisplayTemplates/OrderPackageProductListViewModel.cshtml", entry)
+                        }
+                    }
+
+                </ul>
+
+            </div>
         </div>
     </div>
-    
+
     <div class="form-group form-group-sm row">
         <div class="col-xs-12">
             <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
@@ -101,7 +135,7 @@
                  counter--;
              }
              if (counter == 0) {
-                 $('#deletePackageRow').hide();
+                 $('#hideDeletePackageRow').hide();
              }
 
 

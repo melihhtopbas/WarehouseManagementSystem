@@ -59,6 +59,9 @@
     <Reference Include="Microsoft.Web.Mvc, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.Futures.5.0.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="MvcCheckBoxList, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
+    </Reference>
     <Reference Include="MvcPaging, Version=2.1.13.46, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvcPaging.2.1.13\lib\net40\MvcPaging.dll</HintPath>
     </Reference>
@@ -2019,6 +2022,11 @@
     <Content Include="Views\Order\_OrderPackageAdd.cshtml" />
     <Content Include="Views\Order\_OrderPackageGroupShow.cshtml" />
     <Content Include="Views\Order\DisplayTemplates\PackageListViewModel.cshtml" />
+    <Content Include="Views\Order\_OrderPackageGroupAdd.cshtml" />
+    <Content Include="Views\Order\_OrderPackageProductAdd.cshtml" />
+    <Content Include="Views\Order\DisplayTemplates\OrderPackageProductListViewModel.cshtml" />
+    <Content Include="Views\Order\_OrderSelectedPackageProduct.cshtml" />
+    <Content Include="Views\Order\DisplayTemplates\OrderPackagedProductGroups.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

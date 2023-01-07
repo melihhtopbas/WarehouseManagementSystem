@@ -82,6 +82,8 @@
           <Property Name="SKU" Type="nvarchar(max)" />
           <Property Name="GtipCode" Type="nvarchar(max)" />
           <Property Name="OrderId" Type="bigint" />
+          <Property Name="isPackage" Type="bit" />
+          <Property Name="isReadOnly" Type="bit" />
         </EntityType>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -286,6 +288,8 @@
           <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OrderId" Type="Int64" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
+          <Property Name="isPackage" Type="Boolean" />
+          <Property Name="isReadOnly" Type="Boolean" />
         </EntityType>
         <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
@@ -532,6 +536,8 @@
           <EntitySetMapping Name="ProductTransactionGroup">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ProductTransactionGroup">
               <MappingFragment StoreEntitySet="ProductTransactionGroup">
+                <ScalarProperty Name="isReadOnly" ColumnName="isReadOnly" />
+                <ScalarProperty Name="isPackage" ColumnName="isPackage" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
