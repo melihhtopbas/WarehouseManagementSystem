@@ -104,7 +104,7 @@ namespace Warehouse.ViewModels.Admin
     public class OrderPackageAddViewModel
     {
         public long Id { get; set; }
-        public long? OrderId { get; set; }
+        public long OrderId { get; set; }
 
 
         public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
@@ -132,8 +132,10 @@ namespace Warehouse.ViewModels.Admin
         public int? Count { get; set; }
         [Display(Name = "Desi")]
 
-        public decimal? Desi { get; set; }
+        public decimal Desi { get; set; }
         public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
+        [Display(Name = "Sipariş Miktarı")]
+        public int? PackagedCount { get; set; }
     }
     public class OrderPackageProductListViewModel
     {
@@ -155,7 +157,7 @@ namespace Warehouse.ViewModels.Admin
         public int? Count { get; set; }
         [Display(Name = "Desi")]
 
-        public decimal? Desi { get; set; }
+        public decimal Desi { get; set; }
         public IEnumerable<ProductGroupShowViewModel> OrderPackagedProductGroups { get; set; }
 
     }

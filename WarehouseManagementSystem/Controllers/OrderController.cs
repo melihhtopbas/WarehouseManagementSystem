@@ -25,7 +25,7 @@ namespace WarehouseManagementSystem.Controllers
 
         }
         // GET: Order
-
+        //Anasayfa
         public async Task<ActionResult> Index()
         {
 
@@ -33,7 +33,7 @@ namespace WarehouseManagementSystem.Controllers
             return View("~/Views/Order/Index.cshtml");
         }
 
-
+        //Anasayfa'da gözüken sipariş listesi
         [AjaxOnly, HttpPost, ValidateInput(false)]
         public async Task<ActionResult> OrderList(OrderSearchViewModel model)
         {
@@ -57,6 +57,7 @@ namespace WarehouseManagementSystem.Controllers
 
         [AjaxOnly]
         [HttpGet]
+        //Sipariş ekleme sayfası
         public ActionResult Add()
         {
 
@@ -122,6 +123,7 @@ namespace WarehouseManagementSystem.Controllers
                 });
 
         }
+        //Sipariş ekleme sayfasında yeni ürün ekle partial'i
         public PartialViewResult ProductTransactionGroupRow()
         {
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
@@ -144,6 +146,7 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
         [HttpGet]
+        //Siparişteki ürünleri görüntüle modal'i
         public async Task<ActionResult> ProductGroupShow(int orderId)
         {
 
@@ -161,12 +164,10 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
         [HttpGet]
+        //koli adetine basınca kolilenmiş ürünleri gösterme
         public async Task<ActionResult> OrderPackageGroupShow(int orderId)
         {
-
-            //var result = _orderService.GetOrderListIQueryable(model)
-            //   .OrderBy(p => p.SenderName);
-
+            
             var model = await _orderService.GetOrderPackageGroup(orderId);
 
             if (model != null && model.Count() > 0)
@@ -181,20 +182,19 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
 
-        public PartialViewResult PackageTransactionGroupRow()
-        {
-
-            return PartialView("~/Views/Order/_OrderPackageGroupAdd.cshtml", new OrderPackageGroupViewModel());
-        }
+        
         [HttpGet]
+        //Sipariş paketle modal'i 
         public async Task<ActionResult> OrderPackageAdd(int orderId)
         {
-            var readOnlyProduct = _context.ProductTransactionGroup.Where(x=>x.OrderId==orderId).ToList();
-            foreach (var item in readOnlyProduct)
-            {
-                item.isReadOnly = false;
-            }
-            _context.SaveChanges();
+            //var readOnlyProduct = _context.ProductTransactionGroup.Where(x=>x.OrderId==orderId).ToList();
+            //foreach (var item in readOnlyProduct)
+            //{
+            //    item.isReadOnly = false;
+            //    item.isPackagedCount = item.Count;
+                 
+            //}
+            //_context.SaveChanges();
             var model = new OrderPackageAddViewModel
             {
                 OrderId = orderId,
@@ -204,32 +204,45 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Order/_OrderPackageAdd.cshtml", model);
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
-        public ActionResult OrderPackageAdd(OrderPackageAddViewModel model)
+        public async Task<ActionResult> OrderPackageAdd(OrderPackageAddViewModel model)
         {
 
-            //var resultModel = new PackageListViewModel()
-            //{
-            //    Count = model.Count,
-            //    Height = model.Height,
-            //    Length = model.Length,
-            //    Weight = model.Weight,
-            //    Width = model.Width,
-            //    Desi = ((decimal)((model.Height * model.Length * model.Width) / 3000.00)),
-            //};
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderService.AddOrderPackageAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (OrderListViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderListViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
 
 
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
 
-            var jsonResult = Json(
+
+            return Json(
                 new
                 {
-                    success = true,
-
-
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Views/Order/_OrderPackageAdd.cshtml", model)
                 });
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
         }
         [HttpGet]
+        //Sipariş paketle modal'inde ürünleri paketle modal'i
         public async Task<ActionResult> OrderPackageProductAdd(int orderId)
         {
             var resultModel = new OrderPackageProductAddViewModel()
@@ -238,13 +251,17 @@ namespace WarehouseManagementSystem.Controllers
                 OrderProductGroups = await _orderService.GetOrderProductIsPackageGroup(orderId),
             };
             bool? isReadOnly = false;
+            if (resultModel.OrderProductGroups.Count()==0)
+            {
+                return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
+            }
             foreach (var item in resultModel.OrderProductGroups)
             {
-                if (item.isReadOnly==true)
+                if (item.isReadOnly==true && item.isPackagedCount==0)
                 {
                     isReadOnly = true;
                 }
-                else if (item.isReadOnly==false)
+                else if (item.isReadOnly== false && item.isPackagedCount > 0)
                 {
                     isReadOnly = false;
                 }
@@ -258,39 +275,47 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Order/_OrderPackageProductAdd.cshtml", resultModel);
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
-        public ActionResult OrderPackageProductAdd(OrderPackageProductAddViewModel model)
+        
+        public async Task<ActionResult> OrderPackageProductAdd(OrderPackageProductAddViewModel model)
         {
-             
-            var resultModel = new OrderPackageProductListViewModel()
+            if (ModelState.IsValid)
             {
-                Count = model.Count,
-                Desi = model.Desi,
-                Height = model.Height,
-                Length = model.Height,
-                OrderPackagedProductGroups = model.OrderProductGroups.Where(x=>x.isChecked==true),
-                Weight = model.Weight,
-                Width = model.Width,
-                
-            };
-            foreach (var item in model.OrderProductGroups)
-            {
-                var readOnlyProduct = _context.ProductTransactionGroup.Find(item.Id);
-                if (item.isChecked==true)
+                var callResult = await _orderService.AddOrderPackageProductAsync(model);
+                if (callResult.Success)
                 {
-                    readOnlyProduct.isReadOnly = true;
+
+                    ModelState.Clear();
+                    var viewModel = (OrderPackageProductListViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderPackageProductListViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+
+
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
                 }
             }
-            _context.SaveChanges();
 
-            var jsonResult = Json(
-              new
-              {
-                  success = true,
-                  responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderPackageProductListViewModel.cshtml", resultModel),
-                  item = resultModel
-              });
-            jsonResult.MaxJsonLength = int.MaxValue;
-            return jsonResult;
+
+
+
+
+
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Views/Order/_OrderPackageProductAdd.cshtml", model)
+                });
         }
 
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]

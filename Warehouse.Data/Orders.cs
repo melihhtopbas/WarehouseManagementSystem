@@ -17,10 +17,10 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Orders()
         {
-            this.ProductTransactionGroup = new HashSet<ProductTransactionGroup>();
             this.RecipientAddresses = new HashSet<RecipientAddresses>();
             this.SenderAddresses = new HashSet<SenderAddresses>();
             this.Packages = new HashSet<Packages>();
+            this.ProductTransactionGroup = new HashSet<ProductTransactionGroup>();
         }
     
         public long Id { get; set; }
@@ -49,12 +49,12 @@ namespace Warehouse.Data
         public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductTransactionGroup> ProductTransactionGroup { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Packages> Packages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductTransactionGroup> ProductTransactionGroup { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductTransactionGroup
+    public partial class PackagedProductGroups
     {
         public long Id { get; set; }
         public string Content { get; set; }
@@ -20,11 +20,8 @@ namespace Warehouse.Data
         public Nullable<long> QuantityPerUnit { get; set; }
         public string SKU { get; set; }
         public string GtipCode { get; set; }
-        public Nullable<long> OrderId { get; set; }
-        public Nullable<bool> isPackage { get; set; }
-        public Nullable<bool> isReadOnly { get; set; }
-        public Nullable<int> isPackagedCount { get; set; }
+        public Nullable<long> PackageId { get; set; }
     
-        public virtual Orders Orders { get; set; }
+        public virtual Packages Packages { get; set; }
     }
 }

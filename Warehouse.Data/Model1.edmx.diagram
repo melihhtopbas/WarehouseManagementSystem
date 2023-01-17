@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Countries" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.CurrencyUnits" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Languages" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.RecipientAddresses" Width="1.5" PointX="12.25" PointY="2.375" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.SenderAddresses" Width="1.5" PointX="12.25" PointY="4.875" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="10" PointY="1.5" />
@@ -17,11 +16,14 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Packages" Width="1.5" PointX="12.25" PointY="8.375" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Packages_Orders" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="12.25" PointY="12.125" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

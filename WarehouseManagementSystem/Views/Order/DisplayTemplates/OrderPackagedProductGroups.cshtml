@@ -4,7 +4,7 @@
 }
 @using (Html.BeginCollectionItem(paymentMethodPrefix+".OrderPackagedProductGroups"))
 {
-    <span>@Model.Content</span>
+    <span>@Model.Content / x @Model.PackagedCount</span> 
     <br />
     @Html.HiddenFor(a => a.SKU)
     @Html.HiddenFor(a => a.QuantityPerUnit)
@@ -12,4 +12,6 @@
     @Html.HiddenFor(a => a.Content)
     @Html.HiddenFor(a => a.Count)
     @Html.HiddenFor(a => a.isPackage)
+    @Html.HiddenFor(a => a.isPackagedCount)
+    @Html.HiddenFor(a => a.PackagedCount)
 }

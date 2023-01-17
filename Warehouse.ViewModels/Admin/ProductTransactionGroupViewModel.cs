@@ -17,6 +17,7 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
        
         public int? Count { get; set; }
+         
         [Display(Name = "Birim Fiyatı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         
@@ -43,6 +44,14 @@ namespace Warehouse.ViewModels.Admin
          
 
         public int? Count { get; set; }
+        [Display(Name = "Paketlenecek Ürün Adeti")]
+
+
+        public int? PackagedCount { get; set; }
+        [Display(Name = "Paketlenmemiş Ürün Adeti")]
+
+
+        public int? isPackagedCount { get; set; }
         [Display(Name = "Birim Fiyatı")]
     
         public long? QuantityPerUnit { get; set; }

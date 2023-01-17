@@ -84,6 +84,9 @@
     <Compile Include="Orders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="PackagedProductGroups.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Packages.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

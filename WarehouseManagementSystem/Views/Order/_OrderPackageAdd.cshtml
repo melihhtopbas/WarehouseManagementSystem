@@ -8,11 +8,7 @@
         </div>
     </div>
 </div>
-@*<div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        <a id="addPackageTransactionGroup" class="pressActive btn btn-info btn-sm">
-            <i class="fa fa-plus"></i> Yeni Koli Ekle
-        </a>
-    </div>*@
+ 
 @using (Html.BeginForm("OrderPackageAdd", "Order", FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
 {
     <div class="row">
@@ -25,7 +21,7 @@
         </div>
     </div>
     <div class="col-xs-12">
-        <strong>SİPARİŞTEKİ ÜRÜNLER LİSTESİ</strong>
+        <strong>SİPARİŞTEKİ ÜRÜNLERİN LİSTESİ</strong>
         @foreach (var item in Model.OrderProductGroups)
         {
             <table class="table table-bordered">
@@ -63,6 +59,7 @@
                    data-modal-size="modal-lg"
                    data-modal-title="Ürünleri Paketle"
                    data-hook-beforeunload="true"
+                   data-modal-save-message="Paketlendi"
                    data-modal-prepend="ul#packagedProductsList"
                    href="@Url.Action("OrderPackageProductAdd", "Order", routeValues: new {orderId=Model.OrderId})">
                     <i class="fa fa-plus"></i>Ürünleri Paketle
