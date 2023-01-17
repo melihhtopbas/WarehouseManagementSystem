@@ -32,7 +32,7 @@ namespace Warehouse.Service
                     select new OrderListViewModel()
                     {
                         Id = b.Id,
-                        PackageCount = b.PackageCount,
+                        PackageCount = _context.Packages.Where(x=>x.OrderId==b.Id).Count(),
                         RecipientAddress = rAd.Name,
                         SenderAddress = sAd.Name,
                         RecipientCity = b.RecipientCity,
@@ -44,7 +44,10 @@ namespace Warehouse.Service
                         RecipientCountry = b.Countries.Name,
                         CurrencyUnit = b.CurrencyUnits.Name,
                         CargoService = b.CargoServiceTypes.Name,
-                        isPackage = b.isPackage
+                        isPackage = b.isPackage,
+                        
+                        
+                        
 
 
                     });
@@ -179,6 +182,7 @@ namespace Warehouse.Service
                 ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
                 RecipientCountryId = model.Country.CountryId,
                 LanguageId = 1,
+
 
             };
             var sAddress = new SenderAddresses
