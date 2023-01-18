@@ -2,10 +2,19 @@
 @{
     var paymentMethodPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
 }
-@using (Html.BeginCollectionItem(paymentMethodPrefix+".OrderPackagedProductGroups"))
+@using (Html.BeginCollectionItem(paymentMethodPrefix + ".OrderPackagedProductGroups"))
 {
-    <span>@Model.Content / x @Model.PackagedCount</span> 
-    <br />
+    <div class="row">
+        <div class="form-group form-group-sm col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <span>@Model.Content</span>
+        </div>
+        <div class="form-group form-group-sm col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            
+        </div>
+        <div class="form-group form-group-sm col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <span>@Model.PackagedCount</span><span>x</span>
+        </div>
+    </div>
     @Html.HiddenFor(a => a.SKU)
     @Html.HiddenFor(a => a.QuantityPerUnit)
     @Html.HiddenFor(a => a.Id)

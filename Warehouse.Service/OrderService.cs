@@ -278,27 +278,21 @@ namespace Warehouse.Service
             }
 
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
-            var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.isPackagedCount == 0).ToList();
+            var isPackageProduct1 = _context.ProductTransactionGroup.Where(x=>x.OrderId==model.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Find(model.OrderId);
             if (isPackageProduct.Count() == isPackageProduct1.Count())
             {
                 order.isPackage = true;
             }
 
-
-            foreach (var isPackage in isPackageProduct)
+            foreach (var prd1 in isPackageProduct)
             {
-                if (isPackage.isPackagedCount == 0)
+                if (prd1.Count>prd1.isPackagedCount)
                 {
-                    isPackage.isPackage = true;
-
+                    prd1.isPackage = true;
                 }
-                else
-                {
-                    isPackage.isPackage = false;
-
-                }
-            }
+            } 
+             
 
 
             using (var dbtransaction = _context.Database.BeginTransaction())
@@ -432,18 +426,7 @@ namespace Warehouse.Service
                                                                  SKU = i.SKU
 
                                                              },
-                                   //OrderPackageGroups = from i in p.Packages
-                                   //                     select new PackageListViewModel
-                                   //                     {
-                                   //                         Count = i.Count,
-                                   //                         Id = i.Id,
-                                   //                         Height = i.Height,
-                                   //                         Length = i.Length,
-                                   //                         Weight = i.Weight,
-                                   //                         Width = i.Width,
-                                   //                         Desi = i.Desi
-                                   //                     },
-
+                                 
 
                                }).FirstOrDefaultAsync();
             return order;
@@ -586,7 +569,8 @@ namespace Warehouse.Service
                 QuantityPerUnit = p.QuantityPerUnit,
                 SKU = p.SKU,
                 isPackage = p.isPackage,
-                isReadOnly = false
+                isReadOnly = false,
+                isPackagedCount = p.isPackagedCount
 
 
             }).ToList();
@@ -595,7 +579,7 @@ namespace Warehouse.Service
         public async Task<List<ProductGroupShowViewModel>> GetOrderProductIsPackageGroup(int orderId)
         {
 
-            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId && (p.isPackage != true || p.isReadOnly != true) && p.isPackagedCount != 0).Select(p => new ProductGroupShowViewModel
+            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId && (p.isPackagedCount != 0 || p.isPackagedCount!=null)).Select(p => new ProductGroupShowViewModel
             {
                 Content = p.Content,
                 Count = p.Count,
@@ -624,10 +608,23 @@ namespace Warehouse.Service
                 Length = p.Length,
                 Weight = p.Weight,
                 Width = p.Width,
-                Desi = p.Desi
+                Desi = p.Desi,
+                OrderPackageProductGroups = from i in p.PackagedProductGroups
+                                            where i.PackageId == p.Id
+                                     select new ProductGroupShowViewModel
+                                     {
+                                          Content = i.Content,
+                                          Id = i.Id,
+                                          Count=i.Count,
+                                          GtipCode=i.GtipCode,
+                                          QuantityPerUnit=i.QuantityPerUnit,
+                                          SKU=i.SKU,
+                                          
+                                          
+                                     },
+
 
             }).ToList();
-            //return result;
             return result.OrderBy(a => a.Count).ToList();
         }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)

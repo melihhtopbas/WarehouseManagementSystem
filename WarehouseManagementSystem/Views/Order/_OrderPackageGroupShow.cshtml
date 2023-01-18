@@ -2,12 +2,13 @@
 <table id="showOrderPackageGroup" class="table table-bordered">
     <thead>
         <tr>
-            <th>Adet</th>
+
             <th>Ağırlık(kg)</th>
             <th>En(cm)</th>
             <th>Yükselik(cm)</th>
             <th>Boy(cm)</th>
             <th>Desi</th>
+            <th>Ürünler</th>
 
 
 
@@ -19,14 +20,22 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Count</td>
-                <td>@item.Weight</td>
-                <td>@item.Width</td>
-                <td>@item.Height</td>
-                <td>@item.Length</td> 
-                <td>@item.Desi</td> 
-            </tr>
-        }
+
+                <td>@item.Weight kg</td>
+                <td>@item.Width cm</td>
+                <td>@item.Height cm</td>
+                <td>@item.Length cm</td>
+                <td>@item.Desi</td>
+                <td>
+                    @foreach (var packageProduct in item.OrderPackageProductGroups)
+                    {
+                        <span>@packageProduct.Count</span><span>x</span>
+                        <span>@packageProduct.Content</span>
+                        <br />
+                    }
+            </td>
+        </tr>
+    }
 
 
     </tbody>

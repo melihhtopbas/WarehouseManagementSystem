@@ -100,6 +100,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Desi")]
 
         public decimal? Desi { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderPackageProductGroups { get; set; }
     }
     public class OrderPackageAddViewModel
     {

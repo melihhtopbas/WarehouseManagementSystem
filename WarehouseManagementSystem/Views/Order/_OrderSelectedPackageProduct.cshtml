@@ -20,48 +20,44 @@
         </div>
         <div class="form-group form-group-sm col-xs-12  @Html.ModelStateFor(m => m.isChecked)">
             <div class="input-group input-group-sm">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
+                @if (Model.isPackagedCount != 0)
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Paketlenecek Ürünleri Seçiniz</th>
+                                <th>Ürün İçeriği</th>
+                                <th>Toplam Ürün Adeti</th>
+                                <th>@Html.LabelFor(m => m.PackagedCount)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
 
 
-                            @if (Model.isPackagedCount != 0 && (Model.isPackage == false || Model.isPackage==null))
-                            {
+
                                 <td>
                                     @Html.CheckBoxFor(u => u.isChecked)
                                 </td>
-                                <td style="width:50px">
+                                <td>
                                     @Html.DisplayFor(m => m.Content)
                                 </td>
                                 <td>
-                                    <p>x @Html.DisplayFor(m => m.isPackagedCount)</p>
+                                    <span>x</span><span>@Html.DisplayFor(m => m.isPackagedCount)</span>
                                 </td>
-                                <td style="width:250px">
-                                    @Html.LabelFor(m => m.PackagedCount)
+                                <td>
+
                                     @Html.TextBoxFor(m => m.PackagedCount)
                                 </td>
-                            }
-                            
 
 
-                            @*@if (Model.isPackagedCount == 0 && Model.isPackage == true)
-                            {
-                                @Html.CheckBoxFor(u => u.isChecked, new { @disabled = "disabled" })
-
-
-                                @Html.DisplayFor(m => m.Content)
-                            }*@
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
             </div>
         </div>
 
     }
 </div>
 
- 

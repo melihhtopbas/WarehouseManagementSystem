@@ -32,12 +32,12 @@
                 <tbody>
                     <tr>
                         <td style="width:200px;">@item.Content</td>
-                        <td style="width:100px;">x @item.Count</td>
-                        @if (item.isPackage != true)
+                        <td style="width:100px;"><span>x</span><span>@item.Count</span></td>
+                        @if (item.isPackagedCount!=0)
                         {
-                            <td>PAKETLENMEDİ⌛</td>
+                            <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR⌛</td>
                         }
-                        @if (item.isPackage == true)
+                        @if (item.isPackagedCount==0)
                         {
                             <td>PAKETLENDİ✅</td>
                         }

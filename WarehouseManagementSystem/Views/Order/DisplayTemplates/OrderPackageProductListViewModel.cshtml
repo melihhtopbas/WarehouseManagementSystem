@@ -7,28 +7,23 @@
     <table id="showOrderPackageGroup" class="table table-bordered">
         <thead>
             <tr>
-                 
+
                 <th>Ağırlık(kg)</th>
                 <th>En(cm)</th>
                 <th>Yükselik(cm)</th>
                 <th>Boy(cm)</th>
                 <th>Desi</th>
-                <th>Ürün İçeriği</th>
-
-
-
-
-
+                <th>Paket İçeriği</th>
             </tr>
         </thead>
         <tbody id="OrderPackageList">
 
             <tr>
-                
-                <td>@Model.Weight</td>
-                <td>@Model.Width</td>
-                <td>@Model.Height</td>
-                <td>@Model.Length</td>
+
+                <td>@Model.Weight kg</td>
+                <td>@Model.Width cm</td>
+                <td>@Model.Height cm</td>
+                <td>@Model.Length cm</td>
                 <td>@Model.Desi</td>
                 <td>
                     @foreach (var item in Model.OrderPackagedProductGroups)
@@ -55,8 +50,7 @@
     @Html.HiddenFor(a => a.Length)
     @Html.HiddenFor(a => a.Desi)
     @Html.HiddenFor(a => a.Height)
-//@Html.HiddenFor(a => a.OrderPackagedProductGroups)
-    
+
 
 
 }

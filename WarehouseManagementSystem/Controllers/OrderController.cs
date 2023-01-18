@@ -187,14 +187,15 @@ namespace WarehouseManagementSystem.Controllers
         //Sipariş paketle modal'i 
         public async Task<ActionResult> OrderPackageAdd(int orderId)
         {
-            //var readOnlyProduct = _context.ProductTransactionGroup.Where(x=>x.OrderId==orderId).ToList();
-            //foreach (var item in readOnlyProduct)
-            //{
-            //    item.isReadOnly = false;
-            //    item.isPackagedCount = item.Count;
-                 
-            //}
-            //_context.SaveChanges();
+            var readOnlyProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).ToList();
+            foreach (var item in readOnlyProduct)
+            {
+                if (item.isPackage==null || item.isPackage==false)
+                {
+                    item.isPackagedCount = item.Count;
+                }
+            }
+            _context.SaveChanges();
             var model = new OrderPackageAddViewModel
             {
                 OrderId = orderId,
@@ -255,21 +256,21 @@ namespace WarehouseManagementSystem.Controllers
             {
                 return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
             }
-            foreach (var item in resultModel.OrderProductGroups)
-            {
-                if (item.isReadOnly==true && item.isPackagedCount==0)
-                {
-                    isReadOnly = true;
-                }
-                else if (item.isReadOnly== false && item.isPackagedCount > 0)
-                {
-                    isReadOnly = false;
-                }
-            }
-            if (isReadOnly==true)
-            {
-                return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
-            }
+            //foreach (var item in resultModel.OrderProductGroups)
+            //{
+            //    if (item.isReadOnly==true && item.isPackagedCount==0)
+            //    {
+            //        isReadOnly = true;
+            //    }
+            //    else if (item.isReadOnly== false && item.isPackagedCount > 0)
+            //    {
+            //        isReadOnly = false;
+            //    }
+            //}
+            //if (isReadOnly==true)
+            //{
+            //    return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
+            //}
             
 
             return PartialView("~/Views/Order/_OrderPackageProductAdd.cshtml", resultModel);
