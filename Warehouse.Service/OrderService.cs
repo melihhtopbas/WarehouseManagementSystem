@@ -579,7 +579,7 @@ namespace Warehouse.Service
         public async Task<List<ProductGroupShowViewModel>> GetOrderProductIsPackageGroup(int orderId)
         {
 
-            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId && (p.isPackagedCount != 0 || p.isPackagedCount!=null)).Select(p => new ProductGroupShowViewModel
+            var result = _context.ProductTransactionGroup.Where(p => p.OrderId == orderId && (p.isPackagedCount != 0)).Select(p => new ProductGroupShowViewModel
             {
                 Content = p.Content,
                 Count = p.Count,
