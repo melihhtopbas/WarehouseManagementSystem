@@ -32,7 +32,7 @@ namespace Warehouse.Service
                     select new OrderListViewModel()
                     {
                         Id = b.Id,
-                        PackageCount = _context.Packages.Where(x=>x.OrderId==b.Id).Count(),
+                        PackageCount = _context.Packages.Where(x => x.OrderId == b.Id).Count(),
                         RecipientAddress = rAd.Name,
                         SenderAddress = sAd.Name,
                         RecipientCity = b.RecipientCity,
@@ -45,9 +45,9 @@ namespace Warehouse.Service
                         CurrencyUnit = b.CurrencyUnits.Name,
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
-                        
-                        
-                        
+
+
+
 
 
                     });
@@ -278,7 +278,7 @@ namespace Warehouse.Service
             }
 
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
-            var isPackageProduct1 = _context.ProductTransactionGroup.Where(x=>x.OrderId==model.OrderId && x.isPackagedCount == 0).ToList();
+            var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Find(model.OrderId);
             if (isPackageProduct.Count() == isPackageProduct1.Count())
             {
@@ -287,12 +287,12 @@ namespace Warehouse.Service
 
             foreach (var prd1 in isPackageProduct)
             {
-                if (prd1.Count>prd1.isPackagedCount)
+                if (prd1.Count > prd1.isPackagedCount)
                 {
                     prd1.isPackage = true;
                 }
-            } 
-             
+            }
+
 
 
             using (var dbtransaction = _context.Database.BeginTransaction())
@@ -426,7 +426,7 @@ namespace Warehouse.Service
                                                                  SKU = i.SKU
 
                                                              },
-                                 
+
 
                                }).FirstOrDefaultAsync();
             return order;
@@ -600,6 +600,7 @@ namespace Warehouse.Service
         public async Task<List<OrderPackageListViewModel>> GetOrderPackageGroup(int orderId)
         {
 
+
             var result = _context.Packages.Where(p => p.OrderId == orderId).Select(p => new OrderPackageListViewModel
             {
                 Id = p.Id,
@@ -611,20 +612,24 @@ namespace Warehouse.Service
                 Desi = p.Desi,
                 OrderPackageProductGroups = from i in p.PackagedProductGroups
                                             where i.PackageId == p.Id
-                                     select new ProductGroupShowViewModel
-                                     {
-                                          Content = i.Content,
-                                          Id = i.Id,
-                                          Count=i.Count,
-                                          GtipCode=i.GtipCode,
-                                          QuantityPerUnit=i.QuantityPerUnit,
-                                          SKU=i.SKU,
-                                          
-                                          
-                                     },
+
+                                            select new ProductGroupShowViewModel
+                                            {
+                                                Content = i.Content, //product transaction group'dan güncel olarak ürünün içeriğini çekiyoruz
+                                                Id = i.Id,
+                                                Count = i.Count,
+                                                GtipCode = i.GtipCode,
+                                                QuantityPerUnit = i.QuantityPerUnit,
+                                                SKU = i.SKU,
+
+
+                                            },
+                
+
 
 
             }).ToList();
+            
             return result.OrderBy(a => a.Count).ToList();
         }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)

@@ -43,7 +43,13 @@
 
 </table>
 <div class="clearfix"></div>
-<hr />
+  
+     @foreach (var prdtc in ViewData["ProductList"] as List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>)
+     {
+         <span>@prdtc.Content üründen <strong>@prdtc.Count</strong> adetinden <strong>@prdtc.isPackagedCount</strong> tane paketlenmeyen vardır. </span>
+         <br />
+     }
+   
 <div class="clearfix"></div>
 
 

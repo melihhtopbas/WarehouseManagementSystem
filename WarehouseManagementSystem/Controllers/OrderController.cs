@@ -167,12 +167,23 @@ namespace WarehouseManagementSystem.Controllers
         //koli adetine basınca kolilenmiş ürünleri gösterme
         public async Task<ActionResult> OrderPackageGroupShow(int orderId)
         {
-            
+
+            ViewData["ProductList"] = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).Select(a=> new ProductGroupShowViewModel
+            {
+                Content = a.Content,
+                Count = a.Count,
+                GtipCode = a.GtipCode,
+                Id = a.Id,
+                isPackagedCount = a.isPackagedCount,
+                QuantityPerUnit = a.QuantityPerUnit,
+                SKU = a.SKU,
+            }).ToList();
             var model = await _orderService.GetOrderPackageGroup(orderId);
+            
 
             if (model != null && model.Count() > 0)
             {
-
+                 
                 return PartialView("~/Views/Order/_OrderPackageGroupShow.cshtml", model);
             }
             else if (model != null && model.Count() <= 0)
@@ -251,26 +262,11 @@ namespace WarehouseManagementSystem.Controllers
                 OrderId = orderId,
                 OrderProductGroups = await _orderService.GetOrderProductIsPackageGroup(orderId),
             };
-            bool? isReadOnly = false;
+             
             if (resultModel.OrderProductGroups.Count()==0)
             {
                 return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
             }
-            //foreach (var item in resultModel.OrderProductGroups)
-            //{
-            //    if (item.isReadOnly==true && item.isPackagedCount==0)
-            //    {
-            //        isReadOnly = true;
-            //    }
-            //    else if (item.isReadOnly== false && item.isPackagedCount > 0)
-            //    {
-            //        isReadOnly = false;
-            //    }
-            //}
-            //if (isReadOnly==true)
-            //{
-            //    return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
-            //}
             
 
             return PartialView("~/Views/Order/_OrderPackageProductAdd.cshtml", resultModel);
