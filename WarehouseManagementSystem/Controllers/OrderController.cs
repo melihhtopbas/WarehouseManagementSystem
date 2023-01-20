@@ -168,7 +168,7 @@ namespace WarehouseManagementSystem.Controllers
         public async Task<ActionResult> OrderPackageGroupShow(int orderId)
         {
 
-            ViewData["ProductList"] = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).Select(a=> new ProductGroupShowViewModel
+            ViewData["ProductList"] = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).Select(a => new ProductGroupShowViewModel
             {
                 Content = a.Content,
                 Count = a.Count,
@@ -180,10 +180,11 @@ namespace WarehouseManagementSystem.Controllers
             }).ToList();
             var model = await _orderService.GetOrderPackageGroup(orderId);
             
+            
 
             if (model != null && model.Count() > 0)
             {
-                 
+
                 return PartialView("~/Views/Order/_OrderPackageGroupShow.cshtml", model);
             }
             else if (model != null && model.Count() <= 0)
@@ -193,7 +194,7 @@ namespace WarehouseManagementSystem.Controllers
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
 
-        
+
         [HttpGet]
         //Sipariş paketle modal'i 
         public async Task<ActionResult> OrderPackageAdd(int orderId)
@@ -201,7 +202,7 @@ namespace WarehouseManagementSystem.Controllers
             var readOnlyProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).ToList();
             foreach (var item in readOnlyProduct)
             {
-                if (item.isPackage==null || item.isPackage==false)
+                if (item.isPackage == null || item.isPackage == false)
                 {
                     item.isPackagedCount = item.Count;
                 }
@@ -262,17 +263,17 @@ namespace WarehouseManagementSystem.Controllers
                 OrderId = orderId,
                 OrderProductGroups = await _orderService.GetOrderProductIsPackageGroup(orderId),
             };
-             
-            if (resultModel.OrderProductGroups.Count()==0)
+
+            if (resultModel.OrderProductGroups.Count() == 0)
             {
                 return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Siparişte paketlenecek ürün kalmadı!");
             }
-            
+
 
             return PartialView("~/Views/Order/_OrderPackageProductAdd.cshtml", resultModel);
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
-        
+
         public async Task<ActionResult> OrderPackageProductAdd(OrderPackageProductAddViewModel model)
         {
             if (ModelState.IsValid)

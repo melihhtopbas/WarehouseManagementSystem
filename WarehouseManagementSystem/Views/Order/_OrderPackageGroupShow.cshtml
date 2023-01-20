@@ -46,7 +46,7 @@
   
      @foreach (var prdtc in ViewData["ProductList"] as List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>)
      {
-         <span>@prdtc.Content üründen <strong>@prdtc.Count</strong> adetinden <strong>@prdtc.isPackagedCount</strong> tane paketlenmeyen vardır. </span>
+         <span>Toplam <strong>@prdtc.Count</strong> adet olan <strong>@prdtc.Content</strong> ürününüzden <strong>@prdtc.isPackagedCount</strong> adet paketlenmeyen vardır. </span>
          <br />
      }
    
