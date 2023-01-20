@@ -325,9 +325,9 @@ namespace Warehouse.Service
             var resultModel = new OrderPackageProductListViewModel()
             {
                 Count = model.Count,
-                Desi = model.Desi,
+                Desi =((decimal)((model.Height * model.Width * model.Length)/3000.00)),
                 Height = model.Height,
-                Length = model.Height,
+                Length = model.Length,
                 OrderPackagedProductGroups = model.OrderProductGroups.Where(x => x.isChecked == true),
                 Weight = model.Weight,
                 Width = model.Width,

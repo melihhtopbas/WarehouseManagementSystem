@@ -158,7 +158,7 @@ namespace Warehouse.ViewModels.Admin
 
         public int? Count { get; set; }
         [Display(Name = "Desi")]
-
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N2}")]
         public decimal Desi { get; set; }
         public IEnumerable<ProductGroupShowViewModel> OrderPackagedProductGroups { get; set; }
 

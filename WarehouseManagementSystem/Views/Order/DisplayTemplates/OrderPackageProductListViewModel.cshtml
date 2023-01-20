@@ -24,7 +24,7 @@
                 <td>@Model.Width cm</td>
                 <td>@Model.Height cm</td>
                 <td>@Model.Length cm</td>
-                <td>@Model.Desi</td>
+                <td>@Model.Desi.ToString("0.000")</td>
                 <td>
                     @foreach (var item in Model.OrderPackagedProductGroups)
                     {
