@@ -28,7 +28,8 @@
                                 <th>Paketlenecek Ürünleri Seçiniz</th>
                                 <th>Ürün İçeriği</th>
                                 <th>Toplam Ürün Adeti</th>
-                                <th>@Html.LabelFor(m => m.PackagedCount)</th>
+                                <th>@Html.LabelFor(m => m.PackagedCount)
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,7 @@
                                 <td>
 
                                     @Html.TextBoxFor(m => m.PackagedCount)
+                                    @Html.ValidationMessageFor(m => m.PackagedCount, "", new { @style = "color:red" })
                                 </td>
 
 

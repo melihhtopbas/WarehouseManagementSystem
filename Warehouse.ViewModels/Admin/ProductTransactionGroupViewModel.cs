@@ -45,7 +45,7 @@ namespace Warehouse.ViewModels.Admin
 
         public int? Count { get; set; }
         [Display(Name = "Paketlenecek Ürün Adeti")]
-
+        [Range(1, int.MaxValue, ErrorMessage = "0'dan farklı bir değer giriniz!")]
 
         public int? PackagedCount { get; set; }
         [Display(Name = "Paketlenmemiş Ürün Adeti")]

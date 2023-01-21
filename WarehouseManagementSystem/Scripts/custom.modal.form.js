@@ -1,6 +1,7 @@
 ﻿(function ($) {
     $.fn.customModalForm = function () {
         var that = this;
+        //modallar açılırken, arama yapılırken ortaya çıkan loading spinner
         var overlay = $("<div class='loader-wrapper'><div id='loadingOverlay'></div></div>");
         $('body').append(overlay);
 

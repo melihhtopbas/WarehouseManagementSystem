@@ -322,25 +322,22 @@ namespace Warehouse.Service
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-            var resultModel = new OrderPackageProductListViewModel()
-            {
-                Count = model.Count,
-                Desi =((decimal)((model.Height * model.Width * model.Length)/3000.00)),
-                Height = model.Height,
-                Length = model.Length,
-                OrderPackagedProductGroups = model.OrderProductGroups.Where(x => x.isChecked == true),
-                Weight = model.Weight,
-                Width = model.Width,
-
-            };
+           
+            bool isCheckedProducts = false;
             foreach (var item in model.OrderProductGroups)
             {
                 var readOnlyProduct = _context.ProductTransactionGroup.Find(item.Id);
                 if (item.isChecked == true)
                 {
+                    isCheckedProducts = true;
                     if (item.PackagedCount > item.isPackagedCount)
                     {
                         callResult.ErrorMessages.Add("Belirtilen adetten fazla girmeyiniz!");
+                        return callResult;
+                    }
+                    if (item.PackagedCount == null || item.PackagedCount ==null)
+                    {
+                        callResult.ErrorMessages.Add("Lütfen geçerli bir ürün adet değeri giriniz!");
                         return callResult;
                     }
 
@@ -349,6 +346,22 @@ namespace Warehouse.Service
                     readOnlyProduct.isPackagedCount = readOnlyProduct.isPackagedCount - item.PackagedCount;
                 }
             }
+            if (isCheckedProducts == false)
+            {
+                callResult.ErrorMessages.Add("Lütfen paketlemek istediğiniz ürünleri seçiniz ve adet miktarı giriniz!");
+                return callResult;
+            }
+            var resultModel = new OrderPackageProductListViewModel()
+            {
+                Count = model.Count,
+                Desi = ((decimal)((model.Height * model.Width * model.Length) / 3000.00)),
+                Height = model.Height,
+                Length = model.Length,
+                OrderPackagedProductGroups = model.OrderProductGroups.Where(x => x.isChecked == true),
+                Weight = model.Weight,
+                Width = model.Width,
+
+            };
 
 
 
