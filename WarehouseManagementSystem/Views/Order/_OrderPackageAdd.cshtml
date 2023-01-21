@@ -8,7 +8,7 @@
         </div>
     </div>
 </div>
- 
+
 @using (Html.BeginForm("OrderPackageAdd", "Order", FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
 {
     <div class="row">
@@ -22,34 +22,42 @@
     </div>
     <div class="col-xs-12">
         <strong>SİPARİŞTEKİ ÜRÜNLERİN LİSTESİ</strong>
-        @foreach (var item in Model.OrderProductGroups)
-        {
-            <table class="table table-bordered">
-                <thead>
+        <div class="clearfix"></div> 
+        <br />
+        <div class="clearfix"></div> 
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ürün İçeriği</th>
+                    <th>Ürün Adeti</th> 
+                    <th>Paketlenme Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderProductGroups)
+                {
                     <tr>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+
                         <td style="width:200px;">@item.Content</td>
                         <td style="width:100px;"><span>x</span><span>@item.Count</span></td>
-                        @if (item.isPackagedCount!=0)
+                        @if (item.isPackagedCount != 0)
                         {
-                            <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR⌛ (<strong> @item.isPackagedCount adet</strong> )</td>
+                        <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR ⌛ (<strong> @item.isPackagedCount adet</strong> )</td>
                         }
-                        @if (item.isPackagedCount==0)
+                        @if (item.isPackagedCount == 0)
                         {
-                            <td>PAKETLENDİ✅</td>
+                        <td>PAKETLENDİ ✅</td>
                         }
 
                     </tr>
-                </tbody>
+                }
+            </tbody>
 
 
-            </table>
+        </table>
 
 
-        }
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="row">
