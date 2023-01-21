@@ -1,5 +1,13 @@
 ﻿@model Warehouse.ViewModels.Admin.OrderPackageProductAddViewModel
 @using WarehouseManagementSystem.Extensions
+<div class="row">
+    <div class="col-xs-12">
+        <div class="alert alert-success alert-dismissible">
+            <h4><i class="fa-solid fa-circle-info"></i> DİKKAT!</h4>
+            Lütfen paketlemek istediğiniz ürünü ✔️ ile seçiniz ve kaç adet paketlemek istediğinizi yazınız.
+        </div>
+    </div>
+</div>
 
 @using (Html.BeginForm("OrderPackageProductAdd", "Order", FormMethod.Post, new { id = "orderPackageProductAddForm", role = "form"}))
 {
@@ -17,16 +25,13 @@
             {
                 foreach (var item in Model.OrderProductGroups)
                 {
-
                     @Html.Partial("~/Views/Order/_OrderSelectedPackageProduct.cshtml", item)
                 }
             }
 
         </div>
         <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11 no-padding">
-            @*<div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                @Html.TextBoxBlockLabelAsAddonFor(m => m.Count)
-            </div>*@
+ 
             <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
                 @Html.TextBoxBlockLabelAsAddonFor(m => m.Weight, new { placeholder = "kg" })
             </div>

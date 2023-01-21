@@ -116,27 +116,7 @@
                 @Html.EditorFor(m => m.CargoService)
             </div>
         </div>
-        @*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <a data-modal-form="true"
-               data-modal-size="modal-lg"
-               data-modal-title="Sipariş Paketle"
-               data-hook-beforeunload="true"
-               data-modal-prepend="ul#packageList"
-               class="pressActive btn btn-block btn-sm showOrderPackage"
-               href="@Url.Action("OrderPackageAdd", "Order")">
-                <i class="fa-solid fa-cube"></i> Sipariş Paketle
-            </a>
-
-        </div>
-        <ul id="packageList">
-            @if (Model.OrderPackageGroups != null)
-            {
-                foreach (var entry in Model.OrderPackageGroups)
-                {
-                    @Html.Partial("~/Views/Order/DisplayTemplates/PackageListViewModel.cshtml", entry)
-                }
-            }
-        </ul>*@
+ 
 
         <div class="clearfix"></div>
         <hr />

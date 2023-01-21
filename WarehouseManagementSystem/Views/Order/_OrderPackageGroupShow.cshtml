@@ -29,11 +29,13 @@
                 <td>
                     @foreach (var packageProduct in item.OrderPackageProductGroups)
                     {
-                        <span>@packageProduct.Count</span><span>x</span>
                         <span>@packageProduct.Content</span>
+                        <strong><span>@packageProduct.Count</span><span>x</span></strong>
+                        
+
                         <br />
                     }
-            </td>
+                </td>
         </tr>
     }
 
