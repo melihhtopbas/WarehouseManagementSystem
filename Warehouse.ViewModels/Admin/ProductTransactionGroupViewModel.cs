@@ -30,6 +30,18 @@ namespace Warehouse.ViewModels.Admin
         public string GtipCode { get; set; }
         public long? OrderId { get; set; }
 
+        public bool? isPackage { get; set; }
+        public bool isChecked { get; set; }
+        public bool? isReadOnly { get; set; }
+        [Display(Name = "Paketlenecek Ürün Adeti")]
+        [Range(1, int.MaxValue, ErrorMessage = "0'dan farklı bir değer giriniz!")]
+
+        public int? PackagedCount { get; set; }
+        [Display(Name = "Paketlenmemiş Ürün Adeti")]
+
+
+        public int? isPackagedCount { get; set; }
+
         public virtual OrderAddViewModel Orders { get; set; }
  
 

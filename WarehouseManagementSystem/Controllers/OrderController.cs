@@ -179,6 +179,18 @@ namespace WarehouseManagementSystem.Controllers
                 SKU = a.SKU,
             }).ToList();
             var model = await _orderService.GetOrderPackageGroup(orderId);
+            int? count = 0; 
+            foreach (var item in model)
+            {
+                 
+                foreach (var prd in item.OrderPackageProductGroups)
+                {
+                     count += prd.Count;
+                }
+
+                item.CountProductsInThePackage = count;
+                count = 0;
+            }
             
             
 

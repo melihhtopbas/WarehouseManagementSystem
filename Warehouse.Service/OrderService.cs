@@ -50,6 +50,7 @@ namespace Warehouse.Service
 
 
 
+
                     });
 
         }
@@ -322,7 +323,7 @@ namespace Warehouse.Service
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-           
+
             bool isCheckedProducts = false;
             foreach (var item in model.OrderProductGroups)
             {
@@ -335,7 +336,7 @@ namespace Warehouse.Service
                         callResult.ErrorMessages.Add("Belirtilen adetten fazla girmeyiniz!");
                         return callResult;
                     }
-                    if (item.PackagedCount == null || item.PackagedCount ==null)
+                    if (item.PackagedCount == null || item.PackagedCount == null)
                     {
                         callResult.ErrorMessages.Add("Lütfen geçerli bir ürün adet değeri giriniz!");
                         return callResult;
@@ -436,7 +437,12 @@ namespace Warehouse.Service
                                                                  Count = i.Count,
                                                                  QuantityPerUnit = i.QuantityPerUnit,
                                                                  GtipCode = i.GtipCode,
-                                                                 SKU = i.SKU
+                                                                 SKU = i.SKU,
+                                                                 isPackage = i.isPackage,
+                                                                 isPackagedCount = i.isPackagedCount,
+                                                                 isReadOnly = i.isReadOnly,
+
+
 
                                                              },
 
@@ -478,6 +484,7 @@ namespace Warehouse.Service
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
             var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
             var recipientAddress = await _context.RecipientAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var productGroup = await _context.ProductTransactionGroup.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
             if (order == null)
             {
                 callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
@@ -502,6 +509,13 @@ namespace Warehouse.Service
             order.ProductOrderDescription = model.OrderDescription;
             recipientAddress.Name = model.RecipientAddress;
             senderAddress.Name = model.SenderAddress;
+
+            foreach (var prd in model.ProductTransactionGroup)
+            {
+                productGroup.isPackagedCount = prd.isPackagedCount;
+                productGroup.isPackage = prd.isPackage;
+                productGroup.isReadOnly = prd.isReadOnly;
+            }
 
 
 
@@ -535,7 +549,10 @@ namespace Warehouse.Service
                         Count = groupViewModel.Count,
                         Content = groupViewModel.Content,
                         QuantityPerUnit = groupViewModel.QuantityPerUnit,
-                        isPackagedCount = groupViewModel.Count
+                        isPackagedCount = productGroup.isPackagedCount,
+                        isPackage = productGroup.isPackage,
+                        Id = groupViewModel.Id,
+                        isReadOnly = productGroup.isReadOnly,
 
                     });
 
@@ -628,7 +645,7 @@ namespace Warehouse.Service
 
                                             select new ProductGroupShowViewModel
                                             {
-                                                Content = i.Content, //product transaction group'dan güncel olarak ürünün içeriğini çekiyoruz
+                                                Content = i.Content,  
                                                 Id = i.Id,
                                                 Count = i.Count,
                                                 GtipCode = i.GtipCode,
@@ -637,12 +654,12 @@ namespace Warehouse.Service
 
 
                                             },
-                
+
 
 
 
             }).ToList();
-            
+
             return result.OrderBy(a => a.Count).ToList();
         }
         public async Task<ServiceCallResult> DeleteOrderAsync(int orderId)
