@@ -2,7 +2,7 @@
 <table id="showOrderPackageGroup" class="table table-bordered">
     <thead>
         <tr>
-
+            <th style="width:50px;"> </th>
             <th>Ağırlık(kg)</th>
             <th>En(cm)</th>
             <th>Yükselik(cm)</th>
@@ -17,10 +17,11 @@
         </tr>
     </thead>
     <tbody id="OrderPackageList">
+        @{int i = 1;}
         @foreach (var item in Model)
         {
             <tr>
-
+                <td>@i. <i class="fa-solid fa-arrow-right"></i></td>
                 <td>@item.Weight kg</td>
                 <td>@item.Width cm</td>
                 <td>@item.Height cm</td>
@@ -36,10 +37,12 @@
                         </span>
                         <br />
                     }
+                    <hr />
                     <span>Bu kolideki toplam ürün miktarı: <strong>@item.CountProductsInThePackage</strong> </span>
                 </td>
-        </tr>
-    }
+            </tr>
+            i++;
+        }
 
 
     </tbody>

@@ -60,7 +60,7 @@ namespace Warehouse.Service
             predicate.And(a => a.LanguageId == model.LanguageId);
             if (!string.IsNullOrWhiteSpace(model.SearchName))
             {
-                predicate.And(a => a.SenderName.Contains(model.SearchName));
+                predicate.And(a => a.SenderName.Contains(model.SearchName) || a.SenderPhone.Contains(model.SearchName));
 
             }
             return _getOrderListIQueryable(predicate);

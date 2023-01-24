@@ -39,7 +39,7 @@ namespace WarehouseManagementSystem.Controllers
         {
 
             var result = _orderService.GetOrderListIQueryable(model)
-                .OrderBy(p => p.Id);
+                .OrderBy(p => p.isPackage);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 
             ModelState.Clear();
