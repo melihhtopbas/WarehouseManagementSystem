@@ -182,7 +182,7 @@ namespace Warehouse.Service
                 CargoServiceTypeId = model.CargoService.CargoServiceId,
                 ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
                 RecipientCountryId = model.Country.CountryId,
-                LanguageId = 1,
+                LanguageId = 1, //türkçe dili olarak ayarlanır.
 
 
             };
@@ -333,7 +333,7 @@ namespace Warehouse.Service
                     isCheckedProducts = true;
                     if (item.PackagedCount > item.isPackagedCount)
                     {
-                        callResult.ErrorMessages.Add("Belirtilen adetten fazla girmeyiniz!");
+                        callResult.ErrorMessages.Add("Toplam ürün sayısından fazla adet girmeyiniz!");
                         return callResult;
                     }
                     if (item.PackagedCount == null || item.PackagedCount == null)

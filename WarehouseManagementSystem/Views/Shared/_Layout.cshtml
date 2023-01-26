@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/loadingoverlay.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -23,8 +24,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Anasayfa", "Index", "Order")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
+                    <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>
                      
                 </ul>
             </div>
@@ -90,7 +91,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
     .pressActive:active {
-        box-shadow: box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+        box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
         transform: translateY(4px);
         /* Moving button 4px to y-axis */
     }
@@ -113,8 +114,9 @@
                 showCancelButton: true,
                 confirmButtonColor: '#23a928',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Evet, sil!',
-                cancelButtonText: 'İptal'
+                confirmButtonText: 'Evet, sil <i class="fa fa-thumbs-up"></i>',
+                cancelButtonText: 'İptal <i class="fa fa-thumbs-down"></i>',
+                 
             }).then((result) => {
                 if (result.isConfirmed) {
 

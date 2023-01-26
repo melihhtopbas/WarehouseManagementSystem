@@ -178,7 +178,7 @@ namespace Warehouse.ViewModels.Admin
     {
         [Display(Name ="Dil")]
         public long LanguageId { get; set; }
-        [Display(Name = "Arama")]
+        [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
     }
     public class OrderEditViewModel : OrderCrudBaseViewModel
