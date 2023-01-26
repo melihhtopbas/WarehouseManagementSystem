@@ -19,10 +19,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Warehouse Management System", "Index", "Order", new { area = "" }, new { @class = "navbar-brand" })
+               
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li> @Html.ActionLink("Warehouse Management System", "Index", "Order", new { area = "" }, new { @class = "navbar-brand" })</li>
                     <li>@Html.ActionLink("Anasayfa", "Index", "Order")</li>
                     <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
                     <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>

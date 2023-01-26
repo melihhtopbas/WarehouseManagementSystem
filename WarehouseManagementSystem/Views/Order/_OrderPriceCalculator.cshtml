@@ -1,0 +1,57 @@
+﻿@model Warehouse.ViewModels.Admin.OrderPriceCalculateViewModel  
+@using WarehouseManagementSystem.Extensions
+
+<div class="clearfix"></div>
+<br />
+<div class="clearfix"></div>
+<div class="row">
+    @using (Html.BeginForm("OrderPriceCalculator", "Order", FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
+    {
+
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.AntiForgeryToken()
+                @Html.RenderValidationSummary(true)
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.Country)
+            </div>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-11 col-lg-11 no-padding">
+
+
+
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Weight, new { placeholder = "kg" })
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Width, new { placeholder = "cm" })
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Height, new { placeholder = "cm" })
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Length, new { placeholder = "cm" })
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <div class="clearfix"></div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Desi)
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <button style="margin-right:82px;" type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Hesapla</button>
+            </div>
+
+        </div>
+
+    }
+</div>
+<div class="form-group form-group-sm row">
+    <div class="col-xs-12">
+
+        <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+    </div>
+</div>

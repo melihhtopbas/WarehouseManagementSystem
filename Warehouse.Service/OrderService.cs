@@ -645,7 +645,7 @@ namespace Warehouse.Service
 
                                             select new ProductGroupShowViewModel
                                             {
-                                                Content = i.Content,  
+                                                Content = i.Content,
                                                 Id = i.Id,
                                                 Count = i.Count,
                                                 GtipCode = i.GtipCode,
@@ -720,6 +720,57 @@ namespace Warehouse.Service
                     return callResult;
                 }
             }
+        }
+        public async Task<ServiceCallResult> OrderPriceCalculate(OrderPriceCalculateViewModel model)
+        {
+
+            var callResult = new ServiceCallResult() { Success = false };
+
+            if (model.Width == null || model.Height == null || model.Weight == null || model.Length == null)
+            {
+                callResult.ErrorMessages.Add("Fiyat hesaplanamadı!");
+                return callResult;
+            }
+            if (model.Width != null || model.Height != null || model.Desi == null || model.Weight != null || model.Length != null)
+            {
+                long? number = ((model.Width * model.Length * model.Height) / 3000);
+                if ( number>model.Weight)
+                {
+                    model.Desi = number;
+                }
+                else
+                {
+                    model.Desi = model.Weight;
+                }
+            }
+
+
+ 
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = model;
+
+
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
         }
 
     }

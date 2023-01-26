@@ -1,6 +1,6 @@
 ﻿@model Warehouse.ViewModels.Admin.ProductGroupShowViewModel
 @using WarehouseManagementSystem.Extensions
-<div class="packageProductGroup">
+ 
     @using (Html.BeginCollectionItem("OrderProductGroups"))
     {
         <div class="row">
@@ -22,44 +22,33 @@
             <div class="input-group input-group-sm">
                 @if (Model.isPackagedCount != 0)
                 {
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Paketlenecek Ürünleri Seçiniz</th>
-                                <th>Ürün İçeriği</th>
-                                <th>Toplam Ürün Adeti</th>
-                                <th>@Html.LabelFor(m => m.PackagedCount)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                    
+                        <tr class="master-row">
 
 
 
-                                <td>
-                                    @Html.CheckBoxFor(u => u.isChecked)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => m.Content)
-                                </td>
-                                <td>
-                                    <span>x</span><span>@Html.DisplayFor(m => m.isPackagedCount)</span>
-                                </td>
-                                <td>
+                            <td>
+                                @Html.CheckBoxFor(u => u.isChecked)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Content)
+                            </td>
+                            <td>
+                                <span>x</span><span>@Html.DisplayFor(m => m.isPackagedCount)</span>
+                            </td>
+                            <td>
 
-                                    @Html.TextBoxFor(m => m.PackagedCount)
-                                    @Html.ValidationMessageFor(m => m.PackagedCount, "", new { @style = "color:red" })
-                                </td>
+                                @Html.TextBoxFor(m => m.PackagedCount)
+                                @Html.ValidationMessageFor(m => m.PackagedCount, "", new { @style = "color:red" })
+                            </td>
 
 
-                            </tr>
-                        </tbody>
-                    </table>
+                        </tr>
+                    
                 }
             </div>
         </div>
 
     }
-</div>
+ 
 

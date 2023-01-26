@@ -10,6 +10,7 @@
             <div class="box-header">
                 <i class="fa-solid fa-house-user"></i>
                 <h3 class="box-title">@ViewBag.Title</h3>
+               
             </div>
             <div class="box-body">
                 @using (Html.BeginForm("OrderList", "Order", FormMethod.Post, new { role = "form", id = "orderSearchForm", data_ajax_form = "true", data_target_container = "#OrderListContainer" }))
@@ -32,13 +33,30 @@
                                 <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
+                        <div class="form-group form-group-sm col-xs-5 col-sm-4 col-md-2 col-md-push-8">
+                            <a data-modal-form="true"
+                               data-modal-size="modal-lg"
+                               data-modal-title="Fiyat Hesaplama"
+                               data-hook-beforeunload="true"
+                               class="pressActive btn btn-block btn-info btn-sm"
+                               href="@Url.Action("OrderPriceCalculator", "Order")">
+                                <i class="fa-solid fa-calculator"></i> Fiyat Hesapla
+                            </a>
+                        </div>
+
+
+
                     </div>
 
                 }
+                 
+                   
+                 
                 <div>
                     <div id="OrderListContainer"></div>
                 </div>
             </div>
         </div>
+       
     </div>
 </div>

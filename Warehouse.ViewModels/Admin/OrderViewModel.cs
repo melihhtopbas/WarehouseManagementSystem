@@ -194,4 +194,30 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
 
     }
+    public class OrderPriceCalculateViewModel
+    {
+        [Display(Name = "Yükseklik")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
+         
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+        [Range(1, 300, ErrorMessage = "Enter number between 1 to 300")]
+         
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
+        
+        public long? Width { get; set; }
+        [Display(Name = "Boy")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
+        
+        public long? Length { get; set; }
+        
+        [Display(Name = "Desi")]
+        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
+
+        public decimal? Desi { get; set; }
+
+        public OrderCountryIdSelectViewModel Country { get; set; }
+    }
 }

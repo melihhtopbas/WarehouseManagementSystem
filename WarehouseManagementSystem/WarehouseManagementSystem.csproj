@@ -2026,6 +2026,7 @@
     <Content Include="Views\Order\DisplayTemplates\OrderPackageProductListViewModel.cshtml" />
     <Content Include="Views\Order\_OrderSelectedPackageProduct.cshtml" />
     <Content Include="Views\Order\DisplayTemplates\OrderPackagedProductGroups.cshtml" />
+    <Content Include="Views\Order\_OrderPriceCalculator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

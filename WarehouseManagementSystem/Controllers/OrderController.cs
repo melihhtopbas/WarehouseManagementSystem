@@ -163,6 +163,59 @@ namespace WarehouseManagementSystem.Controllers
             }
             return PartialView("~/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
         }
+
+        [HttpGet]
+        //Fiyat hesaplama modal'i
+        public async Task<ActionResult> OrderPriceCalculator()
+        {
+            ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            return PartialView("~/Views/Order/_OrderPriceCalculator.cshtml");
+
+
+
+        }
+        [HttpPost]
+        //Fiyat hesaplama modal'i
+        public async Task<ActionResult> OrderPriceCalculator(OrderPriceCalculateViewModel model)
+        {
+            ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderService.OrderPriceCalculate(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = model;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderListViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+
+
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+               new
+               {
+                   success = false,
+                   responseText = RenderPartialViewToString("~/Views/Order/_OrderPriceCalculator.cshtml", model)
+               });
+
+            
+
+
+        }
         [HttpGet]
         //koli adetine basınca kolilenmiş ürünleri gösterme
         public async Task<ActionResult> OrderPackageGroupShow(int orderId)
@@ -179,20 +232,20 @@ namespace WarehouseManagementSystem.Controllers
                 SKU = a.SKU,
             }).ToList();
             var model = await _orderService.GetOrderPackageGroup(orderId);
-            int? count = 0; 
+            int? count = 0;
             foreach (var item in model)
             {
-                 
+
                 foreach (var prd in item.OrderPackageProductGroups)
                 {
-                     count += prd.Count;
+                    count += prd.Count;
                 }
 
                 item.CountProductsInThePackage = count;
                 count = 0;
             }
-            
-            
+
+
 
             if (model != null && model.Count() > 0)
             {
