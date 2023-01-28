@@ -168,8 +168,10 @@ namespace WarehouseManagementSystem.Controllers
         //Fiyat hesaplama modal'i
         public async Task<ActionResult> OrderPriceCalculator()
         {
+            var model = new OrderPriceCalculateViewModel(); 
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
-            return PartialView("~/Views/Order/_OrderPriceCalculator.cshtml");
+            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+            return PartialView("~/Views/Order/_OrderPriceCalculator.cshtml",model);
 
 
 
@@ -179,6 +181,8 @@ namespace WarehouseManagementSystem.Controllers
         public async Task<ActionResult> OrderPriceCalculator(OrderPriceCalculateViewModel model)
         {
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+
             if (ModelState.IsValid)
             {
                 var callResult = await _orderService.OrderPriceCalculate(model);
@@ -190,8 +194,8 @@ namespace WarehouseManagementSystem.Controllers
                     var jsonResult = Json(
                         new
                         {
-                            success = true,
-                            responseText = RenderPartialViewToString("~/Views/Order/DisplayTemplates/OrderListViewModel.cshtml", viewModel),
+                             
+                            responseText = RenderPartialViewToString("~/Views/Order/_OrderPriceCalculator.cshtml", viewModel),
                             item = viewModel
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;

@@ -214,10 +214,18 @@ namespace Warehouse.ViewModels.Admin
         public long? Length { get; set; }
         
         [Display(Name = "Desi")]
-        [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
+         
 
         public decimal? Desi { get; set; }
 
         public OrderCountryIdSelectViewModel Country { get; set; }
+        public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
+        
+
+        public string Service { get; set; }
+        public string Description { get; set; }
+        public double? TotalPrice { get; set; }
+
+
     }
 }

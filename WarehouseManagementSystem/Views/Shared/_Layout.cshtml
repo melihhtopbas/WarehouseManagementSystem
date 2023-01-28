@@ -19,15 +19,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               
+
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li> @Html.ActionLink("Warehouse Management System", "Index", "Order", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Warehouse Management System", "Index", "Order", new { area = "" }, new { @class = "navbar-brand" })</li>
                     <li>@Html.ActionLink("Anasayfa", "Index", "Order")</li>
                     <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
                     <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>
-                     
+
                 </ul>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Evet, sil <i class="fa fa-thumbs-up"></i>',
                 cancelButtonText: 'İptal <i class="fa fa-thumbs-down"></i>',
-                 
+
             }).then((result) => {
                 if (result.isConfirmed) {
 

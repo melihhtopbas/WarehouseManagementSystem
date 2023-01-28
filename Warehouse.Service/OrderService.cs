@@ -723,7 +723,7 @@ namespace Warehouse.Service
         }
         public async Task<ServiceCallResult> OrderPriceCalculate(OrderPriceCalculateViewModel model)
         {
-
+             
             var callResult = new ServiceCallResult() { Success = false };
 
             if (model.Width == null || model.Height == null || model.Weight == null || model.Length == null)
@@ -731,10 +731,25 @@ namespace Warehouse.Service
                 callResult.ErrorMessages.Add("Fiyat hesaplanamadı!");
                 return callResult;
             }
-            if (model.Width != null || model.Height != null || model.Desi == null || model.Weight != null || model.Length != null)
+
+            model.Desi = null;
+            model.TotalPrice = 0;
+
+            if (model.Desi != null && model.Desi > model.Weight)
+            {
+                model.Desi = model.Desi;
+            }
+            else if (model.Desi != null && model.Desi < model.Weight)
+            {
+                model.Desi = model.Weight;
+            }
+
+
+
+            else if (model.Desi == null)
             {
                 long? number = ((model.Width * model.Length * model.Height) / 3000);
-                if ( number>model.Weight)
+                if (number > model.Weight)
                 {
                     model.Desi = number;
                 }
@@ -744,8 +759,38 @@ namespace Warehouse.Service
                 }
             }
 
+                //            < li > Yurtiçi Kargo 2₺</ li >
+                //< li > PTT Kargo 3₺</ li >
+                //< li > UPS Kargo 4₺</ li >
+                //< li > Aras Kargo 2,5₺</ li >
+            var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
+            
+            if (cargoService.Id == 1)
+            {
+                model.TotalPrice = (double)model.Desi * 7.362 * 4;
+                model.Description = "Tahmini teslim süresi 1-3 iş günü arasındadır.";
+            }
+            else if (cargoService.Id == 2)
+            {
+                model.TotalPrice = (double)model.Desi * 7.362 * 2;
+                model.Description = "Tahmini teslim süresi 4-6 iş günü arasındadır.";
+            }
+            else if (cargoService.Id== 10002)
+            {
+                model.TotalPrice = (double)model.Desi * 7.362 * 2.5;
+                model.Description = "Tahmini teslim süresi 2-4 iş günü arasındadır.";
+            }
+            else if (cargoService.Id==10006)
+            {
+                model.TotalPrice = (double)model.Desi * 7.362 * 3;
+                model.Description = "Tahmini teslim süresi 3-5 iş günü arasındadır.";
+            }
 
- 
+            model.Service = cargoService.Name;
+
+
+
+
 
 
 
