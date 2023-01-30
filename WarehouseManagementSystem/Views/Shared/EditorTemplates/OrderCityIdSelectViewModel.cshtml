@@ -1,0 +1,20 @@
+﻿@using WarehouseManagementSystem.Extensions
+@model Warehouse.ViewModels.Admin.OrderCityIdSelectViewModel
+@{
+    var categoryList = new SelectList((List<Warehouse.ViewModels.Admin.CityListViewModel>)ViewData["Cities"], "Id", "Name").ToList();
+    categoryList.Add(new SelectListItem()
+    {
+        Value = string.Empty,
+        Text = "Şehir Seçiniz"
+    });
+}
+<div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12  ">
+    <div class="input-group input-group-sm">
+        <span class="input-group-addon as-label required">
+            <strong> @Html.DisplayNameFor(m => m.CityId)</strong>
+        </span>
+
+        @Html.DropDownListFor(a => a.CityId, categoryList.OrderBy(a => a.Value), new { @class = "form-control", @disabled = "disabled",id="NestedCity" })
+    </div>
+    @Html.ValidationMessageFor(m => m.CityId, "", new { @class = "text-danger" })
+</div>

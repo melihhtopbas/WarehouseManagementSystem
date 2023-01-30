@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\CargoServiceTypeViewModel.cs" />
+    <Compile Include="Admin\CityViewModel.cs" />
     <Compile Include="Admin\CountryViewModel.cs" />
     <Compile Include="Admin\CurrencyUnitViewModel.cs" />
     <Compile Include="Admin\OrderPackageViewModel.cs" />

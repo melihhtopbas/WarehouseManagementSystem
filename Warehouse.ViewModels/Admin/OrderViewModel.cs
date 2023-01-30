@@ -20,6 +20,7 @@ namespace Warehouse.ViewModels.Admin
             OrderPackageGroups = new List<PackageListViewModel>();
         }
         public OrderCountryIdSelectViewModel Country { get; set; }
+        public OrderCityIdSelectViewModel City { get; set; }
         public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
         public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
         public long Id { get; set; }
@@ -57,7 +58,7 @@ namespace Warehouse.ViewModels.Admin
         
         public string SenderAddress { get; set; }
         [Display(Name = "Alıcı Şehir")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
+         
         public string RecipientCity { get; set; }
 
         [Display(Name = "Alıcı Posta Kodu")]

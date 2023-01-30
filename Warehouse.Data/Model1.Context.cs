@@ -31,9 +31,10 @@ namespace Warehouse.Data
         public virtual DbSet<Languages> Languages { get; set; }
         public virtual DbSet<RecipientAddresses> RecipientAddresses { get; set; }
         public virtual DbSet<SenderAddresses> SenderAddresses { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Packages> Packages { get; set; }
         public virtual DbSet<ProductTransactionGroup> ProductTransactionGroup { get; set; }
         public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
+        public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
     }
 }

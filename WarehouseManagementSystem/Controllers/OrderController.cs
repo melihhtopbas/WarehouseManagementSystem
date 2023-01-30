@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -61,7 +62,7 @@ namespace WarehouseManagementSystem.Controllers
         public ActionResult Add()
         {
 
-
+            ViewData["Cities"] = new List<CityListViewModel>();
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
@@ -139,6 +140,7 @@ namespace WarehouseManagementSystem.Controllers
             if (model != null)
             {
                 ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+                ViewData["Cities"] = _orderService.GetOrderCityList(model.Country.CountryId).ToList();
                 ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
                 ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
                 return PartialView("~/Views/Order/_OrderEdit.cshtml", model);
@@ -414,6 +416,7 @@ namespace WarehouseManagementSystem.Controllers
                 }
             }
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+            ViewData["Cities"] = _orderService.GetOrderCityList(model.Country.CountryId).ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
 
@@ -452,6 +455,19 @@ namespace WarehouseManagementSystem.Controllers
 
         }
 
+        public JsonResult NestedCity(int id)
+        {
+            var iller = (from x in _context.Cities
+                         join y in _context.Countries on x.Countries.Id equals y.Id
+                         where x.Countries.Id== id
+                         select new
+                         {
+                             Id = x.Id,
+                             Name = x.Name, 
+                         }).ToList();
 
+            return Json(iller, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

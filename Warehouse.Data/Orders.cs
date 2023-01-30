@@ -17,10 +17,10 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Orders()
         {
-            this.RecipientAddresses = new HashSet<RecipientAddresses>();
-            this.SenderAddresses = new HashSet<SenderAddresses>();
             this.Packages = new HashSet<Packages>();
             this.ProductTransactionGroup = new HashSet<ProductTransactionGroup>();
+            this.RecipientAddresses = new HashSet<RecipientAddresses>();
+            this.SenderAddresses = new HashSet<SenderAddresses>();
         }
     
         public long Id { get; set; }
@@ -30,7 +30,7 @@ namespace Warehouse.Data
         public string SenderPhone { get; set; }
         public string SenderIdentityNumber { get; set; }
         public string RecipientName { get; set; }
-        public string RecipientCity { get; set; }
+        public Nullable<long> RecipientCityId { get; set; }
         public Nullable<long> RecipientCountryId { get; set; }
         public string RecipientZipCode { get; set; }
         public string RecipientInvoiceNumber { get; set; }
@@ -45,16 +45,17 @@ namespace Warehouse.Data
         public Nullable<bool> isPackage { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
+        public virtual Cities Cities { get; set; }
         public virtual Countries Countries { get; set; }
         public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Packages> Packages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductTransactionGroup> ProductTransactionGroup { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
     }
 }

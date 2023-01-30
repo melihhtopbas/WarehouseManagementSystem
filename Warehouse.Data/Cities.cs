@@ -12,20 +12,19 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Countries
+    public partial class Cities
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Countries()
+        public Cities()
         {
-            this.Cities = new HashSet<Cities>();
             this.Orders = new HashSet<Orders>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
+        public Nullable<long> CountryId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cities> Cities { get; set; }
+        public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
     }

@@ -35,7 +35,7 @@ namespace Warehouse.Service
                         PackageCount = _context.Packages.Where(x => x.OrderId == b.Id).Count(),
                         RecipientAddress = rAd.Name,
                         SenderAddress = sAd.Name,
-                        RecipientCity = b.RecipientCity,
+                        RecipientCity = b.Cities.Name,
                         RecipientName = b.RecipientName,
                         RecipientPhone = b.RecipientPhone,
                         RecipientZipCode = b.RecipientZipCode,
@@ -77,6 +77,19 @@ namespace Warehouse.Service
         {
 
             var result = _context.Countries.Select(b => new CountryListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.Name
+
+
+            }).ToList();
+            return result;
+        }
+        public List<CityListViewModel> GetOrderCityList(long? id)
+        {
+
+            var result = _context.Cities.Where(x=>x.CountryId==id).Select(b => new CityListViewModel
             {
 
                 Id = b.Id,
@@ -171,7 +184,7 @@ namespace Warehouse.Service
                 SenderName = model.SenderName,
                 SenderPhone = model.SenderPhone,
                 SenderInvoiceNumber = model.SenderInvoiceNumber,
-                RecipientCity = model.RecipientCity,
+                RecipientCityId = model.City.CityId,
                 RecipientMail = model.RecipientMail,
                 RecipientName = model.RecipientName,
                 RecipientPhone = model.RecipientPhone,
@@ -408,7 +421,10 @@ namespace Warehouse.Service
                                    RecipientInvoiceNumber = p.RecipientInvoiceNumber,
                                    RecipientAddress = rAd.Name,
                                    SenderAddress = sAd.Name,
-                                   RecipientCity = p.RecipientCity,
+                                   City = new OrderCityIdSelectViewModel()
+                                   {
+                                       CityId = p.RecipientCityId
+                                   },
                                    RecipientIdentityNumber = p.RecipientIdentityNumber,
                                    RecipientMail = p.RecipientMail,
                                    RecipientName = p.RecipientName,
@@ -498,7 +514,7 @@ namespace Warehouse.Service
             order.SenderInvoiceNumber = model.SenderInvoiceNumber;
             order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
             order.RecipientPhone = model.RecipientPhone;
-            order.RecipientCity = model.RecipientCity;
+            order.RecipientCityId = model.City.CityId;
             order.RecipientIdentityNumber = model.RecipientIdentityNumber;
             order.RecipientMail = model.RecipientMail;
             order.RecipientZipCode = model.RecipientZipCode;
@@ -759,10 +775,7 @@ namespace Warehouse.Service
                 }
             }
 
-                //            < li > Yurtiçi Kargo 2₺</ li >
-                //< li > PTT Kargo 3₺</ li >
-                //< li > UPS Kargo 4₺</ li >
-                //< li > Aras Kargo 2,5₺</ li >
+ 
             var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
             
             if (cargoService.Id == 1)

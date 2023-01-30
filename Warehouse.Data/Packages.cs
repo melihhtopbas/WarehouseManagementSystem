@@ -29,8 +29,8 @@ namespace Warehouse.Data
         public decimal Desi { get; set; }
         public Nullable<long> OrderId { get; set; }
     
-        public virtual Orders Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PackagedProductGroups> PackagedProductGroups { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }
