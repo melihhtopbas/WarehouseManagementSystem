@@ -170,10 +170,16 @@ namespace WarehouseManagementSystem.Controllers
         //Fiyat hesaplama modal'i
         public async Task<ActionResult> OrderPriceCalculator()
         {
-            var model = new OrderPriceCalculateViewModel(); 
+            var model = new OrderPriceCalculateViewModel
+            {
+                Country = new OrderCountryIdSelectViewModel
+                {
+                    CountryId = 20004,
+                }
+            };
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-            return PartialView("~/Views/Order/_OrderPriceCalculator.cshtml",model);
+            return PartialView("~/Views/Order/_OrderPriceCalculator.cshtml", model);
 
 
 
@@ -196,7 +202,7 @@ namespace WarehouseManagementSystem.Controllers
                     var jsonResult = Json(
                         new
                         {
-                             
+
                             responseText = RenderPartialViewToString("~/Views/Order/_OrderPriceCalculator.cshtml", viewModel),
                             item = viewModel
                         });
@@ -218,7 +224,7 @@ namespace WarehouseManagementSystem.Controllers
                    responseText = RenderPartialViewToString("~/Views/Order/_OrderPriceCalculator.cshtml", model)
                });
 
-            
+
 
 
         }
@@ -457,17 +463,17 @@ namespace WarehouseManagementSystem.Controllers
 
         public JsonResult NestedCity(int id)
         {
-            var iller = (from x in _context.Cities
+            var cities =  (from x in _context.Cities
                          join y in _context.Countries on x.Countries.Id equals y.Id
-                         where x.Countries.Id== id
+                         where x.Countries.Id == id
                          select new
                          {
                              Id = x.Id,
-                             Name = x.Name, 
+                             Name = x.Name,
                          }).ToList();
 
-            return Json(iller, JsonRequestBehavior.AllowGet);
+            return Json(cities, JsonRequestBehavior.AllowGet);
         }
-        
+
     }
 }

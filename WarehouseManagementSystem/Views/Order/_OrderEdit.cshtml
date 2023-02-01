@@ -32,7 +32,7 @@
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderInvoiceNumber)
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.SenderAddress)" style="position: relative;">
-            @Html.TextAreaFor(m => m.SenderAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "3", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.SenderAddress).ToString()) })
+            @Html.TextAreaFor(m => m.SenderAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.SenderAddress).ToString()) })
         </div>
 
 
@@ -71,7 +71,7 @@
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientInvoiceNumber)
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.RecipientAddress)" style="position: relative;">
-            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "3", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
+            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
             @Html.ValidationMessageFor(m => m.RecipientAddress)
         </div>
 

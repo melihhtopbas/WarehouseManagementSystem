@@ -258,38 +258,41 @@ namespace Warehouse.Service
             var callResult = new ServiceCallResult() { Success = false };
 
 
-
-            foreach (var item in model.OrderPackageProductListViewModels)
+            if (model.OrderPackageProductListViewModels != null)
             {
-                var packages = new Packages
+                foreach (var item in model.OrderPackageProductListViewModels)
                 {
-                    OrderId = model.OrderId,
-                };
-                packages.Id = item.Id;
-                packages.Width = item.Width;
-                packages.Height = item.Height;
-                packages.Weight = item.Weight;
-                packages.Length = item.Length;
-                packages.Desi = item.Desi;
-                packages.Count = item.Count;
-
-                foreach (var product in item.OrderPackagedProductGroups)
-                {
-                    packages.PackagedProductGroups.Add(new PackagedProductGroups
+                    var packages = new Packages
                     {
-                        Count = product.PackagedCount,
-                        Content = product.Content,
-                        GtipCode = product.GtipCode,
-                        Id = product.Id,
-                        QuantityPerUnit = product.QuantityPerUnit,
-                        SKU = product.SKU,
-                    });
+                        OrderId = model.OrderId,
+                    };
+                    packages.Id = item.Id;
+                    packages.Width = item.Width;
+                    packages.Height = item.Height;
+                    packages.Weight = item.Weight;
+                    packages.Length = item.Length;
+                    packages.Desi = item.Desi;
+                    packages.Count = item.Count;
+
+                    foreach (var product in item.OrderPackagedProductGroups)
+                    {
+                        packages.PackagedProductGroups.Add(new PackagedProductGroups
+                        {
+                            Count = product.PackagedCount,
+                            Content = product.Content,
+                            GtipCode = product.GtipCode,
+                            Id = product.Id,
+                            QuantityPerUnit = product.QuantityPerUnit,
+                            SKU = product.SKU,
+                        });
+                    }
+
+
+
+                    _context.Packages.Add(packages);
                 }
-
-
-
-                _context.Packages.Add(packages);
             }
+            
 
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
             var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
@@ -748,7 +751,7 @@ namespace Warehouse.Service
         }
         public async Task<ServiceCallResult> OrderPriceCalculate(OrderPriceCalculateViewModel model)
         {
-
+            //chat.openaı.com
             var callResult = new ServiceCallResult() { Success = false };
 
             if (model.Width == null || model.Height == null || model.Weight == null || model.Length == null)
