@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Warehouse.Data;
+using Warehouse.Data;  
 
 namespace Warehouse.ViewModels.Admin
 {
@@ -20,6 +22,7 @@ namespace Warehouse.ViewModels.Admin
             OrderPackageGroups = new List<PackageListViewModel>();
         }
         public OrderCountryIdSelectViewModel Country { get; set; }
+
         public OrderCityIdSelectViewModel City { get; set; }
         public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
         public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
@@ -203,8 +206,8 @@ namespace Warehouse.ViewModels.Admin
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
         [Range(1, 300, ErrorMessage = "Enter number between 1 to 300")]
-         
-        public long? Weight { get; set; }
+    
+        public decimal? Weight { get; set; }
         [Display(Name = "En")]
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
         
@@ -213,10 +216,10 @@ namespace Warehouse.ViewModels.Admin
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
         
         public long? Length { get; set; }
-        
+       
         [Display(Name = "Desi")]
-         
 
+        [DisplayFormat(DataFormatString = "{0:n0}")]
         public decimal? Desi { get; set; }
 
         public OrderCountryIdSelectViewModel Country { get; set; }
@@ -229,4 +232,5 @@ namespace Warehouse.ViewModels.Admin
 
 
     }
+     
 }

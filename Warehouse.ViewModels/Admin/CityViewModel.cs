@@ -26,8 +26,8 @@ namespace Warehouse.ViewModels.Admin
 
     public class OrderCityIdSelectViewModel
     {
-        [Display(Name = "Şehir adı")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
+        [Display(Name = "Şehir Adı")]
+    //    [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CityId { get; set; }
     }
 }

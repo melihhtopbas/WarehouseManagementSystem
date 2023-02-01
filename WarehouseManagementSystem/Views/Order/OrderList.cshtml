@@ -25,19 +25,18 @@
 <table id="tblOrders" class="table table-bordered">
     <thead>
         <tr>
-            <th>Sipariş ID</th>
+             
             <th>Gönderici Adı</th>
-            <th>Gönderici Telefon</th>
-            <th>Gönderici Adres</th>
+             
+            <th >Gönderici Adres</th>
             <th>Alıcı Adı</th>
-            <th>Alıcı Telefon</th>
+            
             <th>Alıcı Şehir</th>
             <th>Alıcı Ülke</th>
-            <th>Para Birimi</th>
-            <th>Alıcı ZipCode</th>
+             
             <th>Alıcı Adres</th>
             <th>Kargo Servis Tipi</th>
-            <th style="width:200px;">Sipariş Paketlendi mi?</th>
+            <th>Sipariş Paketlendi mi?</th>
             <th>Toplam Koli Adeti</th>
             <th>Düzenle</th>
             <th>Sil</th>
@@ -51,7 +50,6 @@
     </thead>
     <tbody id="OrderList">
         @Html.DisplayFor(m => m)
-
     </tbody>
 
 
@@ -68,3 +66,10 @@
     });
 
 </script>
+ <style>
+     #tblOrders {
+         width: 130%;
+         max-width: 150%;
+         margin-bottom: 20px;
+     }
+ </style>

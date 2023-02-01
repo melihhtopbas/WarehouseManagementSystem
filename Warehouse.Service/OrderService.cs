@@ -89,7 +89,7 @@ namespace Warehouse.Service
         public List<CityListViewModel> GetOrderCityList(long? id)
         {
 
-            var result = _context.Cities.Where(x=>x.CountryId==id).Select(b => new CityListViewModel
+            var result = _context.Cities.Where(x => x.CountryId == id).Select(b => new CityListViewModel
             {
 
                 Id = b.Id,
@@ -368,7 +368,7 @@ namespace Warehouse.Service
             var resultModel = new OrderPackageProductListViewModel()
             {
                 Count = model.Count,
-                Desi = ((decimal)((model.Height * model.Width * model.Length) / 3000.00)),
+
                 Height = model.Height,
                 Length = model.Length,
                 OrderPackagedProductGroups = model.OrderProductGroups.Where(x => x.isChecked == true),
@@ -377,6 +377,15 @@ namespace Warehouse.Service
 
             };
 
+            decimal desiDegeri = ((decimal)((model.Height * model.Width * model.Length) / 3000.00));
+            if (model.Weight >= desiDegeri)
+            {
+                resultModel.Desi = (decimal)model.Weight;
+            }
+            else
+            {
+                resultModel.Desi = desiDegeri;
+            }
 
 
             using (var dbtransaction = _context.Database.BeginTransaction())
@@ -739,7 +748,7 @@ namespace Warehouse.Service
         }
         public async Task<ServiceCallResult> OrderPriceCalculate(OrderPriceCalculateViewModel model)
         {
-             
+
             var callResult = new ServiceCallResult() { Success = false };
 
             if (model.Width == null || model.Height == null || model.Weight == null || model.Length == null)
@@ -747,38 +756,67 @@ namespace Warehouse.Service
                 callResult.ErrorMessages.Add("Fiyat hesaplanamadı!");
                 return callResult;
             }
-
+            //Yurtdışı desi hesabı /5000
+            //Yurtiçi  desi hesabı /3000
             model.Desi = null;
             model.TotalPrice = 0;
-
-            if (model.Desi != null && model.Desi > model.Weight)
+            decimal? number = 0;
+            if (model.Desi != null && model.Desi > (decimal)model.Weight)
             {
                 model.Desi = model.Desi;
             }
-            else if (model.Desi != null && model.Desi < model.Weight)
+            else if (model.Desi != null && model.Desi < (decimal)model.Weight)
             {
-                model.Desi = model.Weight;
+                model.Desi = (decimal)model.Weight;
             }
 
 
 
             else if (model.Desi == null)
             {
-                long? number = ((model.Width * model.Length * model.Height) / 3000);
+                if (model.Country.CountryId == 20002) //türkiye ise 
+                {
+                    number = ((decimal?)((model.Width * model.Length * model.Height) / 3000.00));
+                }
+                else //yurt dışı ise
+                {
+                    number = ((decimal?)((model.Width * model.Length * model.Height) / 5000.00));
+                }
+
                 if (number > model.Weight)
                 {
                     model.Desi = number;
                 }
                 else
                 {
-                    model.Desi = model.Weight;
+                    model.Desi = (decimal)model.Weight;
                 }
             }
+            decimal yuvarlananDesi = Math.Ceiling((decimal)(model.Desi)); // sayıyı bi üst tam sayıya yuvarlar. 11.1 -> 12 ** 11.99 -> 12 
+            if (model.Desi >=1 && model.Desi<10)            
+            {
+                if (model.Desi + 0.5m > yuvarlananDesi)
+                {
+                    model.Desi = yuvarlananDesi;
+                }
+                else
+                {
+                    model.Desi = yuvarlananDesi;
+                    model.Desi = model.Desi - 0.5m;
 
- 
-            var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
+                }
+               
+            }
+            else
+            {
+                model.Desi = yuvarlananDesi;
+            }
             
-            if (cargoService.Id == 1)
+
+
+            var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
+
+            if (cargoService.Id == 1) 
             {
                 model.TotalPrice = (double)model.Desi * 7.362 * 4;
                 model.Description = "Tahmini teslim süresi 1-3 iş günü arasındadır.";
@@ -788,12 +826,12 @@ namespace Warehouse.Service
                 model.TotalPrice = (double)model.Desi * 7.362 * 2;
                 model.Description = "Tahmini teslim süresi 4-6 iş günü arasındadır.";
             }
-            else if (cargoService.Id== 10002)
+            else if (cargoService.Id == 10002)
             {
                 model.TotalPrice = (double)model.Desi * 7.362 * 2.5;
                 model.Description = "Tahmini teslim süresi 2-4 iş günü arasındadır.";
             }
-            else if (cargoService.Id==10006)
+            else if (cargoService.Id == 10006)
             {
                 model.TotalPrice = (double)model.Desi * 7.362 * 3;
                 model.Description = "Tahmini teslim süresi 3-5 iş günü arasındadır.";

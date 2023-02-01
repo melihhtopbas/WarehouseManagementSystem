@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Warehouse.Utils.Constants;
 
 namespace WarehouseManagementSystem
 {
@@ -17,6 +18,8 @@ namespace WarehouseManagementSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
         }
     }
 }

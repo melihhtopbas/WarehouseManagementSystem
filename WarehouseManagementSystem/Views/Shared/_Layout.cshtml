@@ -23,7 +23,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                     
+
                     <li>@Html.ActionLink("Anasayfa", "Index", "Order")</li>
                     <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
                     <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>
@@ -36,6 +36,7 @@
         @RenderBody()
 
         <footer>
+
             <p> <i class="fa-solid fa-warehouse"></i>  Warehouse Management System</p>
             @DateTime.Now.Day.@DateTime.Now.Month.@DateTime.Now.Year
         </footer>
@@ -47,10 +48,7 @@
 </body>
 </html>
 @Styles.Render("~/Content/css")
-
-<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-
-
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
@@ -97,6 +95,7 @@
         /* Moving button 4px to y-axis */
     }
 </style>
+
 <script>
     $(document).ready(function () {
         $('#orderSearchForm').submit();
@@ -107,8 +106,9 @@
             gelenID = new Object();
             gelenID.ID = $(this).attr("data-id");
             var btn = $(this);
-
+             
             Swal.fire({
+                
                 title: 'Emin misiniz?',
                 text: "Sildikten sonra geri alamayacaksınız!",
                 icon: 'warning',
@@ -211,3 +211,4 @@
         });
     };
 </script>
+ 

@@ -26,7 +26,7 @@ namespace Warehouse.ViewModels.Admin
 
     public class OrderCountryIdSelectViewModel
     {
-        [Display(Name = "Ülke adı")]
+        [Display(Name = "Ülke Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CountryId { get; set; }
     }

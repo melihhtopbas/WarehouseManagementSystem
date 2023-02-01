@@ -16,7 +16,7 @@ namespace WarehouseManagementSystem.Controllers.Abstract
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             // Modify current thread's cultures  
-            var culture = new System.Globalization.CultureInfo("tr-TR");
+            var culture = new System.Globalization.CultureInfo("en-EN");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
 

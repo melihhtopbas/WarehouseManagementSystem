@@ -21,7 +21,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@i. <i class="fa-solid fa-arrow-right"></i></td>
+                <td><span>@i. KOLİ </span> <i class="fa-solid fa-arrow-right"></i></td>
                 <td>@item.Weight kg</td>
                 <td>@item.Width cm</td>
                 <td>@item.Height cm</td>
@@ -50,13 +50,22 @@
 
 </table>
 <div class="clearfix"></div>
-  
-     @foreach (var prdtc in ViewData["ProductList"] as List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>)
-     {
-         <span>Toplam <strong>@prdtc.Count</strong> adet olan <strong>@prdtc.Content</strong> ürününüzden paketlenmeyen ürün miktarı: <strong>@prdtc.isPackagedCount</strong> </span>
-         <br />
-     }
-   
+
+@foreach (var prdct in ViewData["ProductList"] as List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>)
+{
+    if (prdct.isPackagedCount>0)
+    {
+        <span>Toplam <strong>@prdct.Count</strong> adet olan <strong>@prdct.Content</strong> ürününüzden paketlenmeyen ürün miktarı: <strong>@prdct.isPackagedCount</strong> </span>
+        <br />
+    }
+    else
+    {
+        <span><strong>@prdct.Content</strong> PAKETLENDİ <i class="fa-solid fa-check"></i></span>
+        <br />
+    }
+
+}
+
 <div class="clearfix"></div>
 
 

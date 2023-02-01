@@ -22,15 +22,15 @@
     </div>
     <div class="col-xs-12">
         <strong>SİPARİŞTEKİ ÜRÜNLERİN LİSTESİ</strong>
-        <div class="clearfix"></div> 
+        <div class="clearfix"></div>
         <br />
-        <div class="clearfix"></div> 
+        <div class="clearfix"></div>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Ürün İçeriği</th>
-                    <th>Ürün Adeti</th> 
+                    <th>Ürün Adeti</th>
                     <th>Paketlenme Durumu</th>
                 </tr>
             </thead>
@@ -43,11 +43,11 @@
                         <td style="width:100px;"><span>x</span><span>@item.Count</span></td>
                         @if (item.isPackagedCount != 0)
                         {
-                        <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR ⌛ (<strong> @item.isPackagedCount adet</strong> )</td>
+                            <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR ⌛ (<strong> @item.isPackagedCount adet</strong> )</td>
                         }
                         @if (item.isPackagedCount == 0)
                         {
-                        <td>PAKETLENDİ ✅</td>
+                            <td>PAKETLENDİ ✅</td>
                         }
 
                     </tr>

@@ -1,25 +1,20 @@
 ﻿@model Warehouse.ViewModels.Admin.OrderListViewModel
 
 <tr id="@("order_"+Model.Id)" class="master-row">
-    <td>@Model.Id</td>
+     
     <td>
         @Model.SenderName
     </td>
-    <td>
-        @Model.SenderPhone
-    </td>
-    <td>@Model.SenderAddress</td>
+    
+    <td style="width:50%"> @Model.SenderAddress</td>
     <td>@Model.RecipientName</td>
-    <td>
-        @Model.RecipientPhone
-    </td>
+    
     <td>
         @Model.RecipientCity
     </td>
     <td>@Model.RecipientCountry</td>
-    <td>@Model.CurrencyUnit</td>
-    <td>@Model.RecipientZipCode</td>
-    <td style="width:550px">@Model.RecipientAddress</td>
+    
+    <td  style="width:50%">@Model.RecipientAddress</td>
     <td>@Model.CargoService</td>
     <td>
         @if (@Model.isPackage == true)
@@ -41,7 +36,7 @@
             @Model.PackageCount
         </a>
     </td>
-    <td style="width:50px">
+    <td>
         <a data-modal-form="true"
            data-modal-size="modal-lg"
            data-modal-update="#order_@Model.Id"
@@ -55,14 +50,14 @@
         </a>
 
     </td>
-    <td style="width:50px">
+    <td>
         <a data-id="@Model.Id"
            class="pressActive deleteOrder btn btn-block btn-danger btn-sm">
             <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
         </a>
 
     </td>
-    <td style="width:50px">
+    <td>
         <a data-modal-form="true"
            data-modal-title="Siparişteki Ürün Listesi"
            data-hook-beforeunload="true"
@@ -72,7 +67,7 @@
         </a>
 
     </td>
-    <td style="width:50px">
+    <td>
         <a data-modal-form="true"
            data-modal-size="modal-lg"
            data-modal-update="#order_@Model.Id"
