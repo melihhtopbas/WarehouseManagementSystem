@@ -1,4 +1,5 @@
 ﻿using Microsoft.Web.Mvc;
+using MvcPaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Script.Serialization;
 using System.Web.UI;
 using Warehouse.Data;
 using Warehouse.Service;
+using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
 using WarehouseManagementSystem.Controllers.Abstract;
 
@@ -36,11 +38,19 @@ namespace WarehouseManagementSystem.Controllers
 
         //Anasayfa'da gözüken sipariş listesi
         [AjaxOnly, HttpPost, ValidateInput(false)]
-        public async Task<ActionResult> OrderList(OrderSearchViewModel model)
+        public async Task<ActionResult> OrderList(OrderSearchViewModel model, int? page)
         {
 
+            //var result = _serviceService.GetServiceListIQueryable(searchViewModel)
+            //    .OrderBy(p => p.Name)
+            //    .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
+
+
+            var currentPageIndex = page - 1 ?? 0;
+
             var result = _orderService.GetOrderListIQueryable(model)
-                .OrderBy(p => p.isPackage);
+                .OrderBy(p => p.isPackage)
+                .ToPagedList(currentPageIndex,SystemConstants.DefaultServicePageSize);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 
             ModelState.Clear();

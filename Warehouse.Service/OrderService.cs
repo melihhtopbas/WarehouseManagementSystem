@@ -795,7 +795,7 @@ namespace Warehouse.Service
                     model.Desi = (decimal)model.Weight;
                 }
             }
-            decimal yuvarlananDesi = Math.Ceiling((decimal)(model.Desi)); // sayıyı bi üst tam sayıya yuvarlar. 11.1 -> 12 ** 11.99 -> 12 
+            decimal yuvarlananDesi = Math.Ceiling((decimal)(model.Desi)); // sayıyı bi üst tam sayıya yuvarlar. 11.1 -> 12 ** 19.99 -> 20 
             if (model.Desi >=1 && model.Desi<10)            
             {
                 if (model.Desi + 0.5m > yuvarlananDesi)

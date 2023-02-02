@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.Id, new { data_val = "false" })           
+            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
             @Html.RenderValidationSummary(true)
         </div>
     </div>
@@ -15,7 +15,7 @@
 
     <div class="row">
         @*row start*@
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Gönderici</h5>
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Gönderici</strong></em></h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
@@ -37,10 +37,10 @@
 
 
         <div class="clearfix"></div>
-        <hr />
+        <br />
         <div class="clearfix"></div>
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Alıcı</h5>
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Alıcı</strong></em></h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientName, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
@@ -76,10 +76,10 @@
         </div>
 
         <div class="clearfix"></div>
-        <hr />
+        <br />
         <div class="clearfix"></div>
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Ürün İşlemleri</h5>
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Ürün İşlemleri</strong></em></h5>
         <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
             <div class="row">
                 @Html.EditorFor(m => m.CurrenyUnit)
@@ -89,7 +89,7 @@
             @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderDescription, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
         </div>
         <div class="clearfix"></div>
-        <hr />
+
 
         <div id="transactionGroupRow">
             @if (Model.ProductTransactionGroup != null)
@@ -106,7 +106,7 @@
 
 
 
-        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">Paket İşlemleri</h5>
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Paket İşlemleri</strong></em></h5>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="row">
                 @Html.EditorFor(m => m.CargoService)
@@ -117,7 +117,7 @@
 
 
     </div> @*row end*@
-     
+
     <div class="form-group form-group-sm row">
         <div class="col-xs-12">
             <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
@@ -135,6 +135,7 @@
         font-weight: bold;
         color: red;
     }
+
     .showOrderPackage {
         color: #ffffff;
         background-color: #14ceb7
@@ -145,7 +146,7 @@
         $("#NestedCountry").on("change", function () {
             $('#NestedCity').prop('disabled', false);
             var id = $("#NestedCountry").val();
-            
+
             if (id != "" && id != null) {
                 $.ajax({
                     url: '/Order/NestedCity',
@@ -154,7 +155,7 @@
                     dataType: "json",
                     success: function (data) {
                         $("#NestedCity").empty();
-                        $("#NestedCity").append("<option value'"+String.empty+ "'>"+ "Şehir Seçiniz" +"</Option")
+                        $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
                         for (var i = 0; i < data.length; i++) {
                             $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
                         }
@@ -169,7 +170,7 @@
                 $('#NestedCity').prop('disabled', true);
                 $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
             }
-           
+
         });
     });
 </script>

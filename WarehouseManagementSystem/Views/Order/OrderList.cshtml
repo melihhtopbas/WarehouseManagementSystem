@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Warehouse.ViewModels.Admin.OrderListViewModel>
+﻿@model IPagedList<Warehouse.ViewModels.Admin.OrderListViewModel>
 @{
     var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
 }
 <div class="box-header">
     <i class="fa-solid fa-truck-fast"></i>
     <h3 class="box-title">Gönderi Listesi</h3>
- 
+
 </div>
 
 @foreach (var language in languages)
@@ -21,19 +21,41 @@
         <i class="fa-solid fa-cart-plus"></i> Yeni Gönderi Oluştur
     </a>
 }
+
+<div class="pull-right hidden-xs hidden-sm">
+    @if (Model.Any())
+    {
+        <div style="margin: 20px 0; float: left !important;">
+            @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+        </div>
+    }
+
+    &nbsp;
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
+        .Action("OrderList")
+        .DisplayTemplate("BootstrapPagination")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        )
+
+         
+</div>
+
+
+
 <div class="clearfix"><div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"></div></div>
 <table id="tblOrders" class="table table-bordered">
     <thead>
         <tr>
-             
+
             <th>Gönderici Adı</th>
-             
-            <th >Gönderici Adres</th>
+
+            <th>Gönderici Adres</th>
             <th>Alıcı Adı</th>
-            
+
             <th>Alıcı Şehir</th>
             <th>Alıcı Ülke</th>
-             
+
             <th>Alıcı Adres</th>
             <th>Kargo Servis Tipi</th>
             <th>Sipariş Paketlendi mi?</th>
@@ -54,6 +76,23 @@
 
 
 </table>
+<div class="pull-left">
+
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
+        .Action("OrderList")
+        .DisplayTemplate("BootstrapPagination")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
 <script>
     $(function () {
         $("#tblOrders").dataTable({
@@ -66,10 +105,10 @@
     });
 
 </script>
- <style>
-     #tblOrders {
-         width: 130%;
-         max-width: 150%;
-         margin-bottom: 20px;
-     }
- </style>
+<style>
+    #tblOrders {
+        width: 130%;
+        max-width: 150%;
+        margin-bottom: 20px;
+    }
+</style>
