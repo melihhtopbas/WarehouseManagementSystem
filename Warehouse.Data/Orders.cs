@@ -43,6 +43,7 @@ namespace Warehouse.Data
         public Nullable<int> PackageCount { get; set; }
         public Nullable<long> LanguageId { get; set; }
         public Nullable<bool> isPackage { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
         public virtual Cities Cities { get; set; }

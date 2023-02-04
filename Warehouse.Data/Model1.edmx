@@ -65,6 +65,7 @@
           <Property Name="PackageCount" Type="int" />
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="isPackage" Type="bit" />
+          <Property Name="Date" Type="date" />
         </EntityType>
         <EntityType Name="PackagedProductGroups">
           <Key>
@@ -105,6 +106,7 @@
           <Property Name="isPackage" Type="bit" />
           <Property Name="isReadOnly" Type="bit" />
           <Property Name="isPackagedCount" Type="int" />
+          <Property Name="isPackagedCount2" Type="int" />
         </EntityType>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -453,6 +455,7 @@
           <Property Name="isReadOnly" Type="Boolean" />
           <Property Name="isPackagedCount" Type="Int32" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
+          <Property Name="isPackagedCount2" Type="Int32" />
         </EntityType>
         <EntityType Name="PackagedProductGroups">
           <Key>
@@ -534,6 +537,7 @@
           <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
           <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
           <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_Orders_CargoServiceTypes">
           <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
@@ -716,6 +720,7 @@
           <EntitySetMapping Name="ProductTransactionGroup">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ProductTransactionGroup">
               <MappingFragment StoreEntitySet="ProductTransactionGroup">
+                <ScalarProperty Name="isPackagedCount2" ColumnName="isPackagedCount2" />
                 <ScalarProperty Name="isPackagedCount" ColumnName="isPackagedCount" />
                 <ScalarProperty Name="isReadOnly" ColumnName="isReadOnly" />
                 <ScalarProperty Name="isPackage" ColumnName="isPackage" />
@@ -754,6 +759,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="isPackage" ColumnName="isPackage" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="PackageCount" ColumnName="PackageCount" />

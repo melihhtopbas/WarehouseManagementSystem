@@ -45,6 +45,7 @@ namespace Warehouse.Service
                         CurrencyUnit = b.CurrencyUnits.Name,
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
+                        DateTime = (DateTime)b.Date,
 
 
 
@@ -150,7 +151,8 @@ namespace Warehouse.Service
                 bool skuExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == item.SKU).ConfigureAwait(false);
                 if (skuExist)
                 {
-                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır!");
+                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır! " + "{"+item.SKU+"}");
+                     
                     return callResult;
                 }
             }
@@ -163,7 +165,7 @@ namespace Warehouse.Service
                         bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
                         if (skuexist)
                         {
-                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır!");
+                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır! "+ "{"+model.ProductTransactionGroup.ElementAt(i).SKU+"}");
                             return callResult;
 
 
@@ -196,6 +198,7 @@ namespace Warehouse.Service
                 ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
                 RecipientCountryId = model.Country.CountryId,
                 LanguageId = 1, //türkçe dili olarak ayarlanır.
+                Date = DateTime.Now.Date,
 
 
             };
@@ -293,7 +296,7 @@ namespace Warehouse.Service
                 }
             }
             
-
+            //ispackagedcoount - ispackagedcount2 yap
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
             var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Find(model.OrderId);
@@ -304,7 +307,8 @@ namespace Warehouse.Service
 
             foreach (var prd1 in isPackageProduct)
             {
-                if (prd1.Count > prd1.isPackagedCount)
+                prd1.isPackagedCount2 = prd1.isPackagedCount;
+                if (prd1.Count > prd1.isPackagedCount && prd1.isPackagedCount==0)
                 {
                     prd1.isPackage = true;
                 }
@@ -358,7 +362,7 @@ namespace Warehouse.Service
                         return callResult;
                     }
 
-
+                    readOnlyProduct.isPackagedCount2 = readOnlyProduct.isPackagedCount;
                     readOnlyProduct.isReadOnly = true;
                     readOnlyProduct.isPackagedCount = readOnlyProduct.isPackagedCount - item.PackagedCount;
                 }

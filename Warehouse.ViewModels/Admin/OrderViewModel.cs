@@ -89,6 +89,8 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Sipariş Açıklaması")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string OrderDescription { get; set; }
+        [Display(Name = "Sipariş Oluşturulma Tarihi")]
+        public DateTime DateTime { get; set; }
 
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }
         public virtual CountryViewModel Countries { get; set; }
@@ -171,6 +173,8 @@ namespace Warehouse.ViewModels.Admin
         public string CargoService { get; set; }
         
         public bool? isPackage { get; set; }
+        [Display(Name = "Sipariş Oluşturulma Tarihi")]
+        public DateTime DateTime { get; set; }
 
 
         public virtual CargoServiceTypeViewModel CargoServiceTypes { get; set; }

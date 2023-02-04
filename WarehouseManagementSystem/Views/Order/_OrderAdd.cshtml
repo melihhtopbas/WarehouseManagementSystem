@@ -18,10 +18,10 @@
 
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Gönderici</strong></em></h5>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true" })
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true",placeholder = "Gönderici Adı" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200" })
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200", placeholder = "Gönderici Mail" })
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderPhone, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
@@ -146,6 +146,13 @@
     }
 </style>
 <script>
+    $('#NestedCity').prop('disabled', true);
+    var cityId = $("#NestedCity").val();
+    if (cityId != "" && cityId != null) {
+        $('#NestedCity').prop('disabled', false);
+    }
+    console.log(cityId);
+    
     $(function () {
         $("#NestedCountry").on("change", function () {        
 
@@ -176,6 +183,11 @@
                 $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
             }         
         });
+        
+
+
+
+
     });
 </script>
 

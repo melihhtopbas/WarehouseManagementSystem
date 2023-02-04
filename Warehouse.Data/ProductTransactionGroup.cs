@@ -24,6 +24,7 @@ namespace Warehouse.Data
         public Nullable<bool> isPackage { get; set; }
         public Nullable<bool> isReadOnly { get; set; }
         public Nullable<int> isPackagedCount { get; set; }
+        public Nullable<int> isPackagedCount2 { get; set; }
     
         public virtual Orders Orders { get; set; }
     }

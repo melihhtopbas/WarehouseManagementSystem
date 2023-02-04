@@ -49,7 +49,7 @@ namespace WarehouseManagementSystem.Controllers
             var currentPageIndex = page - 1 ?? 0;
 
             var result = _orderService.GetOrderListIQueryable(model)
-                .OrderBy(p => p.isPackage)
+                .OrderBy(p => p.isPackage).OrderBy(x=>x.DateTime)
                 .ToPagedList(currentPageIndex,SystemConstants.DefaultServicePageSize);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 
@@ -122,7 +122,7 @@ namespace WarehouseManagementSystem.Controllers
             }
 
 
-
+            ViewData["Cities"] =_orderService.GetOrderCityList(model.Country.CountryId).ToList();
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
@@ -287,9 +287,17 @@ namespace WarehouseManagementSystem.Controllers
         public async Task<ActionResult> OrderPackageAdd(int orderId)
         {
             var readOnlyProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).ToList();
+            //foreach (var item in readOnlyProduct)
+            //{
+            //    if (item.isPackage == null || item.isPackage == false)
+            //    {
+            //        item.isPackagedCount = item.Count;
+            //    }
+            //}
             foreach (var item in readOnlyProduct)
             {
-                if (item.isPackage == null || item.isPackage == false)
+                item.isPackagedCount = item.isPackagedCount2;
+                if (item.isReadOnly == false || item.isReadOnly  == null)
                 {
                     item.isPackagedCount = item.Count;
                 }
