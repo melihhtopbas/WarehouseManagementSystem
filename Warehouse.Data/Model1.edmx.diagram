@@ -27,6 +27,15 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Sliders" Width="1.5" PointX="3" PointY="2" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Sliders_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.About" Width="1.5" PointX="3" PointY="14.875" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Settings" Width="1.5" PointX="3" PointY="9" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_About_Languages" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Settings_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Properties" Width="1.5" PointX="3" PointY="18.75" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Properties_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Users" Width="1.5" PointX="8.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

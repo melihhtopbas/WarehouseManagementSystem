@@ -1,0 +1,114 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.OrderListViewModel>
+
+
+@{
+    var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
+}
+<div class="box-header">
+    <i class="fa-solid fa-truck-fast"></i>
+    <h3 class="box-title">Gönderi Listesi</h3>
+
+</div>
+
+@foreach (var language in languages)
+{
+    <a id="MyModal" class="pressActive btn btn-warning btn-sm"
+       data-modal-form="true"
+       data-modal-size="modal-lg"
+       data-modal-prepend="tbody#OrderList"
+       data-modal-title="@language.Name Yeni Gönderi Oluştur"
+       data-hook-beforeunload="true"
+       data-modal-save-message="Gönderi başarıyla oluşturuldu"
+       href="@Url.Action("Add", "Order",new { Area = "Admin" })">
+        <i class="fa-solid fa-cart-plus"></i> Yeni Gönderi Oluştur
+    </a>
+}
+
+<div class="pull-right hidden-xs hidden-sm">
+    @if (Model.Any())
+    {
+        <div style="margin: 20px 0; float: left !important;">
+            @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+        </div>
+    }
+
+    &nbsp;
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
+        .Action("OrderList")
+        .DisplayTemplate("BootstrapPagination")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        )
+    
+    
+</div>
+
+
+
+<div class="clearfix"><div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"></div></div>
+<table id="tblOrders" class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th>Gönderici Adı</th>
+            <th>Gönderici Adres</th>
+            <th>Alıcı Adı</th>
+            <th>Alıcı Şehir</th>
+            <th>Alıcı Ülke</th>
+            <th>Sipariş Oluşturulma Tarihi</th>
+            <th>Alıcı Adres</th>
+            <th>Kargo Servis Tipi</th>
+            <th>Bütün Ürünler Paketlendi mi?</th>
+            <th>Toplam Koli Adeti</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+            <th>Ürünleri Görüntüle</th>
+            <th>Sipariş Paketle</th>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody id="OrderList">
+        @Html.DisplayFor(m => m)
+    </tbody>
+
+
+</table>
+<div class="pull-left">
+    
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
+        .Action("OrderList")
+        .DisplayTemplate("BootstrapPagination")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+<script>
+    $(function () {
+        $("#tblOrders").dataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+            }
+        });
+
+
+    });
+
+</script>
+<style>
+    #tblOrders {
+        width: 130%;
+        max-width: 150%;
+        margin-bottom: 20px;
+    }
+</style>

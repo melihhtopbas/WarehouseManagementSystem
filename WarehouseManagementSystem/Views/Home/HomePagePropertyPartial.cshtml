@@ -1,0 +1,68 @@
+﻿@model List<Warehouse.ViewModels.WebSite.PropertyListViewModel>
+    @using Warehouse.Utils.Constants
+@{
+    int i = 0;
+    int t = 0;
+}
+<!-- Our-approach starts
+   ============================================ -->
+<section class="section our-approach">
+    <div class="container">
+        <div class="section-heading text-center">
+            <h2>
+
+                <span>Özellikler</span>
+            </h2>
+        </div>
+        <!-- End of .section-heading -->
+
+        <div class="tab-container type-1">
+            <ul class="nav nav-tabs row no-gutters" id="our-approach" role="tablist">
+                @foreach (var item in Model)
+                {
+
+
+                    <li class="nav-item col">
+                        <a class="nav-link @(i==0?"active":string.Empty) " id="approach-tab-1" data-toggle="tab" href="#approach-content-@(i)" role="tab" aria-controls="approach-content-1"
+                           aria-selected="true">
+                            <img src="@Url.Content(String.Format(SystemConstants.PropertyImagePath) + "/" + item.MainImage.FileName)" alt="@item.MainImage.Alt">
+                            <span>@item.Name</span>
+                        </a>
+                    </li>
+                    i++;
+                }
+
+            </ul>
+
+
+            <div class="tab-content" id="approach-tab-content">
+                @foreach (var item in Model)
+                {
+
+                    <div class="tab-pane fade show  @(t==0?"active current":string.Empty) " id="approach-content-@(t)" role="tabpanel" aria-labelledby="approach-content-1">
+                        <div class="row">
+                            <div class="col-md text-center text-md-left">
+                                <div class="text-content">
+                                    <h3>@item.Name</h3>
+                                    <p>
+                                        @Html.Raw(@item.Description)
+                                    </p>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <div class="svg-container text-center">
+                                    <img src="@Url.Content(String.Format(SystemConstants.PropertyImagePath) + "/" + item.MainImage.FileName)" alt="@item.Name" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    t++;
+                }
+            </div>
+
+        </div>
+    </div>
+</section>

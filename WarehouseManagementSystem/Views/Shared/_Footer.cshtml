@@ -1,0 +1,81 @@
+﻿<footer class="page-footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="@Url.Action("Index", "Home", new {lang = "tr"})" class="navbar-brand ">
+                        <img src="~/uploads/PrasoftLogo.png" style="height: 50%; width: 50%" alt="footer logo">
+
+                    </a>
+                    <!-- End of .navbar-brand -->
+                </div>
+                <!-- End of .col-md-6 -->
+
+                <div class="col-md-8 ml-md-auto">
+                    <ul class="navbar-nav navbar-expand-md">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home", new {lang = "tr"})">Anasayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "About", new {lang = "tr"})">Hakkımızda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Service", new {lang ="tr"})">Servisler</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">İletişim</a>
+                        </li>
+                    </ul>
+                    <!-- End of .navbar-nav -->
+                </div>
+                <!-- End of .col-md-6 -->
+            </div>
+            <!-- End of .row -->
+        </div>
+        <!-- End of .footer-top -->
+        <!-- End of .footer-mid -->
+
+        <div class="footer-bottom">
+            <div class="row align-text-center justify-content-between">
+                <div class="col-md-auto  text-left">
+                    <p>
+                        Copyright - @DateTime.Today.Year,
+                        <span>All rights reserved.</span>
+                    </p>
+                     
+                    <!-- End of .footer-bottom-links -->
+                </div>
+                <!-- End of .col-md-6 -->
+
+                <div class="col-md-auto  text-left">
+                    <p>Sosyal Medya</p>
+                    <div class="footer-bottom-icons d-flex justify-content-md-center">
+                        <a class="c-facebook" href="https://www.facebook.com/prasoft">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a class="c-twitter" href="https://twitter.com/prapazar">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a class="c-google-plus" href="https://www.prasoft.com.tr/">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a class="c-youtube" href="https://www.youtube.com/watch?v=5sCNORyi-MU">
+                            <i class="fa fa-youtube"></i>
+                        </a>
+
+
+                    </div>
+                    <!-- End of .footer-bottom-links -->
+                </div>
+                <!-- End of .col-md-6 -->
+            </div>
+            <!-- End of .row -->
+        </div>
+        <!-- End of .footer-bottom -->
+    </div>
+    <!-- End of .container -->
+</footer>
+

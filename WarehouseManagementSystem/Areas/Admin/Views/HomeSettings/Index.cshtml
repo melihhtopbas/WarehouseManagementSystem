@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<a data-modal-form="true"
+   data-modal-size="modal-lg"
+   data-modal-title="Kayıt Sayfası"
+   data-hook-beforeunload="true"
+   data-modal-save-message="Gönderi başarıyla düzenlendi"
+   href="@Url.Action("Register", "Login", new {Area="Admin"})">
+    <i class="fa-solid fa-registered"></i> Kayıt Ol
+</a>

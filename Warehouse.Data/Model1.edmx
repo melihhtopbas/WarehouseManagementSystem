@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="WarehouseManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="About">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Vision" Type="nvarchar(max)" />
+          <Property Name="Mission" Type="nvarchar(max)" />
+          <Property Name="FileName2" Type="nvarchar" MaxLength="80" />
+        </EntityType>
         <EntityType Name="CargoServiceTypes">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,6 +53,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -108,6 +122,20 @@
           <Property Name="isPackagedCount" Type="int" />
           <Property Name="isPackagedCount2" Type="int" />
         </EntityType>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ShortDescription" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Link" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="80" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="RecipientAddresses">
           <Key>
             <PropertyRef Name="Id" />
@@ -124,6 +152,71 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="OrderId" Type="bigint" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Logo" Type="nvarchar(max)" />
+          <Property Name="Favicon" Type="nvarchar(max)" />
+          <Property Name="Meta" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="500" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Maps" Type="nvarchar(max)" />
+          <Property Name="Facebook" Type="nvarchar" MaxLength="250" />
+          <Property Name="Twitter" Type="nvarchar" MaxLength="250" />
+          <Property Name="Instagram" Type="nvarchar" MaxLength="250" />
+          <Property Name="Youtube" Type="nvarchar" MaxLength="250" />
+          <Property Name="Gplus" Type="nvarchar" MaxLength="250" />
+          <Property Name="Adress" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="250" />
+          <Property Name="Analytics" Type="nvarchar(max)" />
+          <Property Name="Copyright" Type="nvarchar(max)" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sliders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="80" />
+          <Property Name="Alt" Type="nvarchar" MaxLength="80" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+          <Property Name="ButtonText1" Type="nvarchar" MaxLength="50" />
+          <Property Name="ButtonText2" Type="nvarchar" MaxLength="50" />
+          <Property Name="ButtonText3" Type="nvarchar" MaxLength="50" />
+          <Property Name="ButtonText4" Type="nvarchar" MaxLength="50" />
+          <Property Name="ButtonLink1" Type="nvarchar" MaxLength="200" />
+          <Property Name="ButtonLink2" Type="nvarchar" MaxLength="200" />
+          <Property Name="ButtonLink3" Type="nvarchar" MaxLength="200" />
+          <Property Name="ButtonLink4" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_About_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="About" Type="Self.About" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="About">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cities_Countries">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
@@ -232,6 +325,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Properties_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RecipientAddresses_Orders">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="RecipientAddresses" Type="Self.RecipientAddresses" Multiplicity="*" />
@@ -256,7 +361,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Settings_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="Settings" Type="Self.Settings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Settings">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sliders_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="Sliders" Type="Self.Sliders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sliders">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WarehouseManagementSystemModelStoreContainer">
+          <EntitySet Name="About" EntityType="Self.About" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
@@ -266,8 +396,16 @@
           <EntitySet Name="PackagedProductGroups" EntityType="Self.PackagedProductGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductTransactionGroup" EntityType="Self.ProductTransactionGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipientAddresses" EntityType="Self.RecipientAddresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SenderAddresses" EntityType="Self.SenderAddresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sliders" EntityType="Self.Sliders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_About_Languages" Association="Self.FK_About_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="About" EntitySet="About" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Cities" EntitySet="Cities" />
@@ -304,6 +442,10 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
           </AssociationSet>
+          <AssociationSet Name="FK_Properties_Languages" Association="Self.FK_Properties_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
           <AssociationSet Name="FK_RecipientAddresses_Orders" Association="Self.FK_RecipientAddresses_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="RecipientAddresses" EntitySet="RecipientAddresses" />
@@ -311,6 +453,14 @@
           <AssociationSet Name="FK_SenderAddresses_Orders" Association="Self.FK_SenderAddresses_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="SenderAddresses" EntitySet="SenderAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Settings_Languages" Association="Self.FK_Settings_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Settings" EntitySet="Settings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sliders_Languages" Association="Self.FK_Sliders_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Sliders" EntitySet="Sliders" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -349,6 +499,11 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sliders" Relationship="WarehouseManagementSystemModel.FK_Sliders_Languages" FromRole="Languages" ToRole="Sliders" />
+          <NavigationProperty Name="About" Relationship="WarehouseManagementSystemModel.FK_About_Languages" FromRole="Languages" ToRole="About" />
+          <NavigationProperty Name="Settings" Relationship="WarehouseManagementSystemModel.FK_Settings_Languages" FromRole="Languages" ToRole="Settings" />
+          <NavigationProperty Name="Properties" Relationship="WarehouseManagementSystemModel.FK_Properties_Languages" FromRole="Languages" ToRole="Properties" />
         </EntityType>
         <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
@@ -406,6 +561,27 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="SenderAddresses" EntitySet="SenderAddresses" />
           </AssociationSet>
+          <EntitySet Name="Sliders" EntityType="WarehouseManagementSystemModel.Sliders" />
+          <AssociationSet Name="FK_Sliders_Languages" Association="WarehouseManagementSystemModel.FK_Sliders_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Sliders" EntitySet="Sliders" />
+          </AssociationSet>
+          <EntitySet Name="About" EntityType="WarehouseManagementSystemModel.About" />
+          <EntitySet Name="Settings" EntityType="WarehouseManagementSystemModel.Settings" />
+          <AssociationSet Name="FK_About_Languages" Association="WarehouseManagementSystemModel.FK_About_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="About" EntitySet="About" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Settings_Languages" Association="WarehouseManagementSystemModel.FK_Settings_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Settings" EntitySet="Settings" />
+          </AssociationSet>
+          <EntitySet Name="Properties" EntityType="WarehouseManagementSystemModel.Properties" />
+          <AssociationSet Name="FK_Properties_Languages" Association="WarehouseManagementSystemModel.FK_Properties_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="WarehouseManagementSystemModel.Users" />
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -647,6 +823,138 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Sliders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Alt" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <Property Name="ButtonText1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonText2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonText3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonText4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonLink1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonLink2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonLink3" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ButtonLink4" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Sliders_Languages" FromRole="Sliders" ToRole="Languages" />
+        </EntityType>
+        <Association Name="FK_Sliders_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.Sliders" Role="Sliders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sliders">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="About">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Vision" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mission" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileName2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_About_Languages" FromRole="About" ToRole="Languages" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Favicon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Keywords" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Maps" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Facebook" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Twitter" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Instagram" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Youtube" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Gplus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Adress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Analytics" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Copyright" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Settings_Languages" FromRole="Settings" ToRole="Languages" />
+        </EntityType>
+        <Association Name="FK_About_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.About" Role="About" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="About">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Settings_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.Settings" Role="Settings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Settings">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ShortDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Icon" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Properties_Languages" FromRole="Properties" ToRole="Languages" />
+        </EntityType>
+        <Association Name="FK_Properties_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.Properties" Role="Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -680,6 +988,7 @@
           <EntitySetMapping Name="Languages">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Languages">
               <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -779,6 +1088,91 @@
                 <ScalarProperty Name="SenderInvoiceNumber" ColumnName="SenderInvoiceNumber" />
                 <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sliders">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Sliders">
+              <MappingFragment StoreEntitySet="Sliders">
+                <ScalarProperty Name="ButtonLink4" ColumnName="ButtonLink4" />
+                <ScalarProperty Name="ButtonLink3" ColumnName="ButtonLink3" />
+                <ScalarProperty Name="ButtonLink2" ColumnName="ButtonLink2" />
+                <ScalarProperty Name="ButtonLink1" ColumnName="ButtonLink1" />
+                <ScalarProperty Name="ButtonText4" ColumnName="ButtonText4" />
+                <ScalarProperty Name="ButtonText3" ColumnName="ButtonText3" />
+                <ScalarProperty Name="ButtonText2" ColumnName="ButtonText2" />
+                <ScalarProperty Name="ButtonText1" ColumnName="ButtonText1" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Alt" ColumnName="Alt" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="About">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.About">
+              <MappingFragment StoreEntitySet="About">
+                <ScalarProperty Name="FileName2" ColumnName="FileName2" />
+                <ScalarProperty Name="Mission" ColumnName="Mission" />
+                <ScalarProperty Name="Vision" ColumnName="Vision" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Settings">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Copyright" ColumnName="Copyright" />
+                <ScalarProperty Name="Analytics" ColumnName="Analytics" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Gplus" ColumnName="Gplus" />
+                <ScalarProperty Name="Youtube" ColumnName="Youtube" />
+                <ScalarProperty Name="Instagram" ColumnName="Instagram" />
+                <ScalarProperty Name="Twitter" ColumnName="Twitter" />
+                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
+                <ScalarProperty Name="Maps" ColumnName="Maps" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Meta" ColumnName="Meta" />
+                <ScalarProperty Name="Favicon" ColumnName="Favicon" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Properties">
+              <MappingFragment StoreEntitySet="Properties">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,0 +1,77 @@
+﻿@model List<Warehouse.ViewModels.Admin.OrderPackageListViewModel>
+<table id="showOrderPackageGroup" class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:50px;">#</th>
+            <th>Ağırlık(kg)</th>
+            <th>En(cm)</th>
+            <th>Yükselik(cm)</th>
+            <th>Boy(cm)</th>
+            <th>Desi/Kg</th>
+            <th>Kolideki Ürünler</th>
+
+
+
+
+
+        </tr>
+    </thead>
+    <tbody id="OrderPackageList">
+        @{int i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><span>@i. KOLİ </span> <i class="fa-solid fa-arrow-right"></i></td>
+                <td>@item.Weight kg</td>
+                <td>@item.Width cm</td>
+                <td>@item.Height cm</td>
+                <td>@item.Length cm</td>
+                <td>@item.Desi</td>
+                <td>
+                    @foreach (var packageProduct in item.OrderPackageProductGroups)
+                    {
+                        <span>@packageProduct.Content</span> <span> </span>
+                        <strong><span>@packageProduct.Count</span><span>x</span></strong>
+                        <span>
+                            <i class="fa-sharp fa-solid fa-check-double"></i>
+                        </span>
+                        <br />
+                    }
+                    <hr />
+                    <span>Bu kolideki toplam ürün miktarı: <strong>@item.CountProductsInThePackage</strong> </span>
+                </td>
+            </tr>
+            i++;
+        }
+
+
+    </tbody>
+
+
+</table>
+<div class="clearfix"></div>
+
+@foreach (var prdct in ViewData["ProductList"] as List<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>)
+{
+    if (prdct.isPackagedCount>0)
+    {
+        <span>Toplam <strong>@prdct.Count</strong> adet olan <strong>@prdct.Content</strong> ürününüzden paketlenmeyen ürün miktarı: <strong>@prdct.isPackagedCount</strong> </span>
+        <br />
+    }
+    else
+    {
+        <span><strong>@prdct.Content</strong> PAKETLENDİ <i class="fa-solid fa-check"></i></span>
+        <br />
+    }
+
+}
+
+<div class="clearfix"></div>
+
+
+<div class="form-group form-group-sm row">
+    <div class="col-xs-12">
+
+        <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;Kapat</button>
+    </div>
+</div>

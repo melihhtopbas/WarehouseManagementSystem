@@ -36,5 +36,10 @@ namespace Warehouse.Data
         public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Sliders> Sliders { get; set; }
+        public virtual DbSet<About> About { get; set; }
+        public virtual DbSet<Settings> Settings { get; set; }
+        public virtual DbSet<Properties> Properties { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

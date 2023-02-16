@@ -18,12 +18,25 @@ namespace Warehouse.Data
         public Languages()
         {
             this.Orders = new HashSet<Orders>();
+            this.Sliders = new HashSet<Sliders>();
+            this.About = new HashSet<About>();
+            this.Settings = new HashSet<Settings>();
+            this.Properties = new HashSet<Properties>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
+        public string ShortName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Sliders> Sliders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<About> About { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Settings> Settings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Properties> Properties { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Warehouse.ViewModels.Common
 {
@@ -27,5 +30,37 @@ namespace Warehouse.ViewModels.Common
         public string Name { get; set; }
         public string ShortName { get; set; }
 
+    }
+    public class ImageViewModel
+    {
+        public string FileName { get; set; }
+        public string BlogUniqueTempId { get; set; }
+        public string ServiceUniqueTempId { get; set; }
+
+
+        
+        public string Title { get; set; }
+
+        
+        public string Alt { get; set; }
+    }
+    public class ImageListViewModel
+    {
+        public string FileName { get; set; }
+        public string Title { get; set; }
+        public string Alt { get; set; }
+
+    }
+
+    public class ImageInsertViewModel
+    {
+        public string BlogUniqueTempId { get; set; }
+        public string ServiceUniqueTempId { get; set; }
+        public string HtmlPrefix { get; set; }
+        
+        public string Title { get; set; }
+
+       
+        public string Alt { get; set; }
     }
 }

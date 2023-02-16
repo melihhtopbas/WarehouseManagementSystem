@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Warehouse.Service.WebSite;
+using WarehouseManagementSystem.Controllers;
 
-namespace WarehouseManagementSystem.Controllers
+namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AdminBaseController
     {
-        public ActionResult Index()
+        private readonly SliderService _sliderService;
+
+        private readonly PropertyService _propertyService;
+        public HomeController(SliderService sliderService, PropertyService propertyService)
+        {
+            _sliderService = sliderService;
+            _propertyService = propertyService;
+        }
+        public ActionResult Index(string lang)
         {
             return View();
         }
-
-        public ActionResult About()
+        public ActionResult SliderPartial()
         {
-            ViewBag.Message = "Your application description page.";
+            string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+            var model = _sliderService.GetSliderListIQueryable().ToList();
+            return PartialView("~/Views/Home/SliderPartial.cshtml", model);
 
-            return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult HomePageProperties()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            string lang = "tr";
+            var model = _propertyService.GetHomePagePropertyListIQueryable(lang).OrderBy(a => Guid.NewGuid()).ToList();
+            return PartialView("~/Views/Home/HomePagePropertyPartial.cshtml", model);
         }
     }
 }

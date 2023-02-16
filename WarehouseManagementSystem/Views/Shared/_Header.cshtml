@@ -1,0 +1,236 @@
+﻿<!-- fullscreen-menu starts
+      ============================================ -->
+<div class="fullscreen-menu text-right">
+    <div class="container">
+        <div class="navbar-wrapper">
+            <nav class="navbar">
+                <a href="javascript:void(0)" class="close-menu">
+                    <i class="icon-Cross"></i>
+                </a>
+                <!-- End of .close-menu -->
+
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang ="tr"})">Anasayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang ="tr"})">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Service", new {lang = "tr"})">Servisler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">İletişim</a>
+                    </li>
+                   
+                    
+                    <!-- End of .nav-social-links -->
+                </ul>
+                <!-- End of .navbar-nav -->
+            </nav>
+            <!-- End of .navbar -->
+        </div>
+        <!-- End of .navbar-wrapper -->
+    </div>
+    <!-- End of .container -->
+</div>
+<!-- End of .fullscreen-menu -->
+<!-- navbar starts
+============================================ -->
+<div class="header-wrapper fixed-top">
+    <div class="header-top d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-sm-4 text-sm-left">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home", new {lang = "tr"})">
+                        <img src="~/uploads/wms-logo.png" alt="brand logo">
+
+
+                    </a>
+                    <!-- End of .navbar-brand -->
+                </div>
+                <!-- End of .col-4 -->
+
+                <div class="ht-right col-sm d-flex align-items-center justify-content-center justify-content-sm-end">
+                    <a href="#" class="contact-numb">
+                        <i class="grad-icon icon-Phone"></i>
+                        <span>0(534) 273 76 43</span>
+                    </a>
+
+                    <a class="mm-toggler navbar-toggler" href="#">
+                        <span class="toggler-icon bar1"></span>
+                        <span class="toggler-icon bar2"></span>
+                        <span class="toggler-icon bar3"></span>
+                    </a>
+
+                </div>
+                <div style="margin-left:100px">
+                    <a href="/Admin/Order/Index" id="breathing-button" class="floatleft">Giriş Yap</a>
+                </div>
+                <!-- End of .col-auto -->
+            </div>
+            <!-- End of row -->
+        </div>
+        <!-- End of .container -->
+    </div>
+    <!-- End of .header-top -->
+    <!-- Nav starts -->
+    <nav class="navbar navbar-toggleable-md align-items-center navbar-expand-lg hidden-lg-down">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav d-flex w-100 align-items-center justify-content-between">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang = "tr"})">Anasayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang = "tr"})">Hakkımızda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Service", new {lang = "tr"})">Servisler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">İletişim</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- End of .container -->
+    </nav>
+    <!-- End of nav -->
+</div>
+<!-- End of .header-wrapper -->
+<style>
+    #breathing-button {
+        width: 150px;
+        padding: 10px;
+        border: 1px solid #d1d1d1;
+        animation: breathing 1s infinite forwards;
+        font-size: 14px;
+        background: #5c81fa;
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    @@keyframes breathing {
+        0% {
+            -webkit-transform: scale(0.9);
+            -ms-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+
+        50% {
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+        }
+
+        100% {
+            -webkit-transform: scale(0.9);
+            -ms-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+    }
+
+    .arrow {
+        position: relative;
+        font-size: 13px;
+        max-width: 100px;
+        background: #D94F1A;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: white;
+        top: 15px;
+    }
+
+        .arrow.animate-left-to-right {
+            animation: move-left-to-right 1s infinite forwards;
+        }
+
+        .arrow.animate-right-to-left {
+            animation: move-right-to-left 1s infinite forwards;
+        }
+
+    @@keyframes move-left-to-right {
+        0% {
+            transform: translateX(15%);
+            box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        50% {
+            transform: translateX(5%);
+            box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        100% {
+            transform: translateX(15%);
+            box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    @@keyframes move-right-to-left {
+        0% {
+            transform: translateX(-15%);
+            box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        50% {
+            transform: translateX(-5%);
+            box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        100% {
+            transform: translateX(-15%);
+            box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .arrow-right {
+        border-radius: 5px 0 0 5px;
+    }
+
+    .arrow-left {
+        border-radius: 0 5px 5px 0;
+    }
+
+        .arrow-right:after, .arrow-left:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+        }
+
+    .arrow-right:after {
+        right: -20px;
+        border-left: 20px solid #D94F1A;
+    }
+
+    .arrow-left:before {
+        left: -20px;
+        border-right: 20px solid #D94F1A;
+    }
+
+    .floatleft {
+        float: left;
+        width: 100px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>

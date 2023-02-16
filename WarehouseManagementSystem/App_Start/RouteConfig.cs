@@ -15,8 +15,8 @@ namespace WarehouseManagementSystem
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Order", action = "Index", id = UrlParameter.Optional }
+                url: "{lang}/{controller}/{action}/{id}",
+                defaults: new { lang = "tr", controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
         }

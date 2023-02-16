@@ -59,11 +59,18 @@
   <ItemGroup>
     <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebSite\PropertyService.cs" />
+    <Compile Include="WebSite\SettingService.cs" />
+    <Compile Include="WebSite\SliderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj">
       <Project>{3406ECDB-B93F-4902-BBA2-95981A6B76B2}</Project>
       <Name>Warehouse.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj">
+      <Project>{5B11C717-6236-4C82-A88C-A17C9E985A68}</Project>
+      <Name>Warehouse.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Warehouse.ViewModels\Warehouse.ViewModels.csproj">
       <Project>{2E96D8BE-BA8F-4349-8780-2E00573EF437}</Project>
@@ -74,6 +81,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

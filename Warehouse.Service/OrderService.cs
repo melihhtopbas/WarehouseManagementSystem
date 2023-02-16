@@ -199,6 +199,7 @@ namespace Warehouse.Service
                 RecipientCountryId = model.Country.CountryId,
                 LanguageId = 1, //türkçe dili olarak ayarlanır.
                 Date = DateTime.Now.Date,
+                
 
 
             };
@@ -296,7 +297,7 @@ namespace Warehouse.Service
                 }
             }
             
-            //ispackagedcoount - ispackagedcount2 yap
+           
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
             var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Find(model.OrderId);
@@ -557,7 +558,7 @@ namespace Warehouse.Service
 
 
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
-                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU || x.SKU == groupDb.SKU)))
+                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU)))
             {
 
                 order.ProductTransactionGroup.Remove(groupDb);

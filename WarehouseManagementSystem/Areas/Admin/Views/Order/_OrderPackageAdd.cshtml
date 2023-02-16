@@ -1,0 +1,229 @@
+﻿@model Warehouse.ViewModels.Admin.OrderPackageAddViewModel
+@using WarehouseManagementSystem.Extensions
+<div class="row">
+    <div class="col-xs-12">
+        <div class="alert alert-warning alert-dismissible">
+            <h4><i class="fa-solid fa-circle-info"></i> Bilgilendirme!</h4>
+            Herhangi bir gönderi 300 kg'den daha ağır olamaz 30'dan daha fazla paket içeremez. Bu sınırların üzerinde kalan gönderilerinizi bölerek göndermenizi tavsiye ederiz.
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("OrderPackageAdd", "Order", new { Area = "Admin" }, FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
+{
+    <div class="row">
+        <div class="col-xs-12">
+
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+            @Html.HiddenFor(a => a.OrderId)
+
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <strong>SİPARİŞTEKİ ÜRÜNLERİN LİSTESİ</strong>
+        <div class="clearfix"></div>
+        <br />
+        <div class="clearfix"></div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ürün İçeriği</th>
+                    <th>Ürün Adeti</th>
+                    <th>Paketlenme Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderProductGroups)
+                {
+                    <tr>
+
+                        <td style="width:200px;">@item.Content</td>
+                        <td style="width:100px;"><span>x</span><span>@item.Count</span></td>
+                        @if (item.isPackagedCount != 0)
+                        {
+                            <td>PAKETLENMEYİ BEKLEYEN ÜRÜNLER VAR ⌛ (<strong> @item.isPackagedCount adet</strong> )</td>
+                        }
+                        @if (item.isPackagedCount == 0)
+                        {
+                            <td>PAKETLENDİ ✅</td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <a class="btn btn-default btn-sm"
+                   data-modal-form="true"
+                   data-modal-size="modal-lg"
+                   data-modal-title="Ürünleri Paketle"
+                   data-hook-beforeunload="true"
+                   data-modal-save-message="Paketlendi"
+                   data-modal-prepend="ul#packagedProductsList"
+                   href="@Url.Action("OrderPackageProductAdd", "Order", routeValues: new {Area = "Admin",orderId=Model.OrderId})">
+                    <i class="fa-solid fa-box"></i> Ürünleri Paketle
+                </a>
+
+                <ul id="packagedProductsList">
+                    @if (Model.OrderPackageProductListViewModels != null)
+                    {
+                        foreach (var entry in Model.OrderPackageProductListViewModels)
+                        {
+                            @Html.Partial("~/Areas/Admin/Views/Order/DisplayTemplates/OrderPackageProductListViewModel.cshtml", entry)
+                        }
+                    }
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+}
+<div class="clearfix"></div>
+
+<style>
+
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<script>
+
+    $('.kt_docs_maxlength_basic').maxlength({
+        alwaysShow: true,
+        threshold: 5,
+        placement: 'top-right',
+        warningClass: "label label-danger label-rounded label-inline",
+        limitReachedClass: "label label-primary label-rounded label-inline"
+    });
+    $('#hideDeletePackageRow').hide();
+    var counter = 0;
+
+
+     $(function () {
+         $('#addPackageTransactionGroup').on('click', function () {
+             $('.spinner').css('display', 'block');
+            $.ajax({
+                url: '@Url.Action("PackageTransactionGroupRow","Order")',
+                    cache: false,
+                success: function (html) {
+                    $("#packageGroupRow").append(html);
+                    $('.spinner').hide();
+                    counter++;
+                    console.log(counter);
+                }
+                });
+                return false;
+         });
+
+         $('#packageGroupRow').on('click', '.deletePackageRow', function () {
+             if (counter!=0) {
+                 $(this).closest('.packageTransactionGroup').remove();
+                 counter--;
+             }
+             if (counter == 0) {
+                 $('#hideDeletePackageRow').hide();
+             }
+
+
+             console.log(counter);
+
+
+
+
+         });
+
+
+     });
+
+</script>
+
+<div class="spinner" style="display:none">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .center-div {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+
+    .spinner {
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .loader {
+        margin: auto;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #15a0ec;
+        border-bottom: 16px solid #15a0ec;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    .inner-div {
+        background-color: white;
+        border-radius: 15px;
+        margin: auto;
+        padding: 2%;
+        width: 150px;
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

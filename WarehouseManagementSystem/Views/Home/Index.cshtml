@@ -1,19 +1,10 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Warehouse.ViewModels.Admin
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h6>Warehouse Management System Home Page</h6>
+@{Html.RenderAction("SliderPartial", "Home"); }
 
-
-<div class="clearfix"></div>
-<br />
-<div class="clearfix"></div>
-
-<h6>Depo Yönetim Sistemi Ana Sayfası</h6>
-
-<div class="clearfix"></div>
-<hr />
-<div class="clearfix"></div>
-
-
-
+ 
+@{Html.RenderAction("HomePageProperties", "Home"); }
