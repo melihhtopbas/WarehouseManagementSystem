@@ -18,6 +18,19 @@
           <Property Name="Mission" Type="nvarchar(max)" />
           <Property Name="FileName2" Type="nvarchar" MaxLength="80" />
         </EntityType>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Vision" Type="nvarchar(max)" />
+          <Property Name="Mission" Type="nvarchar(max)" />
+          <Property Name="FileName2" Type="nvarchar" MaxLength="80" />
+        </EntityType>
         <EntityType Name="CargoServiceTypes">
           <Key>
             <PropertyRef Name="Id" />
@@ -33,6 +46,18 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryId" Type="bigint" />
         </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="100" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Countries">
           <Key>
             <PropertyRef Name="Id" />
@@ -46,6 +71,29 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FAQ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+          <Property Name="Link" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CategoryId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="FAQCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="80" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" Nullable="false" />
+          <Property Name="Link" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -217,6 +265,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Blog_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="Blog" Type="Self.Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Blog">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cities_Countries">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
@@ -226,6 +286,42 @@
             </Principal>
             <Dependent Role="Cities">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_FAQCategories">
+          <End Role="FAQCategories" Type="Self.FAQCategories" Multiplicity="0..1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAQCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="FAQ" Type="Self.FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQCategories_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+          <End Role="FAQCategories" Type="Self.FAQCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQCategories">
+              <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -387,10 +483,14 @@
         </Association>
         <EntityContainer Name="WarehouseManagementSystemModelStoreContainer">
           <EntitySet Name="About" EntityType="Self.About" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyUnits" EntityType="Self.CurrencyUnits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAQ" EntityType="Self.FAQ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FAQCategories" EntityType="Self.FAQCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackagedProductGroups" EntityType="Self.PackagedProductGroups" Schema="dbo" store:Type="Tables" />
@@ -406,9 +506,25 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="About" EntitySet="About" />
           </AssociationSet>
+          <AssociationSet Name="FK_Blog_Languages" Association="Self.FK_Blog_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Blog" EntitySet="Blog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_FAQCategories" Association="Self.FK_FAQ_FAQCategories">
+            <End Role="FAQCategories" EntitySet="FAQCategories" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Languages" Association="Self.FK_FAQ_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQCategories_Languages" Association="Self.FK_FAQCategories_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="FAQCategories" EntitySet="FAQCategories" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="Self.FK_Orders_CargoServiceTypes">
             <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
@@ -504,6 +620,9 @@
           <NavigationProperty Name="About" Relationship="WarehouseManagementSystemModel.FK_About_Languages" FromRole="Languages" ToRole="About" />
           <NavigationProperty Name="Settings" Relationship="WarehouseManagementSystemModel.FK_Settings_Languages" FromRole="Languages" ToRole="Settings" />
           <NavigationProperty Name="Properties" Relationship="WarehouseManagementSystemModel.FK_Properties_Languages" FromRole="Languages" ToRole="Properties" />
+          <NavigationProperty Name="Blog" Relationship="WarehouseManagementSystemModel.FK_Blog_Languages" FromRole="Languages" ToRole="Blog" />
+          <NavigationProperty Name="FAQ" Relationship="WarehouseManagementSystemModel.FK_FAQ_Languages" FromRole="Languages" ToRole="FAQ" />
+          <NavigationProperty Name="FAQCategories" Relationship="WarehouseManagementSystemModel.FK_FAQCategories_Languages" FromRole="Languages" ToRole="FAQCategories" />
         </EntityType>
         <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
@@ -582,6 +701,26 @@
             <End Role="Properties" EntitySet="Properties" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="WarehouseManagementSystemModel.Users" />
+          <EntitySet Name="Blog" EntityType="WarehouseManagementSystemModel.Blog" />
+          <EntitySet Name="Contact" EntityType="WarehouseManagementSystemModel.Contact" />
+          <EntitySet Name="FAQ" EntityType="WarehouseManagementSystemModel.FAQ" />
+          <AssociationSet Name="FK_Blog_Languages" Association="WarehouseManagementSystemModel.FK_Blog_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Blog" EntitySet="Blog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQ_Languages" Association="WarehouseManagementSystemModel.FK_FAQ_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <EntitySet Name="FAQCategories" EntityType="WarehouseManagementSystemModel.FAQCategories" />
+          <AssociationSet Name="FK_FAQ_FAQCategories" Association="WarehouseManagementSystemModel.FK_FAQ_FAQCategories">
+            <End Role="FAQCategories" EntitySet="FAQCategories" />
+            <End Role="FAQ" EntitySet="FAQ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FAQCategories_Languages" Association="WarehouseManagementSystemModel.FK_FAQCategories_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="FAQCategories" EntitySet="FAQCategories" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -955,6 +1094,107 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Vision" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mission" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileName2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Blog_Languages" FromRole="Blog" ToRole="Languages" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="FAQ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_FAQ_Languages" FromRole="FAQ" ToRole="Languages" />
+          <Property Name="CategoryId" Type="Int64" />
+          <NavigationProperty Name="FAQCategories" Relationship="WarehouseManagementSystemModel.FK_FAQ_FAQCategories" FromRole="FAQ" ToRole="FAQCategories" />
+        </EntityType>
+        <Association Name="FK_Blog_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.Blog" Role="Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Blog">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQ_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.FAQ" Role="FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FAQCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <Property Name="LanguageId" Type="Int64" Nullable="false" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FAQ" Relationship="WarehouseManagementSystemModel.FK_FAQ_FAQCategories" FromRole="FAQCategories" ToRole="FAQ" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_FAQCategories_Languages" FromRole="FAQCategories" ToRole="Languages" />
+        </EntityType>
+        <Association Name="FK_FAQ_FAQCategories">
+          <End Type="WarehouseManagementSystemModel.FAQCategories" Role="FAQCategories" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.FAQ" Role="FAQ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAQCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQ">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FAQCategories_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="1" />
+          <End Type="WarehouseManagementSystemModel.FAQCategories" Role="FAQCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FAQCategories">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1173,6 +1413,58 @@
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Blog">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Blog">
+              <MappingFragment StoreEntitySet="Blog">
+                <ScalarProperty Name="FileName2" ColumnName="FileName2" />
+                <ScalarProperty Name="Mission" ColumnName="Mission" />
+                <ScalarProperty Name="Vision" ColumnName="Vision" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAQ">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.FAQ">
+              <MappingFragment StoreEntitySet="FAQ">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FAQCategories">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.FAQCategories">
+              <MappingFragment StoreEntitySet="FAQCategories">
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

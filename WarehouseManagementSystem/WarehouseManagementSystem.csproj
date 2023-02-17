@@ -205,7 +205,11 @@
     <Compile Include="Areas\Admin\Controllers\Abstract\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -2498,6 +2502,7 @@
     <Content Include="Content\images\components-of-seo\5.jpg" />
     <Content Include="Content\images\components-of-seo\6.jpg" />
     <Content Include="Content\images\components-of-seo\7.jpg" />
+    <Content Include="Content\images\delivery.png" />
     <Content Include="Content\images\e-marketing-process\1.png" />
     <Content Include="Content\images\e-marketing-process\2.png" />
     <Content Include="Content\images\e-marketing-process\3.png" />
@@ -2531,6 +2536,7 @@
     <Content Include="Content\images\inner-banner\case-study.jpg" />
     <Content Include="Content\images\inner-banner\client-reviews.jpg" />
     <Content Include="Content\images\inner-banner\email-marketing.jpg" />
+    <Content Include="Content\images\inner-banner\our-blog.png" />
     <Content Include="Content\images\inner-banner\our-work.jpg" />
     <Content Include="Content\images\inner-banner\ppc.jpg" />
     <Content Include="Content\images\inner-banner\reporting.jpg" />
@@ -4425,6 +4431,10 @@
     <Content Include="Scripts\vendor\jquery-1.11.3.min.js" />
     <Content Include="Scripts\vendor\modernizr-2.8.3.min.js" />
     <Content Include="Scripts\wow.min.js" />
+    <Content Include="uploads\back-login.png" />
+    <Content Include="uploads\login-page.png" />
+    <Content Include="uploads\login.jpg" />
+    <Content Include="uploads\setting\images\shipping.png" />
     <Content Include="uploads\warehouse-management-system.jpg" />
     <Content Include="uploads\wms-logo.png" />
     <Content Include="Views\Shared\DisplayTemplates\BootstrapPagination.cshtml" />
@@ -4467,6 +4477,10 @@
     <Content Include="Views\Home\HomePagePropertyPartial.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Faq\Index.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -151,8 +151,8 @@ namespace Warehouse.Service
                 bool skuExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == item.SKU).ConfigureAwait(false);
                 if (skuExist)
                 {
-                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır! " + "{"+item.SKU+"}");
-                     
+                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır! " + "{" + item.SKU + "}");
+
                     return callResult;
                 }
             }
@@ -165,7 +165,7 @@ namespace Warehouse.Service
                         bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
                         if (skuexist)
                         {
-                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır! "+ "{"+model.ProductTransactionGroup.ElementAt(i).SKU+"}");
+                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır! " + "{" + model.ProductTransactionGroup.ElementAt(i).SKU + "}");
                             return callResult;
 
 
@@ -174,35 +174,63 @@ namespace Warehouse.Service
                 }
             }
 
+            var order = new Orders();
 
-
-
-
-            var order = new Orders
+            if (model.City == null)
             {
-                Id = model.Id,
-                SenderIdentityNumber = model.SenderIdentityNumber,
-                SenderMail = model.SenderMail,
-                SenderName = model.SenderName,
-                SenderPhone = model.SenderPhone,
-                SenderInvoiceNumber = model.SenderInvoiceNumber,
-                RecipientCityId = model.City.CityId,
-                RecipientMail = model.RecipientMail,
-                RecipientName = model.RecipientName,
-                RecipientPhone = model.RecipientPhone,
-                RecipientInvoiceNumber = model.RecipientInvoiceNumber,
-                ProductOrderDescription = model.OrderDescription,
-                RecipientIdentityNumber = model.RecipientIdentityNumber,
-                RecipientZipCode = model.RecipientZipCode,
-                CargoServiceTypeId = model.CargoService.CargoServiceId,
-                ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId,
-                RecipientCountryId = model.Country.CountryId,
-                LanguageId = 1, //türkçe dili olarak ayarlanır.
-                Date = DateTime.Now.Date,
-                
+
+                order.Id = model.Id;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderMail = model.SenderMail;
+                order.SenderName = model.SenderName;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber; 
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientName = model.RecipientName;
+                order.RecipientPhone = model.RecipientPhone;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.ProductOrderDescription = model.OrderDescription;
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.LanguageId = 1; //türkçe dili olarak ayarlanır.
+                order.Date = DateTime.Now.Date;
 
 
-            };
+
+
+            }
+            if (model.City != null)
+            {
+
+                order.Id = model.Id;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderMail = model.SenderMail;
+                order.SenderName = model.SenderName;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+                order.RecipientCityId = model.City.CityId;
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientName = model.RecipientName;
+                order.RecipientPhone = model.RecipientPhone;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.ProductOrderDescription = model.OrderDescription;
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.LanguageId = 1; //türkçe dili olarak ayarlanır.
+                order.Date = DateTime.Now.Date;
+
+
+
+
+            }
+
+
             var sAddress = new SenderAddresses
             {
                 OrderId = order.Id,
@@ -296,8 +324,8 @@ namespace Warehouse.Service
                     _context.Packages.Add(packages);
                 }
             }
-            
-           
+
+
             var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
             var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Find(model.OrderId);
@@ -309,7 +337,7 @@ namespace Warehouse.Service
             foreach (var prd1 in isPackageProduct)
             {
                 prd1.isPackagedCount2 = prd1.isPackagedCount;
-                if (prd1.Count > prd1.isPackagedCount && prd1.isPackagedCount==0)
+                if (prd1.Count > prd1.isPackagedCount && prd1.isPackagedCount == 0)
                 {
                     prd1.isPackage = true;
                 }
@@ -801,7 +829,7 @@ namespace Warehouse.Service
                 }
             }
             decimal yuvarlananDesi = Math.Ceiling((decimal)(model.Desi)); // sayıyı bi üst tam sayıya yuvarlar. 11.1 -> 12 ** 19.99 -> 20 
-            if (model.Desi >=1 && model.Desi<10)            
+            if (model.Desi >= 1 && model.Desi < 10)
             {
                 if (model.Desi + 0.5m > yuvarlananDesi)
                 {
@@ -813,18 +841,18 @@ namespace Warehouse.Service
                     model.Desi = model.Desi - 0.5m;
 
                 }
-               
+
             }
             else
             {
                 model.Desi = yuvarlananDesi;
             }
-            
+
 
 
             var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
 
-            if (cargoService.Id == 1) 
+            if (cargoService.Id == 1)
             {
                 model.TotalPrice = (double)model.Desi * 7.362 * 4;
                 model.Description = "Tahmini teslim süresi 1-3 iş günü arasındadır.";

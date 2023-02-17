@@ -2796,10 +2796,18 @@ input[type=file] {
 }
 
 .about-us-banner {
-  background: #eeeeee url(../images/inner-banner/about-us.jpg) center top no-repeat;
-  background-size: cover;
+    background: #eeeeee url(../images/inner-banner/about-us.jpg) center top no-repeat;
+    background-size: cover;
 }
-
+.about-us-banner-1 {
+    background: #eeeeee url(../images/inner-banner/delivery.png) center top no-repeat;
+    background-size: cover;
+}
+ 
+.blog-banner {
+    background: #eeeeee url(../images/inner-banner/our-work.jpg) center top no-repeat;
+    background-size: cover;
+}
 .awards-banner {
   background: #eeeeee url(../images/inner-banner/awards-banner.jpg) center top no-repeat;
   background-size: cover;
@@ -2823,6 +2831,10 @@ input[type=file] {
 .contact-banner {
   background: #eeeeee url(../images/inner-banner/contact-us.jpg) center top no-repeat;
   background-size: cover;
+}
+.contact-us-banner {
+    background: #eeeeee url(../images/inner-banner/smm.jpg) center top no-repeat;
+    background-size: cover;
 }
 
 .our-work-banner {
@@ -2867,17 +2879,23 @@ input[type=file] {
 .p-404-error.main {
   background: url(../images/404-banner.jpg) center top repeat-x;
   background-size: cover;
+  background-size: cover;
   -webkit-animation: bg-animate 50s linear infinite;
   animation: bg-animate 50s linear infinite;
 }
 
 .details-banner {
-  position: relative;
-  background-image: -webkit-gradient(linear, left top, right top, from(#5c81fa), to(#39a8fe));
-  background-image: -webkit-linear-gradient(left, #5c81fa, #39a8fe);
-  background-image: -o-linear-gradient(left, #5c81fa, #39a8fe);
-  background-image: linear-gradient(to right, #5c81fa, #39a8fe);
-  background-repeat: repeat-x;
+    position: relative;
+    background: #eeeeee url(../images/inner-banner/email-marketing.jpg) center top no-repeat;
+    background-image: -webkit-gradient(linear, left top, right top, from(#5c81fa), to(#39a8fe));
+    background-image: -webkit-linear-gradient(left, #5c81fa, #39a8fe);
+    background-image: -o-linear-gradient(left, #5c81fa, #39a8fe);
+    background-image: linear-gradient(to right, #5c81fa, #39a8fe);
+    background-repeat: repeat-x;
+}
+.faq-banner {
+    background: #eeeeee url(../images/inner-banner/email-marketing.jpg) center top no-repeat;
+    background-size: cover;
 }
 
 .details-banner .content {

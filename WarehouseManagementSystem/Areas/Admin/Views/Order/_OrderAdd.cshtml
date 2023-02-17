@@ -56,7 +56,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <div class="row">
-                @Html.EditorFor(m => m.City)
+                @Html.EditorFor(m => m.City, new {id="CityNumber"})
             </div>
         </div>
 
@@ -145,9 +145,13 @@
         color: red;
     }
 </style>
-<script>
+<script> 
+
+
+
     $('#NestedCity').prop('disabled', true);
     var cityId = $("#NestedCity").val();
+    var NestedCity = $("#CityNumber");
     if (cityId != "" && cityId != null) {
         $('#NestedCity').prop('disabled', false);
     }
@@ -165,11 +169,17 @@
                     data: { id: id },
                     type: "POST",
                     dataType: "json",
-                    success: function (data) {
+                    success: function (data) { 
                         $("#NestedCity").empty();
+                       
                         $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
                         for (var i = 0; i < data.length; i++) {
                             $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCity').prop('disabled', true);
+                            $('#NestedCity').prop('required', true);
                         }
                     },
                     error: function () {

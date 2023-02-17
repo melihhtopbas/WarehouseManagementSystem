@@ -1,4 +1,4 @@
-﻿ 
+﻿
 
 @model Warehouse.ViewModels.Admin.LoginViewModel
 @using WarehouseManagementSystem.Extensions
@@ -22,42 +22,51 @@
 </head>
 
 <body>
-    <div class="vh-100 d-flex justify-content-center align-items-center ">
-        <div class="col-md-5 p-5 shadow-sm border rounded-5 border-primary bg-white">
-            <h2 class="text-center mb-4 text-primary">Giriş Ekranı</h2>
-            <div class="login-form">
-                @using (Html.BeginForm("Index", "Login", new { Area = String.Empty }, FormMethod.Post, new { id = "loginForm", role = "form" }))
-                {
-                    <div class="mb-3">
-                        @Html.DisplayNameFor(a => a.UserName)
-                        @Html.TextBoxFor(a => a.UserName, new { type = "text", @class = "form-control border border-primary" })
-                        @Html.ValidationMessageFor(a=>a.UserName)
-                    </div>
-                    <div class="mb-3">
-                        @Html.DisplayNameFor(a => a.Password)
-                        @Html.TextBoxFor(a => a.Password, new { type = "password", @class = "form-control border border-primary", data_type = "password" })
-                        @Html.ValidationMessageFor(a => a.Password)
-                    </div>
-                    <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
-                    <div class="d-grid">
-                        <button class="btn btn-primary" type="submit">Giriş</button>
-                    </div>
-                }
-            </div>
-            <div class="mt-3">
-                <p class="mb-0  text-center">
-                    Don't have an account? <a data-modal-form="true"
-                                              data-modal-size="modal-lg"
-                                              data-modal-title="Kayıt Sayfası"
-                                              data-hook-beforeunload="true"
-                                              data-modal-save-message="Başarıyla kayıt olundu"
-                                              href="@Url.Action("Register", "User", new {Area=String.Empty})">
-                        <i class="fa-solid fa-registered"></i> Kayıt Ol
-                    </a>
-                </p>
+    <div class="login-wrap">
+        <div class="vh-100 d-flex justify-content-center align-items-center ">
+            <div class="col-md-5 p-5 shadow-sm border rounded-5 border-primary bg-white">
+                <h2 class="text-center mb-4 text-primary">Login</h2>
+                <div class="login-form">
+                    @using (Html.BeginForm("Index", "Login", new { Area = String.Empty }, FormMethod.Post, new { id = "loginForm", role = "form" }))
+                    {
+                        <div class="mb-3">
+                            @Html.DisplayNameFor(a => a.UserName)
+                            @Html.TextBoxFor(a => a.UserName, new { type = "text", @class = "form-control border border-primary" })
+                            @Html.ValidationMessageFor(a => a.UserName)
+                        </div>
+                        <div class="mb-3">
+                            @Html.DisplayNameFor(a => a.Password)
+                            @Html.TextBoxFor(a => a.Password, new { type = "password", @class = "form-control border border-primary", data_type = "password" })
+                            @Html.ValidationMessageFor(a => a.Password)
+                        </div>
+                        <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
+                        <div class="d-grid">
+                            <button class="btn btn-primary" type="submit">Giriş</button>
+                        </div>
+                    }
+                </div>
+                <div class="mt-3">
+                    <p class="mb-0  text-center">
+                        Don't have an account? <a data-modal-form="true"
+                                                  data-modal-size="modal-lg"
+                                                  data-modal-title="Kayıt Sayfası"
+                                                  data-hook-beforeunload="true"
+                                                  data-modal-save-message="Başarıyla kayıt olundu"
+                                                  href="@Url.Action("Register", "User", new {Area=String.Empty})">
+                            <i class="fa-solid fa-registered"></i> Kayıt Ol
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
-</html> 
+</html>
+<style>
+    .login-wrap {
+        background-image: url('../../../../uploads/back-login.png');
+        background-size: cover;
+    }
+</style>
+ 

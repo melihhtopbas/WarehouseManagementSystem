@@ -86,5 +86,23 @@ namespace Warehouse.Service.WebSite
             }
 
         }
+        public BlogViewModel GetBlogViewModel(string languageCode)
+        {
+            var model = (from a in _context.Blog
+                         where a.Languages.ShortName == languageCode
+                         select new BlogViewModel()
+                         {
+                             Description = a.Description,
+                             Title = a.Title,
+                             Vision = a.Vision,
+                             Mission = a.Mission,
+                             MainFile = a.FileName,
+                             MainFile2 = a.FileName2
+                         }).FirstOrDefault();
+
+            return model;
+
+        }
+
     }
 }

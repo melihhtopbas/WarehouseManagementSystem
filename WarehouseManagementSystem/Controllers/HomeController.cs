@@ -33,7 +33,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public ActionResult HomePageProperties()
         {
             string lang = "tr";
-            var model = _propertyService.GetHomePagePropertyListIQueryable(lang).OrderBy(a => Guid.NewGuid()).ToList();
+            var model = _propertyService.GetHomePagePropertyListIQueryable(lang).OrderBy(a => a.Id).ToList();
             return PartialView("~/Views/Home/HomePagePropertyPartial.cshtml", model);
         }
     }

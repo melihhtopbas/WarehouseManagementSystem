@@ -22,6 +22,9 @@ namespace Warehouse.Data
             this.About = new HashSet<About>();
             this.Settings = new HashSet<Settings>();
             this.Properties = new HashSet<Properties>();
+            this.Blog = new HashSet<Blog>();
+            this.FAQ = new HashSet<FAQ>();
+            this.FAQCategories = new HashSet<FAQCategories>();
         }
     
         public long Id { get; set; }
@@ -38,5 +41,11 @@ namespace Warehouse.Data
         public virtual ICollection<Settings> Settings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Properties> Properties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Blog> Blog { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FAQ> FAQ { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FAQCategories> FAQCategories { get; set; }
     }
 }

@@ -1,0 +1,85 @@
+﻿
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Warehouse.ViewModels.WebSite.AboutViewModel 
+
+<div class="ip-banner about-us-banner">
+    <div class="content d-flex align-items-center justify-content-center text-center">
+        <div class="container">
+            <div class="breadcrumb-holder d-inline-flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Home")">
+                                Anasayfa
+                                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">HAKKIMIZDA</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- End of .breadcrumb-holder -->
+
+            <h1>HAKKIMIZDA</h1>
+
+        </div>
+        <!-- End of .container -->
+    </div>
+    <!-- End of .content -->
+</div>
+<!-- End of .banner -->
+<!-- overview starts
+============================================ -->
+<section class="section overview grey-bg text-left" id="overview">
+    <div class="container">
+        <div class="row overview-content">
+            <div class="col-md-6">
+                <div class="text-content">
+                    <h2>@Model.Title</h2>
+                    <p>
+                        @Html.Raw(Model.Description)
+                    </p>
+
+                </div>
+                <!-- End of .text-content -->
+            </div>
+            <!-- End of .col-md-6 -->
+
+            <div class="col-md-6">
+                <div class="img-container">
+                    <img src="@Url.Content(String.Format(SystemConstants.SettingImagePath) + "/" + Model.MainFile)" alt="@Model.Title" class="img-fluid">
+                </div>
+                <!-- End of .img-container -->
+            </div>
+            <!-- End of .col-md-6 -->
+        </div>
+        <!-- End of .row -->
+
+        <div class="row mission-and-vission">
+            <div class="col-md-6">
+                <div class="text-content">
+                    <h3>Misyonumuz</h3>
+                    <p>
+                        @Html.Raw(Model.Mission)
+
+                    </p>
+                </div>
+                <!-- End of .text-content -->
+            </div>
+            <!-- End of .col-md-6 -->
+
+             
+            <!-- End of .col-md-6 -->
+        </div>
+        <!-- End of .row -->
+    </div>
+    <!-- End of .container -->
+</section>
+<!-- End of .overview -->
+<!-- More-about-us starts
+============================================ -->
+<!-- End of .more-about-us -->

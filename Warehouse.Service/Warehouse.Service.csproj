@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebSite\ContactService.cs" />
+    <Compile Include="WebSite\FaqService.cs" />
     <Compile Include="WebSite\PropertyService.cs" />
     <Compile Include="WebSite\SettingService.cs" />
     <Compile Include="WebSite\SliderService.cs" />
