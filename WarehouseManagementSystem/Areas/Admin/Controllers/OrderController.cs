@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using Warehouse.Data;
-using Warehouse.Service;
+using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin; 
 

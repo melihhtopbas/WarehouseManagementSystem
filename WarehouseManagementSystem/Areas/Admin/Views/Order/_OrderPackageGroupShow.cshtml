@@ -30,11 +30,9 @@
                 <td>
                     @foreach (var packageProduct in item.OrderPackageProductGroups)
                     {
-                        <span>@packageProduct.Content</span> <span> </span>
-                        <strong><span>@packageProduct.Count</span><span>x</span></strong>
-                        <span>
-                            <i class="fa-sharp fa-solid fa-check-double"></i>
-                        </span>
+                        <span>@packageProduct.Content</span> <span>:</span>
+                        <strong><span>@packageProduct.Count</span></strong>
+                         
                         <br />
                     }
                     <hr />

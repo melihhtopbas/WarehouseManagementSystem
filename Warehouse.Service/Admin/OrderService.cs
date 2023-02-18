@@ -10,7 +10,7 @@ using LinqKit;
 using Warehouse.ViewModels.Common;
 using System.Data.Entity;
 
-namespace Warehouse.Service
+namespace Warehouse.Service.Admin
 {
     public class OrderService
     {
@@ -551,25 +551,49 @@ namespace Warehouse.Service
                 callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
                 return callResult;
             }
-
-            order.SenderName = model.SenderName;
-            order.SenderIdentityNumber = model.SenderIdentityNumber;
-            order.SenderPhone = model.SenderPhone;
-            order.SenderMail = model.SenderMail;
-            order.SenderInvoiceNumber = model.SenderInvoiceNumber;
-            order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
-            order.RecipientPhone = model.RecipientPhone;
-            order.RecipientCityId = model.City.CityId;
-            order.RecipientIdentityNumber = model.RecipientIdentityNumber;
-            order.RecipientMail = model.RecipientMail;
-            order.RecipientZipCode = model.RecipientZipCode;
-            order.RecipientName = model.RecipientName;
-            order.RecipientCountryId = model.Country.CountryId;
-            order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
-            order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-            order.ProductOrderDescription = model.OrderDescription;
-            recipientAddress.Name = model.RecipientAddress;
-            senderAddress.Name = model.SenderAddress;
+            if (model.City==null)
+            {
+                order.SenderName = model.SenderName;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderMail = model.SenderMail;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.RecipientPhone = model.RecipientPhone; 
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.RecipientName = model.RecipientName;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductOrderDescription = model.OrderDescription;
+                order.RecipientCityId = null;
+                recipientAddress.Name = model.RecipientAddress;
+                senderAddress.Name = model.SenderAddress;
+            }
+            else
+            {
+                order.SenderName = model.SenderName;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderMail = model.SenderMail;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.RecipientPhone = model.RecipientPhone;
+                order.RecipientCityId = model.City.CityId;
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.RecipientName = model.RecipientName;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductOrderDescription = model.OrderDescription;
+                recipientAddress.Name = model.RecipientAddress;
+                senderAddress.Name = model.SenderAddress;
+            }
+           
 
             foreach (var prd in model.ProductTransactionGroup)
             {

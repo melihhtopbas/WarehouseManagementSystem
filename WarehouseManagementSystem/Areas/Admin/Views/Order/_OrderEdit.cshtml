@@ -142,8 +142,12 @@
     }
 </style>
 <script>
-    $(function () {
+    $(function () { 
+        
+
+
         $("#NestedCountry").on("change", function () {
+
             $('#NestedCity').prop('disabled', false);
             var id = $("#NestedCountry").val();
 
@@ -155,9 +159,15 @@
                     dataType: "json",
                     success: function (data) {
                         $("#NestedCity").empty();
+
                         $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
                         for (var i = 0; i < data.length; i++) {
                             $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCity').prop('disabled', true);
+                            $('#NestedCity').prop('required', true);
                         }
                     },
                     error: function () {
@@ -170,8 +180,12 @@
                 $('#NestedCity').prop('disabled', true);
                 $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
             }
-
         });
+
+
+
+
+
     });
 </script>
 <script>

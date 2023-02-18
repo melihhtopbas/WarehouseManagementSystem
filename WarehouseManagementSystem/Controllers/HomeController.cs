@@ -14,10 +14,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         private readonly SliderService _sliderService;
 
         private readonly PropertyService _propertyService;
-        public HomeController(SliderService sliderService, PropertyService propertyService)
+        private readonly SettingService _settingService;
+        public HomeController(SliderService sliderService, PropertyService propertyService, SettingService settingService)
         {
             _sliderService = sliderService;
             _propertyService = propertyService;
+            _settingService = settingService;
         }
         public ActionResult Index(string lang)
         {
@@ -35,6 +37,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             string lang = "tr";
             var model = _propertyService.GetHomePagePropertyListIQueryable(lang).OrderBy(a => a.Id).ToList();
             return PartialView("~/Views/Home/HomePagePropertyPartial.cshtml", model);
+        }
+        public ActionResult HomePageAbout()
+        {
+            string lang = "tr";
+            var model = _settingService.GetAboutViewModel(lang);
+            return PartialView("~/Views/Home/HomePageAboutPartial.cshtml", model);
         }
     }
 }

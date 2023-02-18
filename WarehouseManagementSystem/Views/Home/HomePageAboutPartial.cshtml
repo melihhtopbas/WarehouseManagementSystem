@@ -1,0 +1,48 @@
+﻿@model Warehouse.ViewModels.WebSite.AboutViewModel
+
+<!-- Mission starts
+============================================ -->
+<section class="mission">
+    <div class="gallery-container" style="background: url(@Url.Content(String.Format(SystemConstants.SettingImagePath) + "/" + Model.MainFile2))">
+        <img src="@Url.Content(String.Format(SystemConstants.SettingImagePath) + "/" + Model.MainFile2)"  class="img-fluid">
+    </div>
+    <!-- End of .gallery-container -->
+
+    <div class="text-content section  grey-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 ml-auto text-left">
+                    <div class="section-heading text-left">
+                        <h2>
+
+                            <span>HAKKIMIZDA</span>
+                        </h2>
+                    </div>
+                    <!-- End of .section-heading -->
+                    <p>
+                        @{var icerik = System.Text.RegularExpressions.Regex.Replace(Model.Description, @"<(.|\n)*?>", string.Empty);}
+
+                        @Html.Raw(icerik.Substring(0, Math.Min(300, icerik.Length)))...
+                    </p>
+
+                    <ul class="mission-list-box">
+                        <li>
+                            <i class="icon-Tick"></i><b>Misyonumuz</b> @Html.Raw(Model.Mission)
+                        </li>
+                        <li>
+                            <i class="icon-Tick"></i><b>Vizyonumuz</b>  @Html.Raw(Model.Vision)
+                        </li>
+
+                    </ul>
+                    <!-- End of .mission-list-box -->
+                    <a href="@Url.Action("Index", "About", new {lang = "tr"})" class="primary-btn">Daha Fazla</a>
+                </div>
+                <!-- End of .col-lg-6 -->
+            </div>
+            <!-- End of .row -->
+        </div>
+        <!-- End of .container -->
+    </div>
+    <!-- End of .text-content -->
+</section>
+<!-- End of .mission -->
