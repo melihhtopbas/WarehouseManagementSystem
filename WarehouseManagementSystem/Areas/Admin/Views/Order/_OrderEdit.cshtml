@@ -142,8 +142,13 @@
     }
 </style>
 <script>
-    $(function () { 
-        
+   
+    $(function () {
+        $('#NestedCity').prop('disabled', true);
+        if ($('#NestedCity').val()>0) {
+            $('#NestedCity').prop('disabled', false);
+        }
+      
 
 
         $("#NestedCountry").on("change", function () {

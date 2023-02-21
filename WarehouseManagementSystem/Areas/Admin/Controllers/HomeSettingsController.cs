@@ -13,5 +13,10 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult PdfAndExcel()
+        {
+            return PartialView("~/Areas/Admin/Views/HomeSettings/ExcelAndPDF.cshtml");
+        }
+        
     }
 }

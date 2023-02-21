@@ -8,6 +8,14 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="alert alert-danger alert-dismissible">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Dikkat!</h4>
+            Ürünleri paketledikten sonra <strong>Kaydet</strong> butonuna basmayı unutmayınız. Aksi taktirde paketlediğiniz koliler geçerli sayılmayacaktır.
+        </div>
+    </div>
+</div>
 
 @using (Html.BeginForm("OrderPackageAdd", "Order", new { Area = "Admin" }, FormMethod.Post, new { id = "orderPackageAddForm", role = "form" }))
 {

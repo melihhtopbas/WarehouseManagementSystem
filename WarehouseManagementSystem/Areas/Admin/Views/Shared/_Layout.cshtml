@@ -11,38 +11,88 @@
     <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+<body class="hold-transition skin-blue sidebar-mini">
+    <header style="margin-top:-50px;" class="main-header">  
+        <!-- Logo -->
+        <a href="@Url.Action("Index","Order")" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>P</b><b>RA</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Pra</b>WMS</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav style="margin-right:-200px" class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+            <div class="navbar-custom-menu">
 
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+        </nav>
+    </header>
 
-                    <li><a href="/Admin/Order">Gönderi Oluştur</a></li>
-                    <li><a href="/Admin/HomeSettings/Index">Ayarlar</a></li>
-                    <li>@Html.ActionLink("İletişim", "Contact", "Home", new { Area = "Admin" })</li>
-                    <li><a href="/">PraWMS</a></li>
-                    <li><a href="/Admin/Login/LogOut">Çıkış</a></li>
+    <!-- =============================================== -->
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <!-- search form -->
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
 
 
-                </ul>
-            </div>
-        </div>
-    </div>
+                <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
+                <li><a href="/"> <i class="fa-solid fa-p"></i> <span>PraWMS</span></a></li>
+                <li><a href="#"><i class="fa fa-info-circle"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-book"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-tags"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-sliders"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-check-square-o"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-registered"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-question-circle"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-picture-o"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-comment"></i> <span></span></a></li>
+                <li><a href="#"><i class="fa fa-file-text-o"></i> <span></span></a></li>
+
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-check"></i> <span>Kategori</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+                        <li><a href="#"><i class="fa fa-book"></i> <span></span></a></li>
+                        <li><a href="#"><i class="fa fa-tags"></i> <span></span></a></li>
+                        <li><a href="#"><i class="fa fa-question-circle"></i> <span></span></a></li>
+
+                    </ul>
+                </li>
+                <li><a href="#"><i class="fa fa-phone"></i> <span>İletişim </span></a></li>
+
+                <li><a href="#"><i class="fa fa-cog"></i> <span>Ayarlar</span></a></li>
+                <li><a href="#"> <i class="fa fa-info"></i> <span>Hakkımızda</span></a></li>
+                <li><a href="/Admin/Login/LogOut"><i class="fa-solid fa-right-from-bracket"></i> <span>Çıkış Yap</span></a></li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
     <div class="container body-content">
         @RenderBody()
 
         <footer>
 
             <p> <i class="fa-solid fa-warehouse"></i>  Warehouse Management System</p>
-
+           
 
             <strong>@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</strong> <br>
             <strong>@DateTime.Now.ToLongTimeString()</strong>
@@ -54,7 +104,7 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
- 
+
 <link href="~/Areas/Admin/Content/bootstrap.css" rel="stylesheet" />
 
 <script src="~/Areas/Admin/Scripts/jquery-3.4.1.min.js"></script>
