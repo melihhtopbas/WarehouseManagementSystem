@@ -257,6 +257,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\Abstract\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommonController\AdminCommonController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CountrySettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\ExportController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
@@ -4477,6 +4478,9 @@
     <Content Include="Areas\Admin\Views\Setting\About.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminCommon\Sidebar.cshtml" />
+    <Content Include="Areas\Admin\Views\CountrySetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CountrySetting\DisplayTemplates\CountryListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CountrySetting\CountryList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

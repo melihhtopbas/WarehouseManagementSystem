@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\CountryService.cs" />
     <Compile Include="Admin\LanguageService.cs" />
     <Compile Include="Admin\OrderService.cs" />
     <Compile Include="Admin\SettingService.cs" />

@@ -136,7 +136,7 @@
 
                 <li><a href="/"> <i class="fa-solid fa-warehouse"></i> <span>Anasayfa</span></a></li>
                 <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
-                <li><a href="#"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
+                <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-money-bill"></i> <span>Fiyatlandırma</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
@@ -266,6 +266,7 @@
         $(document).ready(function () {
 
             $('#orderSearchForm').submit();
+            $('#countrySearchForm').submit();
 
 
 
