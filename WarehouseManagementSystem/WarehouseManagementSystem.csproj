@@ -70,6 +70,9 @@
     <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageResizer.4.2.8\lib\net45\ImageResizer.dll</HintPath>
+    </Reference>
     <Reference Include="Irony, Version=1.0.11.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\packages\Irony.NetCore.1.0.11\lib\net461\Irony.dll</HintPath>
     </Reference>
@@ -253,9 +256,13 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\Abstract\AdminBaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommonController\AdminCommonController.cs" />
     <Compile Include="Areas\Admin\Controllers\ExportController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="AppBaseViewPage.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
@@ -263,7 +270,6 @@
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\SystemConstants.cs" />
     <Compile Include="Extensions\StringConstants.cs" />
@@ -2469,6 +2475,7 @@
     <Content Include="Areas\Admin\Scripts\tether.min.js" />
     <Content Include="Areas\Admin\Scripts\toastr.js" />
     <Content Include="Areas\Admin\Scripts\toastr.min.js" />
+    <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\responsive.css" />
@@ -2610,6 +2617,7 @@
     <Content Include="Content\images\ppc-process\3.png" />
     <Content Include="Content\images\ppc-process\4.png" />
     <Content Include="Content\images\ppc-process\5.png" />
+    <Content Include="Content\images\prapazar-icon-1.png" />
     <Content Include="Content\images\reviewers\1.png" />
     <Content Include="Content\images\reviewers\10.png" />
     <Content Include="Content\images\reviewers\11.png" />
@@ -4462,10 +4470,13 @@
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Areas\Admin\Views\HomeSettings\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Login\Register.cshtml" />
     <Content Include="Areas\Admin\Views\HomeSettings\ExcelAndPDF.cshtml" />
     <Content Include="Areas\Admin\Views\Export\PdfAndExcel.cshtml" />
     <Content Include="Areas\Admin\Views\Export\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\About.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminCommon\Sidebar.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -4531,7 +4542,6 @@
     <Content Include="Views\Home\SliderPartial.cshtml" />
     <Content Include="Views\Home\HomePagePropertyPartial.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\About\Index.cshtml" />
     <Content Include="Views\Blog\Index.cshtml" />
     <Content Include="Views\Faq\Index.cshtml" />

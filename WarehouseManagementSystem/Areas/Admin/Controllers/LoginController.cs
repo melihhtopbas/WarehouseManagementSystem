@@ -1,6 +1,8 @@
-﻿using Microsoft.Web.Mvc;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using Microsoft.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,7 +10,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Warehouse.Data;
 using Warehouse.Service;
-using Warehouse.Service.WebSite;
+using Warehouse.Service.Admin;
 using Warehouse.ViewModels.Admin;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
@@ -37,15 +39,18 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         //
         // POST: /User/Login
-        [HttpPost]
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public ActionResult Index(LoginViewModel model, string returnUrl)
         {
+            var user = _context.Users.FirstOrDefault(x => x.UserName == model.UserName); 
             if (ModelState.IsValid)
             {
                 var loginResult = _settingService.Login(model);
                 var kullaniciInDb = _context.Users.FirstOrDefault(x => x.UserName ==model.UserName&& x.Password == model.Password);
                 if (loginResult)
                 {
+                   
+                    
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
 
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));

@@ -1,0 +1,107 @@
+﻿
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model Warehouse.ViewModels.Admin.SettingViewModel
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-cogs"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+
+            @using (Html.BeginForm("Index", "Setting", new { Area = "Admin" }, FormMethod.Post, new { id = "settingsForm", enctype = "multipart/form-data" }))
+            {
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.LanguageId, new { data_val = "false" })
+                            @Html.RenderValidationSummary(true)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                            <span class="input-group-addon as-label required" aria-required="true"><strong>Logo</strong> </span>
+                            @Html.TextBox("logoFile", Model.Logo, new { @class = "form-control", type = "file" })
+                            <img style=" width: 350px; margin-top: 10px;" src="@Model.Logo" />
+
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                            <span class="input-group-addon as-label required" aria-required="true"><strong>Favicon</strong> </span>
+                            @Html.TextBox("faviconFile", Model.Favicon, new { @class = "form-control", type = "file" })
+                            <img src="@Model.Favicon" />
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Email)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Email, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Phone)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Phone2)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone2, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Facebook)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Facebook, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Twitter)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Twitter, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Instagram)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Instagram, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Gplus)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Gplus, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Adress)">
+                            <div>
+                                @Html.TextAreaFor(m => m.Adress, new { @class = "form-control", rows = "2", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Adress).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Adress, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Analytics)">
+                            <div>
+                                @Html.TextAreaFor(m => m.Analytics, new { @class = "form-control", rows = "2", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Analytics).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Analytics, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Maps)">
+                            <div>
+                                @Html.TextAreaFor(m => m.Maps, new { @class = "form-control", rows = "2", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Maps).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Maps, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.SeoDescription)">
+                            <div>
+                                @Html.TextAreaFor(m => m.SeoDescription, new { @class = "form-control", rows = "2", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.SeoDescription).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.SeoDescription, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.SeoTitle)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SeoTitle, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.SeoKeywords)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SeoKeywords, new { @class = "show-maxlength", data_role = "tagsinput" })
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right"><span class="fa fa-check"></span>&nbsp;Kaydet</button>
+                    <span class="clearfix"></span>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+

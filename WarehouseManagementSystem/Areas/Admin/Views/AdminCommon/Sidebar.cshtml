@@ -1,0 +1,42 @@
+﻿
+
+@{
+    Layout = null;
+}
+@model List<Warehouse.ViewModels.Common.LanguageListModel>
+
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-cog"></i> <span>Ayarlar</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        @foreach (var item in Model)
+        {
+            <li><a href="@Url.Action("Index", "Setting", new {Area = "Admin",id=item.Id})"><i class="fa fa-cog"></i> <span>@item.Name Ayarları</span></a></li>
+
+        }
+
+    </ul>
+</li>
+
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-info"></i> <span>Hakkımızda</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        @foreach (var item in Model)
+        {
+            <li><a href="@Url.Action("About", "Setting", new {Area = "Admin",id=item.Id})"><i class="fa fa-info"></i> <span>@item.Name Hakkımızda</span></a></li>
+
+        }
+
+    </ul>
+</li>

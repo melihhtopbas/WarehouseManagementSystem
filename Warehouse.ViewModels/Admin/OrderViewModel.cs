@@ -6,7 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Warehouse.Data;  
+using System.Web.Mvc;
+using Warehouse.Data;
 
 namespace Warehouse.ViewModels.Admin
 {
@@ -26,7 +27,9 @@ namespace Warehouse.ViewModels.Admin
         public OrderCityIdSelectViewModel City { get; set; }
         public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
         public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
+
         public long Id { get; set; }
+        public long? CustomerId { get; set; }
 
         [Display(Name = "Gönderici Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
@@ -34,12 +37,12 @@ namespace Warehouse.ViewModels.Admin
 
         public string SenderName { get; set; }
         [Display(Name = "Gönderici Mail")]
-        
+
         public string SenderMail { get; set; }
         [Display(Name = "Gönderici Telefonu")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         [MaxLength(11)]
-        [MinLength(7,ErrorMessage = "Lütfen geçerli bir telefon numarası giriniz!")]
+        [MinLength(7, ErrorMessage = "Lütfen geçerli bir telefon numarası giriniz!")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefon numarası numerik olmalıdır!")]
 
 
@@ -58,10 +61,10 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string RecipientAddress { get; set; }
         [Display(Name = "Gönderici Adres")]
-        
+
         public string SenderAddress { get; set; }
         [Display(Name = "Alıcı Şehir")]
-         
+
         public string RecipientCity { get; set; }
 
         [Display(Name = "Alıcı Posta Kodu")]
@@ -85,7 +88,7 @@ namespace Warehouse.ViewModels.Admin
 
         public string RecipientMail { get; set; }
 
- 
+
         [Display(Name = "Sipariş Açıklaması")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string OrderDescription { get; set; }
@@ -103,11 +106,14 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderAddViewModel : OrderCrudBaseViewModel
     {
-        
+
     }
     public class OrderListViewModel
     {
         public long Id { get; set; }
+
+        public long? CustomerId { get; set; }
+
 
         [Display(Name = "Gönderici Adı")]
 
@@ -171,7 +177,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
 
         public string CargoService { get; set; }
-        
+
         public bool? isPackage { get; set; }
         [Display(Name = "Sipariş Oluşturulma Tarihi")]
         public DateTime DateTime { get; set; }
@@ -184,7 +190,7 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderSearchViewModel
     {
-        [Display(Name ="Dil")]
+        [Display(Name = "Dil")]
         public long LanguageId { get; set; }
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
@@ -206,21 +212,21 @@ namespace Warehouse.ViewModels.Admin
     {
         [Display(Name = "Yükseklik")]
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
-         
+
         public long? Height { get; set; }
         [Display(Name = "Ağırlık")]
         [Range(1, 300, ErrorMessage = "Enter number between 1 to 300")]
-    
+
         public decimal? Weight { get; set; }
         [Display(Name = "En")]
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
-        
+
         public long? Width { get; set; }
         [Display(Name = "Boy")]
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
-        
+
         public long? Length { get; set; }
-       
+
         [Display(Name = "Desi")]
 
         [DisplayFormat(DataFormatString = "{0:n0}")]
@@ -228,7 +234,7 @@ namespace Warehouse.ViewModels.Admin
 
         public OrderCountryIdSelectViewModel Country { get; set; }
         public OrderCargoServiceTypeIdSelectViewModel CargoService { get; set; }
-        
+
 
         public string Service { get; set; }
         public string Description { get; set; }
@@ -236,5 +242,5 @@ namespace Warehouse.ViewModels.Admin
 
 
     }
-     
+
 }

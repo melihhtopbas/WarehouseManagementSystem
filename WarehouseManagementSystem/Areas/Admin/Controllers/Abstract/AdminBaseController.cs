@@ -7,15 +7,20 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using Warehouse.Data;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [SessionState(SessionStateBehavior.Disabled)]
     public abstract class AdminBaseController : Controller
     {
+        WarehouseManagementSystemEntities1 _context = new WarehouseManagementSystemEntities1();
+
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             // Modify current thread's cultures  
+
+            
             var culture = new System.Globalization.CultureInfo("en-EN");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
@@ -28,6 +33,8 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewBag.CurrentCultureTwoLetter = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
 
             base.Initialize(requestContext);
+
+
         }
 
 

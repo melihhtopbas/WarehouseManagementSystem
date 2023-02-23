@@ -75,6 +75,8 @@
   <ItemGroup>
     <Compile Include="Admin\CargoServiceTypeViewModel.cs" />
     <Compile Include="Admin\CityViewModel.cs" />
+    <Compile Include="Admin\AboutViewModel.cs" />
+    <Compile Include="Admin\SettingViewModel.cs" />
     <Compile Include="Admin\LoginViewModel.cs" />
     <Compile Include="Admin\CountryViewModel.cs" />
     <Compile Include="Admin\CurrencyUnitViewModel.cs" />
@@ -95,6 +97,10 @@
     <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj">
       <Project>{3406ECDB-B93F-4902-BBA2-95981A6B76B2}</Project>
       <Name>Warehouse.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Warehouse.Localization\Warehouse.Localization.csproj">
+      <Project>{cf240ca2-a26a-4e0a-bed0-b8e6a267057e}</Project>
+      <Name>Warehouse.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

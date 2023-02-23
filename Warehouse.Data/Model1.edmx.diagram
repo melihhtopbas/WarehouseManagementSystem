@@ -35,7 +35,6 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Settings_Languages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Properties" Width="1.5" PointX="3" PointY="18.75" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Properties_Languages" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Users" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Blog" Width="1.5" PointX="3" PointY="25.5" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Contact" Width="1.5" PointX="8.375" PointY="3.75" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.FAQ" Width="1.5" PointX="3" PointY="22.625" />
@@ -44,6 +43,8 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.FAQCategories" Width="1.5" PointX="3" PointY="29.25" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_FAQ_FAQCategories" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_FAQCategories_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Users" Width="1.5" PointX="5.375" PointY="12.75" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,8 +1,22 @@
 ﻿
 
 
+
+
 @model Warehouse.ViewModels.Admin.RegisterViewModel
 @using WarehouseManagementSystem.Extensions
+
+ 
+
+
+<link href="~/Areas/Admin/Content/bootstrap.css" rel="stylesheet" />
+
+<script src="~/Areas/Admin/Scripts/jquery-3.4.1.min.js"></script>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 
 <html lang="en">
 <head>
@@ -15,26 +29,62 @@
 <body>
 
 
-    @using (Html.BeginForm("Register", "User", new { Area = String.Empty }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section" }))
+    @using (Html.BeginForm("Register", "User", new { Area = "Admin" }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section" }))
     {
-        <h1>Register</h1>
-        <div class="login-form">
-            <h4>Username</h4>
-            <div class="username-input">
-                <i class="fas fa-user"></i>
-                @Html.TextBoxFor(a => a.UserName, new { type = "text", @class = "input form-control border border-primary", placeholder = "Kullanıcı Adı Giriniz" })
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.AntiForgeryToken()
+                @Html.RenderValidationSummary(true)
+                @Html.HiddenFor(x => x.Id)
+
             </div>
-            <h4>Password</h4>
-            <div class="password-input">
-                <i class="fas fa-lock"></i>
-                @Html.TextBoxFor(a => a.Password, new { id = "pass", type = "password", @class = "input form-control border border-primary", data_type = "password", placeholder = "Şifre Giriniz" })
+        </div>
+
+        <h1>Kayıt Ol</h1>
+        if (ViewData["Message"] != null)
+        {
+            <h2>@ViewData["Message"] <a href="/Admin/Login/Index"><strong>Giriş yapmak için tıklayın</strong></a> </h2>
+        }
+
+
+
+
+        <div class="row">
+
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.UserName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Kullanıcı Adı" })
+            </div>
+
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Password, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Şifre", type = "password", data_type = "password" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Name, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Ad" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Surname, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Soy Ad" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Telefon" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Mail, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Mail" })
 
             </div>
             <br />
 
 
 
-            <p>Forgot password?</p>
+
         </div>
         <button type="submit" class="login-btn">
             KAYDET
@@ -42,7 +92,7 @@
         <div class="clearfix"></div>
         <div>
             <a href="#" class="navbar-brand ">
-                <img src="~/uploads/PrasoftLogo.png" style="height: 50%; width: 50%" alt="footer logo">
+                <img class="prasoftLogo" src="~/uploads/PrasoftLogo.png" alt="footer logo">
 
             </a>
             <!-- End of .navbar-brand -->
@@ -54,11 +104,23 @@
 
 </html>
 <script src="https://kit.fontawesome.com/d0ade9b5d6.js" crossorigin="anonymous"></script>
- 
+
 <style>
 
     @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto+Condensed:wght@700&family=Roboto:wght@300;400;500;600;700&display=swap');
 
+    .prasoftLogo {
+        margin-left: 75px;
+        margin-top: -25px;
+        height: 100px;
+        width: 300px;
+    }
+
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
 
     * {
         font-family: 'Roboto', sans-serif;
@@ -71,7 +133,7 @@
     body {
         background-color: #fff9f9;
         min-height: 700px;
-        minwidth: 700px;
+        min-width: 700px;
         height: 100vh;
         width: 100vw;
         background-color: hsla(0,100%,88%,1);
@@ -80,8 +142,8 @@
 
     .section {
         margin: 0 auto;
-        width: 400px;
-        mheight: 380px;
+        width: 700px;
+        height: 525px;
         transform: translateY(40%);
         display: flex;
         flex-direction: column;
@@ -171,3 +233,4 @@
         color: hsl(269deg 26% 47%);
     }
 </style>
+

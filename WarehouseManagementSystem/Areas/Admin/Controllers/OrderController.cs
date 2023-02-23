@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Web.Mvc;
 using MvcPaging;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         private readonly OrderService _orderService;
         WarehouseManagementSystemEntities1 _context = new WarehouseManagementSystemEntities1();
 
+
         public OrderController(OrderService orderService)
         {
             _orderService = orderService;
@@ -30,7 +32,13 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         // GET: Order
         //Anasayfa
         public async Task<ActionResult> Index()
-        {
+        { 
+
+            string userName = User.Identity.Name; 
+            var user = _context.Users.FirstOrDefault(x => x.UserName == userName);
+            ViewData["Ad"] = user.Name;
+            ViewData["Soyad"] = user.Surname;
+            ViewData["UserId"] = user.Id;
 
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
             return View("~/Areas/Admin/Views/Order/Index.cshtml");

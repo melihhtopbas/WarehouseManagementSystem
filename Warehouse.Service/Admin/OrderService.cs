@@ -10,26 +10,34 @@ using LinqKit;
 using Warehouse.ViewModels.Common;
 using System.Data.Entity;
 using System.Net.Http;
+using System.Web.Mvc; 
 
 namespace Warehouse.Service.Admin
 {
+    [Authorize]
     public class OrderService
-    {
-
+    { 
         private readonly WarehouseManagementSystemEntities1 _context;
+        private readonly Users users;
+        string name = System.Web.HttpContext.Current.User.Identity.Name;
+         
+
+
 
         public OrderService(WarehouseManagementSystemEntities1 context)
         {
             _context = context;
+             users = _context.Users.FirstOrDefault(x=>x.UserName==name);
         }
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
-        {
+        { 
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
                     join rAd in _context.RecipientAddresses
                     on b.Id equals rAd.OrderId
+                    where b.CustomerId == users.Id
                     select new OrderListViewModel()
                     {
                         Id = b.Id,
@@ -47,6 +55,7 @@ namespace Warehouse.Service.Admin
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
+                        CustomerId = users.Id,
 
 
 
@@ -174,8 +183,9 @@ namespace Warehouse.Service.Admin
                     }
                 }
             }
-
-            var order = new Orders();
+             
+            
+            var order = new Orders(); 
 
             if (model.City == null)
             {
@@ -198,6 +208,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
+                order.CustomerId = users.Id;
 
 
 
@@ -225,6 +236,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
+                order.CustomerId = users.Id;
 
 
 
@@ -460,6 +472,7 @@ namespace Warehouse.Service.Admin
                                {
 
                                    Id = p.Id,
+                                   CustomerId = p.CustomerId,
                                    SenderName = p.SenderName,
                                    SenderIdentityNumber = p.SenderIdentityNumber,
                                    SenderMail = p.SenderMail,

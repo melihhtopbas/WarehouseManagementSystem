@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Microsoft.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Threading.Tasks; 
 using System.Web;
 using System.Web.Mvc;
-using Warehouse.Service.WebSite;
+using System.Web.UI;
+using Warehouse.Service.Admin;
 using Warehouse.ViewModels.Admin;
-using WarehouseManagementSystem.Areas.Admin.Controllers;
 
-namespace WarehouseManagementSystem.Controllers
+namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     public class UserController : AdminBaseController
     {
@@ -17,38 +19,37 @@ namespace WarehouseManagementSystem.Controllers
         {
             _settingService = settingService;
         }
-    
+
         // GET: User
         public ActionResult Index()
         {
             return View();
         }
         [HttpGet]
+        
         public ActionResult Register()
         {
+            
             var model = new RegisterViewModel();
-            return PartialView("~/Views/User/Register.cshtml", model);
+            return View("~/Areas/Admin/Views/User/Register.cshtml", model);
         }
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+             
             if (ModelState.IsValid)
             {
+                 
                 var callResult = await _settingService.RegisterAsync(model);
                 if (callResult.Success)
                 {
+                    ViewData["Message"] = "Kayıt başarılı!";
+                    ViewData["RedirectLogin"] = true;
 
-                    ModelState.Clear();
-
-                    var jsonResult = Json(
-                        new
-                        {
-                            success = true,
-
-                        });
-                    jsonResult.MaxJsonLength = int.MaxValue;
-                    return jsonResult;
+                    ModelState.Clear(); 
+                    Thread.Sleep(1000);
+                    return View();
 
 
                 }
@@ -60,13 +61,7 @@ namespace WarehouseManagementSystem.Controllers
 
 
 
-            return Json(
-                new
-                {
-                    success = false,
-                    responseText = RenderPartialViewToString("~/Views/User/Register.cshtml", model)
-                });
-
+            return View("Register");
         }
     }
 }

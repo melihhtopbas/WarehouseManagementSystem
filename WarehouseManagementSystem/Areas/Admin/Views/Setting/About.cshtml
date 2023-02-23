@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model Warehouse.ViewModels.Admin.AboutViewModel
+
+<div class="row">
+    <div class="col-md-12 col-md-offset-2 col-sm-12 col-sm-offset-2">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-cogs"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+
+            @using (Html.BeginForm("About", "Setting", new { Area = "Admin" }, FormMethod.Post, new { id = "aboutForm", role = "form", enctype = "multipart/form-data" }))
+            {<div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.LanguageId, new { data_val = "false" })
+                            @Html.RenderValidationSummary(true)
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Title)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Title, new { @class = "show-maxlength", autofocus = "true" })
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                            @Html.Label("Fotoğraf 1")
+                            @Html.TextBox("AboutPhoto1", null, new { @class = "form-control", type = "file" })
+                            <img class="photo1" src="@Url.Content(String.Format(SystemConstants.SettingImageThumbPath) + "/" + Model.FileName)" />
+
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 ">
+                            @Html.Label("Fotoğraf 2")
+                            @Html.TextBox("AboutPhoto2", null, new { @class = "form-control", type = "file" })
+                            <img class="photo2" src="@Url.Content(String.Format(SystemConstants.SettingImageThumbPath) + "/" + Model.FileName2)" />
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Description)">
+                            <div>
+                                @Html.Label("Hakkımızda")
+                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "2", data_make_cke = "true", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Description).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Mission)">
+                            <div>
+                                @Html.Label("Misyon")
+                                @Html.TextAreaFor(m => m.Mission, new { @class = "form-control", rows = "2", data_make_cke = "true", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Mission).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Mission, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Vision)">
+                            <div>
+                                @Html.Label("Vizyon")
+                                @Html.TextAreaFor(m => m.Vision, new { @class = "form-control", rows = "2", data_make_cke = "true", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Vision).ToString()) })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.Vision, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right"><span class="fa fa-check"></span>&nbsp;Kaydet</button>
+                    <span class="clearfix"></span>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+     
+    .photo1{
+        width:50%;
+    }
+    .photo2{
+        width:50%;
+        margin-top:25px;
+    }
+</style>

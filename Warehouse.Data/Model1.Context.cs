@@ -40,10 +40,10 @@ namespace Warehouse.Data
         public virtual DbSet<About> About { get; set; }
         public virtual DbSet<Settings> Settings { get; set; }
         public virtual DbSet<Properties> Properties { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Blog> Blog { get; set; }
         public virtual DbSet<Contact> Contact { get; set; }
         public virtual DbSet<FAQ> FAQ { get; set; }
         public virtual DbSet<FAQCategories> FAQCategories { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }
