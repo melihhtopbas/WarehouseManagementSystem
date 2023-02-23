@@ -15,12 +15,30 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
     public abstract class AdminBaseController : Controller
     {
         WarehouseManagementSystemEntities1 _context = new WarehouseManagementSystemEntities1();
+        public AdminBaseController()
+        {
+            if (System.Web.HttpContext.Current.User.Identity.Name!=null)
+            {
+                string userName = System.Web.HttpContext.Current.User.Identity.Name;
+                 
+                
+                if (userName!=null && userName!="")
+                {
+                    var user = _context.Users.FirstOrDefault(x => x.UserName == userName);
+                    ViewData["Ad"] = user.Name;
+                    ViewData["Soyad"] = user.Surname;
+                    
+                }
+              
+            }
+           
+        }
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             // Modify current thread's cultures  
 
-            
+
             var culture = new System.Globalization.CultureInfo("en-EN");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;

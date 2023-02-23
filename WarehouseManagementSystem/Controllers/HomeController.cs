@@ -9,7 +9,7 @@ using WarehouseManagementSystem.Controllers;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
-    public class HomeController : AdminBaseController
+    public class HomeController : BaseController
     {
         private readonly SliderService _sliderService;
 

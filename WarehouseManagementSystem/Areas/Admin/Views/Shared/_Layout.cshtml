@@ -68,6 +68,7 @@
 
 
                                     @ViewData["Ad"] @ViewData["Soyad"]
+                                    <small>@User.Identity.Name</small>
                                 </p>
 
                             </li>
@@ -136,7 +137,7 @@
                 <li><a href="/"> <i class="fa-solid fa-warehouse"></i> <span>Anasayfa</span></a></li>
                 <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
-                <li><a href="#"><i class="fa-solid fa-city"></i> <span></span>Şehirler</a></li>
+                <li><a href="#"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-money-bill"></i> <span>Fiyatlandırma</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
                 <li><a href="#"><i class="fa fa-book"></i> <span>Blog</span></a></li>
@@ -166,8 +167,11 @@
                 </li>
                 <li><a href="#"><i class="fa fa-phone"></i> <span>İletişim </span></a></li>
 
+                @if (User.Identity.Name=="admin")
+                {
+                    @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
+                }
 
-                @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
             </ul>
         </section>
         <!-- /.sidebar -->
