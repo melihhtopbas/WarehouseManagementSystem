@@ -56,18 +56,17 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));
 
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre");
+                    //Response.Write("<script language='javascript'>alert(\"Geçersiz kullanıcı adı veya şifre!\")</script>");
+                }
                 
 
 
 
             }
-            else
-            {
-                Response.Write("<script language='javascript'>alert(\"Geçersiz kullanıcı adı veya şifre!\")</script>");
-
-
-                
-            }
+            
             return View();
         }
         public ActionResult LogOut()

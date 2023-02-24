@@ -167,7 +167,7 @@
                 </li>
                 <li><a href="#"><i class="fa fa-phone"></i> <span>İletişim </span></a></li>
 
-                @if (User.Identity.Name=="admin")
+                @if (User.Identity.Name == "admin")
                 {
                     @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
                 }
@@ -177,7 +177,7 @@
         <!-- /.sidebar -->
     </aside>
 
-    <div style="width:1250px; background-color:white;" class="content-wrapper">
+    <div   background-color:white;" class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section style="background-color:white" class="content">
             @RenderBody()
@@ -211,7 +211,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet" />
-
+    <link href="~/Areas/Admin/Content/admin-lte/css/AdminLTE.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Scripts/maxlength.js"></script>
     <script src="~/Areas/Admin/Scripts/jquery.validate.min.js"></script>
     <script src="~/Areas/Admin/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -222,7 +222,6 @@
     <link href="~/Areas/Admin/Content/toastr.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/admin-lte/css/skins/_all-skins.css" rel="stylesheet" />
 
-    <link href="~/Areas/Admin/Content/admin-lte/css/AdminLTE.min.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Content/admin-lte/js/demo.js"></script>
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
 

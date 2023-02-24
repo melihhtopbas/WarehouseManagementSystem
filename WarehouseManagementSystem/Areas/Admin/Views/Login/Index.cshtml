@@ -32,12 +32,12 @@
 </head>
 
 <body>
-    <div class="login-wrap">
+    <div style="font-size:large" class="login-wrap">
         <div class="vh-100 d-flex justify-content-center align-items-center ">
             <div class="col-md-5 p-5 shadow-sm border rounded-5 border-primary bg-white">
                 <h2 class="text-center mb-4 text-primary">Login</h2>
                 <div class="login-form">
-                    @using (Html.BeginForm("Index", "Login", new { Area ="Admin" }, FormMethod.Post, new { id = "loginForm", role = "form" }))
+                    @using (Html.BeginForm("Index", "Login", new { Area = "Admin" }, FormMethod.Post, new { id = "loginForm", role = "form" }))
                     {
                         <div class="row">
                             <div class="col-xs-12">
