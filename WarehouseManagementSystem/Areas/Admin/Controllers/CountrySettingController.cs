@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.EMMA;
+﻿ 
 using Microsoft.Web.Mvc;
 using MvcPaging;
 using System;
@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Warehouse.Data;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
@@ -17,6 +18,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
     [Authorize]
     public class CountrySettingController : AdminBaseController
     {
+        private readonly WarehouseManagementSystemEntities1 _context;
         private readonly CountryService _countryService;
         private readonly LanguageService _languageService;
         public CountrySettingController(LanguageService languageService, CountryService countryService)
@@ -27,22 +29,25 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         // GET: Admin/CountrySetting
         public async Task<ActionResult> Index()
         {
-            ViewBag.Title = "Servisler";
+            
+            ViewBag.Title = "Ülkeler";
             ViewBag.Languages = await _languageService.GetLanguageListViewAsync();
-            return View();
+            return View("~/Areas/Admin/Views/CountrySetting/Index.cshtml");
         }
+       
+       
         [AjaxOnly, HttpPost, ValidateInput(false)]
-        public async Task<ActionResult> CountryList(OrderSearchViewModel searchViewModel, int? page)
+        public async Task<ActionResult> CountryList(CountrySearchViewModel searchViewModel, int? page)
         {
             var currentPageIndex = page - 1 ?? 0;
 
             var result = _countryService.GetCountryListIQueryable(searchViewModel)
-                .OrderBy(p => p.Name)
-                .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
+                .OrderBy(x => x.Name)   
+                .ToPagedList(currentPageIndex, SystemConstants.DefaultCountryPageSize, page);
 
             ViewBag.Languages = await _languageService.GetLanguageListViewAsync();
-            ModelState.Clear();
 
+            ModelState.Clear();
             ViewBag.LanguageId = searchViewModel.LanguageId;
             return new ContentResult
             {
@@ -54,5 +59,19 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 })
             };
         }
+        [AjaxOnly]
+        public ActionResult Add(long languageId)
+        {
+
+
+
+            var model = new CountryViewModel
+            {
+
+            };
+            return PartialView("~/Areas/Admin/Views/CountrySetting/_CountryAdd.cshtml", model);
+        }
+
+
     }
 }

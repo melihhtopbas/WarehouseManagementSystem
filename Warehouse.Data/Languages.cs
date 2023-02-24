@@ -25,11 +25,13 @@ namespace Warehouse.Data
             this.Blog = new HashSet<Blog>();
             this.FAQ = new HashSet<FAQ>();
             this.FAQCategories = new HashSet<FAQCategories>();
+            this.Countries = new HashSet<Countries>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
+        public Nullable<int> Page { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
@@ -47,5 +49,7 @@ namespace Warehouse.Data
         public virtual ICollection<FAQ> FAQ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FAQCategories> FAQCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Countries> Countries { get; set; }
     }
 }

@@ -9,11 +9,11 @@
         <a class="btn btn-default btn-sm"
            data-modal-form="true"
            data-modal-size="modal-lg"
-           data-modal-prepend="tbody#ServiceList"
-           data-modal-title="@language.Name Servis Ekle"
+           data-modal-prepend="tbody#CountryList"
+           data-modal-title="Ülke Ekle"
            data-hook-beforeunload="true"
            href="@Url.Action("Add", "CountrySetting", routeValues: new {Area ="Admin",languageId=language.Id})">
-            <i class="fa fa-plus"></i>@language.Name Servis Ekle
+            <i class="fa fa-plus"></i>Ülke Ekle
         </a>
     }
 
@@ -26,28 +26,29 @@
             </div>
         }
 
-        &nbsp;
+
         @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CountryListContainer" }).Options(o => o
             .Action("CountryList")
-            .DisplayTemplate("BootstrapPagination")
+            .DisplayTemplate("BootstrapPage")
             .MaxNrOfPages(6)
             .AlwaysAddFirstPageNumber()
             .RouteValues(new { languageId = @ViewBag.LanguageId })
 
-            )
+
+
+        )
     </div>
 </div>
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>#</th>
-            
-            <th>Kategori Adı</th>
+            <th>Ülke Adı</th>
             <th style="width:50px">Düzenle</th>
             <th style="width:50px">Sil</th>
         </tr>
     </thead>
-    <tbody id="ServiceList">
+    <tbody id="CountryList">
         @Html.DisplayFor(m => m)
 
 
@@ -57,12 +58,13 @@
 <div class="pull-left">
 
 
-    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "ServiceListContainer" }).Options(o => o
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CountryListContainer" }).Options(o => o
         .Action("CountryList")
-        .DisplayTemplate("BootstrapPagination")
+        .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()
         .RouteValues(new { languageId = @ViewBag.LanguageId })
+
         )
 </div>
 @if (Model.Any())
@@ -72,3 +74,4 @@
     </div>
 }
 
+ 

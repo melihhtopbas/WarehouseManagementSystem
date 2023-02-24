@@ -1236,6 +1236,7 @@
     <Content Include="Areas\Admin\Scripts\custom.ajax.form.js" />
     <Content Include="Areas\Admin\Scripts\custom.ajax.pager.js" />
     <Content Include="Areas\Admin\Scripts\custom.ajax.pager.min.js" />
+    <Content Include="Areas\Admin\Scripts\custom.bootstrap.page.js" />
     <Content Include="Areas\Admin\Scripts\custom.jquery.validate.unobtrusive.dynamic.js" />
     <Content Include="Areas\Admin\Scripts\custom.jquery.validate.unobtrusive.dynamic.min.js" />
     <Content Include="Areas\Admin\Scripts\custom.modal.form.js" />
@@ -4480,6 +4481,7 @@
     <Content Include="Areas\Admin\Views\AdminCommon\Sidebar.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\DisplayTemplates\CountryListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CountrySetting\_CountryAdd.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\CountryList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -4507,7 +4509,7 @@
     <Content Include="uploads\setting\images\shipping.png" />
     <Content Include="uploads\warehouse-management-system.jpg" />
     <Content Include="uploads\wms-logo.png" />
-    <Content Include="Views\Shared\DisplayTemplates\BootstrapPagination.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BootstrapPage.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -4540,7 +4542,7 @@
     <Content Include="Areas\Admin\Views\Order\DisplayTemplates\OrderPackagedProductGroups.cshtml" />
     <Content Include="Areas\Admin\Views\Order\_OrderPriceCalculator.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\OrderCityIdSelectViewModel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\BootstrapPagination.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\DisplayTemplates\BootstrapPage.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\SliderPartial.cshtml" />

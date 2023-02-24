@@ -35,7 +35,7 @@
     &nbsp;
     @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
         .Action("OrderList")
-        .DisplayTemplate("BootstrapPagination")
+        .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()
         )
@@ -80,7 +80,7 @@
 
     @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderListContainer" }).Options(o => o
         .Action("OrderList")
-        .DisplayTemplate("BootstrapPagination")
+        .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()
 
@@ -104,10 +104,4 @@
     });
 
 </script>
-@*<style>
-    #tblOrders {
-        width: 130%;
-        max-width: 150%;
-        margin-bottom: 20px;
-    }
-</style>*@
+ 

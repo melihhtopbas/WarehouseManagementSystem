@@ -21,18 +21,27 @@ namespace Warehouse.Service.Admin
         }
         private IQueryable<CountryListViewModel> _getCountryListIQueryable(Expression<Func<Data.Countries, bool>> expr)
         {
+            var model = _context.Countries.ToList();
+            foreach (var item in model)
+            {
+                item.LanguageId = 1;
+            }
+            _context.SaveChanges();
+
             return (from b in _context.Countries.AsExpandable().Where(expr)
                     select new CountryListViewModel()
                     {
                         Id= b.Id,
-                        Name = b.Name
+                        Name = b.Name,
+                        LanguageId = b.LanguageId
 
                     });
         }
 
-        public IQueryable<CountryListViewModel> GetCountryListIQueryable(OrderSearchViewModel model)
+        public IQueryable<CountryListViewModel> GetCountryListIQueryable(CountrySearchViewModel model)
         {
-            var predicate = PredicateBuilder.New<Data.Countries>(true);/*AND*/ 
+            var predicate = PredicateBuilder.New<Data.Countries>(true);/*AND*/
+            predicate.And(a => a.LanguageId == model.LanguageId);
             if (!string.IsNullOrWhiteSpace(model.SearchName))
             {
                 predicate.And(a => a.Name.Contains(model.SearchName));
@@ -41,7 +50,7 @@ namespace Warehouse.Service.Admin
             return _getCountryListIQueryable(predicate);
         }
 
-        public async Task<CountryListViewModel> GetServiceListViewAsync(long countryId)
+        public async Task<CountryListViewModel> GetCountryListViewAsync(long countryId)
         {
 
             var predicate = PredicateBuilder.New<Data.Countries>(true);/*AND*/

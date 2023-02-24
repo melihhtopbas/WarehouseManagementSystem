@@ -9,13 +9,13 @@
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"
-           data-modal-update="#service_@Model.Id"
-           data-modal-highlight="#service_@Model.Id"
-           data-modal-title="Servis Düzenle"
+           data-modal-update="#country_@Model.Id"
+           data-modal-highlight="#country_@Model.Id"
+           data-modal-title="Ülke Düzenle"
            data-hook-beforeunload="true"
            class="btn btn-block btn-success btn-sm"
-           href="@Url.Action("Edit", "ServiceSetting", routeValues: new {Area = "Admin",serviceId=Model.Id})">
-            <i class="fa fa-edit fa-fw text-success"></i> Kategori Düzenle
+           href="@Url.Action("Edit", "CountrySetting", routeValues: new {Area = "Admin",countryId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Ülke Düzenle
         </a>
 
     </td>
@@ -29,7 +29,7 @@
            data-service-id="@Model.Id"
            data-on-confirm="deleteService"
            class="btn btn-block btn-danger btn-sm">
-            <i class="fa fa-trash fa-fw text-danger"></i> Kategori Sil
+            <i class="fa fa-trash fa-fw text-danger"></i> Ülke Sil
         </a>
 
     </td>

@@ -58,7 +58,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
             var result = _orderService.GetOrderListIQueryable(model)
                 .OrderBy(p => p.DateTime).OrderBy(x => x.isPackage)
-                .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
+                .ToPagedList(currentPageIndex, SystemConstants.DefaultOrderPageSize);
             ViewBag.Languages = await _orderService.GetLanguageListViewAsync();
 
             ModelState.Clear();

@@ -14,6 +14,9 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string Name { get; set; }
 
+        [Display(ResourceType = typeof(Warehouse.Localization.ViewModel.ModelItems), Name = "Active")]
+        public bool Active { get; set; }
+
     }
     public class CountryListViewModel
     {
@@ -21,6 +24,8 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Ülke adı")]
          
         public string Name { get; set; }
+        [Display(Name = "Dil")]
+        public long? LanguageId { get; set; }
 
     }
 
@@ -29,5 +34,12 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Ülke Adı")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CountryId { get; set; }
+    }
+    public class CountrySearchViewModel
+    {
+        [Display(Name = "Dil")]
+        public long LanguageId { get; set; }
+        [Display(Name = "Arama Metni")]
+        public string SearchName { get; set; }
     }
 }
