@@ -278,6 +278,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1321,11 +1322,13 @@
     <Content Include="Areas\Admin\Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Areas\Admin\Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Areas\Admin\Scripts\DataTables\responsive.semanticui.min.js" />
-    <None Include="Areas\Admin\Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.js" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.slim.min.map" />
+    <None Include="Areas\Admin\Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Areas\Admin\Scripts\jquery-3.1.1.slim.min.js" />
     <None Include="Areas\Admin\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Areas\Admin\Scripts\jquery.validate.js" />
     <Content Include="Areas\Admin\Scripts\jquery.validate.min.js" />
@@ -2471,12 +2474,15 @@
     <Content Include="Areas\Admin\Scripts\modernizr-2.8.3.js" />
     <Content Include="Areas\Admin\Scripts\site.js" />
     <Content Include="Areas\Admin\Scripts\site.min.js" />
+    <Content Include="Areas\Admin\Scripts\surukle.js" />
     <Content Include="Areas\Admin\Scripts\switchery.js" />
     <Content Include="Areas\Admin\Scripts\switchery.min.js" />
     <Content Include="Areas\Admin\Scripts\tether.js" />
     <Content Include="Areas\Admin\Scripts\tether.min.js" />
     <Content Include="Areas\Admin\Scripts\toastr.js" />
     <Content Include="Areas\Admin\Scripts\toastr.min.js" />
+    <Content Include="bin\WarehouseManagementSystem.dll" />
+    <Content Include="bin\WarehouseManagementSystem.pdb" />
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\main.css" />
@@ -3336,8 +3342,6 @@
     <Content Include="Areas\Admin\Scripts\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="Areas\Admin\Scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Scripts\ckeditor\skins\moono-lisa\readme.md" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.min.map" />
-    <Content Include="Areas\Admin\Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\cultures\kendo.culture.aa-DJ.min.js.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\cultures\kendo.culture.aa-ER.min.js.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\cultures\kendo.culture.aa-ET.min.js.map" />
@@ -4470,11 +4474,7 @@
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-CN.min.js.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-HK.min.js.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-TW.min.js.map" />
-    <Content Include="Areas\Admin\Views\HomeSettings\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\HomeSettings\ExcelAndPDF.cshtml" />
-    <Content Include="Areas\Admin\Views\Export\PdfAndExcel.cshtml" />
-    <Content Include="Areas\Admin\Views\Export\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Register.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\About.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
