@@ -40,6 +40,11 @@ namespace Warehouse.Service.Admin
             {
                 UserName = model.UserName,
                 Password = model.Password,
+                Mail = model.Mail,
+                Name= model.Name,   
+                Phone = model.Phone,
+                Surname = model.Surname,
+                
             };
 
 
