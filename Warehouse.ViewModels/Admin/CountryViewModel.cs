@@ -17,6 +17,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(ResourceType = typeof(Warehouse.Localization.ViewModel.ModelItems), Name = "Active")]
         public bool Active { get; set; }
 
+        public long? LanguageId { get; set; }
     }
     public class CountryListViewModel
     {
@@ -26,6 +27,7 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
         [Display(Name = "Dil")]
         public long? LanguageId { get; set; }
+        public bool? Active { get; set; }
 
     }
 

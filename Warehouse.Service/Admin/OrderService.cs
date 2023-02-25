@@ -87,7 +87,7 @@ namespace Warehouse.Service.Admin
         public List<CountryListViewModel> GetOrderCountryList()
         {
 
-            var result = _context.Countries.Select(b => new CountryListViewModel
+            var result = _context.Countries.Where(x=>x.Active==true).Select(b => new CountryListViewModel
             {
 
                 Id = b.Id,

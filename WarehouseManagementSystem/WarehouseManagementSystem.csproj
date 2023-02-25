@@ -2481,6 +2481,11 @@
     <Content Include="Areas\Admin\Scripts\tether.min.js" />
     <Content Include="Areas\Admin\Scripts\toastr.js" />
     <Content Include="Areas\Admin\Scripts\toastr.min.js" />
+    <Content Include="Areas\Admin\Scripts\wms.ajax.form.js" />
+    <Content Include="Areas\Admin\Scripts\wms.ajax.pager.js" />
+    <Content Include="Areas\Admin\Scripts\wms.jquery.min.js" />
+    <Content Include="Areas\Admin\Scripts\wms.modal.form.js" />
+    <Content Include="Areas\Admin\Scripts\wms.site.js" />
     <Content Include="bin\WarehouseManagementSystem.dll" />
     <Content Include="bin\WarehouseManagementSystem.pdb" />
     <Content Include="Content\css\AdminLTE.min.css" />
@@ -4483,6 +4488,7 @@
     <Content Include="Areas\Admin\Views\CountrySetting\DisplayTemplates\CountryListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\_CountryAdd.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\CountryList.cshtml" />
+    <Content Include="Areas\Admin\Views\CountrySetting\_CountryEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

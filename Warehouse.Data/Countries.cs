@@ -24,6 +24,7 @@ namespace Warehouse.Data
         public long Id { get; set; }
         public string Name { get; set; }
         public Nullable<long> LanguageId { get; set; }
+        public Nullable<bool> Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cities> Cities { get; set; }

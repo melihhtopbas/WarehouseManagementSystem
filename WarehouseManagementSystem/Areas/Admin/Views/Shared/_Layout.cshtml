@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PraWMS</title>
+    @*<title>PraWMS</title>*@
     <link rel="shortcut icon" href="~/uploads/Favicon.png" type="image/x-icon" />
 
     @Styles.Render("~/Areas/Admin/Content/css")
     <link href="~/Areas/Admin/Content/loadingoverlay.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" /> 
+    <script src="~/Areas/Admin/Scripts/wms.jquery.min.js"></script>
+     
 
-
-    <script src="~/Areas/Admin/Scripts/jquery-3.1.1.min.js"></script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -223,19 +223,20 @@
 
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
 
+    <script src="~/Areas/Admin/Scripts/wms.ajax.form.js"></script>
+    <script src="~/Areas/Admin/Scripts/wms.modal.form.js"></script>
+    <script src="~/Areas/Admin/Scripts/wms.ajax.pager.js"></script>
+
 
     <script src="~/Areas/Admin/Scripts/toastr.js"></script>
     <script src="~/Areas/Admin/Scripts/switchery.min.js"></script>
-    <script src="~/Areas/Admin/Scripts/surukle.js"></script>
+    <script src="~/Areas/Admin/Scripts/wms.site.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
     <script src="~/Areas/Admin/Content/admin-lte/js/adminlte.min.js"></script>
     <script src="~/Areas/Admin/Content/admin-lte/js/demo.js"></script>
-    <script src="~/Areas/Admin/Scripts/custom.ajax.form.js"></script>
-    <script src="~/Areas/Admin/Scripts/custom.modal.form.js"></script>
-
-    <script src="~/Areas/Admin/Scripts/custom.ajax.pager.js"></script>
 
     <script src="~/Areas/Admin/Scripts/bootstrap.min.js"></script>
     <script src="~/Areas/Admin/Scripts/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
@@ -373,6 +374,47 @@
                     var $tr = that.closest('tr.master-row');
                     $tr.nextUntil('tr.master-row').empty().remove();
                     $tr.animateDelete();
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteCountry() {
+            var that = $(this);
+            var countryId = that.data('countryId');
+
+            var container = $('#CountryListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/CountrySetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { countryId: countryId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
                     $.each(result.successMessages,
                         function (i, item) {
                             toastr.success(item);

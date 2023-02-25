@@ -65,6 +65,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LanguageId" Type="bigint" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -641,6 +642,7 @@
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Countries_Languages" FromRole="Countries" ToRole="Languages" />
+          <Property Name="Active" Type="Boolean" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -1296,6 +1298,7 @@
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Countries">
               <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
