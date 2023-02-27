@@ -29,6 +29,50 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             var model = await _settingService.GetSettingViewModel(id).ConfigureAwait(false);
             return View(model);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(SettingViewModel model, HttpPostedFileBase logoFile, HttpPostedFileBase faviconFile)
+        {
+            if (logoFile != null)
+            {
+                if (!System.IO.Directory.Exists(System.IO.Path.Combine(Server.MapPath("/uploads/"))))
+                    System.IO.Directory.CreateDirectory(System.IO.Path.Combine(Server.MapPath("/uploads/")));
+                var fileName = Path.GetFileName(logoFile.FileName);
+                var extention = Path.GetExtension(logoFile.FileName);
+                var filenamewithoutextension = Path.GetFileNameWithoutExtension(logoFile.FileName);
+                logoFile.SaveAs(Server.MapPath("/uploads/" + logoFile.FileName));
+                model.Logo = "/uploads/" + logoFile.FileName;
+            }
+            if (faviconFile != null)
+            {
+                if (!System.IO.Directory.Exists(System.IO.Path.Combine(Server.MapPath("/uploads/"))))
+                    System.IO.Directory.CreateDirectory(System.IO.Path.Combine(Server.MapPath("/uploads/")));
+                var fileName = Path.GetFileName(faviconFile.FileName);
+                var extention = Path.GetExtension(faviconFile.FileName);
+                var filenamewithoutextension = Path.GetFileNameWithoutExtension(faviconFile.FileName);
+                faviconFile.SaveAs(Server.MapPath("/uploads/" + faviconFile.FileName));
+                model.Favicon = "/uploads/" + faviconFile.FileName;
+            }
+            if (ModelState.IsValid)
+            {
+
+                var callResult = await _settingService.AddOrEditSetting(model);
+                if (callResult.Success)
+                {
+                    ViewBag.Title = "Ayarlar";
+                    ViewData[StringConstants.SuccessMessage] = "Ayarlar Başarıyla Kaydedilmiştir.";
+                    return View("~/Areas/Admin/Views/Setting/Index.cshtml", model);
+
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            ViewBag.Title = "Ayarlar";
+            return View("~/Areas/Admin/Views/Setting/Index.cshtml", model);
+        }
         public async Task<ActionResult> About(long id)
         {
             ViewBag.Title = "Hakkımızda";

@@ -66,7 +66,7 @@ namespace Warehouse.Service.Admin
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-            bool nameExist = await _context.Countries.AnyAsync(a => a.Name == model.Name && a.LanguageId == model.LanguageId).ConfigureAwait(false);
+            bool nameExist = await _context.Countries.AnyAsync(a => a.Name == model.Name).ConfigureAwait(false);
             if (nameExist)
             {
                 callResult.ErrorMessages.Add("Bu isimde Ülke bulunmaktadır.");
@@ -128,8 +128,8 @@ namespace Warehouse.Service.Admin
         public async Task<ServiceCallResult> EditCountryAsync(CountryViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
-            bool nameExist = await _context.Countries.AnyAsync(a => a.Id != model.Id && a.Name == model.Name && a.LanguageId == model.LanguageId).ConfigureAwait(false);
-            if (nameExist)
+            bool nameExist = await _context.Countries.AnyAsync(a => a.Id != model.Id && a.Name == model.Name).ConfigureAwait(false);
+                if (nameExist)
             {
                 callResult.ErrorMessages.Add("Bu isimde Ülke bulunmaktadır.");
                 return callResult;

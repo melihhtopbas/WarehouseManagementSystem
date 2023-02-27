@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Data;
+using Warehouse.Infrastructure;
 using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
 using Warehouse.ViewModels.WebSite;
@@ -179,6 +180,74 @@ namespace Warehouse.Service.Admin
             }
             return model;
 
+        }
+        public async Task<ServiceCallResult> AddOrEditSetting(ViewModels.Admin.SettingViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+            var setting = await _context.Settings.FirstOrDefaultAsync(a => a.LanguageId == model.LanguageId);
+            if (setting == null)
+            {
+                setting = new Settings()
+                {
+                    LanguageId = model.LanguageId,
+                    Description = model.SeoDescription,
+                    Title = model.SeoTitle,
+                    Twitter = model.Twitter,
+                    Youtube = model.Youtube,
+                    Adress = model.Adress,
+                    Analytics = model.Analytics,
+                    Email = model.Email,
+                    Facebook = model.Facebook,
+                    Gplus = model.Gplus,
+                    Instagram = model.Instagram,
+                    Keywords = model.SeoKeywords,
+                    Maps = model.Maps,
+                    Phone = model.Phone,
+                    Phone2 = model.Phone2,
+                    Meta = model.Meta,
+                    Logo = model.Logo,
+                    Favicon = model.Favicon
+
+
+                };
+                _context.Settings.Add(setting);
+            }
+            else
+            {
+                setting.Description = model.SeoDescription;
+                setting.Title = model.SeoDescription;
+                setting.Twitter = model.Twitter;
+                setting.Youtube = model.Youtube;
+                setting.Adress = model.Adress;
+                setting.Analytics = model.Analytics;
+                setting.Email = model.Email;
+                setting.Facebook = model.Facebook;
+                setting.Gplus = model.Gplus;
+                setting.Instagram = model.Instagram;
+                setting.Keywords = model.SeoKeywords;
+                setting.Maps = model.Maps;
+                setting.Phone = model.Phone;
+                setting.Phone2 = model.Phone2;
+                setting.Meta = model.Meta;
+                setting.Logo = string.IsNullOrWhiteSpace(model.Logo) ? setting.Logo : model.Logo;
+                setting.Favicon = string.IsNullOrWhiteSpace(model.Favicon) ? setting.Favicon : model.Favicon;
+            }
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit(); 
+
+                    callResult.Success = true;
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
         }
 
     }

@@ -240,7 +240,7 @@
 
     <script src="~/Areas/Admin/Scripts/bootstrap.min.js"></script>
     <script src="~/Areas/Admin/Scripts/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
-    <script src="~/Areas/Admin/Scripts/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+    <script src="~/Areas/Admin/Scripts/bootstrap-confirmation/wms.confirmation.js"></script>
 
 
 
@@ -332,26 +332,7 @@
 
             });
 
-            $('[data-toggle=confirmation]').confirmation({
-                rootSelector: '[data-toggle=confirmation]',
-                onConfirm: function () {
-                    var id = $(this).data('id');
-                    alert(id);
-                },
-                buttons: [
-                    {
-                        class: 'btn btn-primary',
-                        label: "yes",
-                        icon: "glyphicon glyphicon-ok"
-                    },
-                    {
-                        class: 'btn btn-danger',
-                        label: "no",
-                        icon: 'glyphicon glyphicon-remove',
-                    }
-                ]
-            });
-
+          
 
 
         });

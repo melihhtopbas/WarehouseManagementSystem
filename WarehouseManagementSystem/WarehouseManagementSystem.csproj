@@ -745,6 +745,7 @@
     <Content Include="Areas\Admin\Scripts\bootstrap-confirmation\bootstrap-confirmation.js" />
     <Content Include="Areas\Admin\Scripts\bootstrap-confirmation\bootstrap-confirmation.min.js" />
     <Content Include="Areas\Admin\Scripts\bootstrap-confirmation\confirmation.js" />
+    <Content Include="Areas\Admin\Scripts\bootstrap-confirmation\wms.confirmation.js" />
     <Content Include="Areas\Admin\Scripts\bootstrap-maxlength\bootstrap-maxlength.js" />
     <Content Include="Areas\Admin\Scripts\bootstrap-maxlength\bootstrap-maxlength.min.js" />
     <Content Include="Areas\Admin\Scripts\bootstrap.js" />
