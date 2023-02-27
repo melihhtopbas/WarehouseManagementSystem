@@ -58,11 +58,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 })
             };
         }
-        [AjaxOnly]
+        [AjaxOnly,HttpGet]
         public ActionResult Add(long languageId)
         {
              
-            ViewData["Categories"] = _categoryService.GetFaqCategoryListIQueryable(languageId).ToList();
+            ViewData["Categories"] = _categoryService.GetActiveFaqCategoryListIQueryable(languageId).ToList();
             var model = new FaqAddViewModel()
             {
                 LanguageId = languageId,
@@ -98,7 +98,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     ModelState.AddModelError("", error);
                 }
             } 
-            ViewData["Categories"] = _categoryService.GetFaqCategoryListIQueryable(model.LanguageId).ToList();
+            ViewData["Categories"] = _categoryService.GetActiveFaqCategoryListIQueryable(model.LanguageId).ToList();
             return Json(
                 new
                 {
@@ -113,7 +113,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             var model = await _faqService.GetFaqEditViewModelAsync(faqId);
             if (model != null)
             {
-                ViewData["Categories"] = _categoryService.GetFaqCategoryListIQueryable(model.LanguageId).ToList(); 
+                ViewData["Categories"] = _categoryService.GetActiveFaqCategoryListIQueryable(model.LanguageId).ToList(); 
                 return PartialView("~/Areas/Admin/Views/FaqSetting/_FaqEdit.cshtml", model);
             }
 
@@ -145,7 +145,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
-            ViewData["Categories"] = _categoryService.GetFaqCategoryListIQueryable(model.LanguageId).ToList(); 
+            ViewData["Categories"] = _categoryService.GetActiveFaqCategoryListIQueryable(model.LanguageId).ToList(); 
             return Json(
                 new
                 {

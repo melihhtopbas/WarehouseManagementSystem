@@ -20,6 +20,7 @@ namespace Warehouse.Service.WebSite
         private IQueryable<FaqListViewModel> _getFaqListIQueryable(Expression<Func<Data.FAQ, bool>> expr)
         {
             return (from b in _context.FAQ.AsExpandable().Where(expr)
+                    .Where(b => b.FAQCategories.Active==true)  
                     select new FaqListViewModel()
                     {
                         CategoryName = b.FAQCategories.Name,

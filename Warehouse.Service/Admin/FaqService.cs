@@ -52,6 +52,38 @@ namespace Warehouse.Service.Admin
             var faq = await _getFaqsListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return faq;
         }
+        private IQueryable<FaqListViewModel> _getActiveFaqsListIQueryable(Expression<Func<Data.FAQ, bool>> expr)
+        {
+            return (from b in _context.FAQ.AsExpandable().Where(expr)
+                    select new FaqListViewModel()
+                    {
+                        CategoryName = b.FAQCategories.Name,
+                        Name = b.Name,
+                        Id = b.Id,
+                        Link = b.Link
+
+
+                    });
+        }
+        public IQueryable<FaqListViewModel> GetActiveFaqsListIQueryable(FaqSearchViewModel faqSearchViewModel)
+        {
+            var predicate = PredicateBuilder.New<Data.FAQ>(true);/*AND*/
+            predicate.And(a => a.LanguageId == faqSearchViewModel.LanguageId);
+            if (!string.IsNullOrWhiteSpace(faqSearchViewModel.Name))
+            {
+                predicate.And(a => a.Name.Contains(faqSearchViewModel.Name));
+            }
+
+            return _getFaqsListIQueryable(predicate);
+        }
+        public async Task<FaqListViewModel> GetActiveFaqListViewAsync(long faqId)
+        {
+
+            var predicate = PredicateBuilder.New<Data.FAQ>(true);/*AND*/
+            predicate.And(a => a.Id == faqId);
+            var faq = await _getFaqsListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return faq;
+        }
         public async Task<ServiceCallResult> AddFaqAsync(FaqAddViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
@@ -79,7 +111,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
                     callResult.Success = true;
-                    callResult.Item = await GetFaqListViewAsync(faq.Id).ConfigureAwait(false);
+                    callResult.Item = await GetActiveFaqListViewAsync(faq.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)
@@ -110,7 +142,7 @@ namespace Warehouse.Service.Admin
         public async Task<ServiceCallResult> EditFaqAsync(FaqEditViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
-            bool nameExist = await _context.FAQ.AnyAsync(a => a.Name == model.Name).ConfigureAwait(false);
+            bool nameExist = await _context.FAQ.AnyAsync(a => a.Name == model.Name && a.LanguageId == model.LanguageId && a.Id != model.Id).ConfigureAwait(false);
             if (nameExist)
             {
                 callResult.ErrorMessages.Add("Bu isimde SSS bulunmaktadır.");

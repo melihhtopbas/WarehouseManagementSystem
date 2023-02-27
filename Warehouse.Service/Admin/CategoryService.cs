@@ -48,7 +48,34 @@ namespace Warehouse.Service.Admin
             var faq = await _getFaqCategoryListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return faq;
         }
+        private IQueryable<CategoryListViewModel> _getActiveFaqCategoryListIQueryable(Expression<Func<Data.FAQCategories, bool>> expr)
+        {
+            return (from b in _context.FAQCategories.AsExpandable().Where(expr)
+                    .Where(x=>x.Active==true)
+                    select new CategoryListViewModel()
+                    {
 
+                        Name = b.Name,
+                        Id = b.Id,
+                        CategoryType = CategoryTypes.FAQ
+
+                    });
+        }
+
+        public IQueryable<CategoryListViewModel> GetActiveFaqCategoryListIQueryable(long languageId)
+        {
+            var predicate = PredicateBuilder.New<Data.FAQCategories>(true);/*AND*/
+            predicate.And(a => a.LanguageId == languageId);
+            return _getActiveFaqCategoryListIQueryable(predicate);
+        }
+        public async Task<CategoryListViewModel> GetActiveFaqCategoryListViewAsync(long faqId)
+        {
+
+            var predicate = PredicateBuilder.New<Data.FAQCategories>(true);/*AND*/
+            predicate.And(a => a.Id == faqId);
+            var faq = await _getActiveFaqCategoryListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return faq;
+        }
         public async Task<ServiceCallResult> AddFaqCategoryAsync(FaqCategoryCrudViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
@@ -77,7 +104,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
                     callResult.Success = true;
-                    callResult.Item = await GetFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
+                    callResult.Item = await GetActiveFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)
@@ -132,7 +159,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
                     callResult.Success = true;
-                    callResult.Item = await GetFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
+                    callResult.Item = await GetActiveFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)
