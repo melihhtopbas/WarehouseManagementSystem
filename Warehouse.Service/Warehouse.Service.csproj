@@ -80,8 +80,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\CategoryService.cs" />
     <Compile Include="Admin\ContactService.cs" />
     <Compile Include="Admin\CountryService.cs" />
+    <Compile Include="Admin\FaqService.cs" />
     <Compile Include="Admin\LanguageService.cs" />
     <Compile Include="Admin\OrderService.cs" />
     <Compile Include="Admin\SettingService.cs" />
@@ -100,6 +102,10 @@
     <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj">
       <Project>{5B11C717-6236-4C82-A88C-A17C9E985A68}</Project>
       <Name>Warehouse.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Warehouse.Utils\Warehouse.Utils.csproj">
+      <Project>{31BE8429-B856-41BD-AD8D-5DDBC2C68390}</Project>
+      <Name>Warehouse.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Warehouse.ViewModels\Warehouse.ViewModels.csproj">
       <Project>{2E96D8BE-BA8F-4349-8780-2E00573EF437}</Project>

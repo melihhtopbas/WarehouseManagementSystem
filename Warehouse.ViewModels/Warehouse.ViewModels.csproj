@@ -74,9 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\CargoServiceTypeViewModel.cs" />
+    <Compile Include="Admin\CategoryViewModel.cs" />
     <Compile Include="Admin\CityViewModel.cs" />
     <Compile Include="Admin\AboutViewModel.cs" />
     <Compile Include="Admin\ContactViewModel.cs" />
+    <Compile Include="Admin\FaqViewModel.cs" />
     <Compile Include="Admin\SettingViewModel.cs" />
     <Compile Include="Admin\LoginViewModel.cs" />
     <Compile Include="Admin\CountryViewModel.cs" />

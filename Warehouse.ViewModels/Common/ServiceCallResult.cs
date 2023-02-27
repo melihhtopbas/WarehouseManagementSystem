@@ -63,4 +63,12 @@ namespace Warehouse.ViewModels.Common
        
         public string Alt { get; set; }
     }
+    public static class CategoryTypes
+    {
+        public const string Blog = "Blog";
+        public const string Service = "Service";
+        public const string FAQ = "FAQ";
+
+
+    }
 }

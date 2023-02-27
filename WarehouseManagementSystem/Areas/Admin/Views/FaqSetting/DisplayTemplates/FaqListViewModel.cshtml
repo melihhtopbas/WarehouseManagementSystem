@@ -1,0 +1,36 @@
+﻿
+@model Warehouse.ViewModels.Admin.FaqListViewModel
+<tr id="@("faq_"+Model.Id)" class="master-row">
+
+    <td>@Model.Name</td>
+    <td>
+        @Model.CategoryName
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#faq_@Model.Id"
+           data-modal-highlight="#faq_@Model.Id"
+           data-modal-title="SSS Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "FaqSetting", routeValues: new {Area = "Admin",faqId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> SSS Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-faq-id="@Model.Id"
+           data-on-confirm="deleteFaq"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i> SSS Sil
+        </a>
+
+    </td>
+</tr>

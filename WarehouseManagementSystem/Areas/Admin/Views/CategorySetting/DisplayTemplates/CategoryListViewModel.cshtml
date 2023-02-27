@@ -1,0 +1,37 @@
+﻿
+@using Warehouse.ViewModels.Common
+@model Warehouse.ViewModels.Admin.CategoryListViewModel
+@{
+    string url = string.Empty;
+    switch (Model.CategoryType)
+    {
+        case CategoryTypes.Blog:
+            url = Url.Action("BlogCategoryEdit", "CategorySetting", routeValues: new { Area = "Admin", categoryId = Model.Id });
+            break;
+        case CategoryTypes.Service:
+            url = Url.Action("ServiceCategoryEdit", "CategorySetting", routeValues: new { Area = "Admin", categoryId = Model.Id });
+            break;
+        case CategoryTypes.FAQ:
+            url = Url.Action("FaqCategoryEdit", "CategorySetting", routeValues: new { Area = "Admin", categoryId = Model.Id });
+            break;
+    }
+}
+<tr id="@("category_"+Model.Id)" class="master-row">
+
+    <td>@Model.Name</td>
+
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#category_@Model.Id"
+           data-modal-highlight="#category_@Model.Id"
+           data-modal-title="Kategori Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@url">
+            <i class="fa fa-edit fa-fw text-success"></i> Kategori Düzenle
+        </a>
+
+    </td>
+
+</tr>
