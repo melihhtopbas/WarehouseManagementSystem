@@ -12,20 +12,20 @@
                 <ul class="navbar-nav ml-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang ="tr"})">Anasayfa</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang ="tr"})">@WebSiteViewItems.HomePage</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang ="tr"})">Hakkımızda</a>
+                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang ="tr"})">@WebSiteViewItems.About</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">Blog</a>
+                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">@WebSiteViewItems.Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">Sık Sorulan Sorular</a>
+                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">@WebSiteViewItems.FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">İletişim</a>
+                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">@WebSiteViewItems.Contact</a>
                     </li>
 
 
@@ -57,9 +57,9 @@
                 <!-- End of .col-4 -->
 
                 <div class="ht-right col-sm d-flex align-items-center justify-content-center justify-content-sm-end">
-                    <a href="#" class="contact-numb">
+                    <a href="tel:@SettingViewModel.Phone" class="contact-numb">
                         <i class="grad-icon icon-Phone"></i>
-                        <span>0(534) 273 76 43</span>
+                        <span>@SettingViewModel.Phone</span>
                     </a>
 
                     <a class="mm-toggler navbar-toggler" href="#">
@@ -85,20 +85,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex w-100 align-items-center justify-content-between">
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang = "tr"})">Anasayfa</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Home", new {lang = "tr"})">@WebSiteViewItems.HomePage</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang = "tr"})">Hakkımızda</a>
+                        <a class="nav-link" href="@Url.Action("Index", "About", new {lang = "tr"})">@WebSiteViewItems.About</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">Blog</a>
+                        <a class="nav-link" href="@Url.Action("Index","Blog",new {lang="tr"})">@WebSiteViewItems.Blog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">Sık Sorulan Sorular</a>
+                        <a class="nav-link" href="@Url.Action("Index","Faq",new {lang="tr"})">@WebSiteViewItems.FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">İletişim</a>
+                        <a class="nav-link" href="@Url.Action("Index","Contact",new {lang="tr"})">@WebSiteViewItems.Contact</a>
                     </li>
 
                 </ul>

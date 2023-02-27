@@ -22,6 +22,7 @@
                             @Html.AntiForgeryToken()
                             @Html.HiddenFor(m => m.LanguageId, new { data_val = "false" })
                             @Html.RenderValidationSummary(true)
+                            @ViewData[StringConstants.SuccessMessage]
                         </div>
                     </div>
 
@@ -105,3 +106,4 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
 
+ 

@@ -7,7 +7,7 @@ using Warehouse.Service.WebSite;
 
 namespace WarehouseManagementSystem.Controllers
 {
-    public class AboutController : Controller
+    public class AboutController : BaseController
     {
         private readonly SettingService _settingService;
 

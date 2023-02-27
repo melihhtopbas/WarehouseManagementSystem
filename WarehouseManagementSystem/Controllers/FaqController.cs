@@ -7,7 +7,7 @@ using Warehouse.Service.WebSite;
 
 namespace WarehouseManagementSystem.Controllers
 {
-    public class FaqController : Controller
+    public class FaqController : BaseController
     {
         // GET: Faq
         private readonly FaqService _faqService;

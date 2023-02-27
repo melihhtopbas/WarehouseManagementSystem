@@ -61,6 +61,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     ViewBag.Title = "Ayarlar";
                     ViewData[StringConstants.SuccessMessage] = "Ayarlar Başarıyla Kaydedilmiştir.";
+                    ViewBag.message = TempData["message"];
                     return View("~/Areas/Admin/Views/Setting/Index.cshtml", model);
 
                 }

@@ -33,6 +33,7 @@ namespace Warehouse.Service.WebSite
                 Date = DateTime.Now
             };
             _context.Contact.Add(contact);
+            callResult.SuccessMessages.Add("Formunuz başarıyla kaydedildi");
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try

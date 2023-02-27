@@ -34,7 +34,7 @@ namespace WarehouseManagementSystem.Controllers
         public SettingViewModel SettingViewModel;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-           // SettingViewModel = DependencyResolver.Current.GetService<SettingService>().GetSettingViewModel(filterContext.RouteData.Values["lang"].ToString());
+            SettingViewModel = DependencyResolver.Current.GetService<SettingService>().GetSettingViewModel(filterContext.RouteData.Values["lang"].ToString());
             base.OnActionExecuting(filterContext);
         }
         public string RenderPartialViewToString(string viewName, object model)

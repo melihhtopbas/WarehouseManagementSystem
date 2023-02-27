@@ -4,11 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Warehouse.Service.WebSite;
+using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.WebSite;
 
 namespace WarehouseManagementSystem.Controllers
 {
-    public class ContactController : Controller
+    public class ContactController : BaseController
     {
 
         private readonly ContactService _contactService;
@@ -28,7 +29,8 @@ namespace WarehouseManagementSystem.Controllers
             var result = _contactService.AddContactForm(model);
             if (result.Success)
             {
-                return Json(new { success = result.Success, item = "başarılı" }, JsonRequestBehavior.AllowGet);
+                ViewData[StringConstants.SuccessMessage] = "Formunuz Başarıyla Kaydedilmiştir.";
+                return View();
             }
             else
             {
