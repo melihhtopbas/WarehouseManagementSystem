@@ -11,39 +11,29 @@ namespace Warehouse.ViewModels.WebSite
 {
     public class ContactViewModel
     {
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Ad")]
+        [Required]
+        [StringLength(100, ErrorMessageResourceType = typeof(Warehouse.Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Warehouse.Localization.WebSiteViewItems.WebSiteViewItems), Name = "FullName")]
         public string FullName { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Mesaj")]
+        [Required]
+        [StringLength(1000, ErrorMessageResourceType = typeof(Warehouse.Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Warehouse.Localization.WebSiteViewItems.WebSiteViewItems), Name = "Message")]
         public string Message { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Konu")]
+        [Required]
+        [StringLength(250, ErrorMessageResourceType = typeof(Warehouse.Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Warehouse.Localization.WebSiteViewItems.WebSiteViewItems), Name = "Subject")]
         public string Subject { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Telefon")]
+        [Required]
+        [StringLength(20, ErrorMessageResourceType = typeof(Warehouse.Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Warehouse.Localization.WebSiteViewItems.WebSiteViewItems), Name = "Phone")]
         public string Phone { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "E-Posta")]
+        [Required]
+        [StringLength(100, ErrorMessageResourceType = typeof(Warehouse.Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Warehouse.Localization.WebSiteViewItems.WebSiteViewItems), Name = "Email")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Ürün")]
-        public string Product { get; set; }
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "Şirket")]
-        public string Company { get; set; }
 
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        [StringLength(100, ErrorMessage = "StringLengthMaxLengthError")]
-        [Display(Name = "KDV Oranı")]
-        public string VatRate { get; set; }
+        public long Id { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }

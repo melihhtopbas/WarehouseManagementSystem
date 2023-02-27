@@ -260,6 +260,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\Abstract\AdminBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommonController\AdminCommonController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactFormController.cs" />
     <Compile Include="Areas\Admin\Controllers\CountrySettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\ExportController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeSettingsController.cs" />
@@ -2490,6 +2491,7 @@
     <Content Include="Areas\Admin\Scripts\wms.jquery.min.js" />
     <Content Include="Areas\Admin\Scripts\wms.modal.form.js" />
     <Content Include="Areas\Admin\Scripts\wms.site.js" />
+    <Content Include="Areas\Admin\Scripts\wms.toastr.js" />
     <Content Include="bin\WarehouseManagementSystem.dll" />
     <Content Include="bin\WarehouseManagementSystem.pdb" />
     <Content Include="Content\css\AdminLTE.min.css" />
@@ -4493,6 +4495,10 @@
     <Content Include="Areas\Admin\Views\CountrySetting\_CountryAdd.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\CountryList.cshtml" />
     <Content Include="Areas\Admin\Views\CountrySetting\_CountryEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactForm\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactForm\ContactList.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactForm\DisplayTemplates\ContactViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactForm\_MessageView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

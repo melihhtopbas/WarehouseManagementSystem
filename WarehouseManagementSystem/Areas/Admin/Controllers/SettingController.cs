@@ -61,7 +61,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     ViewBag.Title = "Ayarlar";
                     ViewData[StringConstants.SuccessMessage] = "Ayarlar Başarıyla Kaydedilmiştir.";
-                    ViewBag.message = TempData["message"];
+                    TempData["Msg"] = "İşlem başarılı!";
                     return View("~/Areas/Admin/Views/Setting/Index.cshtml", model);
 
                 }
@@ -136,7 +136,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 if (callResult.Success)
                 {
                     ViewBag.Title = "Hakkımızda";
-                    ViewData[StringConstants.SuccessMessage] = "Hakkımızda Başarıyla Kaydedilmiştir.";
+                    TempData["Msg"] = "İşlem başarılı!";
                     return View("~/Areas/Admin/Views/Setting/About.cshtml", model);
 
                 }

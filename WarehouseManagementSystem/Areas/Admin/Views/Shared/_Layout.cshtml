@@ -8,9 +8,9 @@
 
     @Styles.Render("~/Areas/Admin/Content/css")
     <link href="~/Areas/Admin/Content/loadingoverlay.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" /> 
+    <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Scripts/wms.jquery.min.js"></script>
-     
+
 
 
 </head>
@@ -160,13 +160,13 @@
                         </span>
                     </a>
                     <ul class="treeview-menu" style="display: none;">
-                        <li><a href="#"><i class="fa fa-book"></i> <span>Blog Kategori</span></a></li>
-                        <li><a href="#"><i class="fa fa-tags"></i> <span>Servis Kategori</span></a></li>
+                       
                         <li><a href="#"><i class="fa fa-question-circle"></i> <span>SSS Kategori</span></a></li>
 
                     </ul>
                 </li>
-                <li><a href="#"><i class="fa fa-phone"></i> <span>İletişim </span></a></li>
+
+                <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
 
                 @if (User.Identity.Name == "admin")
                 {
@@ -227,8 +227,7 @@
     <script src="~/Areas/Admin/Scripts/wms.modal.form.js"></script>
     <script src="~/Areas/Admin/Scripts/wms.ajax.pager.js"></script>
 
-
-    <script src="~/Areas/Admin/Scripts/toastr.js"></script>
+    <script src="~/Areas/Admin/Scripts/wms.toastr.js"></script>
     <script src="~/Areas/Admin/Scripts/switchery.min.js"></script>
     <script src="~/Areas/Admin/Scripts/wms.site.js"></script>
 
@@ -252,11 +251,20 @@
         function myFunction() {
             document.getElementById("openDropDown").classList.toggle("open");
             document.getElementById("new-messages-notifications-menu").classList.toggle("open");
-        }
+        };
+         
     </script>
     <script>
         var CKEDITOR_BASEPATH = "/Scripts/ckeditor/";
 
+    </script>
+    <script>
+  $(function(){
+     var msg = "@(TempData["Msg"] as string)";
+     if (msg !== "") {
+         toastr.success(msg);
+     }
+  });
     </script>
 
     <style>
@@ -279,6 +287,7 @@
 
             $('#orderSearchForm').submit();
             $('#countrySearchForm').submit();
+            $('#contactFormSearchForm').submit();
 
 
 
@@ -332,7 +341,7 @@
 
             });
 
-          
+
 
 
         });

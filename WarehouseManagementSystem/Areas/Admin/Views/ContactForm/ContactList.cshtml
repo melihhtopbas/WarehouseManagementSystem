@@ -1,0 +1,62 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.ContactViewModel>
+@{
+    Layout = null;
+}
+<div class="ServiceImageThumbPaths-list-tools clearfix">
+
+
+    <div class="pull-right hidden-xs hidden-sm">
+        @if (Model.Any())
+        {
+            <div style="margin: 20px 0; float: left !important;">
+                @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+            </div>
+        }
+
+        &nbsp;
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "contactFormListContainer" }).Options(o => o
+            .Action("ContactList")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+            .RouteValues(new { languageId = @ViewBag.LanguageId })
+
+            )
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th>Adı</th>
+            <th>Konu</th>
+            <th>Tarih</th>
+            <th style="width: 50px">İncele</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+<div class="pull-left">
+
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "contactFormListContainer" }).Options(o => o
+        .Action("ContactList")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        .RouteValues(new { languageId = @ViewBag.LanguageId })
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+

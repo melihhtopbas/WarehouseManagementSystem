@@ -1,0 +1,42 @@
+﻿@model Warehouse.ViewModels.Admin.ContactViewModel
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<title>İletişim Formu</title>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-book"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("ContactList", "ContactForm", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "contactFormSearchForm", data_ajax_form = "true", data_target_container = "#contactFormListContainer" }))
+                {
+                    <div class="row">
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.FullName)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.FullName)
+                        </div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.Subject)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.Subject)
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-4 col-sm-push-3 col-md-4 col-md-push-3">
+                            <div class="input-group">
+                                <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <div>
+                    <div id="contactFormListContainer"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

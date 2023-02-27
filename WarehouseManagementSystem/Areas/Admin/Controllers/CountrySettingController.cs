@@ -32,7 +32,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             
             ViewBag.Title = "Ülkeler";
             ViewBag.Languages = await _languageService.GetLanguageListViewAsync();
+            
             return View("~/Areas/Admin/Views/CountrySetting/Index.cshtml");
+
         }
        
        
@@ -65,15 +67,16 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Add(long languageId)
         {
-
+            
 
 
             var model = new CountryViewModel
             {
                 Active = false,
                 LanguageId = languageId,
-            };
+            }; 
             return PartialView("~/Areas/Admin/Views/CountrySetting/_CountryAdd.cshtml", model);
+           
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(CountryViewModel model)

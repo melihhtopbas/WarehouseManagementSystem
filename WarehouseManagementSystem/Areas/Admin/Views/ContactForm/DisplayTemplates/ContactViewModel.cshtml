@@ -1,0 +1,25 @@
+﻿
+@model Warehouse.ViewModels.Admin.ContactViewModel
+<tr class="master-row">
+
+    <td>@Model.FullName</td>
+    <td>
+        @Model.Subject
+    </td>
+    <td>
+        @Model.Date
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="İncele"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("ContactDetailAsync", "ContactForm", routeValues: new {Area = "Admin",contactId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> İncele
+        </a>
+
+    </td>
+
+
+</tr>
