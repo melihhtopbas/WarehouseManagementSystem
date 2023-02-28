@@ -1,0 +1,75 @@
+﻿
+@model Warehouse.ViewModels.Admin.PageAddViewModel
+@using (Html.BeginForm("Add", "PageSetting", new { Area = String.Empty }, FormMethod.Post, new { id = "PageAddForm", role = "form" }))
+{
+    <style>
+        form ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        form li {
+            float: left;
+        }
+
+            form li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+
+                form li a:hover {
+                    background-color: #111111;
+                }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.LanguageId, new { data_val = "false" })
+            @Html.RenderValidationSummary(true)
+        </div>
+    </div>
+
+    <div class="row">
+
+
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Name)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Name, new { @class = "show-maxlength", autofocus = "true" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 @Html.ModelStateFor(m => m.Active)">
+            <div class="input-group input-group-sm">
+                @Html.CheckBoxFor(m => m.Active,
+                    new
+                    {
+                        data_make_switchery_small = "true",
+                        @class = "form-control",
+                        data_val = "true"
+                    })
+                <span class="margin-left5">@Html.DisplayNameFor(m => m.Active)</span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Description)">
+            <div class="input-group input-group-sm">
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "5", data_make_cke = "true", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Description).ToString()) })
+            </div>
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+}

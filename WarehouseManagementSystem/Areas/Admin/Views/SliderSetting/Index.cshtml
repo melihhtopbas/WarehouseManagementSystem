@@ -1,0 +1,41 @@
+﻿@model Warehouse.ViewModels.Admin.SliderSearchViewModel
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<title>Slider</title>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-book"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("SliderList", "SliderSetting", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "sliderSearchForm", data_ajax_form = "true", data_target_container = "#sliderListContainer" }))
+                {
+                    <div class="row">
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-6 col-lg-3  ">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon as-label">@Html.DisplayNameFor(m => m.LanguageId) </span>
+                                @Html.DropDownListFor(a => a.LanguageId, new SelectList(ViewBag.Languages, "Id", "Name"), new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.LanguageId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-4 col-sm-push-3 col-md-4 col-md-push-3">
+                            <div class="input-group">
+                                <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <div>
+                    <div id="sliderListContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

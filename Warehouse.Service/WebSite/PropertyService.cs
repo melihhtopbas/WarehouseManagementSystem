@@ -21,6 +21,7 @@ namespace Warehouse.Service.WebSite
         private IQueryable<PropertyListViewModel> _getPropertyListIQueryable(Expression<Func<Data.Properties, bool>> expr)
         {
             return (from b in _context.Properties.AsExpandable().Where(expr)
+                    .Where(x=>x.Active==true)
                     select new PropertyListViewModel()
                     {
 
@@ -33,8 +34,8 @@ namespace Warehouse.Service.WebSite
                             Title = string.Empty,
                             FileName = b.Icon,
                             Alt = string.Empty
-                        }
-                        ,
+                        },
+                        Active = b.Active,
                         ShortDescription = b.ShortDescription
                     }).OrderBy(x=>x.Id);
         }

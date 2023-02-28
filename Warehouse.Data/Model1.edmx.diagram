@@ -46,6 +46,9 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Users" Width="1.5" PointX="5.375" PointY="12.75" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Users" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Countries_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.References" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Pages" Width="1.5" PointX="3" PointY="33.625" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Pages_Languages" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

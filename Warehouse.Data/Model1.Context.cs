@@ -45,5 +45,7 @@ namespace Warehouse.Data
         public virtual DbSet<FAQ> FAQ { get; set; }
         public virtual DbSet<FAQCategories> FAQCategories { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<References> References { get; set; }
+        public virtual DbSet<Pages> Pages { get; set; }
     }
 }

@@ -1,0 +1,33 @@
+﻿@model List<Warehouse.ViewModels.WebSite.ReferenceListViewModel>
+
+
+<section class="section awards">
+    <div class="container">
+        <div class="section-heading text-center">
+            <h2>
+                <span>Referanslar</span>
+            </h2>
+        </div>
+        <!-- End of .section-heading -->
+
+        <div class="carousel-container">
+            <div class="d-flex carousel-inner align-items-center my-0">
+
+
+                @foreach (var item in Model)
+                {
+                    <div class="item col-3">
+                        <div class="content">
+                            <img class="d-block m-auto" src="@Url.Content(String.Format(SystemConstants.ReferenceImagePath) + "/" + item.FileName)" alt="KVKK">
+                        </div>
+                        <!-- End of .content -->
+                    </div>
+                    <!-- End of .item -->
+                }
+            </div>
+            <!-- End of .carousel-inner -->
+        </div>
+        <!-- End of .carousel-container -->
+    </div>
+    <!-- End of .container -->
+</section>

@@ -1,0 +1,10 @@
+﻿@model List<Warehouse.ViewModels.WebSite.PageListViewModel>
+
+
+@foreach (var item in Model)
+{
+    <a href="@Url.Action("Index", "Page",new { link = item.Link, lang = ViewBag.CurrentCultureTwoLetter })">@item.Name</a>
+
+
+}
+

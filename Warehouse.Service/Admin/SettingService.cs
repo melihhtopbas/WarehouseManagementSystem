@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -126,6 +127,77 @@ namespace Warehouse.Service.Admin
                 about.FileName = string.IsNullOrWhiteSpace(model.FileName) ? about.FileName : model.FileName;
                 about.FileName2 = string.IsNullOrWhiteSpace(model.FileName2) ? about.FileName2 : model.FileName2;
                 about.Title = model.Title;
+            }
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+                    callResult.Success = true;
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+        }
+        public async Task<ViewModels.Admin.BlogViewModel> GetBlogViewModel(long languageId)
+        {
+            var model = await (from a in _context.Blog
+                               where a.LanguageId == languageId
+                               select new ViewModels.Admin.BlogViewModel()
+                               {
+                                   Description = a.Description,
+                                   Title = a.Title,
+                                   Vision = a.Vision,
+                                   Mission = a.Mission,
+                                   FileName = a.FileName,
+                                   FileName2 = a.FileName2,
+                                   LanguageId = a.LanguageId
+                               }).SingleOrDefaultAsync().ConfigureAwait(false);
+            if (model == null)
+            {
+                model = new ViewModels.Admin.BlogViewModel()
+                {
+                    LanguageId = languageId
+                };
+
+            }
+            return model;
+
+        }
+
+        public async Task<ServiceCallResult> AddorEditBlog(ViewModels.Admin.BlogViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+            var blog = await _context.Blog.FirstOrDefaultAsync(a => a.LanguageId == model.LanguageId);
+
+            if (blog == null)
+            {
+                blog = new Blog()
+                {
+                    LanguageId = model.LanguageId,
+                    Description = model.Description,
+                    Vision = model.Vision,
+                    Mission = model.Mission,
+                    FileName = model.FileName,
+                    FileName2 = model.FileName2,
+                    Title = model.Description
+
+                };
+                _context.Blog.Add(blog);
+            }
+            else
+            {
+                blog.Description = model.Description;
+                blog.Vision = model.Vision;
+                blog.Mission = model.Mission;
+                blog.FileName = string.IsNullOrWhiteSpace(model.FileName) ? blog.FileName : model.FileName;
+                blog.FileName2 = string.IsNullOrWhiteSpace(model.FileName2) ? blog.FileName2 : model.FileName2;
+                blog.Title = model.Title;
             }
             using (var dbtransaction = _context.Database.BeginTransaction())
             {

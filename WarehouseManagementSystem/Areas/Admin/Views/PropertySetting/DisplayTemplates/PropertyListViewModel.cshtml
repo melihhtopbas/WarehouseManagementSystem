@@ -1,0 +1,40 @@
+﻿
+@model Warehouse.ViewModels.Admin.PropertyListViewModel
+<tr id="@("property_"+Model.Id)" class="master-row">
+    <td>
+        <img style="width:100px;" src="@Url.Content(String.Format(SystemConstants.PropertyImageThumbPath) + "/" + Model.MainImage)" />
+    </td>
+    <td>
+        <img style="width:100px;" src="@Url.Content(String.Format(SystemConstants.PropertyImageThumbPath) + "/" + Model.MainIcon)" />
+    </td>
+    <td>@Model.Name</td>
+
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#property_@Model.Id"
+           data-modal-highlight="#property_@Model.Id"
+           data-modal-title="Özellik Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "PropertySetting", routeValues: new {Area = "Admin",propertyId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Özellik Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-property-id="@Model.Id"
+           data-on-confirm="deleteProperty"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i> Özellik Sil
+        </a>
+
+    </td>
+</tr>
+

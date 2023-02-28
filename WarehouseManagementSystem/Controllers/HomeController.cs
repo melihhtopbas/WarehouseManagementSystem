@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -15,11 +16,15 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         private readonly PropertyService _propertyService;
         private readonly SettingService _settingService;
-        public HomeController(SliderService sliderService, PropertyService propertyService, SettingService settingService)
+        private readonly ReferenceService _referenceService;
+        private readonly PageService _pageService;
+        public HomeController(SliderService sliderService, PropertyService propertyService, SettingService settingService, ReferenceService referenceService, PageService pageService)
         {
             _sliderService = sliderService;
             _propertyService = propertyService;
             _settingService = settingService;
+            _referenceService = referenceService;
+            _pageService = pageService;
         }
         public ActionResult Index(string lang)
         {
@@ -43,6 +48,17 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             string lang = "tr";
             var model = _settingService.GetAboutViewModel(lang);
             return PartialView("~/Views/Home/HomePageAboutPartial.cshtml", model);
+        }
+        public ActionResult HomePageReferences()
+        {
+            var model = _referenceService.GetHomePageReferencesListIQueryable().ToList();
+            return PartialView("~/Views/Home/HomePageReferencesPartial.cshtml", model);
+        }
+        public ActionResult HomePage()
+        {
+            string lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+            var model = _pageService.GetHomePageListIQueryable(lang).ToList();
+            return PartialView("~/Views/Home/HomePagePartial.cshtml", model);
         }
     }
 }

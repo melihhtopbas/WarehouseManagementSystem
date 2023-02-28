@@ -1,0 +1,42 @@
+﻿
+@model Warehouse.ViewModels.Admin.SliderListViewModel
+<tr id="@("slider_"+Model.Id)" class="master-row">
+    <td>
+        @if (Model.ImageUrl.Contains("mp4"))
+        {
+            <iframe style="width:100px;" src="@Url.Content(String.Format(SystemConstants.SliderImagePath) + "/" + Model.ImageUrl)" height="100" width="100"></iframe>
+        }
+        else
+        {
+            <img style="width:100px;" src="@Url.Content(String.Format(SystemConstants.SliderImageThumbPath) + "/" + Model.ImageUrl)" />
+        }
+    </td>
+
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#slider_@Model.Id"
+           data-modal-highlight="#slider_@Model.Id"
+           data-modal-title="Slider Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "SliderSetting", routeValues: new {Area = "Admin",sliderId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Slider Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-slider-id="@Model.Id"
+           data-on-confirm="deleteSlider"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i> Slider Sil
+        </a>
+
+    </td>
+</tr>

@@ -264,9 +264,12 @@
     <Compile Include="Areas\Admin\Controllers\ContactFormController.cs" />
     <Compile Include="Areas\Admin\Controllers\CountrySettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\FaqSettingController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeSettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PageSettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PropertySettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReferenceSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SliderSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="AppBaseViewPage.cs" />
     <Compile Include="Controllers\AboutController.cs" />
@@ -276,6 +279,7 @@
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
     <Compile Include="Extensions\SystemConstants.cs" />
     <Compile Include="Extensions\StringConstants.cs" />
@@ -4511,6 +4515,27 @@
     <Content Include="Areas\Admin\Views\FaqSetting\_FaqEdit.cshtml" />
     <Content Include="Areas\Admin\Views\FaqSetting\DisplayTemplates\FaqListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\EditorTemplates\FaqCategoryIdSelectModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ReferenceSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ReferenceSetting\ReferenceList.cshtml" />
+    <Content Include="Areas\Admin\Views\ReferenceSetting\DisplayTemplates\ReferenceListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ReferenceSetting\_ReferenceAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\ReferenceSetting\_ReferenceEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\PageSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PageSetting\PageList.cshtml" />
+    <Content Include="Areas\Admin\Views\PageSetting\DisplayTemplates\PageListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\PageSetting\_PageAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\PageSetting\_PageEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\PropertySetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PropertySetting\PropertyList.cshtml" />
+    <Content Include="Areas\Admin\Views\PropertySetting\DisplayTemplates\PropertyListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\PropertySetting\_PropertyAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\PropertySetting\_PropertyEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\Blog.cshtml" />
+    <Content Include="Areas\Admin\Views\SliderSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SliderSetting\SliderList.cshtml" />
+    <Content Include="Areas\Admin\Views\SliderSetting\DisplayTemplates\SliderListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SliderSetting\_SliderAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\SliderSetting\_SliderEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -4533,6 +4558,7 @@
     <Content Include="uploads\back-login.png" />
     <Content Include="uploads\login-page.png" />
     <Content Include="uploads\login.jpg" />
+    <Content Include="uploads\pra-akademi.png" />
     <Content Include="uploads\setting\images\about-shipping.jpg" />
     <Content Include="uploads\setting\images\shipping.png" />
     <Content Include="uploads\warehouse-management-system.jpg" />
@@ -4581,6 +4607,9 @@
     <Content Include="Views\Faq\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Home\HomePageAboutPartial.cshtml" />
+    <Content Include="Views\Home\HomePageReferencesPartial.cshtml" />
+    <Content Include="Views\Home\HomePagePartial.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -26,6 +26,7 @@ namespace Warehouse.Data
             this.FAQ = new HashSet<FAQ>();
             this.FAQCategories = new HashSet<FAQCategories>();
             this.Countries = new HashSet<Countries>();
+            this.Pages = new HashSet<Pages>();
         }
     
         public long Id { get; set; }
@@ -51,5 +52,7 @@ namespace Warehouse.Data
         public virtual ICollection<FAQCategories> FAQCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Countries> Countries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pages> Pages { get; set; }
     }
 }
