@@ -31,7 +31,8 @@ namespace Warehouse.Service.Admin
         }
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
-        { 
+        {
+             
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId

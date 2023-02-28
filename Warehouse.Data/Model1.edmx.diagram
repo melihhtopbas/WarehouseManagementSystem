@@ -15,11 +15,8 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="12.25" PointY="12.125" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Cities" Width="1.5" PointX="8" PointY="9.75" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Cities_Countries" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="15.25" PointY="1" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Cities" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
@@ -49,6 +46,10 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.References" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Pages" Width="1.5" PointX="3" PointY="33.625" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Pages_Languages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Cities" Width="1.5" PointX="8" PointY="7.625" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Cities_Countries" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Cities_Languages" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Cities" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

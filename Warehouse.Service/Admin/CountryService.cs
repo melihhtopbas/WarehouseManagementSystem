@@ -53,6 +53,21 @@ namespace Warehouse.Service.Admin
             }
             return _getCountryListIQueryable(predicate);
         }
+        public List<CountryListViewModel> GetCountryList()
+        {
+
+            var result = _context.Countries.Select(b => new CountryListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.Name,
+                Active= (bool)b.Active,
+                LanguageId = b.LanguageId
+
+
+            }).ToList();
+            return result;
+        }
 
         public async Task<CountryListViewModel> GetCountryListViewAsync(long countryId)
         {

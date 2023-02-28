@@ -9,12 +9,9 @@ using System.Xml.Linq;
 
 namespace Warehouse.ViewModels.Admin
 {
-    public class CityViewModel
+    public class CityAddViewModel : CityCrudBaseViwModel
     {
-        public long Id { get; set; }
-        [Display(Name = "Şehir adı")]
-        [Required(ErrorMessage = "Lütfen giriniz")]
-        public string Name { get; set; }
+      
     }
     public class CityListViewModel
     {
@@ -22,6 +19,25 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Ülke adı")]
 
         public string Name { get; set; }
+        public string CountryName { get; set; }
+        [Display(ResourceType = typeof(Localization.ViewModel.ModelItems), Name = "Active")]
+        public bool Active { get; set; }
+
+    }
+    public class CityEditViewModel : CityCrudBaseViwModel
+    {
+        public long Id { get; set; }
+    }
+    public class CityCrudBaseViwModel
+    {
+        [StringLength(200, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages),
+         ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Localization.ViewModel.ModelItems), Name = "Name")]
+        public string Name { get; set; }
+        [Display(ResourceType = typeof(Localization.ViewModel.ModelItems), Name = "Active")]
+        public bool Active { get; set; }
+        public long LanguageId { get; set; }
+        public OrderCountryIdSelectViewModel Country { get; set; }
 
     }
 
@@ -30,5 +46,17 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Şehir Adı")] 
         [Required(ErrorMessage = "Ürün adı gerekli")]
         public long? CityId { get; set; }
+    }
+    public class CitySearchViewModel
+    {
+        [Display(ResourceType = typeof(Localization.ViewModel.ModelItems), Name = "Language")]
+        public long LanguageId { get; set; }
+        [StringLength(200, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages),
+            ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(ResourceType = typeof(Localization.ViewModel.ModelItems), Name = "Name")]
+        public string Name { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Ülke Adı")]
+        public string CountryName { get; set; }
     }
 }

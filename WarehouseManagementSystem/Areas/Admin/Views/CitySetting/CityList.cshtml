@@ -1,0 +1,76 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.CityListViewModel>
+@{
+    var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
+}
+<div class="products-list-tools clearfix">
+
+    @foreach (var language in languages)
+    {
+        <a class="btn btn-default btn-sm"
+           data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-prepend="tbody#faqList"
+           data-modal-title="@language.Name Şehir Ekle"
+           data-hook-beforeunload="true"
+           href="@Url.Action("Add", "CitySetting", routeValues: new {Area ="Admin",languageId=language.Id})">
+            <i class="fa fa-plus"></i>@language.Name Şehir Ekle
+        </a>
+    }
+
+
+
+
+    <div class="pull-right hidden-xs hidden-sm">
+        @if (Model.Any())
+        {
+            <div style="margin: 20px 0; float: left !important;">
+                @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+            </div>
+        }
+
+        &nbsp;
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CityListContainer" }).Options(o => o
+            .Action("CityList")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+            .RouteValues(new { languageId = @ViewBag.LanguageId })
+
+            )
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+
+            <th>Adı</th>
+            <th>Ülke Adı</th>
+            <th style="width:50px">Düzenle</th>
+            <th style="width:50px">Sil</th>
+        </tr>
+    </thead>
+    <tbody id="faqList">
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+<div class="pull-left">
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CityListContainer" }).Options(o => o
+        .Action("CityList")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        .RouteValues(new { languageId = @ViewBag.LanguageId })
+
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+

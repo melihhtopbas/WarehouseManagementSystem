@@ -48,6 +48,7 @@ namespace Warehouse.Utils.Constants
         public const int DefaultKeywordPageSize = 10;
         public const int DefaultCountryPageSize = 10;
         public const int DefaultOrderPageSize = 5;
+        public const int DefaultCityPageSize = 25;
 
         public static string PropertyServiceImagePath = ConfigurationManager.AppSettings["PropertyService.ImagePath"];
         public static string PropertyServiceImageThumbPath = ConfigurationManager.AppSettings["PropertyService.ImagePath"] + "thumbs\\";

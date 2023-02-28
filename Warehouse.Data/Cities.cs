@@ -23,8 +23,11 @@ namespace Warehouse.Data
         public long Id { get; set; }
         public string Name { get; set; }
         public Nullable<long> CountryId { get; set; }
+        public bool Active { get; set; }
+        public long LanguageId { get; set; }
     
         public virtual Countries Countries { get; set; }
+        public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
     }

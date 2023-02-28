@@ -47,7 +47,6 @@ namespace Warehouse.Data
         public Nullable<long> CustomerId { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
-        public virtual Cities Cities { get; set; }
         public virtual Countries Countries { get; set; }
         public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual Languages Languages { get; set; }
@@ -60,5 +59,6 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
         public virtual Users Users { get; set; }
+        public virtual Cities Cities { get; set; }
     }
 }

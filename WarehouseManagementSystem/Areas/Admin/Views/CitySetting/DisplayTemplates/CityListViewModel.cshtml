@@ -1,0 +1,36 @@
+﻿
+@model Warehouse.ViewModels.Admin.CityListViewModel
+<tr id="@("city_"+Model.Id)" class="master-row">
+
+    <td>@Model.Name</td>
+    <td>
+        @Model.CountryName
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#city_@Model.Id"
+           data-modal-highlight="#city_@Model.Id"
+           data-modal-title="Şehir Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "CitySetting", routeValues: new {Area = "Admin",cityId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Şehir Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-city-id="@Model.Id"
+           data-on-confirm="deleteCity"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i> Şehir Sil
+        </a>
+
+    </td>
+</tr>

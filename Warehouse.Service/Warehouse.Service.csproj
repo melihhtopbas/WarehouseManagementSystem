@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\CategoryService.cs" />
+    <Compile Include="Admin\CityService.cs" />
     <Compile Include="Admin\ContactService.cs" />
     <Compile Include="Admin\CountryService.cs" />
     <Compile Include="Admin\FaqService.cs" />

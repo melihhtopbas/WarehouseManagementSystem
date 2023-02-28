@@ -138,7 +138,7 @@
                 <li><a href="/"> <i class="fa-solid fa-warehouse"></i> <span>Anasayfa</span></a></li>
                 <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
                 <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
-                <li><a href="#"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
+                <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-money-bill"></i> <span>Fiyatlandırma</span></a></li>
                 <li><a href="#"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
                 <li><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
@@ -294,6 +294,7 @@
             $('#pageSearchForm').submit();
             $('#propertiesSearchForm').submit();
             $('#sliderSearchForm').submit();
+            $('#citySearchForm').submit();
 
 
 
@@ -609,6 +610,47 @@
                 type: "POST",
                 cache: false,
                 data: { sliderId: sliderId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteCity() {
+            var that = $(this);
+            var cityId = that.data('cityId');
+
+            var container = $('#CityListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/citysetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { cityId: cityId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {
