@@ -273,8 +273,8 @@
     <Compile Include="Areas\Admin\Controllers\ReferenceSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderSettingController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="AppBaseViewPage.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserRegisterController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
@@ -4495,7 +4495,6 @@
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-HK.min.js.map" />
     <Content Include="Areas\Admin\Scripts\kendo\2022.2.802\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\User\Register.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\About.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
     <Content Include="Areas\Admin\Views\AdminCommon\Sidebar.cshtml" />
@@ -4555,6 +4554,8 @@
     <Content Include="Areas\Admin\Views\CurrencyUnitSetting\DisplayTemplates\CurrencyUnitListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\CurrencyUnitSetting\_CurrencyUnitEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CurrencyUnitSetting\_CurrencyUnitAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\UserRegister\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_RegisterLayout.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -4629,6 +4630,7 @@
     <Content Include="Views\Home\HomePageReferencesPartial.cshtml" />
     <Content Include="Views\Home\HomePagePartial.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

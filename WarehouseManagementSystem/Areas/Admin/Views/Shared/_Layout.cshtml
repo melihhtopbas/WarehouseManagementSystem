@@ -14,7 +14,7 @@
 
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-yellow sidebar-mini">
     <header style="margin-top:-50px;" class="main-header">
         <!-- Logo -->
         <a href="@Url.Action("Index","Order")" class="logo">
@@ -40,7 +40,7 @@
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
-                            <span class="label label-success new-icon-messages-total-count">0</span>
+                            <span class="label label-danger new-icon-messages-total-count">0</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">Toplam <strong class="new-messages-total-count">0</strong> işlem bekleyen mesajınız var</li>
@@ -85,7 +85,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a class="btn btn-default btn-flat" href="/user/changepassword">Şifremi Değiştir</a>
+                                    <a class="btn btn-default btn-flat" href="/admin/user/changepassword">Şifremi Değiştir</a>
                                 </div>
                                 <div class="pull-right">
                                     <form action="/admin/login/logout" id="logoutForm" method="post">
@@ -277,7 +277,22 @@
      var msg = "@(TempData["Msg"] as string)";
      if (msg !== "") {
          toastr.success(msg);
+
+      }
+       var registered = "@(TempData["registeredMsg"] as string)";
+      if (registered !== "") {
+          toastr.success(registered);
+          setTimeout(
+              function () {
+                  location.href = "/Admin/Login/Index";
+              }, 5000);
+
+
+
+
      }
+
+
   });
     </script>
 

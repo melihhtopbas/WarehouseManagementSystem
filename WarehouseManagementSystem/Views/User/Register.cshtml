@@ -1,0 +1,236 @@
+﻿
+
+
+
+
+@model Warehouse.ViewModels.Admin.RegisterViewModel
+@using WarehouseManagementSystem.Extensions
+
+
+
+
+<link href="~/Areas/Admin/Content/bootstrap.css" rel="stylesheet" />
+
+<script src="~/Areas/Admin/Scripts/jquery-3.4.1.min.js"></script>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+</head>
+<body>
+
+
+    @using (Html.BeginForm("Register", "User", new { Area = String.Empty }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section" }))
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.AntiForgeryToken()
+                @Html.RenderValidationSummary(true)
+                @Html.HiddenFor(x => x.Id)
+
+            </div>
+        </div>
+
+        <h1>Kayıt Ol</h1>
+        if (ViewData["Message"] != null)
+        {
+            <h2>@ViewData["Message"] <a href="/Admin/Login/Index"><strong>Giriş yapmak için tıklayın</strong></a> </h2>
+        }
+
+
+
+
+        <div class="row">
+
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.UserName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Kullanıcı Adı" })
+            </div>
+
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Password, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Şifre", type = "password", data_type = "password" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Name, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Ad" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Surname, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Soy Ad" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Telefon" })
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                @Html.TextBoxBlockLabelAsAddonFor(m => m.Mail, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Mail" })
+
+            </div>
+            <br />
+
+
+
+
+        </div>
+        <button type="submit" class="login-btn">
+            KAYDET
+        </button>
+        <div class="clearfix"></div>
+        <div>
+            <a href="#" class="navbar-brand ">
+                <img class="prasoftLogo" src="~/uploads/PrasoftLogo.png" alt="footer logo">
+
+            </a>
+            <!-- End of .navbar-brand -->
+        </div>
+        <div class="clearfix"></div>
+
+    }
+</body>
+
+</html>
+<script src="https://kit.fontawesome.com/d0ade9b5d6.js" crossorigin="anonymous"></script>
+
+<style>
+
+    @@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto+Condensed:wght@700&family=Roboto:wght@300;400;500;600;700&display=swap');
+
+    .prasoftLogo {
+        margin-left: 75px;
+        margin-top: -25px;
+        height: 100px;
+        width: 300px;
+    }
+
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+
+    * {
+        font-family: 'Roboto', sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+    }
+
+    body {
+        background-color: #fff9f9;
+        min-height: 700px;
+        min-width: 700px;
+        height: 100vh;
+        width: 100vw;
+        background-color: hsla(0,100%,88%,1);
+        background-image: radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(269,100%,77%,1) 0px, transparent 50%), radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%);
+    }
+
+    .section {
+        margin: 0 auto;
+        width: 700px;
+        height: 525px;
+        transform: translateY(40%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: rgba(255,255,255,0.4);
+        border-radius: 20px;
+        box-shadow: 0px 0 31px 0px rgb(0 0 0 / 10%);
+    }
+
+    h1 {
+        margin: 20px 0 10px 0;
+        font-size: 3rem;
+        font-weight: 400;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .login-form {
+        width: 70%;
+        margin-bottom: 15px;
+    }
+
+    h4 {
+        margin: 20px 0 5px 0;
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+
+    .input {
+        width: 80%;
+        font-size: 1.1rem;
+        font-weight: 300;
+        padding: 7px 0;
+        border: none;
+        background-color: inherit;
+    }
+
+    .username-input, .password-input {
+        width: 90%;
+        border-bottom: 1px solid #a4a4a4;
+    }
+
+    i {
+        width: 10%;
+        color: rgba(0,0,0,0.3);
+        padding-right: 7px;
+    }
+
+    .login-form > p {
+        width: 90%;
+        font-size: 1.1rem;
+        text-align: right;
+        margin-top: 5px;
+        font-weight: 300;
+    }
+
+    .login-btn {
+        border: none;
+        padding: 7px 20px;
+        width: 50%;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        background-image: linear-gradient(43deg, hsla(340,100%,76%,1) 0%, hsla(269,100%,77%,1) 100%);
+        color: white;
+        font-weight: 600;
+    }
+
+    .alternative-signup {
+        width: 70%;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .alternative-signup > p {
+            width: 90%;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+    span {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: hsl(269deg 26% 47%);
+    }
+</style>
+

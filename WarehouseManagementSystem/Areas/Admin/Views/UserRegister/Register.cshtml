@@ -1,12 +1,11 @@
-﻿
-
-
-
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_RegisterLayout.cshtml";
+}
 
 @model Warehouse.ViewModels.Admin.RegisterViewModel
 @using WarehouseManagementSystem.Extensions
 
- 
+
 
 
 <link href="~/Areas/Admin/Content/bootstrap.css" rel="stylesheet" />
@@ -29,7 +28,7 @@
 <body>
 
 
-    @using (Html.BeginForm("Register", "User", new { Area = "Admin" }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section" }))
+    @using (Html.BeginForm("Register", "UserRegister", new { Area = "Admin" }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section",style="margin-right:425px;" }))
     {
         <div class="row">
             <div class="col-xs-12">
@@ -104,6 +103,7 @@
 
 </html>
 <script src="https://kit.fontawesome.com/d0ade9b5d6.js" crossorigin="anonymous"></script>
+
 
 <style>
 
