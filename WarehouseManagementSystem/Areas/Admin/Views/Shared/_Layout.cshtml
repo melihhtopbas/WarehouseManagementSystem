@@ -76,7 +76,7 @@
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="pull-left">
-                                    <a class="btn btn-default btn-flat" href="javascript:void(0);">Kullanıcı Profili</a>
+                                    <a class="btn btn-default btn-flat" href="/Admin/User/UserProfile">Kullanıcı Profili</a>
                                 </div>
 
 
@@ -85,7 +85,16 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a class="btn btn-default btn-flat" href="/admin/user/changepassword">Şifremi Değiştir</a>
+                                    <a 
+                                       class="btn btn-default btn-flat" 
+                                       href="/admin/user/changepassword"
+                                       data-modal-form="true" 
+                                       data-modal-title="Şifre Değiştir"
+                                         data-hook-beforeunload="true"
+                                       data-modal-save-message="Şifre başarıyla değiştirildi"
+                                       data-modal-size="modal-lg">Şifremi Değiştir</a>
+
+
                                 </div>
                                 <div class="pull-right">
                                     <form action="/admin/login/logout" id="logoutForm" method="post">

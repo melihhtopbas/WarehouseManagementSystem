@@ -274,6 +274,7 @@
     <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderSettingController.cs" />
     <Compile Include="AppBaseViewPage.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserRegisterController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -2682,6 +2683,7 @@
     <Content Include="Content\images\smm-strategy.jpg" />
     <Content Include="Content\images\submit-loader.gif" />
     <Content Include="Content\images\under-construction.png" />
+    <Content Include="Content\images\user-profile.png" />
     <Content Include="Content\images\web-development-process\1.png" />
     <Content Include="Content\images\why-us\1.jpg" />
     <Content Include="Content\images\why-us\2.jpg" />
@@ -4556,6 +4558,8 @@
     <Content Include="Areas\Admin\Views\CurrencyUnitSetting\_CurrencyUnitAdd.cshtml" />
     <Content Include="Areas\Admin\Views\UserRegister\Register.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_RegisterLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UserProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
