@@ -37,6 +37,7 @@
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" />
         </EntityType>
         <EntityType Name="Cities">
           <Key>
@@ -76,6 +77,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="Description" Type="nchar" MaxLength="50" />
+          <Property Name="LanguageId" Type="bigint" />
         </EntityType>
         <EntityType Name="FAQ">
           <Key>
@@ -309,6 +311,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CargoServiceTypes_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
+          <End Role="CargoServiceTypes" Type="Self.CargoServiceTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CargoServiceTypes">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cities_Countries">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
@@ -341,6 +355,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Countries">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrencyUnits_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
+          <End Role="CurrencyUnits" Type="Self.CurrencyUnits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrencyUnits">
               <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
@@ -592,6 +618,10 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Blog" EntitySet="Blog" />
           </AssociationSet>
+          <AssociationSet Name="FK_CargoServiceTypes_Languages" Association="Self.FK_CargoServiceTypes_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Cities" EntitySet="Cities" />
@@ -603,6 +633,10 @@
           <AssociationSet Name="FK_Countries_Languages" Association="Self.FK_Countries_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrencyUnits_Languages" Association="Self.FK_CurrencyUnits_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
           </AssociationSet>
           <AssociationSet Name="FK_FAQ_FAQCategories" Association="Self.FK_FAQ_FAQCategories">
             <End Role="FAQCategories" EntitySet="FAQCategories" />
@@ -688,6 +722,8 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
+          <Property Name="LanguageId" Type="Int64" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" FromRole="CargoServiceTypes" ToRole="Languages" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
@@ -709,6 +745,8 @@
           <Property Name="Name" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="CurrencyUnits" ToRole="Orders" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" FromRole="CurrencyUnits" ToRole="Languages" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -729,6 +767,8 @@
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Countries_Languages" FromRole="Languages" ToRole="Countries" />
           <NavigationProperty Name="Pages" Relationship="WarehouseManagementSystemModel.FK_Pages_Languages" FromRole="Languages" ToRole="Pages" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Cities_Languages" FromRole="Languages" ToRole="Cities" />
+          <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" FromRole="Languages" ToRole="CargoServiceTypes" />
+          <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" FromRole="Languages" ToRole="CurrencyUnits" />
         </EntityType>
         <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
@@ -844,6 +884,14 @@
           <AssociationSet Name="FK_Orders_Cities" Association="WarehouseManagementSystemModel.FK_Orders_Cities">
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CargoServiceTypes_Languages" Association="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrencyUnits_Languages" Association="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
@@ -1399,6 +1447,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CargoServiceTypes_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CargoServiceTypes">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrencyUnits_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.CurrencyUnits" Role="CurrencyUnits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrencyUnits">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1408,6 +1480,7 @@
           <EntitySetMapping Name="CargoServiceTypes">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.CargoServiceTypes">
               <MappingFragment StoreEntitySet="CargoServiceTypes">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -1426,6 +1499,7 @@
           <EntitySetMapping Name="CurrencyUnits">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.CurrencyUnits">
               <MappingFragment StoreEntitySet="CurrencyUnits">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

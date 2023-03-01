@@ -1,0 +1,44 @@
+﻿@model Warehouse.ViewModels.Admin.CargoServiceSearchViewModel
+@{
+    
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<title>Kargo Servisleri</title>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-book"></i>
+                <h3 class="box-title">@ViewBag.Title</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("CargoServiceList", "CargoServiceSetting", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "cargoServiceSearchForm", data_ajax_form = "true", data_target_container = "#CargoServiceListContainer" }))
+                {
+                    <div class="row">
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchName)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchName)
+                        </div>
+
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-6 col-lg-3 @Html.ModelStateFor(m => m.LanguageId)">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-addon as-label">@Html.DisplayNameFor(m => m.LanguageId) </span>
+                                @Html.DropDownListFor(a => a.LanguageId, new SelectList(ViewBag.Languages, "Id", "Name"), new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(m => m.LanguageId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group form-group-sm col-xs-12 col-sm-4 col-sm-push-3 col-md-4 col-md-push-3">
+                            <div class="input-group">
+                                <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <div>
+                    <div id="CargoServiceListContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

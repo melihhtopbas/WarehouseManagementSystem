@@ -47,6 +47,7 @@ namespace Warehouse.Utils.Constants
         public const int DefaultPropertyPageSize = 10;
         public const int DefaultKeywordPageSize = 10;
         public const int DefaultCountryPageSize = 10;
+        public const int DefaultCargoServicePageSize = 10;
         public const int DefaultOrderPageSize = 5;
         public const int DefaultCityPageSize = 25;
 

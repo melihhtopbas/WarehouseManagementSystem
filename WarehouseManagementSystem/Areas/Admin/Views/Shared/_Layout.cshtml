@@ -33,13 +33,13 @@
                 <span class="icon-bar"></span>
             </a>
 
-            <div style="margin-right:-50px;" class="navbar-custom-menu">
+            <div style="margin-right:-150px;" class="navbar-custom-menu pull-right">
                 <ul style="margin-right:200px;" class="nav navbar-nav">
 
 
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
-                            <i class="fas fa-envelope"></i>
+                            <i class="far fa-comments"></i>
                             <span class="label label-success new-icon-messages-total-count">0</span>
                         </a>
                         <ul class="dropdown-menu">
@@ -64,7 +64,7 @@
                         <ul class="dropdown-menu animated-dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="~/Content/images/prapazar-icon-1.png" class="img-circle" alt="PraPazar">
+                                <img src="~/Content/images/pra-akademi.png" class="img-circle" alt="PraPazar">
                                 <p>
 
 
@@ -78,20 +78,8 @@
                                 <div class="pull-left">
                                     <a class="btn btn-default btn-flat" href="javascript:void(0);">Kullanıcı Profili</a>
                                 </div>
-                                <div class="pull-right">
-                                    <a class="btn btn-default btn-flat" href="javascript:void(0);">M&#252;şteri Profili</a>
 
-                                </div>
-                                <div class="pull-left">
-                                    <a data-modal-form="true"
-                                       data-modal-title="Sistem Web Sayfası Anlık Bildirimler Ayarlarım"
-                                       data-hook-beforeunload="true"
-                                       href="javascript:void(0);"
-                                       class="btn btn-default btn-flat">
-                                        <i class="fas fa-bell"></i> Anlık Bildirim Ayarlarım
 
-                                    </a>
-                                </div>
 
                             </li>
                             <!-- Menu Footer-->
@@ -102,7 +90,7 @@
                                 <div class="pull-right">
                                     <form action="/admin/login/logout" id="logoutForm" method="post">
                                         <input name="__RequestVerificationToken" type="hidden" value="s8Gjmf6tY5PwDPnNUHUXPuYqRi9fkpbP2RxxzT0FF8KKVwOqhauEs7rEC8o8dm1yslO-sH7iwUlegSzQ78djbWIPo4gHkxwqmruWNFUU_0hIOiv_Yk-QhA-EN2B76Bwt6EGITQ2" />                                    <a href="javascript:document.getElementById('logoutForm').submit();" class="btn btn-danger btn-flat" style="background: #d73925">
-                                            <i class="fas fa-sign-out-alt"></i>&nbsp;&#199;ıkış
+                                            <i class="fas fa-sign-out-alt"></i>Çıkış
                                         </a>
                                     </form>
                                 </div>
@@ -110,17 +98,43 @@
                         </ul>
                     </li>
                     <li class="hidden-xs hidden-sm">
-                        <a href="javascript:void(0);" data-toggle="tooltip" title="Ekranı Kilitle"><i class="fas fa-lock"></i></a>
+                        <a href="javascript:void(0);" onclick="openFullscreen();" data-widget="fullscreen" data-toggle="tooltip" title="Tam Ekran"><i class="fas fa-expand-arrows-alt"></i></a>
                     </li>
 
                     <!-- Control Sidebar Toggle Button -->
                     <li class="hidden-xs hidden-sm">
-                        <a href="javascript:void(0);" data-toggle="control-sidebar"><i class="fas fa-cogs help"></i></a>
+                        <a href="javascript:void(0);" data-toggle="control-sidebar"><i class="fas fa-th-large"></i></a>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
+    <script>
+        var elem = document.documentElement;
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        }
+
+        function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    </script>
 
     <!-- =============================================== -->
     <!-- Left side column. contains the sidebar -->
@@ -139,8 +153,8 @@
                 <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
                 <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
                 <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
-                <li><a href="#"><i class="fa-solid fa-money-bill"></i> <span>Fiyatlandırma</span></a></li>
-                <li><a href="#"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
+                <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
+                <li><a href="@Url.Action("Index","CargoServiceSetting",new {Area="Admin"})"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
                 <li><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
                 <li><a href="@Url.Action("Index","PageSetting",new {Area="Admin"})"><i class="fa fa-file-text-o"></i> <span>Sayfalar</span></a></li>
                 <li><a href="@Url.Action("Index","SliderSetting",new {Area="Admin"})"><i class="fa fa-sliders"></i> <span>Slider</span></a></li>
@@ -252,7 +266,7 @@
             document.getElementById("openDropDown").classList.toggle("open");
             document.getElementById("new-messages-notifications-menu").classList.toggle("open");
         };
-         
+
     </script>
     <script>
         var CKEDITOR_BASEPATH = "/Scripts/ckeditor/";
@@ -266,7 +280,7 @@
      }
   });
     </script>
-   
+
     <style>
 
         .open {
@@ -295,6 +309,8 @@
             $('#propertiesSearchForm').submit();
             $('#sliderSearchForm').submit();
             $('#citySearchForm').submit();
+            $('#cargoServiceSearchForm').submit();
+            $('#currencyUnitSearchForm').submit();
 
 
 
@@ -651,6 +667,88 @@
                 type: "POST",
                 cache: false,
                 data: { cityId: cityId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteCargoService() {
+            var that = $(this);
+            var cargoServiceId = that.data('cargoServiceId');
+
+            var container = $('#CargoServiceListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/cargoservicesetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { cargoServiceId: cargoServiceId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteCurrencyUnit() {
+            var that = $(this);
+            var currencyUnitId = that.data('currencyUnitId');
+
+            var container = $('#CurrencyUnitListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/currencyunitsetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { currencyUnitId: currencyUnitId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {

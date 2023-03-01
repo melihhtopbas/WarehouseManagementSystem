@@ -80,10 +80,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\CargoServiceTypeService.cs" />
     <Compile Include="Admin\CategoryService.cs" />
     <Compile Include="Admin\CityService.cs" />
     <Compile Include="Admin\ContactService.cs" />
     <Compile Include="Admin\CountryService.cs" />
+    <Compile Include="Admin\CurrencyUnitService.cs" />
     <Compile Include="Admin\FaqService.cs" />
     <Compile Include="Admin\LanguageService.cs" />
     <Compile Include="Admin\OrderService.cs" />

@@ -36,8 +36,18 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             return View("~/Areas/Admin/Views/CitySetting/Index.cshtml");
         }
         [AjaxOnly, HttpPost, ValidateInput(false)]
+
         public async Task<ActionResult> CityList(CitySearchViewModel model, int? page)
-        {
+            {
+            if (model.CountryName != null || model.Name!=null)
+            {
+                ViewData["CountrySearchName"] = "";
+                ViewData["CountrySearchName"] = model.CountryName;
+
+                ViewData["CitySearchName"] = "";
+                ViewData["CitySearchName"] = model.Name;
+            }
+             
             var currentPageIndex = page - 1 ?? 0;
 
             var result = _cityService.GetCityListIQueryable(model)

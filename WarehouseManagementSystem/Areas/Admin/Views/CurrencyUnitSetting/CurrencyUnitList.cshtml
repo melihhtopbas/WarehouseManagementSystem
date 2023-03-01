@@ -1,7 +1,8 @@
-﻿@model IPagedList<Warehouse.ViewModels.Admin.CityListViewModel>
+﻿@model IPagedList<Warehouse.ViewModels.Admin.CurrencyUnitListViewModel>
 @{
     var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
 }
+
 <div class="products-list-tools clearfix">
 
     @foreach (var language in languages)
@@ -9,15 +10,13 @@
         <a class="btn btn-default btn-sm"
            data-modal-form="true"
            data-modal-size="modal-lg"
-           data-modal-prepend="tbody#CityList"
-           data-modal-title="@language.Name Şehir Ekle"
+           data-modal-prepend="tbody#CurrencyUnitList"
+           data-modal-title="Ülke Ekle"
            data-hook-beforeunload="true"
-           href="@Url.Action("Add", "CitySetting", routeValues: new {Area ="Admin",languageId=language.Id})">
-            <i class="fa fa-plus"></i>@language.Name Şehir Ekle
+           href="@Url.Action("Add", "CurrencyUnitSetting", routeValues: new {Area ="Admin",languageId=language.Id})">
+            <i class="fa fa-plus"></i>Para Birimi Ekle
         </a>
     }
-
-
 
 
     <div class="pull-right hidden-xs hidden-sm">
@@ -28,28 +27,30 @@
             </div>
         }
 
-        &nbsp;
-        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CityListContainer" }).Options(o => o
-            .Action("CityList")
+
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CurrencyUnitListContainer" }).Options(o => o
+            .Action("CurrencyUnitList")
             .DisplayTemplate("BootstrapPage")
             .MaxNrOfPages(6)
             .AlwaysAddFirstPageNumber()
-            .RouteValues(new { languageId = @ViewBag.LanguageId, CountryName = @ViewData["CountrySearchName"], Name = @ViewData["CitySearchName"] })
+            .RouteValues(new { languageId = @ViewBag.LanguageId })
 
-            )
+
+
+        )
     </div>
 </div>
 <table class="table table-bordered">
     <thead>
         <tr>
-
-            <th>Adı</th>
-            <th>Ülke Adı</th>
+            
+            <th>Para Birimi</th>
+            <th>Açıklama</th>
             <th style="width:50px">Düzenle</th>
             <th style="width:50px">Sil</th>
         </tr>
     </thead>
-    <tbody id="CityList">
+    <tbody id="CurrencyUnitList">
         @Html.DisplayFor(m => m)
 
 
@@ -58,12 +59,13 @@
 </table>
 <div class="pull-left">
 
-    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CityListContainer" }).Options(o => o
-        .Action("CityList")
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CurrencyUnitListContainer" }).Options(o => o
+        .Action("CurrencyUnitList")
         .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()
-        .RouteValues(new { languageId = @ViewBag.LanguageId, CountryName = @ViewData["CountrySearchName"], Name = @ViewData["CitySearchName"] })
+        .RouteValues(new { languageId = @ViewBag.LanguageId })
 
         )
 </div>

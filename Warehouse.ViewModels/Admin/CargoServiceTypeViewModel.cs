@@ -13,6 +13,8 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public string Name { get; set; }
+        public long? LanguageId { get; set; }
+
 
     }
     public class CargoServiceTypeListViewModel
@@ -21,6 +23,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
         
         public string Name { get; set; }
+        public long? LanguageId { get; set; }
 
     }
     public class OrderCargoServiceTypeIdSelectViewModel
@@ -28,5 +31,12 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CargoServiceId { get; set; }
+    }
+    public class CargoServiceSearchViewModel
+    {
+        [Display(Name = "Dil")]
+        public long LanguageId { get; set; }
+        [Display(Name = "Arama Metni")]
+        public string SearchName { get; set; }
     }
 }

@@ -50,11 +50,11 @@ namespace Warehouse.Service.Admin
 
             return _getCityListIQueryable(predicate);
         }
-        public async Task<CityListViewModel> GetCityListViewAsync(long faqId)
+        public async Task<CityListViewModel> GetCityListViewAsync(long cityId)
         {
 
             var predicate = PredicateBuilder.New<Data.Cities>(true);/*AND*/
-            predicate.And(a => a.Id == faqId);
+            predicate.And(a => a.Id == cityId);
             var city = await _getCityListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return city;
         }

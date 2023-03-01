@@ -13,6 +13,11 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Para Birimi")]
         [Required(ErrorMessage = "Lütfen  giriniz")]
         public string Name { get; set; }
+        public long? LanguageId { get; set; }
+
+        [Display(Name = "Açıklama")]
+        [Required(ErrorMessage = "Lütfen  giriniz")]
+        public string Description { get; set; }
 
     }
     public class CurrencyUnitListViewModel
@@ -21,6 +26,10 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Para Birimi")]
         
         public string Name { get; set; }
+        public long? LanguageId { get; set; }
+        [Display(Name = "Açıklama")]
+        [Required(ErrorMessage = "Lütfen  giriniz")]
+        public string Description { get; set; }
 
     }
     public class OrderCurrencyUnitIdSelectViewModel
@@ -28,5 +37,12 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Para Birimi")]
         [Required(ErrorMessage = "Lütfen giriniz")]
         public long? CurrencyUnitId { get; set; }
+    }
+    public class CurrencyUnitSearchViewModel
+    {
+        [Display(Name = "Dil")]
+        public long LanguageId { get; set; }
+        [Display(Name = "Arama Metni")]
+        public string SearchName { get; set; }
     }
 }

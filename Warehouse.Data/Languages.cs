@@ -28,6 +28,8 @@ namespace Warehouse.Data
             this.Countries = new HashSet<Countries>();
             this.Pages = new HashSet<Pages>();
             this.Cities = new HashSet<Cities>();
+            this.CargoServiceTypes = new HashSet<CargoServiceTypes>();
+            this.CurrencyUnits = new HashSet<CurrencyUnits>();
         }
     
         public long Id { get; set; }
@@ -57,5 +59,9 @@ namespace Warehouse.Data
         public virtual ICollection<Pages> Pages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cities> Cities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CargoServiceTypes> CargoServiceTypes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CurrencyUnits> CurrencyUnits { get; set; }
     }
 }
