@@ -286,6 +286,8 @@
           <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Mail" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryId" Type="bigint" />
+          <Property Name="CityId" Type="bigint" />
         </EntityType>
         <Association Name="FK_About_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
@@ -587,6 +589,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WarehouseManagementSystemModelStoreContainer">
           <EntitySet Name="About" EntityType="Self.About" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
@@ -710,6 +736,14 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Sliders" EntitySet="Sliders" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Countries" Association="Self.FK_Users_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -736,6 +770,7 @@
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Countries_Languages" FromRole="Countries" ToRole="Languages" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Countries" ToRole="Users" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -892,6 +927,14 @@
           <AssociationSet Name="FK_CurrencyUnits_Languages" Association="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Cities" Association="WarehouseManagementSystemModel.FK_Users_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Countries" Association="WarehouseManagementSystemModel.FK_Users_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
@@ -1340,6 +1383,10 @@
           <Property Name="Mail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
+          <Property Name="CountryId" Type="Int64" />
+          <Property Name="CityId" Type="Int64" />
+          <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
+          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
         </EntityType>
         <Association Name="FK_Orders_Users">
           <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
@@ -1410,6 +1457,7 @@
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Cities_Languages" FromRole="Cities" ToRole="Languages" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Cities" ToRole="Orders" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Cities" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Cities_Countries">
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
@@ -1468,6 +1516,30 @@
             </Principal>
             <Dependent Role="CurrencyUnits">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Cities">
+          <End Type="WarehouseManagementSystemModel.Cities" Role="Cities" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Countries">
+          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1737,6 +1809,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Mail" ColumnName="Mail" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />

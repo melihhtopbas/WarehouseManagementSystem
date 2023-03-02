@@ -19,6 +19,7 @@ namespace Warehouse.Data
         {
             this.Orders = new HashSet<Orders>();
             this.Cities = new HashSet<Cities>();
+            this.Users = new HashSet<Users>();
         }
     
         public long Id { get; set; }
@@ -31,5 +32,7 @@ namespace Warehouse.Data
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cities> Cities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

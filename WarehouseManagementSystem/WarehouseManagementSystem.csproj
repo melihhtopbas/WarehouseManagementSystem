@@ -742,7 +742,9 @@
     <Content Include="Areas\Admin\Content\kendo\2022.2.802\Uniform\sprite_kpi_2x.png" />
     <Content Include="Areas\Admin\Content\loadingoverlay.css" />
     <Content Include="Areas\Admin\Content\loadingoverlay.min.css" />
+    <Content Include="Areas\Admin\Content\main.css" />
     <Content Include="Areas\Admin\Content\Site.css" />
+    <Content Include="Areas\Admin\Content\style.css" />
     <Content Include="Areas\Admin\Content\switchery.css" />
     <Content Include="Areas\Admin\Content\switchery.min.css" />
     <Content Include="Areas\Admin\Content\tether\tether-theme-arrows-dark.css" />

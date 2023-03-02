@@ -28,8 +28,12 @@ namespace Warehouse.Data
         public string Surname { get; set; }
         public string Mail { get; set; }
         public string Phone { get; set; }
+        public Nullable<long> CountryId { get; set; }
+        public Nullable<long> CityId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Cities Cities { get; set; }
+        public virtual Countries Countries { get; set; }
     }
 }

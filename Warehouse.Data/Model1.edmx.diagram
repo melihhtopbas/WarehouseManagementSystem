@@ -52,6 +52,8 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Cities" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Users_Cities" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Users_Countries" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
