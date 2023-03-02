@@ -93,7 +93,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
 
                     ModelState.Clear();
-                    var viewModel = (FaqListViewModel)callResult.Item;
+                    var viewModel = (CityListViewModel)callResult.Item;
                     var jsonResult = Json(
                         new
                         {

@@ -159,7 +159,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
                     callResult.Success = true;
-                    callResult.Item = await GetActiveFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
+                    callResult.Item = await GetFaqCategoryListViewAsync(faqCategory.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)
