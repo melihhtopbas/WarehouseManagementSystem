@@ -5,6 +5,7 @@ using Microsoft.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,22 +32,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
             return View();
         }
-        //public ActionResult UserProfile()
-        //{
-        //    var user = _context.Users.FirstOrDefault(x=>x.UserName==User.Identity.Name);
-        //    var model = new UserViewModel
-        //    {
-        //        Name = user.Name,
-        //        Surname = user.Surname,
-        //        UserName= user.UserName,
-        //        Mail = user.Mail,
-        //        Phone= user.Phone,  
-        //        Id= user.Id,
-        //        Password= user.Password,    
-                
-        //    };
-        //    return View(model);
-        //}
+       
         public async Task<ActionResult> UserProfile()
         {
             ViewBag.Title = "Profil";
@@ -125,6 +111,65 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     success = false,
                     responseText = RenderPartialViewToString("~/Areas/Admin/Views/User/ChangePassword.cshtml", model)
+                });
+        }
+        [HttpGet, AjaxOnly]
+        public ActionResult ForgotPassword()
+        {
+            var model = new UserForgotPasswordViewModel();
+            return PartialView("~/Areas/Admin/Views/User/ForgotPassword.cshtml",model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken, ValidateInput(false)]
+        public ActionResult ForgotPassword(UserForgotPasswordViewModel model)
+        {
+             
+            var user = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            model.Subject = "Şifre Değişikliği";
+            model.Message = "Şifreniz aşağıda verilmiştir.\n" + user.Password;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var senderEmail = new MailAddress("topbas_melih_70_70@hotmail.com", "PraSoft");
+                    var receiverEmail = new MailAddress(model.Mail, "Şifre");
+                    var password = "Topbas1907";
+                    var sub = model.Subject;
+                    var body = model.Message;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = true,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    {
+                        Subject = model.Subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                    return Json(
+                new
+                {
+                    success = true,
+                    
+                });
+                }
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "Some Error";
+            }
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/User/ForgotPassword.cshtml", model)
                 });
         }
 

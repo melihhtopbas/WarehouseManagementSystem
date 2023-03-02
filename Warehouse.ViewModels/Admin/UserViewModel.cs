@@ -116,5 +116,17 @@ namespace Warehouse.ViewModels.Admin
         public string ReNewPassword { get; set; }
 
     }
+    public class UserForgotPasswordViewModel
+    {
+        [Display(Name = "Mail")]
+        [Required(ErrorMessage = "Mail adresinizi giriniz")]
+        [StringLength(100)]
+
+        public string Mail { get; set; }
+
+        public string Message { get; set; }
+        public string Subject { get; set; }
+
+    }
 
 }
