@@ -126,6 +126,10 @@ namespace Warehouse.ViewModels.Admin
 
         public string Message { get; set; }
         public string Subject { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+
+
 
     }
 

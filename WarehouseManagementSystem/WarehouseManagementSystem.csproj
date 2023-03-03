@@ -4579,6 +4579,8 @@
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\ForgotPassword.cshtml" />
     <Content Include="Areas\Admin\Views\UserSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserRegister\ForgotPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoginLayout.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Warehouse.Data;
 using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
@@ -162,6 +163,24 @@ namespace Warehouse.Service.Admin
                 }
             }
 
+        }
+
+        public UserForgotPasswordViewModel GetUserForgottenPassword(string mail)
+        {
+            var model = new UserForgotPasswordViewModel();
+            var user = _context.Users.FirstOrDefault(x=>x.Mail == mail);
+            if (user == null)
+            {
+                model.Message = "Sistemde kayıtlı böyle bir mail adresi bulunamadı!";
+            }
+            else
+            {
+                model.Mail = mail;
+                model.Password = user.Password;
+                model.UserName = user.UserName;
+
+            }
+            return model;
         }
 
     }

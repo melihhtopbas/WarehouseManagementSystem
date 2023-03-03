@@ -7,15 +7,20 @@ using System.Web;
 using System.Web.Mvc;
 using Warehouse.ViewModels.Admin;
 using Warehouse.Service.Admin;
+using Microsoft.Web.Mvc;
+using System.Net;
+using System.Net.Mail;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     public class UserRegisterController : AdminBaseController
     {
         private readonly SettingService _settingService;
-        public UserRegisterController(SettingService settingService)
+        private readonly UserService _userService;
+        public UserRegisterController(SettingService settingService, UserService userService)
         {
             _settingService = settingService;
+            _userService = userService;
         }
 
         public ActionResult Index()
@@ -58,6 +63,67 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
 
             return View("Register");
+        }
+
+        [HttpGet, AjaxOnly]
+        public ActionResult ForgotPassword()
+        {
+            var model = new UserForgotPasswordViewModel();
+            return PartialView("~/Areas/Admin/Views/UserRegister/ForgotPassword.cshtml", model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken, ValidateInput(false)]
+        public ActionResult ForgotPassword(UserForgotPasswordViewModel model)
+        {
+
+            // var user = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+
+            var user =  _userService.GetUserForgottenPassword(model.Mail);
+
+            if (user.Message!=null)
+            {
+                ViewData["ErrorMessage"] = "Sistemimizde kayıtlı böyle bir mail adresi bulunmamaktadır.";
+                model.Message = user.Message;
+                return Json(
+             new
+             {
+                 success = false,
+                 responseText = RenderPartialViewToString("~/Areas/Admin/Views/UserRegister/ForgotPassword.cshtml", model)
+             });
+
+            }
+
+
+            string senderEmail = "topbas_melih_70_70@hotmail.com";
+            string senderPassword = "Topbas1907";
+            string receiverEmail = user.Mail;
+            string subject = "Şifre Değişikliği";
+            string body = "Şifreniz aşağıda verilmiştir.\n" + user.Password + "\n" + "Kullanıcı Adınız: "+ user.UserName;
+
+            SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587);
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+            MailMessage mailMessage = new MailMessage(senderEmail, receiverEmail, subject, body);
+             
+            mailMessage.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                 
+            }
+
+            return Json(
+              new
+              {
+                  success = true,
+                  responseText = RenderPartialViewToString("~/Areas/Admin/Views/UserRegister/ForgotPassword.cshtml", model)
+              });
         }
     }
 }
