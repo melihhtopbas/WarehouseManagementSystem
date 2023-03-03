@@ -12,7 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using Warehouse.Data;
 using Warehouse.Service.Admin;
-using Warehouse.ViewModels.Admin;
+using Warehouse.ViewModels.Admin; 
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
@@ -125,52 +125,38 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
              
             var user = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-            model.Subject = "Şifre Değişikliği";
-            model.Message = "Şifreniz aşağıda verilmiştir.\n" + user.Password;
+             
+             
+
+            string senderEmail = "topbas_melih_70_70@hotmail.com";
+            string senderPassword = "Topbas1907";
+            string receiverEmail = "topbas_melih_70@hotmail.com";
+            string subject = "Şifre Değişikliği";
+            string body = "Şifreniz aşağıda verilmiştir.\n" + user.Password;
+
+            SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587);
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+            MailMessage mailMessage = new MailMessage(senderEmail, receiverEmail, subject, body);
+            mailMessage.IsBodyHtml = true;
+
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var senderEmail = new MailAddress("topbas_melih_70_70@hotmail.com", "PraSoft");
-                    var receiverEmail = new MailAddress(model.Mail, "Şifre");
-                    var password = "Topbas1907";
-                    var sub = model.Subject;
-                    var body = model.Message;
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = true,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = model.Subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
-                    }
-                    return Json(
-                new
-                {
-                    success = true,
-                    
-                });
-                }
+                client.Send(mailMessage);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.Error = "Some Error";
+               return Json(ex); 
             }
+
             return Json(
-                new
-                {
-                    success = false,
-                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/User/ForgotPassword.cshtml", model)
-                });
+              new
+              {
+                  success = true,
+                  responseText = RenderPartialViewToString("~/Areas/Admin/Views/User/ForgotPassword.cshtml", model)
+              });
         }
 
 

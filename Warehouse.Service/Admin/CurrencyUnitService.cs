@@ -59,6 +59,11 @@ namespace Warehouse.Service.Admin
         public async Task<ServiceCallResult> AddCurrencyUnitAsync(CurrencyUnitViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
+            if (model.Name.Length > 5 )
+            {
+                callResult.ErrorMessages.Add("Para birimi 5 karakter uzunluğundan büyük olamaz.");
+                return callResult;
+            }
 
             bool nameExist = await _context.CurrencyUnits.AnyAsync(a => a.Name == model.Name).ConfigureAwait(false);
             if (nameExist)
@@ -122,6 +127,11 @@ namespace Warehouse.Service.Admin
         public async Task<ServiceCallResult> EditCurrencyUnitAsync(CurrencyUnitViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
+            if (model.Name.Length > 5)
+            {
+                callResult.ErrorMessages.Add("Para birimi 5 karakter uzunluğundan büyük olamaz.");
+                return callResult;
+            }
             bool nameExist = await _context.CurrencyUnits.AnyAsync(a => a.Id != model.Id && a.Name == model.Name).ConfigureAwait(false);
             if (nameExist)
             {

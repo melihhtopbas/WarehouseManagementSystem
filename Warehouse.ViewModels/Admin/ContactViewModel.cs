@@ -12,11 +12,11 @@ namespace Warehouse.ViewModels.Admin
     public class ContactViewModel
     {
         [StringLength(100, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
-        [Display(ResourceType = typeof(Localization.WebSiteViewItems.WebSiteViewItems), Name = "FullName")]
+        [Display(Name = "Arama Metni")]
         public string FullName { get; set; }
 
         [StringLength(1000, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
-        [Display(ResourceType = typeof(Localization.WebSiteViewItems.WebSiteViewItems), Name = "Message")]
+        [Display(Name = "Konu")]
         public string Message { get; set; }
 
         [StringLength(250, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]

@@ -27,7 +27,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Title = "İletişim Form";
+            ViewBag.Title = "İletişim Formu";
 
             return View("~/Areas/Admin/Views/ContactForm/Index.cshtml");
         }
