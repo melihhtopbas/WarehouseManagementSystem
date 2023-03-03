@@ -24,6 +24,7 @@ namespace Warehouse.Service.Admin
              
 
             return (from b in _context.Users.AsExpandable().Where(expr)
+                    .Where(x=>x.Role != "admin")
                     select new UserListViewModel()
                     {
                         Id = b.Id,
@@ -40,12 +41,12 @@ namespace Warehouse.Service.Admin
                     });
         }
 
-        public IQueryable<UserListViewModel> GetCountryListIQueryable(UserSearchViewModel model)
+        public IQueryable<UserListViewModel> GetUserListIQueryable(UserSearchViewModel model)
         {
             var predicate = PredicateBuilder.New<Data.Users>(true);/*AND*/ 
             if (!string.IsNullOrWhiteSpace(model.Name))
             {
-                predicate.And(a => a.Name.Contains(model.Name));
+                predicate.And(a => a.UserName.Contains(model.Name));
 
             }
             return _getUserListIQueryable(predicate);

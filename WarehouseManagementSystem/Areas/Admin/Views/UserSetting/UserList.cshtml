@@ -1,0 +1,68 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.UserListViewModel>
+
+
+<div class="products-list-tools clearfix">
+
+
+
+
+
+    <div class="pull-right hidden-xs hidden-sm">
+        @if (Model.Any())
+        {
+            <div style="margin: 20px 0; float: left !important;">
+                @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+            </div>
+        }
+
+
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "UserListContainer" }).Options(o => o
+            .Action("UserList")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+         
+
+
+
+        )
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+          
+            <th>Kullanıcı Adı</th>  
+            <th>İsim</th>
+            <th>Mail</th>
+            <th style="width:50px">Siparişler</th>
+            <th style="width:50px">Bilgiler</th>  
+            <th style="width:50px">Sil</th>
+        </tr>
+    </thead>
+    <tbody id="UserList">
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+<div class="pull-left">
+
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "UserListContainer" }).Options(o => o
+        .Action("UserList")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+  
+
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+
