@@ -95,12 +95,11 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a 
-                                       class="btn btn-default btn-flat" 
+                                    <a class="btn btn-default btn-flat"
                                        href="/admin/user/changepassword"
-                                       data-modal-form="true" 
+                                       data-modal-form="true"
                                        data-modal-title="Şifre Değiştir"
-                                         data-hook-beforeunload="true"
+                                       data-hook-beforeunload="true"
                                        data-modal-save-message="Şifre başarıyla değiştirildi"
                                        data-modal-size="modal-lg">Şifremi Değiştir</a>
 
@@ -117,8 +116,9 @@
                         </ul>
                     </li>
                     <li class="hidden-xs hidden-sm">
-                        <a href="javascript:void(0);" onclick="openFullscreen();" data-widget="fullscreen" data-toggle="tooltip" title="Tam Ekran"><i class="fas fa-expand-arrows-alt"></i></a>
+                        <a class="myClass" href="javascript:void(0);" onclick="toggleFullScreen(document.documentElement)" data-widget="fullscreen" data-toggle="tooltip" title="Tam Ekran"><i class="full-screen fas fa-expand-arrows-alt"></i></a>
                     </li>
+                    
 
                     <!-- Control Sidebar Toggle Button -->
                     <li class="hidden-xs hidden-sm">
@@ -129,30 +129,36 @@
         </nav>
     </header>
     <script>
-        var elem = document.documentElement;
-        function openFullscreen() {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { /* Firefox */
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                elem.msRequestFullscreen();
+        function toggleFullScreen(elem) {
+            // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+            if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.mozRequestFullScreen) { /* Firefox */
+                    elem.mozRequestFullScreen();
+                } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                    elem.msRequestFullscreen();
+                }
+                $('.full-screen').removeClass('fas fa-expand-arrows-alt');
+                $('.full-screen').addClass('fas fa-compress-arrows-alt');
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                $('.full-screen').removeClass('fas fa-compress-arrows-alt');
+                $('.full-screen').addClass('fas fa-expand-arrows-alt');
+               
             }
         }
 
-        function closeFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
     </script>
 
     <!-- =============================================== -->
@@ -228,7 +234,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-<link href="~/Areas/Admin/Content/wms.bootstrap.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/wms.bootstrap.css" rel="stylesheet" />
 
     <script src="https://kit.fontawesome.com/d0ade9b5d6.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
@@ -244,7 +250,7 @@
     <link href="~/Areas/Admin/Content/admin-lte/css/AdminLTE.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Scripts/maxlength.js"></script>
 
- 
+
 
     <link href="~/Areas/Admin/Content/toastr.css" rel="stylesheet" />
 
