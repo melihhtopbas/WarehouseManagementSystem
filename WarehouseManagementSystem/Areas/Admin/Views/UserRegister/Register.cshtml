@@ -28,7 +28,7 @@
 <body>
 
 
-    @using (Html.BeginForm("Register", "UserRegister", new { Area = "Admin" }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section",style="margin-right:425px;" }))
+    @using (Html.BeginForm("Register", "UserRegister", new { Area = "Admin" }, FormMethod.Post, new { id = "registerForm", role = "form", @class = "section", style = "margin-right:425px;" }))
     {
         <div class="row">
             <div class="col-xs-12">
@@ -79,6 +79,17 @@
                 @Html.TextBoxBlockLabelAsAddonFor(m => m.Mail, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Mail" })
 
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="row">
+                    @Html.EditorFor(m => m.Country)
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="row">
+                    @Html.EditorFor(m => m.City)
+                </div>
+            </div>
+
             <br />
 
 
@@ -234,3 +245,59 @@
     }
 </style>
 
+<script>
+
+
+
+
+    /* $('#NestedCity').prop('disabled', true);*/
+    var cityId = $("#NestedCity").val();
+    var NestedCity = $("#CityNumber");
+    if (cityId != "" && cityId != null) {
+        $('#NestedCity').prop('disabled', false);
+    }
+
+
+    $(function () {
+        $("#NestedCountry").on("change", function () {
+
+            $('#NestedCity').prop('disabled', false);
+            var id = $("#NestedCountry").val();
+
+            if (id != "" && id != null) {
+                $.ajax({
+                    url: '/Admin/UserRegister/NestedCity',
+                    data: { id: id },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#NestedCity").empty();
+
+                        $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+                        for (var i = 0; i < data.length; i++) {
+                            $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCity').prop('disabled', true);
+                            $('#NestedCity').prop('required', true);
+                        }
+                    },
+                    error: function () {
+                        $('#NestedCity').prop('disabled', true);
+                    },
+                });
+            }
+            else {
+                $("#NestedCity").empty();
+                $('#NestedCity').prop('disabled', true);
+                $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+            }
+        });
+
+
+
+
+
+    });
+</script>

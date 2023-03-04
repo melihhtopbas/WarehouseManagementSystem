@@ -40,11 +40,18 @@ namespace Warehouse.ViewModels.Admin
     }
     public class UserAddViewModel : UserCrudBaseViewModel
     {
+        [DisplayFormat(DataFormatString = "MM/dd/yyyy HH:mm", ApplyFormatInEditMode = true)]
 
+        public DateTime Date { get; set; }
     }
     public class UserEditViewModel : UserCrudBaseViewModel
     {
-        
+        [DisplayFormat(DataFormatString = "MM/dd/yyyy HH:mm", ApplyFormatInEditMode = true)] 
+
+        public DateTime Date { get; set; }
+
+        public string Day { get; set; }
+        public TimeSpan TimeDay { get; set; }
     }
 
     public class UserSearchViewModel
@@ -71,7 +78,8 @@ namespace Warehouse.ViewModels.Admin
       
         public string UserName { get; set; }
 
-
+        [StringLength(50)]
+        [Display(Name = "Şifre")]
         public string Password { get; set; }
         public string Role { get; set; }
 
@@ -82,7 +90,7 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
      
         [StringLength(50)]
-
+        [Display(Name = "Soy Adı")]
         public string Surname { get; set; }
         [Display(Name = "Mail")]
        

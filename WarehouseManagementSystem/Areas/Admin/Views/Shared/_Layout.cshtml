@@ -69,8 +69,8 @@
                                 <p>
 
 
-                                    @ViewData["Ad"] @ViewData["Soyad"]
-                                    <small>@User.Identity.Name</small>
+                                  @CurrentUserViewModel.Name @CurrentUserViewModel.Surname
+                                    <small>@CurrentUserViewModel.UserName</small>
                                 </p>
 
                             </li>
@@ -207,7 +207,7 @@
 
                 <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
 
-                @if (User.Identity.Name == "admin")
+                @if (CurrentUserViewModel.Role == "admin")
                 {
                     @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
                 }
@@ -788,6 +788,47 @@
                 type: "POST",
                 cache: false,
                 data: { currencyUnitId: currencyUnitId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteUser() {
+            var that = $(this);
+            var userId = that.data('userId');
+
+            var container = $('#UserListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/usersetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { userId: userId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {

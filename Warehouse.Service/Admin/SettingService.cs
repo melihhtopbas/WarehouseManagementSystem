@@ -46,6 +46,9 @@ namespace Warehouse.Service.Admin
                 Name= model.Name,   
                 Phone = model.Phone,
                 Surname = model.Surname,
+                Date = DateTime.Now,
+                CityId = model.City.CityId,
+                CountryId = model.Country.CountryId,
                 
             };
 

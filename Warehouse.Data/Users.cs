@@ -30,6 +30,7 @@ namespace Warehouse.Data
         public string Phone { get; set; }
         public Nullable<long> CountryId { get; set; }
         public Nullable<long> CityId { get; set; }
+        public System.DateTime Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }

@@ -4583,6 +4583,8 @@
     <Content Include="Areas\Admin\Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Areas\Admin\Views\UserSetting\UserList.cshtml" />
     <Content Include="Areas\Admin\Views\UserSetting\DisplayTemplates\UserListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\UserSetting\_UserEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\UserSetting\_UserAdd.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

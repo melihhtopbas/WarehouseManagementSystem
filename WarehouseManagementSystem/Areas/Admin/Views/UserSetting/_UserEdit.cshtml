@@ -1,0 +1,153 @@
+﻿@model Warehouse.ViewModels.Admin.UserEditViewModel
+@using (Html.BeginForm("UserEdit", "UserSetting", new { Area = "Admin" }, FormMethod.Post, new { id = "userEditForm", role = "form" }))
+{
+    <style>
+        form ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        form li {
+            float: left;
+        }
+
+            form li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+
+                form li a:hover {
+                    background-color: #111111;
+                }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true) 
+            @Html.HiddenFor(m => m.Id, new { data_val = "false" })
+        </div>
+    </div>
+
+    <div class="row">
+
+
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Name)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Name, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Surname)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Surname, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.UserName)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.UserName, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Password)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Password, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Phone)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Role)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Role, new { @class = "show-maxlength" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Mail)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Mail, new { @class = "show-maxlength" })
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.Country)
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.City)
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+         <label>Sisteme kayıt oluş tarihi: @Model.Date.ToString("dd/MM/yyyy HH:mm")</label>
+    
+        </div>
+
+
+
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+        </div>
+
+
+        <div class="clearfix"></div>
+
+
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+}
+<script>
+
+
+
+
+    /* $('#NestedCity').prop('disabled', true);*/
+    var cityId = $("#NestedCity").val();
+    var NestedCity = $("#CityNumber");
+    if (cityId != "" && cityId != null) {
+        $('#NestedCity').prop('disabled', false);
+    }
+
+
+    $(function () {
+        $("#NestedCountry").on("change", function () {
+
+            $('#NestedCity').prop('disabled', false);
+            var id = $("#NestedCountry").val();
+
+            if (id != "" && id != null) {
+                $.ajax({
+                    url: '/Admin/Order/NestedCity',
+                    data: { id: id },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#NestedCity").empty();
+
+                        $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+                        for (var i = 0; i < data.length; i++) {
+                            $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCity').prop('disabled', true);
+                            $('#NestedCity').prop('required', true);
+                        }
+                    },
+                    error: function () {
+                        $('#NestedCity').prop('disabled', true);
+                    },
+                });
+            }
+            else {
+                $("#NestedCity").empty();
+                $('#NestedCity').prop('disabled', true);
+                $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+            }
+        });
+
+
+
+
+
+    });
+</script>

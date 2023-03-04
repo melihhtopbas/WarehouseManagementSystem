@@ -54,8 +54,11 @@ namespace Warehouse.ViewModels.Admin
         [Required(ErrorMessage = "Boş Bırakılamaz!")]
         [Display(Name = "Telefon")]
         public string Phone { get; set; }
-        
+        public OrderCountryIdSelectViewModel Country { get; set; }
 
-     
+        public OrderCityIdSelectViewModel City { get; set; }
+
+
+
     }
 }

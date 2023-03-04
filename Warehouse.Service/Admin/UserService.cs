@@ -63,6 +63,7 @@ namespace Warehouse.Service.Admin
             if (model.Password != user.Password)
             {
                 callResult.ErrorMessages.Add("Hatalı şifre girdiniz!");
+                model.Password = null; 
                 return callResult;
             }
             user.Surname = model.Surname; 
@@ -82,6 +83,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
                     callResult.Success = true;
+                
                     return callResult;
                 }
                 catch (Exception exc)

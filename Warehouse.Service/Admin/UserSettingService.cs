@@ -6,8 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
 using Warehouse.Data;
 using Warehouse.ViewModels.Admin;
+using Warehouse.ViewModels.Common;
 
 namespace Warehouse.Service.Admin
 {
@@ -60,6 +62,218 @@ namespace Warehouse.Service.Admin
             predicate.And(a => a.Id == userId);
             var user = await _getUserListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return user;
+        }
+
+        public async Task<UserEditViewModel> GetUserEditViewModelAsync(int userId)
+        {
+            var user = await (from p in _context.Users
+                                 where p.Id == userId
+                                 select new UserEditViewModel()
+                                 {
+                                     Id = p.Id,
+                                     Role= p.Role,
+                                     Mail = p.Mail,
+                                     Surname= p.Surname,
+                                     Name =  p.Name,
+                                     UserName = p.UserName,
+                                     Password = p.Password,
+                                     Phone = p.Phone,
+                                     City = new OrderCityIdSelectViewModel()
+                                     {
+                                         CityId = p.CityId
+                                     },
+                                     Country = new OrderCountryIdSelectViewModel()
+                                     {
+                                         CountryId = p.CountryId
+                                     },
+                                     Date = p.Date,
+                                      
+                                      
+
+
+                                 }).FirstOrDefaultAsync();
+          
+            return user;
+        }
+        public async Task<ServiceCallResult> EditUserAsync(UserEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+            bool nameExist = await _context.Users.AnyAsync(a => a.Id != model.Id && a.UserName == model.UserName).ConfigureAwait(false);
+            if (nameExist)
+            {
+                callResult.ErrorMessages.Add("Bu kullanıcı adı kullanılmaktadır.");
+                return callResult;
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
+            if (user == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir kullanıcı bulunamadı.");
+                return callResult;
+            }
+
+
+            user.Name = model.Name;
+            user.UserName = model.UserName;
+            user.Password = model.Password;
+            user.Surname = model.Surname;
+            user.Mail = model.Mail;
+            user.Phone = model.Phone;
+            user.Role = model.Role;
+            user.CityId = model.City.CityId;
+            user.CountryId = model.Country.CountryId;
+
+
+
+
+
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetUserListViewAsync(user.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+        }
+        public async Task<ServiceCallResult> AddUserAsync(UserAddViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+            bool nameExist = await _context.Users.AnyAsync(a => a.UserName == model.UserName).ConfigureAwait(false);
+            if (nameExist)
+            {
+                callResult.ErrorMessages.Add("Bu kullanıcı adı kullanılmaktadır.");
+                return callResult;
+            }
+
+            var user = new Users()
+            {
+
+               CityId= model.City.CityId,   
+               CountryId  = model.Country.CountryId,    
+               Date = DateTime.Now,
+               Mail = model.Mail,
+               Name = model.Name,
+               Password = model.Password,
+               Phone = model.Phone,
+               Role= model.Role,    
+               Surname= model.Surname,
+               UserName= model.UserName,
+               
+
+
+
+            };
+
+
+
+
+            _context.Users.Add(user);
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetUserListViewAsync(user.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+        }
+        public async Task<ServiceCallResult> DeleteUserAsync(int userId)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+            
+
+            var user = await _context.Users.FirstOrDefaultAsync(a => a.Id == userId).ConfigureAwait(false);
+            if (user == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir kullanıcı bulunamadı.");
+                return callResult;
+            }
+            var citiesAny = _context.Orders.Any(x => x.Users.Id == userId);
+            if (citiesAny)
+            {
+                callResult.ErrorMessages.Add("Siparişi bulunan kullanıcıyı silemezsiniz.");
+                return callResult;
+            }
+
+
+            _context.Users.Remove(user);
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetUserListViewAsync(user.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+        }
+        public List<CountryListViewModel> GetUserCountryList()
+        {
+
+            var result = _context.Countries.Where(x => x.Active == true).Select(b => new CountryListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.Name
+
+
+            }).ToList();
+            return result;
+        }
+        public List<CityListViewModel> GetUserCityList(long? id)
+        {
+
+            var result = _context.Cities.Where(x => x.CountryId == id).Select(b => new CityListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.Name
+
+
+            }).ToList();
+            return result;
         }
     }
 }

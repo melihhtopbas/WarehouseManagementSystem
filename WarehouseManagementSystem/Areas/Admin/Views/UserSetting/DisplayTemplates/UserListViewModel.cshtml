@@ -24,8 +24,8 @@
            data-modal-title="Kullanıcı Düzenle"
            data-hook-beforeunload="true"
            class="btn btn-block btn-success btn-sm"
-           href="@Url.Action("Edit", "UserSetting", routeValues: new {Area = "Admin",userId=Model.Id})">
-            <i class="fa fa-edit fa-fw text-success"></i> Kullanıcı Düzenle
+           href="@Url.Action("UserEdit", "UserSetting", routeValues: new {Area = "Admin",userId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Kullanıcı Bilgileri
         </a>
 
     </td>

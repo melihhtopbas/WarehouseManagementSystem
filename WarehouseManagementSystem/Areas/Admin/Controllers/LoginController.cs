@@ -72,7 +72,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Login", new {Area = "Admin"});
+            return RedirectToAction("Index", "Home", new {Area=String.Empty });
         }
          
         [HttpGet]

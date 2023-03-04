@@ -288,6 +288,7 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CountryId" Type="bigint" />
           <Property Name="CityId" Type="bigint" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_About_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
@@ -1387,6 +1388,7 @@
           <Property Name="CityId" Type="Int64" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
+          <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <Association Name="FK_Orders_Users">
           <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
@@ -1809,6 +1811,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="CityId" ColumnName="CityId" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

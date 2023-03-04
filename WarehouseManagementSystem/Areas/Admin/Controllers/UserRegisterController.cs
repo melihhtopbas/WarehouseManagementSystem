@@ -10,6 +10,7 @@ using Warehouse.Service.Admin;
 using Microsoft.Web.Mvc;
 using System.Net;
 using System.Net.Mail;
+using Warehouse.Data;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
@@ -17,10 +18,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
     {
         private readonly SettingService _settingService;
         private readonly UserService _userService;
-        public UserRegisterController(SettingService settingService, UserService userService)
+        private readonly WarehouseManagementSystemEntities1 _context;
+        public UserRegisterController(SettingService settingService, UserService userService, WarehouseManagementSystemEntities1 context)
         {
             _settingService = settingService;
             _userService = userService;
+            _context = context;
         }
 
         public ActionResult Index()
@@ -31,15 +34,30 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         public ActionResult Register()
         {
+            ViewData["Cities"] = _userService.GetUserCityList(20002);
+            ViewData["Countries"] = _userService.GetUserCountryList().ToList();
 
-            var model = new RegisterViewModel();
+            var model = new RegisterViewModel
+            {
+                City = new OrderCityIdSelectViewModel
+                {
+
+                },
+                Country = new OrderCountryIdSelectViewModel
+                {
+                    CountryId = 20002
+                },
+
+            };
+            
             return View("~/Areas/Admin/Views/UserRegister/Register.cshtml", model);
         }
 
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-
+            ViewData["Cities"] = _userService.GetUserCityList(model.Country.CountryId).ToList();
+            ViewData["Countries"] = _userService.GetUserCountryList().ToList();
             if (ModelState.IsValid)
             {
 
@@ -124,6 +142,19 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                   success = true,
                   responseText = RenderPartialViewToString("~/Areas/Admin/Views/UserRegister/ForgotPassword.cshtml", model)
               });
+        }
+        public JsonResult NestedCity(int id)
+        {
+            var cities = (from x in _context.Cities
+                          join y in _context.Countries on x.Countries.Id equals y.Id
+                          where x.Countries.Id == id
+                          select new
+                          {
+                              Id = x.Id,
+                              Name = x.Name,
+                          }).ToList();
+
+            return Json(cities, JsonRequestBehavior.AllowGet);
         }
     }
 }
