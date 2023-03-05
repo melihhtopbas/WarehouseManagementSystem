@@ -87,6 +87,7 @@
     <Compile Include="Admin\CountryService.cs" />
     <Compile Include="Admin\CurrencyUnitService.cs" />
     <Compile Include="Admin\CurrentUserService.cs" />
+    <Compile Include="Admin\CustomerOrderSettingService.cs" />
     <Compile Include="Admin\FaqService.cs" />
     <Compile Include="Admin\LanguageService.cs" />
     <Compile Include="Admin\OrderService.cs" />

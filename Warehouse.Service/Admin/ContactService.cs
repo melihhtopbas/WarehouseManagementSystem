@@ -30,7 +30,9 @@ namespace Warehouse.Service.Admin
                         Message = b.Message,
                         Subject = b.Subject,
                         Id = b.Id,
-                        Date = b.Date
+                        Date = b.Date,
+                        isShow = (bool)b.isShow
+                        
 
                     });
         }
@@ -63,6 +65,9 @@ namespace Warehouse.Service.Admin
                                      Message = p.Message
 
                                  }).FirstOrDefaultAsync();
+             var messageContact = _context.Contact.FirstOrDefault(x=>x.Id == contactId);
+            messageContact.isShow = true;
+            _context.SaveChanges();
             return contact;
         }
     }

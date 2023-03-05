@@ -1,0 +1,104 @@
+﻿@model Warehouse.ViewModels.Admin.CustomerOrderListViewModel
+
+<tr id="@("customerOrder_"+Model.Id)" class="master-row">
+
+    <td>
+        @Model.SenderName
+    </td>
+
+    <td style="width:50%"> @Model.SenderAddress</td>
+    <td>@Model.RecipientName</td>
+
+
+    <td>@Model.RecipientCountry</td>
+    <td>
+        <span>@Model.DateTime.Day/@Model.DateTime.Month/@Model.DateTime.Year</span>
+
+
+    </td>
+
+    <td style="width:50%">@Model.RecipientAddress</td>
+    <td>@Model.CargoService</td>
+    <td>
+        @if (@Model.isPackage == true)
+        {
+            <span>✅</span>
+        }
+        else
+        {
+            <span>⌛</span>
+        }
+
+    </td>
+    <td>
+
+        <a data-modal-form="true"
+           data-modal-title="Siparişteki Paket Listesi"
+           data-hook-beforeunload="true"
+           href="@Url.Action("OrderPackageGroupShow", "Order" , routeValues: new {Area = "Admin",orderId=Model.Id})">
+            @Model.PackageCount
+        </a>
+    </td>
+    <td>
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#customerOrder_@Model.Id"
+           data-modal-highlight="#customerOrder_@Model.Id"
+           data-modal-title="Gönderi Düzenle"
+           data-modal-save-message="Gönderi başarıyla düzenlendi"
+           data-hook-beforeunload="true"
+           class="pressActive btn btn-block btn-success btn-sm"
+           href="@Url.Action("CustomerOrderEdit", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Gönderi Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-customer-order-id="@Model.Id"
+           data-on-confirm="deleteCustomerOrder"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
+        </a>
+
+    </td>
+    <td>
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="Siparişteki Ürün Listesi"
+           data-hook-beforeunload="true"
+           class="pressActive btn btn-block btn-warning btn-sm"
+           href="@Url.Action("ProductGroupShow", "Order", routeValues: new {Area = "Admin",orderId=Model.Id})">
+            <i class="fa-solid fa-book"></i> Ürünleri Görüntüle
+        </a>
+
+    </td>
+    <td>
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#customerOrder_@Model.Id"
+           data-modal-highlight="#customerOrder_@Model.Id"
+           data-modal-title="Sipariş Paketle"
+           data-hook-beforeunload="true"
+           class="pressActive btn btn-block btn-sm showOrderPackage"
+           href="@Url.Action("OrderPackageAdd", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
+            <i class="fa-solid fa-cube"></i> Sipariş Paketle
+        </a>
+
+    </td>
+
+
+
+
+</tr>
+<style>
+    .showOrderPackage {
+        color: #ffffff;
+        background-color: #14ceb7
+    }
+</style>

@@ -36,6 +36,7 @@ namespace Warehouse.ViewModels.Admin
         public string Phone { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public long CustomerId { get; set; }         
 
     }
     public class UserAddViewModel : UserCrudBaseViewModel

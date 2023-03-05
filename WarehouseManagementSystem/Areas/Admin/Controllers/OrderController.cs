@@ -49,9 +49,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> OrderList(OrderSearchViewModel model, int? page)
         {
 
-            //var result = _serviceService.GetServiceListIQueryable(searchViewModel)
-            //    .OrderBy(p => p.Name)
-            //    .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
+            
 
 
             var currentPageIndex = page - 1 ?? 0;

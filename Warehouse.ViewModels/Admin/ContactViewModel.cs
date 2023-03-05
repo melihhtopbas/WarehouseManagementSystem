@@ -33,6 +33,7 @@ namespace Warehouse.ViewModels.Admin
 
         public long Id { get; set; }
         public DateTime Date { get; set; }
+        public bool isShow { get; set; }
 
     }
 }

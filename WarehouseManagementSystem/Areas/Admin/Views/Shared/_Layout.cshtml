@@ -41,16 +41,31 @@
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
-                            <span class="label label-danger new-icon-messages-total-count">0</span>
+                            <span class="label label-danger new-icon-messages-total-count">@if (CurrentUserViewModel.Role == "admin") { @CurrentUserViewModel.MessageCount}</span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">Toplam <strong class="new-messages-total-count">0</strong> işlem bekleyen mesajınız var</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu messages-ecommerce-menu">
-                                </ul>
-                            </li>
-                        </ul>
+                        @if (CurrentUserViewModel.Role != "admin")
+                        {
+                            <ul class="dropdown-menu">
+                                <li class="header">Toplam <strong class="new-messages-total-count">0</strong> işlem bekleyen mesajınız var</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu messages-ecommerce-menu">
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                        else if (CurrentUserViewModel.Role == "admin")
+                        {
+                            <ul class="dropdown-menu">
+                                <li class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu messages-ecommerce-menu">
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+
                     </li>
 
 
@@ -829,6 +844,47 @@
                 type: "POST",
                 cache: false,
                 data: { userId: userId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteCustomerOrder() {
+            var that = $(this);
+            var customerOrderId = that.data('customerOrderId');
+
+            var container = $('#CustomerOrderListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/customerordersetting/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { customerOrderId: customerOrderId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {

@@ -79,6 +79,7 @@
     <Compile Include="Admin\CityViewModel.cs" />
     <Compile Include="Admin\AboutViewModel.cs" />
     <Compile Include="Admin\ContactViewModel.cs" />
+    <Compile Include="Admin\CustomerOrderViewModel.cs" />
     <Compile Include="Admin\FaqViewModel.cs" />
     <Compile Include="Admin\PageViewModel.cs" />
     <Compile Include="Admin\PropertyViewModel.cs" />

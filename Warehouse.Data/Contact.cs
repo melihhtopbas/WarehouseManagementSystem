@@ -21,5 +21,6 @@ namespace Warehouse.Data
         public string Phone { get; set; }
         public string Message { get; set; }
         public System.DateTime Date { get; set; }
+        public Nullable<bool> isShow { get; set; }
     }
 }

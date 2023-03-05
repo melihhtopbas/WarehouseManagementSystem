@@ -1,0 +1,352 @@
+﻿
+@model Warehouse.ViewModels.Admin.CustomerOrderAddViewModel
+@using WarehouseManagementSystem.Extensions
+@using (Html.BeginForm("CustomerOrderAdd", "CustomerOrderSetting", new { Area = "Admin" }, FormMethod.Post, new { id = "customerOrderAddForm", role = "form" }))
+{
+
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+            @Html.HiddenFor(m => m.CustomerId, new { data_val = "false" })
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        @*row start*@
+
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Gönderici</strong></em></h5>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderName, new { @class = "kt_docs_maxlength_basic", maxlength = "100", autofocus = "true", placeholder = "Gönderici Adı" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200", placeholder = "Gönderici Mail" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderPhone, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.SenderInvoiceNumber)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.SenderAddress)">
+            @Html.TextAreaFor(m => m.SenderAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.SenderAddress).ToString()) })
+        </div>
+
+
+        <div class="clearfix"></div>
+        <br />
+        <div class="clearfix"></div>
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Alıcı</strong></em></h5>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientName, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.Country)
+            </div>
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientZipCode, new { placeholder = "Posta Kodu" })
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.City, new { id = "CityNumber" })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientPhone, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientMail, new { @class = "kt_docs_maxlength_basic", maxlength = "200" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientIdentityNumber, new { @class = "kt_docs_maxlength_basic", maxlength = "11" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6  ">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.RecipientInvoiceNumber)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.RecipientAddress)">
+            @Html.TextAreaFor(m => m.RecipientAddress, new { @class = "kt_docs_maxlength_basic form-control", maxlength = "100", rows = "2", cols = "20", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RecipientAddress).ToString()) })
+            @Html.ValidationMessageFor(m => m.RecipientAddress)
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+        <div class="clearfix"></div>
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Ürün İşlemleri</strong></em></h5>
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+            <div class="row">
+                @Html.EditorFor(m => m.CurrenyUnit)
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderDescription, new { @class = "kt_docs_maxlength_basic", maxlength = "100" })
+        </div>
+
+
+        <div id="transactionGroupRow">
+            @if (Model.ProductTransactionGroup != null)
+            {
+
+
+                foreach (var item in Model.ProductTransactionGroup)
+                {
+                    @Html.Partial("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
+
+                }
+            }
+        </div>
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <a id="addProductTransactionGroup" class="pressActive btn btn-info btn-sm">
+                <i class="fa fa-plus"></i> Ürün Ekle
+            </a>
+        </div>
+
+
+        <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Paket İşlemleri</strong></em></h5>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <div class="row">
+                @Html.EditorFor(m => m.CargoService)
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div> @*row end*@
+
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+}
+<style>
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<script>
+
+
+
+
+    $('#NestedCity').prop('disabled', true);
+    var cityId = $("#NestedCity").val();
+    var NestedCity = $("#CityNumber");
+    if (cityId != "" && cityId != null) {
+        $('#NestedCity').prop('disabled', false);
+    }
+
+
+    $(function () {
+        $("#NestedCountry").on("change", function () {
+
+            $('#NestedCity').prop('disabled', false);
+            var id = $("#NestedCountry").val();
+
+            if (id != "" && id != null) {
+                $.ajax({
+                    url: '/Admin/Order/NestedCity',
+                    data: { id: id },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#NestedCity").empty();
+
+                        $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+                        for (var i = 0; i < data.length; i++) {
+                            $("#NestedCity").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCity').prop('disabled', true);
+                            $('#NestedCity').prop('required', true);
+                        }
+                    },
+                    error: function () {
+                        $('#NestedCity').prop('disabled', true);
+                    },
+                });
+            }
+            else {
+                $("#NestedCity").empty();
+                $('#NestedCity').prop('disabled', true);
+                $("#NestedCity").append("<option value'" + String.empty + "'>" + "Şehir Seçiniz" + "</Option")
+            }
+        });
+
+
+
+
+
+    });
+</script>
+
+
+
+
+
+
+
+<script>
+
+
+
+
+    $('.kt_docs_maxlength_basic').maxlength({
+        alwaysShow: true,
+        threshold: 5,
+        placement: 'top-right',
+        warningClass: "label label-danger label-rounded label-inline",
+        limitReachedClass: "label label-primary label-rounded label-inline"
+    });
+    $('#hideDeleteRow').hide();
+    var counter = 0;
+    $('.packageDetailsShow').hide();
+    $("#packageDetails").click(function () {
+        if ($('#packageDetails').hasClass("clicked-once")) {
+            $('.packageDetailsShow').slideUp(1000);
+            $('#packageDetails').removeClass("clicked-once");
+        }
+        else {
+            $('#packageDetails').addClass("clicked-once");
+            $('.packageDetailsShow').slideDown(1000);
+        }
+    });
+
+     $(function () {
+         $('#addProductTransactionGroup').on('click', function () {
+             $('.spinner').css('display', 'block');
+            $.ajax({
+                url: '@Url.Action("ProductTransactionGroupRow", "Order", new {Area="Admin"})',
+                    cache: false,
+                success: function (html) {
+                    $("#transactionGroupRow").append(html);
+                    $('.spinner').hide();
+                    counter++;
+                    console.log(counter);
+                }
+                });
+                return false;
+         });
+
+         $('#transactionGroupRow').on('click', '.deleteRow', function () {
+             if (counter!=0) {
+                 $(this).closest('.productTransactionGroup').remove();
+                 counter--;
+             }
+             if (counter == 0) {
+                 $('#hideDeleteRow').hide();
+             }
+
+
+             console.log(counter);
+
+
+
+
+         });
+
+
+     });
+
+</script>
+
+<div class="spinner" style="display:none">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .center-div {
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -150px;
+        margin-top: -150px;
+    }
+
+    .spinner {
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .loader {
+        margin: auto;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #15a0ec;
+        border-bottom: 16px solid #15a0ec;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+    .inner-div {
+        background-color: white;
+        border-radius: 15px;
+        margin: auto;
+        padding: 2%;
+        width: 150px;
+    }
+
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .showOrderPackage {
+        color: #ffffff;
+        background-color: #14ceb7
+    }
+</style>

@@ -60,6 +60,7 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="20" />
           <Property Name="Message" Type="nvarchar" MaxLength="1000" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="isShow" Type="bit" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
@@ -1295,6 +1296,7 @@
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isShow" Type="Boolean" />
         </EntityType>
         <EntityType Name="FAQ">
           <Key>
@@ -1773,6 +1775,7 @@
           <EntitySetMapping Name="Contact">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Contact">
               <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="isShow" ColumnName="isShow" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

@@ -279,6 +279,7 @@
     <Compile Include="Areas\Admin\Controllers\ContactFormController.cs" />
     <Compile Include="Areas\Admin\Controllers\CountrySettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\CurrencyUnitSettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CustomerOrderSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\FaqSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageSettingController.cs" />
@@ -4585,6 +4586,13 @@
     <Content Include="Areas\Admin\Views\UserSetting\DisplayTemplates\UserListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\UserSetting\_UserEdit.cshtml" />
     <Content Include="Areas\Admin\Views\UserSetting\_UserAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\UserSetting\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\CustomerOrderList.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\CustomerOrderListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderPackageAdd.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

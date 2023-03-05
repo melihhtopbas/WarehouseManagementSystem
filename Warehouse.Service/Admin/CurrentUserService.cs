@@ -37,7 +37,8 @@ namespace Warehouse.Service.Admin
                                                                 Phone= a.Phone,
                                                                 Role= a.Role,
                                                                 Surname= a.Surname,
-                                                                UserName = a.UserName   
+                                                                UserName = a.UserName,
+                                                                MessageCount = _context.Contact.Where(x=>x.isShow != true).Count()
 
                                                             }).FirstOrDefault());
 

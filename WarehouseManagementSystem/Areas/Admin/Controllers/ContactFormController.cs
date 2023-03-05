@@ -36,7 +36,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
             var currentPageIndex = page - 1 ?? 0;
 
-            var result = _contactService.GetContactListIQueryable(contactViewModel).OrderByDescending(a => a.Id)
+            var result = _contactService.GetContactListIQueryable(contactViewModel).OrderBy(a=>a.isShow)
                 .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
 
 

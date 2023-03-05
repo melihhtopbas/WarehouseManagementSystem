@@ -2,16 +2,15 @@
 @model Warehouse.ViewModels.Admin.UserListViewModel
 <tr id="@("user_"+Model.Id)" class="master-row">
 
-  
+
     <td>
         @Model.UserName
     </td>
     <td>@Model.Name @Model.Surname</td>
     <td>@Model.Mail</td>
     <td style="width:50px">
-        <a  
-           class="btn btn-block btn-primary btn-sm"
-           href="#">
+        <a class="btn btn-block btn-primary btn-sm"
+           href="@Url.Action("Index", "CustomerOrderSetting", routeValues: new {Area = "Admin",customerId=Model.Id})">
             <i class="fa-brands fa-shopify"></i>Siparişleri Görüntüle
         </a>
 

@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Warehouse.Data;
+using System.Xml.Linq;
 
 namespace Warehouse.ViewModels.Admin
 {
-    public class OrderViewModel
+    public class CustomerOrderViewModel
     {
 
     }
-    public class OrderCrudBaseViewModel
+    public class CustomerOrderCrudBaseViewModel
     {
-        public OrderCrudBaseViewModel()
+        public CustomerOrderCrudBaseViewModel()
         {
             ProductTransactionGroup = new List<ProductTransactionGroupViewModel>();
             OrderPackageGroups = new List<PackageListViewModel>();
@@ -104,11 +101,11 @@ namespace Warehouse.ViewModels.Admin
         public virtual ICollection<OrderPackageGroupViewModel> OrderPackageGroupViewModel { get; set; }
         public IEnumerable<PackageListViewModel> OrderPackageGroups { get; set; }
     }
-    public class OrderAddViewModel : OrderCrudBaseViewModel
+    public class CustomerOrderAddViewModel : CustomerOrderCrudBaseViewModel
     {
 
     }
-    public class OrderListViewModel
+    public class CustomerOrderListViewModel
     {
         public long Id { get; set; }
 
@@ -188,19 +185,20 @@ namespace Warehouse.ViewModels.Admin
         public virtual CurrencyUnitViewModel CurrencyUnits { get; set; }
         public virtual ICollection<ProductTransactionGroupViewModel> ProductTransactionGroup { get; set; }
     }
-    public class OrderSearchViewModel
+    public class CustomerOrderSearchViewModel
     {
         [Display(Name = "Dil")]
         public long LanguageId { get; set; }
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
+        public long CustomerId { get; set; }
     }
-    public class OrderEditViewModel : OrderCrudBaseViewModel
+    public class CustomerOrderEditViewModel : CustomerOrderCrudBaseViewModel
     {
         //public long Id { get; set; }
 
     }
-    public class OrderAdressViewModel
+    public class CustomerOrderAdressViewModel
     {
         public long Id { get; set; }
         [Display(Name = "Adress")]
@@ -208,7 +206,7 @@ namespace Warehouse.ViewModels.Admin
         public string Name { get; set; }
 
     }
-    public class OrderPriceCalculateViewModel
+    public class CustomerOrderPriceCalculateViewModel
     {
         [Display(Name = "Yükseklik")]
         [Range(1, 999, ErrorMessage = "Enter number between 1 to 999")]
@@ -242,5 +240,5 @@ namespace Warehouse.ViewModels.Admin
 
 
     }
- 
+
 }

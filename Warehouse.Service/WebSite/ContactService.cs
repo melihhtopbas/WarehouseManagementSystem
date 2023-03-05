@@ -30,7 +30,8 @@ namespace Warehouse.Service.WebSite
                 Mail = model.Email,
                 Message = model.Message,
                 Subject = model.Subject,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                isShow = false
             };
             _context.Contact.Add(contact);
             callResult.SuccessMessages.Add("Formunuz başarıyla kaydedildi");
