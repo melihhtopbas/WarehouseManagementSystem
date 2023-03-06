@@ -58,5 +58,37 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             var model = await _contactService.GetContactDetailModelAsync(contactId).ConfigureAwait(false);
             return PartialView("~/Areas/Admin/Views/ContactForm/_MessageView.cshtml", model);
         }
+        [AjaxOnly]
+        public async Task<ActionResult> IncomingMessage(int contactId)
+        {
+            var model = await _contactService.GetIncomingMessageModelAsync(contactId).ConfigureAwait(false);
+            return PartialView("~/Areas/Admin/Views/ContactForm/_MessageView.cshtml", model);
+        }
+        [AjaxOnly, HttpPost]
+        public async Task<ActionResult> Delete(long contactId)
+        {
+            var callResult = await _contactService.DeleteContactFormAsync(contactId);
+            if (callResult.Success)
+            {
+
+                ModelState.Clear();
+
+                return Json(
+                    new
+                    {
+                        success = true,
+                        warningMessages = callResult.WarningMessages,
+                        successMessages = callResult.SuccessMessages,
+                    });
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    errorMessages = callResult.ErrorMessages
+                });
+
+        }
     }
 }

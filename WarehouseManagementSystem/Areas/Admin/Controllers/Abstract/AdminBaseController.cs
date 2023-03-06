@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using Warehouse.Data;
 using Warehouse.Service.Admin;
+using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
@@ -38,9 +39,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
 
         public CurrentUserViewModel CurrentUserViewModel = new CurrentUserViewModel();
+        public List<IncomingMessageViewModel> IncomingMessageViewModel;
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             CurrentUserViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(User.Identity.Name);
+            IncomingMessageViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetIncomingMessageViewModel();
             base.OnActionExecuting(filterContext);
         }
 

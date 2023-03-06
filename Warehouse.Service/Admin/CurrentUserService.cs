@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Data;
 using Warehouse.Infrastructure;
+using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
 
 namespace Warehouse.Service.Admin
@@ -44,6 +45,26 @@ namespace Warehouse.Service.Admin
 
             return model;
 
+        }
+
+        public List<IncomingMessageViewModel> GetIncomingMessageViewModel()
+        {
+            var model = _cacheService.Get("setting", () => (from a in _context.Contact
+                                                           .Where(x=>x.isShow != true)
+
+                                                            select new IncomingMessageViewModel()
+                                                            {
+
+                                                                FullName = a.FullName,  
+                                                                Id = a.Id,
+                                                                Message = a.Message,
+                                                                Subject = a.Subject,
+                                                                
+                                                                
+
+                                                            }).ToList());
+
+            return model;
         }
     }
 }

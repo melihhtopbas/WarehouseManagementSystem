@@ -9,7 +9,7 @@
         <div class="box box-solid">
             <div class="box-header">
                 <i class="fa fa-book"></i>
-                <h3 class="box-title">@ViewBag.Title</h3>
+                <h3 class="box-title">Sisteme kayıtlı kullanıcılar</h3>
             </div>
             <div class="box-body">
                 @using (Html.BeginForm("UserList", "UserSetting", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "userSearchForm", data_ajax_form = "true", data_target_container = "#UserListContainer" }))

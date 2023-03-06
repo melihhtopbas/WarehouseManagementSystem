@@ -1,13 +1,22 @@
 ﻿
 @model Warehouse.ViewModels.Admin.ContactViewModel
-<tr class="master-row">
-
+<tr id="@("contact_"+Model.Id)" class="master-row">
+    <td>
+        @if (Model.isShow == true)
+        {
+            <span><i class="fa-solid fa-envelope-open"></i></span>
+        }
+        else
+        {
+            <span>📩</span>
+        }
+    </td>
     <td>@Model.FullName</td>
     <td>
         @Model.Subject
     </td>
     <td>
-        @Model.Date
+        @Model.Date.ToString("dd/MM/yyyy HH:mm")
     </td>
     <td style="width:50px">
         <a data-modal-form="true"
@@ -17,6 +26,20 @@
            class="btn btn-block btn-success btn-sm"
            href="@Url.Action("ContactDetailAsync", "ContactForm", routeValues: new {Area = "Admin",contactId=Model.Id})">
             <i class="fa fa-edit fa-fw text-success"></i> İncele
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-contact-id="@Model.Id"
+           data-on-confirm="deleteContactForm"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i>Form Sil
         </a>
 
     </td>

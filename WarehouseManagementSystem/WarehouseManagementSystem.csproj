@@ -2504,6 +2504,7 @@
     <Content Include="Areas\Admin\Scripts\maxlength.js" />
     <Content Include="Areas\Admin\Scripts\modal.window.form.js" />
     <Content Include="Areas\Admin\Scripts\modernizr-2.8.3.js" />
+    <Content Include="Areas\Admin\Scripts\prawms.jquery.min.js" />
     <Content Include="Areas\Admin\Scripts\site.js" />
     <Content Include="Areas\Admin\Scripts\site.min.js" />
     <Content Include="Areas\Admin\Scripts\surukle.js" />
@@ -2515,7 +2516,6 @@
     <Content Include="Areas\Admin\Scripts\toastr.min.js" />
     <Content Include="Areas\Admin\Scripts\wms.ajax.form.js" />
     <Content Include="Areas\Admin\Scripts\wms.ajax.pager.js" />
-    <Content Include="Areas\Admin\Scripts\wms.jquery.min.js" />
     <Content Include="Areas\Admin\Scripts\wms.modal.form.js" />
     <Content Include="Areas\Admin\Scripts\wms.site.js" />
     <Content Include="Areas\Admin\Scripts\wms.toastr.js" />

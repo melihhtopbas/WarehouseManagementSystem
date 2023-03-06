@@ -81,6 +81,7 @@
     <Compile Include="Admin\ContactViewModel.cs" />
     <Compile Include="Admin\CustomerOrderViewModel.cs" />
     <Compile Include="Admin\FaqViewModel.cs" />
+    <Compile Include="Admin\IncomingMessageViewModel.cs" />
     <Compile Include="Admin\PageViewModel.cs" />
     <Compile Include="Admin\PropertyViewModel.cs" />
     <Compile Include="Admin\ReferenceViewModel.cs" />

@@ -10,7 +10,7 @@
     <link href="~/Areas/Admin/Content/style.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/loadingoverlay.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
-    <script src="~/Areas/Admin/Scripts/wms.jquery.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/prawms.jquery.min.js"></script>
 
 
 
@@ -41,7 +41,10 @@
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
-                            <span class="label label-danger new-icon-messages-total-count">@if (CurrentUserViewModel.Role == "admin") { @CurrentUserViewModel.MessageCount}</span>
+                            <span class="label label-danger new-icon-messages-total-count">
+                                @if (CurrentUserViewModel.Role == "admin")
+                                {@CurrentUserViewModel.MessageCount}
+                            </span>
                         </a>
                         @if (CurrentUserViewModel.Role != "admin")
                         {
@@ -58,11 +61,31 @@
                         {
                             <ul class="dropdown-menu">
                                 <li class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu messages-ecommerce-menu">
-                                    </ul>
-                                </li>
+                                @foreach (var item in IncomingMessageViewModel)
+                                {
+
+
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu messages-ecommerce-menu">
+                                            <div class="media">
+                                                <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
+                                                   data-modal-form="true"
+                                                   data-modal-title="Gelen kutusu"
+                                                   data-hook-beforeunload="true"
+                                                   data-modal-size="modal-ml">
+
+
+                                                    <div class="media-body">
+                                                        <h6 class="dropdown-item-title" style="color:black">@item.FullName</h6>
+                                                        <p class="text-sm">@item.Subject</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </ul>
+                                    </li>
+                                    <hr />
+                                }
                             </ul>
                         }
 
@@ -84,7 +107,7 @@
                                 <p>
 
 
-                                  @CurrentUserViewModel.Name @CurrentUserViewModel.Surname
+                                    @CurrentUserViewModel.Name @CurrentUserViewModel.Surname
                                     <small>@CurrentUserViewModel.UserName</small>
                                 </p>
 
@@ -133,7 +156,7 @@
                     <li class="hidden-xs hidden-sm">
                         <a class="myClass" href="javascript:void(0);" onclick="toggleFullScreen(document.documentElement)" data-widget="fullscreen" data-toggle="tooltip" title="Tam Ekran"><i class="full-screen fas fa-expand-arrows-alt"></i></a>
                     </li>
-                    
+
 
                     <!-- Control Sidebar Toggle Button -->
                     <li class="hidden-xs hidden-sm">
@@ -170,7 +193,7 @@
                 }
                 $('.full-screen').removeClass('fas fa-compress-arrows-alt');
                 $('.full-screen').addClass('fas fa-expand-arrows-alt');
-               
+
             }
         }
 
@@ -885,6 +908,47 @@
                 type: "POST",
                 cache: false,
                 data: { customerOrderId: customerOrderId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteContactForm() {
+            var that = $(this);
+            var contactId = that.data('contactId');
+
+            var container = $('#contactFormListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/contactform/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { contactId: contactId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {
