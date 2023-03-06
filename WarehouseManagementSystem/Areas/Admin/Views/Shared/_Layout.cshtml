@@ -70,6 +70,7 @@
                                         <ul class="menu messages-ecommerce-menu">
                                             <div class="media">
                                                 <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
+                                                   class="margin-bottom"
                                                    data-modal-form="true"
                                                    data-modal-title="Gelen kutusu"
                                                    data-hook-beforeunload="true"
@@ -86,9 +87,10 @@
                                     </li>
                                     <hr />
                                 }
+                            <a class="dropdown-item dropdown-footer"  href="/admin/contactform">Bütün mesajları gör</a>
                             </ul>
                         }
-
+                        
                     </li>
 
 
