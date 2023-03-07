@@ -17,7 +17,7 @@
         @foreach (var item in Model)
         {
             <li><a href="@Url.Action("Index", "Setting", new {Area = "Admin",id=item.Id})"><i class="fa fa-cog"></i> <span>Ayarlar </span></a></li>
-            <li><a href="@Url.Action("Index", "Setting", new {Area = "Admin",id=item.Id})"><i class="fa-solid fa-tag"></i> <span>Fiyatlandırma </span></a></li>
+            <li><a href="@Url.Action("Index", "ShippingPriceSetting", new {Area = "Admin"})"><i class="fa-solid fa-tag"></i> <span>Fiyatlandırma </span></a></li>
             <li><a href="@Url.Action("Index", "UserSetting", new {Area = "Admin"})"><i class="fa-solid fa-users"></i> <span>Kullanıcılar </span></a></li>
 
         }

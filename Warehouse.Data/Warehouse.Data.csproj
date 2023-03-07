@@ -130,6 +130,9 @@
     <Compile Include="Settings.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ShippingPrices.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sliders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -81,7 +81,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewData["Cities"] = new List<CityListViewModel>();
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
+           
 
             var model = new OrderAddViewModel
             {
@@ -158,7 +158,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
                 ViewData["Cities"] = _orderService.GetOrderCityList(model.Country.CountryId).ToList();
                 ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-                ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
+            
                 return PartialView("~/Areas/Admin/Views/Order/_OrderEdit.cshtml", model);
             }
             return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
@@ -190,11 +190,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             {
                 Country = new OrderCountryIdSelectViewModel
                 {
-                    CountryId = 20004,
+                    
                 }
+                
             };
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
-            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+            ViewData["CargoServiceTypes"] = new List<CargoServiceTypeListViewModel>();
             return PartialView("~/Areas/Admin/Views/Order/_OrderPriceCalculator.cshtml", model);
 
 
@@ -205,7 +206,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> OrderPriceCalculator(OrderPriceCalculateViewModel model)
         {
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
-            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList(model.Country.CountryId).ToList();
 
             if (ModelState.IsValid)
             {
@@ -497,6 +498,18 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                           }).ToList();
 
             return Json(cities, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult NestedCargo(int id)
+        {
+            var cargoService = (from x in _context.ShippingPrices
+                               where x.CountryId == id && x.Active == true
+                          select new
+                          {
+                              Id = x.Id,
+                              Name = x.CargoServiceName,
+                          }).ToList();
+
+            return Json(cargoService, JsonRequestBehavior.AllowGet);
         }
 
     }

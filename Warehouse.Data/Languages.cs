@@ -17,7 +17,6 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Languages()
         {
-            this.Orders = new HashSet<Orders>();
             this.Sliders = new HashSet<Sliders>();
             this.About = new HashSet<About>();
             this.Settings = new HashSet<Settings>();
@@ -30,6 +29,8 @@ namespace Warehouse.Data
             this.Cities = new HashSet<Cities>();
             this.CargoServiceTypes = new HashSet<CargoServiceTypes>();
             this.CurrencyUnits = new HashSet<CurrencyUnits>();
+            this.Orders = new HashSet<Orders>();
+            this.ShippingPrices = new HashSet<ShippingPrices>();
         }
     
         public long Id { get; set; }
@@ -37,8 +38,6 @@ namespace Warehouse.Data
         public string ShortName { get; set; }
         public Nullable<int> Page { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sliders> Sliders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -63,5 +62,9 @@ namespace Warehouse.Data
         public virtual ICollection<CargoServiceTypes> CargoServiceTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CurrencyUnits> CurrencyUnits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShippingPrices> ShippingPrices { get; set; }
     }
 }

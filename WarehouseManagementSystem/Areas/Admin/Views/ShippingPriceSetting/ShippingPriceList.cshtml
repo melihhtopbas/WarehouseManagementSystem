@@ -1,23 +1,10 @@
-﻿@model IPagedList<Warehouse.ViewModels.Admin.CurrencyUnitListViewModel>
+﻿@model IPagedList<Warehouse.ViewModels.Admin.ShippingPriceListViewModel>
 @{
     var languages = (List<Warehouse.ViewModels.Common.LanguageListModel>)ViewBag.Languages;
 }
 
 <div class="products-list-tools clearfix">
-
-    @foreach (var language in languages)
-    {
-        <a class="btn btn-warning btn-sm"
-           data-modal-form="true"
-           data-modal-size="modal-lg"
-           data-modal-prepend="tbody#CurrencyUnitList"
-           data-modal-title="Ülke Ekle"
-           data-hook-beforeunload="true"
-           href="@Url.Action("Add", "CurrencyUnitSetting", routeValues: new {Area ="Admin",languageId=language.Id})">
-            <i class="fa fa-plus"></i>Para Birimi Ekle
-        </a>
-    }
-
+ 
 
     <div class="pull-right hidden-xs hidden-sm">
         @if (Model.Any())
@@ -28,8 +15,8 @@
         }
 
 
-        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CurrencyUnitListContainer" }).Options(o => o
-            .Action("CurrencyUnitList")
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "ShippingPriceListContainer" }).Options(o => o
+            .Action("ShippingPriceList")
             .DisplayTemplate("BootstrapPage")
             .MaxNrOfPages(6)
             .AlwaysAddFirstPageNumber()
@@ -43,15 +30,14 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            
+            <th>#</th>
+            <th>Ülke Adı</th>
             <th>Para Birimi</th>
-            <th>Açıklama</th>
-            <th>Icon</th>
-            <th style="width:50px">Düzenle</th>
-            <th style="width:50px">Sil</th>
+            <th style="width:50px">Fiyat Güncelle</th>
+         
         </tr>
     </thead>
-    <tbody id="CurrencyUnitList">
+    <tbody id="ShippingPriceList">
         @Html.DisplayFor(m => m)
 
 
@@ -61,8 +47,8 @@
 <div class="pull-left">
 
 
-    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CurrencyUnitListContainer" }).Options(o => o
-        .Action("CurrencyUnitList")
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "ShippingPriceListContainer" }).Options(o => o
+        .Action("ShippingPriceList")
         .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()

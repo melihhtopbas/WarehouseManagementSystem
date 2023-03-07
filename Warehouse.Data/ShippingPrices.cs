@@ -12,20 +12,16 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CargoServiceTypes
+    public partial class ShippingPrices
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CargoServiceTypes()
-        {
-            this.Orders = new HashSet<Orders>();
-        }
-    
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string CargoServiceName { get; set; }
         public Nullable<long> LanguageId { get; set; }
+        public bool Active { get; set; }
+        public Nullable<long> CountryId { get; set; }
+        public decimal Price { get; set; }
     
+        public virtual Countries Countries { get; set; }
         public virtual Languages Languages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

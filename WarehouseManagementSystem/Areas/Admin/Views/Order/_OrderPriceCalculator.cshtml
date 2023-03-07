@@ -10,10 +10,7 @@
             <h4><i class="fa-solid fa-circle-info"></i> Bilgilendirme!</h4>
             <strong>Desi Başına Fiyatlandırma</strong>
             <ul>
-                <li>Yurtiçi Kargo 2₺</li>
-                <li>PTT Kargo 3₺</li>
-                <li>UPS Kargo 4₺</li>
-                <li>Aras Kargo 2,5₺</li>
+                <li>Göndereceğiniz ülkenin para birimine göre ve seçeceğiniz kargo servisine göre fiyatlar değişkenlik gösterebilir!</li>
             </ul>
         </div>
     </div>
@@ -90,7 +87,7 @@
         <tr>
 
             <td>@Model.Service</td>
-            <td>@Model.TotalPrice <span>₺</span></td>
+            <td>@Model.TotalPrice <span>@Model.Icon</span></td>
             <td>@Model.Description</td>
 
 
@@ -114,3 +111,59 @@
         color: red;
     }
 </style>
+<script>
+
+
+
+
+    $('#NestedCargo').prop('disabled', true);
+    var cityId = $("#NestedCargo").val();
+    var NestedCity = $("#CityNumber");
+    if (cityId != "" && cityId != null) {
+        $('#NestedCargo').prop('disabled', false);
+    }
+
+
+    $(function () {
+        $("#NestedCountry").on("change", function () {
+
+            $('#NestedCargo').prop('disabled', false);
+            var id = $("#NestedCountry").val();
+
+            if (id != "" && id != null) {
+                $.ajax({
+                    url: '/Admin/Order/NestedCargo',
+                    data: { id: id },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#NestedCargo").empty();
+
+                        $("#NestedCargo").append("<option value'" + String.empty + "'>" + "Kargo servis Seçiniz" + "</Option")
+                        for (var i = 0; i < data.length; i++) {
+                            $("#NestedCargo").append("<option value='" + data[i].Id + "'>" + data[i].Name + "</Option>")
+                        }
+                        if (data.length == 0) {
+                            console.log("required kaldırıldı")
+                            $('#NestedCargo').prop('disabled', true);
+                            $('#NestedCargo').prop('required', true);
+                        }
+                    },
+                    error: function () {
+                        $('#NestedCargo').prop('disabled', true);
+                    },
+                });
+            }
+            else {
+                $("#NestedCargo").empty();
+                $('#NestedCargo').prop('disabled', true);
+                $("#NestedCargo").append("<option value'" + String.empty + "'>" + "Kargo servis Seçiniz" + "</Option")
+            }
+        });
+
+
+
+
+
+    });
+</script>

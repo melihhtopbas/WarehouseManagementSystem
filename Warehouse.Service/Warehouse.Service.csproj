@@ -95,6 +95,7 @@
     <Compile Include="Admin\PropertyService.cs" />
     <Compile Include="Admin\ReferenceService.cs" />
     <Compile Include="Admin\SettingService.cs" />
+    <Compile Include="Admin\ShippingPriceService.cs" />
     <Compile Include="Admin\SliderService.cs" />
     <Compile Include="Admin\UserService.cs" />
     <Compile Include="Admin\UserSettingService.cs" />

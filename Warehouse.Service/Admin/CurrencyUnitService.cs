@@ -29,7 +29,9 @@ namespace Warehouse.Service.Admin
                         Id = b.Id,
                         Name = b.Name,
                         LanguageId = b.LanguageId,
-                        Description = b.Description
+                        Description = b.Description,
+                        Icon = b.Icon
+                        
 
 
                     });
@@ -78,6 +80,7 @@ namespace Warehouse.Service.Admin
                 Name = model.Name,
                 LanguageId = model.LanguageId,
                 Description = model.Description,
+                Icon = model.Icon,
 
 
 
@@ -119,6 +122,7 @@ namespace Warehouse.Service.Admin
                                           Id = p.Id,
                                           LanguageId = p.LanguageId,
                                           Description = p.Description,
+                                          Icon = p.Icon,
 
 
                                       }).FirstOrDefaultAsync();
@@ -149,6 +153,7 @@ namespace Warehouse.Service.Admin
 
             currencyUnit.Name = model.Name;
             currencyUnit.Description = model.Description;
+            currencyUnit.Icon = model.Icon;
 
 
 

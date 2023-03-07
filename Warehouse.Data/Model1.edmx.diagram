@@ -15,15 +15,6 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="12.25" PointY="12.125" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="15.25" PointY="1" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Packages_Orders" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Sliders" Width="1.5" PointX="3" PointY="2" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Sliders_Languages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.About" Width="1.5" PointX="3" PointY="14.875" />
@@ -40,7 +31,6 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_FAQ_FAQCategories" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_FAQCategories_Languages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Users" Width="1.5" PointX="5.375" PointY="12.75" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Users" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Countries_Languages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.References" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Pages" Width="1.5" PointX="3" PointY="33.625" />
@@ -48,12 +38,25 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Cities" Width="1.5" PointX="8" PointY="7.625" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Cities_Countries" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Cities_Languages" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Cities" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Users_Cities" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Users_Countries" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Contact" Width="1.5" PointX="8.375" PointY="3.75" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Orders" Width="1.5" PointX="15.25" PointY="0.75" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Cities" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Countries" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Languages" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Orders_Users" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Packages_Orders" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.ShippingPrices" Width="1.5" PointX="11" PointY="0.75" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ShippingPrices_Countries" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_ShippingPrices_Languages" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

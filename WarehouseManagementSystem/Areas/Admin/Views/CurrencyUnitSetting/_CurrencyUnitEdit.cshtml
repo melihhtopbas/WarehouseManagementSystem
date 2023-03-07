@@ -47,8 +47,8 @@
 
 
 
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Icon)">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.Icon, new { @class = "show-maxlength", autofocus = "true" })
         </div>
 
 

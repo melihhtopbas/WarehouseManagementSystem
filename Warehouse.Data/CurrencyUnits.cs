@@ -17,16 +17,17 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CurrencyUnits()
         {
-            this.Orders = new HashSet<Orders>();
+            this.Countries = new HashSet<Countries>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Nullable<long> LanguageId { get; set; }
+        public string Icon { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
         public virtual Languages Languages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Countries> Countries { get; set; }
     }
 }

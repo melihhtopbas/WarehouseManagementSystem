@@ -291,6 +291,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserRegisterController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserSettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShippingPriceSettingController.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
@@ -4594,6 +4595,11 @@
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderAdd.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderPackageAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\ShippingPriceSetting\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ShippingPriceSetting\ShippingPriceList.cshtml" />
+    <Content Include="Areas\Admin\Views\ShippingPriceSetting\DisplayTemplates\ShippingPriceListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ShippingPriceSetting\_ShippingPriceEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\ShippingPriceSetting\_CountryShippingPrice.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -4647,7 +4653,6 @@
     <Content Include="Areas\Admin\Views\Order\_OrderProductGroupShow.cshtml" />
     <Content Include="Areas\Admin\Views\Order\_OrderPackageAdd.cshtml" />
     <Content Include="Areas\Admin\Views\Order\_OrderPackageGroupShow.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\_OrderPackageGroupAdd.cshtml" />
     <Content Include="Areas\Admin\Views\Order\_OrderPackageProductAdd.cshtml" />
     <Content Include="Areas\Admin\Views\Order\DisplayTemplates\OrderPackageProductListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\Order\_OrderSelectedPackageProduct.cshtml" />

@@ -27,8 +27,8 @@ namespace WarehouseManagementSystem
         {
             get
             {
-                if (ViewContext.Controller is AdminBaseController baseController)
-                    return baseController.CurrentUserViewModel ?? new CurrentUserViewModel();
+                if (ViewContext.Controller is AdminBaseController adminBaseController)
+                    return adminBaseController.CurrentUserViewModel ?? new CurrentUserViewModel();
                 return null;
             }
         }
@@ -36,8 +36,8 @@ namespace WarehouseManagementSystem
         {
             get
             {
-                if (ViewContext.Controller is AdminBaseController baseController)
-                    return baseController.IncomingMessageViewModel ?? new List<IncomingMessageViewModel>();
+                if (ViewContext.Controller is AdminBaseController adminBaseController)
+                    return adminBaseController.IncomingMessageViewModel ?? new List<IncomingMessageViewModel>();
                 return null;
             }
         }

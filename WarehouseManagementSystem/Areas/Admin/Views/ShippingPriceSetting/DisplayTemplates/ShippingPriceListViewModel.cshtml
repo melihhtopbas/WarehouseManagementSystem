@@ -1,0 +1,25 @@
+﻿
+@model Warehouse.ViewModels.Admin.ShippingPriceListViewModel
+<tr id="@("shipPrice_"+Model.Id)" class="master-row">
+
+    <td>@Model.Id</td>
+    <td>
+        @Model.CountryName
+    </td>
+    <td>@Model.CurrencyUnitName</td>
+    
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#shipPrice_@Model.Id"
+           data-modal-highlight="#shipPrice_@Model.Id"
+           data-modal-title="Fiyat Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "ShippingPriceSetting", routeValues: new {Area = "Admin",shipPriceId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Fiyat Güncelle
+        </a>
+
+    </td>
+    
+</tr>

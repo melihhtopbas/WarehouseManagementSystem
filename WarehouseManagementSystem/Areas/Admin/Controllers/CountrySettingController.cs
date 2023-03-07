@@ -21,12 +21,14 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         private readonly WarehouseManagementSystemEntities1 _context;
         private readonly CountryService _countryService;
         private readonly LanguageService _languageService;
-        public CountrySettingController(LanguageService languageService, CountryService countryService)
+        private readonly OrderService _orderService;
+        public CountrySettingController(LanguageService languageService, CountryService countryService, OrderService orderService)
         {
             _languageService = languageService;
             _countryService = countryService;
+            _orderService = orderService;
         }
-        
+
         public async Task<ActionResult> Index()
         {
             
@@ -67,8 +69,8 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Add(long languageId)
         {
-            
 
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
 
             var model = new CountryViewModel
             {
@@ -81,7 +83,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(CountryViewModel model)
         {
-             
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
 
             if (ModelState.IsValid)
             {
@@ -117,7 +119,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
         public async Task<ActionResult> Edit(int countryId)
         {
-
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
             var model = await _countryService.GetCountryEditViewModelAsync(countryId);
             if (model != null)
             {
@@ -129,7 +131,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CountryViewModel model)
         {
-            
+            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
             if (ModelState.IsValid)
             {
                 var callResult = await _countryService.EditCountryAsync(model);

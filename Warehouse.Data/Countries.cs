@@ -17,22 +17,27 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Countries()
         {
-            this.Orders = new HashSet<Orders>();
             this.Cities = new HashSet<Cities>();
             this.Users = new HashSet<Users>();
+            this.Orders = new HashSet<Orders>();
+            this.ShippingPrices = new HashSet<ShippingPrices>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
         public Nullable<long> LanguageId { get; set; }
         public Nullable<bool> Active { get; set; }
+        public Nullable<long> CurrencyUnitId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cities> Cities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
+        public virtual CurrencyUnits CurrencyUnits { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShippingPrices> ShippingPrices { get; set; }
     }
 }

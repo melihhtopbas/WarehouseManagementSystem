@@ -74,8 +74,7 @@ namespace Warehouse.Service.Admin
                         RecipientZipCode = b.RecipientZipCode,
                         SenderName = b.SenderName,
                         SenderPhone = b.SenderPhone,
-                        RecipientCountry = b.Countries.Name,
-                        CurrencyUnit = b.CurrencyUnits.Name,
+                        RecipientCountry = b.Countries.Name, 
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date, 
@@ -158,8 +157,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
@@ -186,8 +184,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
@@ -306,8 +303,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId; 
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientCityId = null;
@@ -328,8 +324,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId; 
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 recipientAddress.Name = model.RecipientAddress;
@@ -451,10 +446,7 @@ namespace Warehouse.Service.Admin
                                    {
                                        CountryId = p.RecipientCountryId
                                    },
-                                   CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel()
-                                   {
-                                       CurrencyUnitId = p.ProductCurrencyUnitId
-                                   },
+                                   
 
                                    OrderDescription = p.ProductOrderDescription,
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup

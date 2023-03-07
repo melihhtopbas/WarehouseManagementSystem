@@ -18,6 +18,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Açıklama")]
         [Required(ErrorMessage = "Lütfen  giriniz")]
         public string Description { get; set; }
+        public string Icon { get; set; }
 
     }
     public class CurrencyUnitListViewModel
@@ -30,6 +31,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Açıklama")]
         [Required(ErrorMessage = "Lütfen  giriniz")]
         public string Description { get; set; }
+        public string Icon { get; set; }
 
     }
     public class OrderCurrencyUnitIdSelectViewModel

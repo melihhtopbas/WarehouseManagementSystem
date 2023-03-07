@@ -17,8 +17,8 @@ namespace Warehouse.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cities()
         {
-            this.Orders = new HashSet<Orders>();
             this.Users = new HashSet<Users>();
+            this.Orders = new HashSet<Orders>();
         }
     
         public long Id { get; set; }
@@ -30,8 +30,8 @@ namespace Warehouse.Data
         public virtual Countries Countries { get; set; }
         public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

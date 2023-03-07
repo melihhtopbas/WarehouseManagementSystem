@@ -32,7 +32,9 @@ namespace Warehouse.Service.Admin
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
-             
+            
+
+
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
@@ -51,8 +53,7 @@ namespace Warehouse.Service.Admin
                         RecipientZipCode = b.RecipientZipCode,
                         SenderName = b.SenderName,
                         SenderPhone = b.SenderPhone,
-                        RecipientCountry = b.Countries.Name,
-                        CurrencyUnit = b.CurrencyUnits.Name,
+                        RecipientCountry = b.Countries.Name, 
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
@@ -122,7 +123,7 @@ namespace Warehouse.Service.Admin
 
             }).ToList();
             return result;
-        }
+        } 
         public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList()
         {
 
@@ -131,6 +132,20 @@ namespace Warehouse.Service.Admin
 
                 Id = b.Id,
                 Name = b.Name
+
+
+            }).ToList();
+            return result;
+        }
+        public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList(long? id)
+        {
+
+            var result = _context.ShippingPrices.Where(x=>x.CountryId == id).Select(b => new CargoServiceTypeListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.CargoServiceName,
+
 
 
             }).ToList();
@@ -204,8 +219,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
@@ -232,8 +246,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now.Date;
@@ -499,10 +512,7 @@ namespace Warehouse.Service.Admin
                                    {
                                        CountryId = p.RecipientCountryId
                                    },
-                                   CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel()
-                                   {
-                                       CurrencyUnitId = p.ProductCurrencyUnitId
-                                   },
+                                   
 
                                    OrderDescription = p.ProductOrderDescription,
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup
@@ -580,8 +590,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId; 
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientCityId = null;
@@ -602,8 +611,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId;
-                order.ProductCurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
+                order.RecipientCountryId = model.Country.CountryId; 
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 recipientAddress.Name = model.RecipientAddress;
@@ -890,30 +898,11 @@ namespace Warehouse.Service.Admin
 
 
 
-            var cargoService = _context.CargoServiceTypes.Find(model.CargoService.CargoServiceId);
-
-            if (cargoService.Id == 1)
-            {
-                model.TotalPrice = (double)model.Desi * 7.362 * 4;
-                model.Description = "Tahmini teslim süresi 1-3 iş günü arasındadır.";
-            }
-            else if (cargoService.Id == 2)
-            {
-                model.TotalPrice = (double)model.Desi * 7.362 * 2;
-                model.Description = "Tahmini teslim süresi 4-6 iş günü arasındadır.";
-            }
-            else if (cargoService.Id == 10002)
-            {
-                model.TotalPrice = (double)model.Desi * 7.362 * 2.5;
-                model.Description = "Tahmini teslim süresi 2-4 iş günü arasındadır.";
-            }
-            else if (cargoService.Id == 10006)
-            {
-                model.TotalPrice = (double)model.Desi * 7.362 * 3;
-                model.Description = "Tahmini teslim süresi 3-5 iş günü arasındadır.";
-            }
-
-            model.Service = cargoService.Name;
+            var shipping = _context.ShippingPrices.Where(x => x.Id == model.CargoService.CargoServiceId).FirstOrDefault();
+            var country = _context.Countries.Where(x=>x.Id == model.Country.CountryId).FirstOrDefault();
+            var currency = _context.CurrencyUnits.Where(x => x.Id == country.CurrencyUnitId).FirstOrDefault(); 
+            model.Service = shipping.CargoServiceName;
+            model.Icon = currency.Icon;
 
 
 

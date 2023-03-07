@@ -37,7 +37,6 @@ namespace Warehouse.Data
         public string RecipientPhone { get; set; }
         public string RecipientIdentityNumber { get; set; }
         public string RecipientMail { get; set; }
-        public Nullable<long> ProductCurrencyUnitId { get; set; }
         public string ProductOrderDescription { get; set; }
         public Nullable<long> CargoServiceTypeId { get; set; }
         public Nullable<int> PackageCount { get; set; }
@@ -47,9 +46,10 @@ namespace Warehouse.Data
         public Nullable<long> CustomerId { get; set; }
     
         public virtual CargoServiceTypes CargoServiceTypes { get; set; }
+        public virtual Cities Cities { get; set; }
         public virtual Countries Countries { get; set; }
-        public virtual CurrencyUnits CurrencyUnits { get; set; }
         public virtual Languages Languages { get; set; }
+        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Packages> Packages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,7 +58,5 @@ namespace Warehouse.Data
         public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
-        public virtual Users Users { get; set; }
-        public virtual Cities Cities { get; set; }
     }
 }

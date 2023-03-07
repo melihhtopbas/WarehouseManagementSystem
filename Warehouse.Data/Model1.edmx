@@ -70,6 +70,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="Active" Type="bit" />
+          <Property Name="CurrencyUnitId" Type="bigint" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -79,6 +80,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="LanguageId" Type="bigint" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="FAQ">
           <Key>
@@ -130,7 +132,6 @@
           <Property Name="RecipientPhone" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="RecipientIdentityNumber" Type="nvarchar" MaxLength="11" />
           <Property Name="RecipientMail" Type="nvarchar" MaxLength="100" />
-          <Property Name="ProductCurrencyUnitId" Type="bigint" />
           <Property Name="ProductOrderDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CargoServiceTypeId" Type="bigint" />
           <Property Name="PackageCount" Type="int" />
@@ -255,6 +256,17 @@
           <Property Name="Copyright" Type="nvarchar(max)" />
           <Property Name="LanguageId" Type="bigint" Nullable="false" />
         </EntityType>
+        <EntityType Name="ShippingPrices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CargoServiceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LanguageId" Type="bigint" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CountryId" Type="bigint" />
+          <Property Name="Price" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Sliders">
           <Key>
             <PropertyRef Name="Id" />
@@ -351,6 +363,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Countries_CurrencyUnits">
+          <End Role="CurrencyUnits" Type="Self.CurrencyUnits" Multiplicity="0..1" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrencyUnits">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="CurrencyUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Countries_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
           <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
@@ -444,18 +468,6 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="RecipientCountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_CurrencyUnits">
-          <End Role="CurrencyUnits" Type="Self.CurrencyUnits" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CurrencyUnits">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ProductCurrencyUnitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -579,6 +591,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ShippingPrices_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="ShippingPrices" Type="Self.ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShippingPrices_Languages">
+          <End Role="Languages" Type="Self.Languages" Multiplicity="0..1" />
+          <End Role="ShippingPrices" Type="Self.ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sliders_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
           <End Role="Sliders" Type="Self.Sliders" Multiplicity="*" />
@@ -636,6 +672,7 @@
           <EntitySet Name="References" EntityType="Self.References" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SenderAddresses" EntityType="Self.SenderAddresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingPrices" EntityType="Self.ShippingPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sliders" EntityType="Self.Sliders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_About_Languages" Association="Self.FK_About_Languages">
@@ -657,6 +694,10 @@
           <AssociationSet Name="FK_Cities_Languages" Association="Self.FK_Cities_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Countries_CurrencyUnits" Association="Self.FK_Countries_CurrencyUnits">
+            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
+            <End Role="Countries" EntitySet="Countries" />
           </AssociationSet>
           <AssociationSet Name="FK_Countries_Languages" Association="Self.FK_Countries_Languages">
             <End Role="Languages" EntitySet="Languages" />
@@ -688,10 +729,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Countries" Association="Self.FK_Orders_Countries">
             <End Role="Countries" EntitySet="Countries" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_CurrencyUnits" Association="Self.FK_Orders_CurrencyUnits">
-            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Languages" Association="Self.FK_Orders_Languages">
@@ -734,6 +771,14 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Settings" EntitySet="Settings" />
           </AssociationSet>
+          <AssociationSet Name="FK_ShippingPrices_Countries" Association="Self.FK_ShippingPrices_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShippingPrices_Languages" Association="Self.FK_ShippingPrices_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
           <AssociationSet Name="FK_Sliders_Languages" Association="Self.FK_Sliders_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Sliders" EntitySet="Sliders" />
@@ -757,9 +802,9 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" FromRole="CargoServiceTypes" ToRole="Languages" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
@@ -767,12 +812,15 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Countries_Languages" FromRole="Countries" ToRole="Languages" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
           <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Countries" ToRole="Users" />
+          <Property Name="CurrencyUnitId" Type="Int64" />
+          <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits" FromRole="Countries" ToRole="CurrencyUnits" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
+          <NavigationProperty Name="ShippingPrices" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Countries" FromRole="Countries" ToRole="ShippingPrices" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -780,10 +828,11 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="CurrencyUnits" ToRole="Orders" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" FromRole="CurrencyUnits" ToRole="Languages" />
+          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits" FromRole="CurrencyUnits" ToRole="Countries" />
+          <Property Name="Icon" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Languages">
           <Key>
@@ -791,7 +840,6 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Sliders" Relationship="WarehouseManagementSystemModel.FK_Sliders_Languages" FromRole="Languages" ToRole="Sliders" />
           <NavigationProperty Name="About" Relationship="WarehouseManagementSystemModel.FK_About_Languages" FromRole="Languages" ToRole="About" />
@@ -806,6 +854,8 @@
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Cities_Languages" FromRole="Languages" ToRole="Cities" />
           <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" FromRole="Languages" ToRole="CargoServiceTypes" />
           <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_CurrencyUnits_Languages" FromRole="Languages" ToRole="CurrencyUnits" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Languages" ToRole="Orders" />
+          <NavigationProperty Name="ShippingPrices" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Languages" FromRole="Languages" ToRole="ShippingPrices" />
         </EntityType>
         <EntityContainer Name="WarehouseManagementSystemEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CargoServiceTypes" EntityType="Self.CargoServiceTypes" />
@@ -820,39 +870,6 @@
           <AssociationSet Name="FK_PackagedProductGroups_Packages" Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages">
             <End Role="Packages" EntitySet="Packages" />
             <End Role="PackagedProductGroups" EntitySet="PackagedProductGroups" />
-          </AssociationSet>
-          <EntitySet Name="Orders" EntityType="WarehouseManagementSystemModel.Orders" />
-          <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes">
-            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Countries" Association="WarehouseManagementSystemModel.FK_Orders_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_CurrencyUnits" Association="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits">
-            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Languages" Association="WarehouseManagementSystemModel.FK_Orders_Languages">
-            <End Role="Languages" EntitySet="Languages" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Packages_Orders" Association="WarehouseManagementSystemModel.FK_Packages_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="Packages" EntitySet="Packages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductTransactionGroup_Orders" Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RecipientAddresses_Orders" Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="RecipientAddresses" EntitySet="RecipientAddresses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SenderAddresses_Orders" Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders">
-            <End Role="Orders" EntitySet="Orders" />
-            <End Role="SenderAddresses" EntitySet="SenderAddresses" />
           </AssociationSet>
           <EntitySet Name="Sliders" EntityType="WarehouseManagementSystemModel.Sliders" />
           <AssociationSet Name="FK_Sliders_Languages" Association="WarehouseManagementSystemModel.FK_Sliders_Languages">
@@ -894,10 +911,6 @@
             <End Role="FAQCategories" EntitySet="FAQCategories" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="WarehouseManagementSystemModel.Users" />
-          <AssociationSet Name="FK_Orders_Users" Association="WarehouseManagementSystemModel.FK_Orders_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_Countries_Languages" Association="WarehouseManagementSystemModel.FK_Countries_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Countries" EntitySet="Countries" />
@@ -917,10 +930,6 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Cities" EntitySet="Cities" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orders_Cities" Association="WarehouseManagementSystemModel.FK_Orders_Cities">
-            <End Role="Cities" EntitySet="Cities" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_CargoServiceTypes_Languages" Association="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
@@ -938,6 +947,56 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="Contact" EntityType="WarehouseManagementSystemModel.Contact" />
+          <AssociationSet Name="FK_Countries_CurrencyUnits" Association="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits">
+            <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="WarehouseManagementSystemModel.Orders" />
+          <AssociationSet Name="FK_Orders_CargoServiceTypes" Association="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes">
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Cities" Association="WarehouseManagementSystemModel.FK_Orders_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Countries" Association="WarehouseManagementSystemModel.FK_Orders_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Languages" Association="WarehouseManagementSystemModel.FK_Orders_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="WarehouseManagementSystemModel.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Packages_Orders" Association="WarehouseManagementSystemModel.FK_Packages_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Packages" EntitySet="Packages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTransactionGroup_Orders" Association="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ProductTransactionGroup" EntitySet="ProductTransactionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipientAddresses_Orders" Association="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="RecipientAddresses" EntitySet="RecipientAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SenderAddresses_Orders" Association="WarehouseManagementSystemModel.FK_SenderAddresses_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="SenderAddresses" EntitySet="SenderAddresses" />
+          </AssociationSet>
+          <EntitySet Name="ShippingPrices" EntityType="WarehouseManagementSystemModel.ShippingPrices" />
+          <AssociationSet Name="FK_ShippingPrices_Countries" Association="WarehouseManagementSystemModel.FK_ShippingPrices_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShippingPrices_Languages" Association="WarehouseManagementSystemModel.FK_ShippingPrices_Languages">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -986,8 +1045,8 @@
           <Property Name="isPackage" Type="Boolean" />
           <Property Name="isReadOnly" Type="Boolean" />
           <Property Name="isPackagedCount" Type="Int32" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
           <Property Name="isPackagedCount2" Type="Int32" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
         </EntityType>
         <EntityType Name="PackagedProductGroups">
           <Key>
@@ -1011,139 +1070,6 @@
             </Principal>
             <Dependent Role="PackagedProductGroups">
               <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Orders">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SenderMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SenderInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SenderPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="SenderIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientCityId" Type="Int64" />
-          <Property Name="RecipientCountryId" Type="Int64" />
-          <Property Name="RecipientZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="RecipientMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ProductCurrencyUnitId" Type="Int64" />
-          <Property Name="ProductOrderDescription" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CargoServiceTypeId" Type="Int64" />
-          <Property Name="PackageCount" Type="Int32" />
-          <Property Name="LanguageId" Type="Int64" />
-          <Property Name="isPackage" Type="Boolean" />
-          <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="Orders" ToRole="CargoServiceTypes" />
-          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
-          <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Orders_CurrencyUnits" FromRole="Orders" ToRole="CurrencyUnits" />
-          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
-          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
-          <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
-          <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
-          <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="CustomerId" Type="Int64" />
-          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
-          <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Orders" ToRole="Cities" />
-        </EntityType>
-        <Association Name="FK_Orders_CargoServiceTypes">
-          <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CargoServiceTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="CargoServiceTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Countries">
-          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Countries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="RecipientCountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_CurrencyUnits">
-          <End Type="WarehouseManagementSystemModel.CurrencyUnits" Role="CurrencyUnits" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CurrencyUnits">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ProductCurrencyUnitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Languages">
-          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Languages">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="LanguageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Packages_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Packages">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductTransactionGroup_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.ProductTransactionGroup" Role="ProductTransactionGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductTransactionGroup">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RecipientAddresses_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.RecipientAddresses" Role="RecipientAddresses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RecipientAddresses">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SenderAddresses_Orders">
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.SenderAddresses" Role="SenderAddresses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orders">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SenderAddresses">
-              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1372,25 +1298,13 @@
           <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
           <Property Name="CountryId" Type="Int64" />
           <Property Name="CityId" Type="Int64" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
           <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
         </EntityType>
-        <Association Name="FK_Orders_Users">
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Countries_Languages">
           <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="*" />
@@ -1447,8 +1361,8 @@
           <Property Name="LanguageId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Cities_Languages" FromRole="Cities" ToRole="Languages" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Cities" ToRole="Orders" />
           <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Cities" ToRole="Users" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Cities" ToRole="Orders" />
         </EntityType>
         <Association Name="FK_Cities_Countries">
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
@@ -1471,18 +1385,6 @@
             </Principal>
             <Dependent Role="Cities">
               <PropertyRef Name="LanguageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Cities">
-          <End Type="WarehouseManagementSystemModel.Cities" Role="Cities" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cities">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="RecipientCityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1547,6 +1449,198 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="isShow" Type="Boolean" />
         </EntityType>
+        <Association Name="FK_Countries_CurrencyUnits">
+          <End Type="WarehouseManagementSystemModel.CurrencyUnits" Role="CurrencyUnits" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrencyUnits">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="CurrencyUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SenderMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SenderInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SenderPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="SenderIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientCityId" Type="Int64" />
+          <Property Name="RecipientCountryId" Type="Int64" />
+          <Property Name="RecipientZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientInvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientPhone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientIdentityNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductOrderDescription" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CargoServiceTypeId" Type="Int64" />
+          <Property Name="PackageCount" Type="Int32" />
+          <Property Name="LanguageId" Type="Int64" />
+          <Property Name="isPackage" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="CustomerId" Type="Int64" />
+          <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="Orders" ToRole="CargoServiceTypes" />
+          <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Orders" ToRole="Cities" />
+          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
+          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
+          <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
+          <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
+          <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
+        </EntityType>
+        <Association Name="FK_Orders_CargoServiceTypes">
+          <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CargoServiceTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CargoServiceTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Cities">
+          <End Type="WarehouseManagementSystemModel.Cities" Role="Cities" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="RecipientCityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Countries">
+          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="RecipientCountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Packages_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Packages">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTransactionGroup_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.ProductTransactionGroup" Role="ProductTransactionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductTransactionGroup">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipientAddresses_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.RecipientAddresses" Role="RecipientAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipientAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SenderAddresses_Orders">
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.SenderAddresses" Role="SenderAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SenderAddresses">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ShippingPrices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CargoServiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LanguageId" Type="Int64" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CountryId" Type="Int64" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Countries" FromRole="ShippingPrices" ToRole="Countries" />
+          <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Languages" FromRole="ShippingPrices" ToRole="Languages" />
+        </EntityType>
+        <Association Name="FK_ShippingPrices_Countries">
+          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.ShippingPrices" Role="ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShippingPrices_Languages">
+          <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.ShippingPrices" Role="ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1565,6 +1659,7 @@
           <EntitySetMapping Name="Countries">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Countries">
               <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="CurrencyUnitId" ColumnName="CurrencyUnitId" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1575,6 +1670,7 @@
           <EntitySetMapping Name="CurrencyUnits">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.CurrencyUnits">
               <MappingFragment StoreEntitySet="CurrencyUnits">
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -1650,34 +1746,6 @@
                 <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Orders">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="isPackage" ColumnName="isPackage" />
-                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
-                <ScalarProperty Name="PackageCount" ColumnName="PackageCount" />
-                <ScalarProperty Name="CargoServiceTypeId" ColumnName="CargoServiceTypeId" />
-                <ScalarProperty Name="ProductOrderDescription" ColumnName="ProductOrderDescription" />
-                <ScalarProperty Name="ProductCurrencyUnitId" ColumnName="ProductCurrencyUnitId" />
-                <ScalarProperty Name="RecipientMail" ColumnName="RecipientMail" />
-                <ScalarProperty Name="RecipientIdentityNumber" ColumnName="RecipientIdentityNumber" />
-                <ScalarProperty Name="RecipientPhone" ColumnName="RecipientPhone" />
-                <ScalarProperty Name="RecipientInvoiceNumber" ColumnName="RecipientInvoiceNumber" />
-                <ScalarProperty Name="RecipientZipCode" ColumnName="RecipientZipCode" />
-                <ScalarProperty Name="RecipientCountryId" ColumnName="RecipientCountryId" />
-                <ScalarProperty Name="RecipientCityId" ColumnName="RecipientCityId" />
-                <ScalarProperty Name="RecipientName" ColumnName="RecipientName" />
-                <ScalarProperty Name="SenderIdentityNumber" ColumnName="SenderIdentityNumber" />
-                <ScalarProperty Name="SenderPhone" ColumnName="SenderPhone" />
-                <ScalarProperty Name="SenderInvoiceNumber" ColumnName="SenderInvoiceNumber" />
-                <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1857,6 +1925,45 @@
                 <ScalarProperty Name="Mail" ColumnName="Mail" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="isPackage" ColumnName="isPackage" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="PackageCount" ColumnName="PackageCount" />
+                <ScalarProperty Name="CargoServiceTypeId" ColumnName="CargoServiceTypeId" />
+                <ScalarProperty Name="ProductOrderDescription" ColumnName="ProductOrderDescription" />
+                <ScalarProperty Name="RecipientMail" ColumnName="RecipientMail" />
+                <ScalarProperty Name="RecipientIdentityNumber" ColumnName="RecipientIdentityNumber" />
+                <ScalarProperty Name="RecipientPhone" ColumnName="RecipientPhone" />
+                <ScalarProperty Name="RecipientInvoiceNumber" ColumnName="RecipientInvoiceNumber" />
+                <ScalarProperty Name="RecipientZipCode" ColumnName="RecipientZipCode" />
+                <ScalarProperty Name="RecipientCountryId" ColumnName="RecipientCountryId" />
+                <ScalarProperty Name="RecipientCityId" ColumnName="RecipientCityId" />
+                <ScalarProperty Name="RecipientName" ColumnName="RecipientName" />
+                <ScalarProperty Name="SenderIdentityNumber" ColumnName="SenderIdentityNumber" />
+                <ScalarProperty Name="SenderPhone" ColumnName="SenderPhone" />
+                <ScalarProperty Name="SenderInvoiceNumber" ColumnName="SenderInvoiceNumber" />
+                <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippingPrices">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ShippingPrices">
+              <MappingFragment StoreEntitySet="ShippingPrices">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="CargoServiceName" ColumnName="CargoServiceName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

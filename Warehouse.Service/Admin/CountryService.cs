@@ -24,12 +24,7 @@ namespace Warehouse.Service.Admin
         }
         private IQueryable<CountryListViewModel> _getCountryListIQueryable(Expression<Func<Data.Countries, bool>> expr)
         {
-            var model = _context.Countries.ToList();
-            foreach (var item in model)
-            {
-                item.LanguageId = 1; 
-            }
-            _context.SaveChanges();
+            
 
             return (from b in _context.Countries.AsExpandable().Where(expr)
                     select new CountryListViewModel()
@@ -37,7 +32,8 @@ namespace Warehouse.Service.Admin
                         Id= b.Id,
                         Name = b.Name,
                         LanguageId = b.LanguageId,
-                        Active = (bool)b.Active
+                        Active = (bool)b.Active,
+                        CurrencyUnitName = b.CurrencyUnits.Name
 
                     });
         }
@@ -62,7 +58,8 @@ namespace Warehouse.Service.Admin
                 Id = b.Id,
                 Name = b.Name,
                 Active= (bool)b.Active,
-                LanguageId = b.LanguageId
+                LanguageId = b.LanguageId,
+                CurrencyUnitName = b.CurrencyUnits.Name
 
 
             }).ToList();
@@ -93,7 +90,9 @@ namespace Warehouse.Service.Admin
 
                 Name = model.Name,
                 LanguageId = model.LanguageId,
-                Active = model.Active
+                Active = model.Active,
+                CurrencyUnitId = model.CurrenyUnit.CurrencyUnitId
+                
                 
                 
                 
@@ -134,7 +133,11 @@ namespace Warehouse.Service.Admin
                                      Name = p.Name,
                                      Id = p.Id,
                                      LanguageId = p.LanguageId,
-                                     Active = (bool)p.Active
+                                     Active = (bool)p.Active,
+                                     CurrenyUnit = new OrderCurrencyUnitIdSelectViewModel()
+                                     {
+                                         CurrencyUnitId = p.CurrencyUnitId
+                                     }
                                      
 
                                  }).FirstOrDefaultAsync();
@@ -160,6 +163,7 @@ namespace Warehouse.Service.Admin
 
             country.Name = model.Name;
             country.Active = model.Active;
+            country.CurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
 
 
            

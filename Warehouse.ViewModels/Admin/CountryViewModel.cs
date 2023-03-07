@@ -18,6 +18,7 @@ namespace Warehouse.ViewModels.Admin
         public bool Active { get; set; }
 
         public long? LanguageId { get; set; }
+        public OrderCurrencyUnitIdSelectViewModel CurrenyUnit { get; set; }
     }
     public class CountryListViewModel
     {
@@ -28,6 +29,8 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Dil")]
         public long? LanguageId { get; set; }
         public bool? Active { get; set; }
+        [Display(Name = "Para Birimi")]
+        public string CurrencyUnitName { get; set; }
 
     }
 

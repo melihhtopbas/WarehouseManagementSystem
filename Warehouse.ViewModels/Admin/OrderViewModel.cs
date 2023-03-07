@@ -238,6 +238,7 @@ namespace Warehouse.ViewModels.Admin
 
         public string Service { get; set; }
         public string Description { get; set; }
+        public string Icon { get; set; }
         public double? TotalPrice { get; set; }
 
 

@@ -92,6 +92,7 @@
     <Compile Include="Admin\OrderPackageViewModel.cs" />
     <Compile Include="Admin\OrderViewModel.cs" />
     <Compile Include="Admin\ProductTransactionGroupViewModel.cs" />
+    <Compile Include="Admin\ShippingPriceViewModel.cs" />
     <Compile Include="Admin\SliderViewModel.cs" />
     <Compile Include="Admin\UserViewModel.cs" />
     <Compile Include="Common\CurrentUserViewModel.cs" />

@@ -44,7 +44,11 @@
         
 
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
+             
+                <div class="row">
+                    @Html.EditorFor(m => m.CurrenyUnit)
+                </div>
+             
         </div>
       
         <div class="form-group form-group-sm col-xs-12 @Html.ModelStateFor(m => m.Active)">
