@@ -32,7 +32,10 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
            var model =  _customerOrderSettingService.Detail(customerId);
             ViewBag.Languages = await _customerOrderSettingService.GetLanguageListViewAsync();
             ViewBag.CustomerId = await _customerOrderSettingService.GetCustomerListViewAsync(customerId);
-            ViewBag.CustomerName = _context.Users.FirstOrDefault(x=>x.Id == customerId).UserName;
+            ViewBag.CustomerUserName = _context.Users.FirstOrDefault(x=>x.Id == customerId).UserName;
+            ViewBag.CustomerName = _context.Users.FirstOrDefault(a => a.Id == customerId).Name+ " " + _context.Users.FirstOrDefault(a => a.Id == customerId).Surname;
+
+
             return View("~/Areas/Admin/Views/CustomerOrderSetting/Index.cshtml");
         }
         [AjaxOnly, HttpPost, ValidateInput(false)]

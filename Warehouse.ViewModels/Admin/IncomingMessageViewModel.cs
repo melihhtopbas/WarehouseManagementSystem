@@ -24,5 +24,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(ResourceType = typeof(Localization.WebSiteViewItems.WebSiteViewItems), Name = "Subject")]
         public string Subject { get; set; }
         public int TimeHour { get; set; } 
+        public int TimeDay { get; set; } 
+        public int TimeMinute { get; set; } 
     }
 }

@@ -383,6 +383,7 @@
     <Content Include="Areas\Admin\Content\bootstrap-theme.min.css" />
     <Content Include="Areas\Admin\Content\bootstrap.css" />
     <Content Include="Areas\Admin\Content\bootstrap.min.css" />
+    <Content Include="Areas\Admin\Content\dropdown.css" />
     <Content Include="Areas\Admin\Content\font-awesome.css" />
     <Content Include="Areas\Admin\Content\font-awesome.min.css" />
     <Content Include="Areas\Admin\Content\kendo\2022.2.802\ascx\Boolean.ascx" />

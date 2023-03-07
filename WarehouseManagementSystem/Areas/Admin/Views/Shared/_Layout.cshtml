@@ -10,8 +10,8 @@
     <link href="~/Areas/Admin/Content/style.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/loadingoverlay.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/dropdown.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Scripts/prawms.jquery.min.js"></script>
-
 
 
 </head>
@@ -59,36 +59,55 @@
                         }
                         else if (CurrentUserViewModel.Role == "admin")
                         {
-                            <ul class="dropdown-menu">
-                                <li class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</li>
+                            <div class="dropdown-menu" style="border: 1px solid rgba(0,0,0,.15); bottom:auto ">
+                                <div class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</div>
                                 @foreach (var item in IncomingMessageViewModel)
                                 {
 
 
-                                    <li>
+                                   
                                         <!-- inner menu: contains the actual data -->
-                                        <ul class="menu messages-ecommerce-menu">
-                                            <div class="media">
-                                                <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
-                                                   class="margin-bottom"
-                                                   data-modal-form="true"
-                                                   data-modal-title="Gelen kutusu"
-                                                   data-hook-beforeunload="true"
-                                                   data-modal-size="modal-ml">
+                                        <div class="menu messages-ecommerce-menu">
+                                            <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
+                                               class="dropdown-item"
+                                               style="display:block; text-align:center"
+                                               data-modal-form="true"
+                                               data-modal-title="Gelen kutusu"
+                                               data-hook-beforeunload="true"
+                                               data-modal-size="modal-ml">
+
+                                                <div class="media" style="display:flex; align-items:flex-start">
 
 
-                                                    <div class="media-body">
-                                                        <h6 class="dropdown-item-title" style="color:black">@item.FullName</h6>
-                                                        <p class="text-sm">@item.Subject</p>
+                                                    <div class="media-body" style="flex:1">
+                                                        <h6 class="dropdown-item-title" style="color:black">Gönderen: <strong>@item.FullName</strong></h6>
+                                                        <p class="text-sm">Konu: @item.Subject</p>
+                                                        @if (item.TimeMinute == 0 && item.TimeDay == 0 && item.TimeHour == 0)
+                                                        {
+                                                            <span><i class="far fa-clock mr-1"></i>Az önce</span>
+                                                        }
+                                                        @if (item.TimeMinute > 0 && item.TimeMinute <= 59 && item.TimeDay < 1 && item.TimeHour < 1)
+                                                        {
+                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeMinute dakika önce</span>
+                                                        }
+                                                        @if (item.TimeMinute >= 60 && item.TimeHour >= 1 && item.TimeHour <= 23 && item.TimeDay < 1)
+                                                        {
+                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeHour saat önce</span>
+                                                        }
+                                                        @if (item.TimeMinute >= 60 && item.TimeHour >= 24 && item.TimeDay >= 1)
+                                                        {
+                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeDay gün önce</span>
+                                                        }
                                                     </div>
-                                                </a>
-                                            </div>
-                                        </ul>
-                                    </li>
-                                    <hr />
+                                                </div>
+                                            </a>
+                                         <div class="dropdown-divider"><hr /></div>
+                                        </div>
+                                     
+                                    
                                 }
-                            <a class="dropdown-item dropdown-footer"  href="/admin/contactform">Bütün mesajları gör</a>
-                            </ul>
+                            <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/contactform">Bütün mesajları gör</a>
+                            </div>
                         }
                         
                     </li>

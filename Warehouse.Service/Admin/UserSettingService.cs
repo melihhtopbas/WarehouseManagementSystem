@@ -38,6 +38,7 @@ namespace Warehouse.Service.Admin
                          City = b.Cities.Name,
                          Country = b.Countries.Name,
                          UserName= b.UserName,
+                         CustomerOrderCount = b.Orders.Count()
                         
 
                     });

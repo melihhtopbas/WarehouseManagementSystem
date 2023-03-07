@@ -875,7 +875,6 @@
             <End Role="Properties" EntitySet="Properties" />
           </AssociationSet>
           <EntitySet Name="Blog" EntityType="WarehouseManagementSystemModel.Blog" />
-          <EntitySet Name="Contact" EntityType="WarehouseManagementSystemModel.Contact" />
           <EntitySet Name="FAQ" EntityType="WarehouseManagementSystemModel.FAQ" />
           <AssociationSet Name="FK_Blog_Languages" Association="WarehouseManagementSystemModel.FK_Blog_Languages">
             <End Role="Languages" EntitySet="Languages" />
@@ -938,6 +937,7 @@
             <End Role="Countries" EntitySet="Countries" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Contact" EntityType="WarehouseManagementSystemModel.Contact" />
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -1285,19 +1285,6 @@
           <Property Name="FileName2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Blog_Languages" FromRole="Blog" ToRole="Languages" />
         </EntityType>
-        <EntityType Name="Contact">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="isShow" Type="Boolean" />
-        </EntityType>
         <EntityType Name="FAQ">
           <Key>
             <PropertyRef Name="Id" />
@@ -1547,6 +1534,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isShow" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1772,20 +1772,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Contact">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Contact">
-              <MappingFragment StoreEntitySet="Contact">
-                <ScalarProperty Name="isShow" ColumnName="isShow" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="FAQ">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.FAQ">
               <MappingFragment StoreEntitySet="FAQ">
@@ -1857,6 +1843,20 @@
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="isShow" ColumnName="isShow" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
