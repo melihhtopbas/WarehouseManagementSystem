@@ -48,5 +48,7 @@ namespace Warehouse.Data
         public virtual DbSet<Contact> Contact { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<ShippingPrices> ShippingPrices { get; set; }
+        public virtual DbSet<TicketAnswers> TicketAnswers { get; set; }
+        public virtual DbSet<Tickets> Tickets { get; set; }
     }
 }

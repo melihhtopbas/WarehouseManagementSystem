@@ -12,18 +12,18 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ShippingPrices
+    public partial class TicketAnswers
     {
         public long Id { get; set; }
-        public Nullable<long> CargoServiceId { get; set; }
-        public Nullable<long> LanguageId { get; set; }
-        public bool Active { get; set; }
-        public Nullable<long> CountryId { get; set; }
-        public decimal Price { get; set; }
-        public string DeliveryTime { get; set; }
+        public Nullable<long> TicketId { get; set; }
+        public string AnsweringPerson { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+        public bool isShow { get; set; }
+        public System.DateTime Date { get; set; }
+        public Nullable<long> UserId { get; set; }
     
-        public virtual CargoServiceTypes CargoServiceTypes { get; set; }
-        public virtual Countries Countries { get; set; }
-        public virtual Languages Languages { get; set; }
+        public virtual Tickets Tickets { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

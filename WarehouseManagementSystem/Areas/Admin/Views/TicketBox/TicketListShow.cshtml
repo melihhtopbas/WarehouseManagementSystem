@@ -1,0 +1,68 @@
+﻿@model IPagedList<Warehouse.ViewModels.Common.TicketBoxShowViewModel>
+@{
+    Layout = null;
+}
+<div class="products-list-tools clearfix">
+
+
+
+    <div class="pull-right hidden-xs hidden-sm">
+        @if (Model.Any())
+        {
+            <div style="margin: 20px 0; float: left !important;">
+                @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+            </div>
+        }
+
+        &nbsp;
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "TicketBoxListShowContainer" }).Options(o => o
+            .Action("TicketListShow")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+
+
+            )
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Gönderen</th>
+            <th>Konu</th>
+            <th>Tarih</th>
+            <th style="width:50px">İncele</th>
+            <th style="width:50px">Sil</th>
+            <th style="width:50px">Sonuç</th>
+            <th style="width:50px">Cevap</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody id="TicketBoxListShow">
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+<div class="pull-left">
+
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "TicketBoxListShowContainer" }).Options(o => o
+        .Action("TicketListShow")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+

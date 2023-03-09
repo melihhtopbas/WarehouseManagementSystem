@@ -10,7 +10,9 @@ using LinqKit;
 using Warehouse.ViewModels.Common;
 using System.Data.Entity;
 using System.Net.Http;
-using System.Web.Mvc; 
+using System.Web.Mvc;
+using System.Web;
+using Microsoft.VisualBasic;
 
 namespace Warehouse.Service.Admin
 {
@@ -32,8 +34,9 @@ namespace Warehouse.Service.Admin
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
-            
+             
 
+            
 
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
@@ -144,7 +147,7 @@ namespace Warehouse.Service.Admin
             {
 
                 Id = b.Id,
-                Name = b.CargoServiceName,
+                Name = b.CargoServiceTypes.Name
 
 
 
@@ -901,8 +904,24 @@ namespace Warehouse.Service.Admin
             var shipping = _context.ShippingPrices.Where(x => x.Id == model.CargoService.CargoServiceId).FirstOrDefault();
             var country = _context.Countries.Where(x=>x.Id == model.Country.CountryId).FirstOrDefault();
             var currency = _context.CurrencyUnits.Where(x => x.Id == country.CurrencyUnitId).FirstOrDefault(); 
-            model.Service = shipping.CargoServiceName;
+            model.Service = shipping.CargoServiceTypes.Name;
             model.Icon = currency.Icon;
+            model.TotalPrice = (double?)(model.Desi * shipping.Price);
+            model.DeliveryTime = shipping.DeliveryTime;
+            if (model.DeliveryTime != null)
+            {
+               
+                model.Description = "Kargonuz " + model.Service + " kargo firması ile " + model.DeliveryTime + " iş günü içerisinde teslim edilecektir ";
+                
+
+
+            }
+            else
+            {
+                model.Description = "Kargonuz " + model.Service + " kargo firması ile teslim edilecektir";
+            }
+       
+
 
 
 

@@ -1,1 +1,524 @@
-﻿
+﻿.contact-page-form .container1 {
+    max-width: 980px;
+}
+
+.contact-page-form .section-heading {
+    margin-bottom: 6rem;
+}
+
+.contact-page-form .form-content1 {
+    color: #555555;
+    background: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 0 0 3rem;
+}
+
+    .contact-page-form .form-content1 .form-container1 {
+        padding-top: 0;
+    }
+
+        .contact-page-form .form-content1 .form-container1 form .form-control1 {
+            background: transparent;
+            border-bottom: 2px solid #e6e6e6;
+        }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1::-webkit-input-placeholder {
+                color: #555555 !important;
+            }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1:-moz-placeholder {
+                /* Firefox 18- */
+                color: #555555 !important;
+            }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1::-moz-placeholder {
+                /* Firefox 19+ */
+                color: #555555 !important;
+            }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1:-ms-input-placeholder {
+                /* IE 10+ */
+                color: #555555 !important;
+            }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1::-ms-input-placeholder {
+                /* Edge */
+                color: #555555 !important;
+            }
+
+            .contact-page-form .form-content1 .form-container1 form .form-control1:placeholder-shown {
+                /* Standard one last! */
+                color: #555555 !important;
+            }
+
+        .contact-page-form .form-content1 .form-container1 form .form-control1focus {
+            border-color: #5c81fa;
+        }
+
+        .contact-page-form .form-content1 .form-container1 form .checkbox-holder .form-check .form-check-label {
+            color: #555555;
+        }
+
+        .contact-page-form .form-content1 .form-container1 form .checkbox-holder .checkbox-title {
+            color: #555555;
+        }
+
+        .contact-page-form .form-content1 .form-container1 form .form-check-input + label {
+            margin-right: 0;
+        }
+
+    .contact-page-form .form-content1 .form-container form .form-check-input + label::after {
+        background-color: transparent;
+    }
+
+    .contact-page-form .form-content1 .form-container1 form .primary-btn {
+        margin-bottom: 0;
+    }
+
+.form-content1 {
+    padding: 3rem 4rem;
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+}
+
+    .form-content1 .form-heading {
+        border-bottom: 1px solid #e1e1e1;
+        padding-bottom: 3rem;
+        position: relative;
+    }
+
+        .form-content1 .form-heading h3 {
+            line-height: 3.6rem;
+            color: #333333;
+            margin-top: 10px;
+            -webkit-transition: all .5s;
+            -o-transition: all .5s;
+            transition: all .5s;
+        }
+
+            .form-content1 .form-heading h3.hidden {
+                display: none;
+                opacity: 0;
+            }
+
+        .form-content1 .form-heading .primary-btn {
+            color: #ffffff;
+        }
+
+            .form-content1 .form-heading .primary-btn:hover {
+                color: #ffffff;
+            }
+
+        .form-content1 .form-heading .ff-close-btn {
+            font-size: 1.8rem;
+            line-height: 5rem;
+            padding: 0 3rem;
+            color: #979797;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            -ms-border-radius: 30px;
+            border-radius: 30px;
+            border: 1px solid #e1e1e1;
+        }
+
+            .form-content1 .form-heading .ff-close-btn:hover {
+                color: #5c81fa;
+                border-color: #5c81fa;
+            }
+
+    .form-content1 .form-container1 {
+        padding-top: 3.3rem;
+    }
+
+        .form-content1 .form-container1 form .form-group1 {
+            margin: 0;
+        }
+
+            .form-content1 .form-container1 form .form-group1 .form-control1 {
+                padding: 0;
+                margin-bottom: 2.3rem;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                -ms-border-radius: 0;
+                border-radius: 0;
+            }
+
+            .form-content1 .form-container1 form .form-group1 textarea.form-control1 {
+                min-height: 11rem;
+                margin: 3.1rem 0 4rem;
+            }
+
+            .form-content1 .form-container1 form .form-group1 select {
+                height: 40px;
+            }
+
+                .form-content1 .form-container1 form .form-group1 select option {
+                    font-size: 1.4rem;
+                    font-weight: 300;
+                }
+
+            .form-content1 .form-container1 form .form-group1 input[type=file] {
+                width: 190px;
+                height: 40px;
+                color: transparent;
+                background: transparent;
+                border: none;
+            }
+
+        .form-content1 .form-container1 form .fileinputgroup {
+            width: 100%;
+            padding: 2rem 15px;
+        }
+
+            .form-content1 .form-container1 form .fileinputgroup .file-input {
+                width: 100%;
+                margin-bottom: 5rem;
+                padding: 0 3px;
+            }
+
+                .form-content1 .form-container1 form .fileinputgroup .file-input .custom-file-control {
+                    width: 200px;
+                    height: 40px;
+                    font-size: 1.6rem;
+                    line-height: 30px;
+                    color: #555555;
+                    font-weight: 300;
+                    text-align: center;
+                    border: 1px solid #e1e1e1;
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    -ms-border-radius: 5px;
+                    border-radius: 5px;
+                }
+
+                .form-content1 .form-container1 form .fileinputgroup .file-input .fileLabel {
+                    position: absolute;
+                    top: 45%;
+                    left: 215px;
+                    right: 0;
+                    font-size: 1.7rem;
+                    line-height: 2rem;
+                    color: #777777;
+                    font-weight: 300;
+                    font-style: italic;
+                    padding-left: 2.5rem;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    -webkit-transform: translateY(-50%);
+                    -ms-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                }
+
+                .form-content1 .form-container1 form .fileinputgroup .file-input .supported-format {
+                    position: absolute;
+                    bottom: -25px;
+                    left: 0;
+                    right: 0;
+                    font-size: 12px;
+                    line-height: 2rem;
+                    color: #777777;
+                    font-weight: 400;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    display: block;
+                    margin-top: 8px;
+                }
+
+        .form-content1 .form-container1 form .form-check-input {
+            position: absolute;
+            z-index: -1111;
+        }
+
+            .form-content1 .form-container1 form .form-check-input + label {
+                position: relative;
+                cursor: pointer;
+                padding: 0;
+                margin-right: 16px;
+                -webkit-transition: all .5s;
+                -o-transition: all .5s;
+                transition: all .5s;
+            }
+
+                .form-content1 .form-container1 form .form-check-input + label::before {
+                    content: '';
+                    margin-right: 10px;
+                    display: inline-block;
+                    vertical-align: text-top;
+                    width: 14px;
+                    height: 14px;
+                    background: #ffffff;
+                    border: 1px solid #bebebe;
+                    -webkit-border-radius: 2px;
+                    -moz-border-radius: 2px;
+                    -ms-border-radius: 2px;
+                    border-radius: 2px;
+                    margin-top: 2px;
+                    -webkit-transition: all .5s;
+                    -o-transition: all .5s;
+                    transition: all .5s;
+                }
+
+            .form-content1 .form-container1 form .form-check-input:checked + label::before {
+                background-color: #5c81fa;
+                border-color: transparent;
+            }
+
+            .form-content1 .form-container1 form .form-check-input:checked + label::after {
+                content: '';
+                position: absolute;
+                left: 5px;
+                top: 11px;
+                background: transparent;
+                width: 5px;
+                height: 9px;
+                border-bottom: 2px solid #ffffff;
+                border-right: 2px solid #ffffff;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+        .form-content1 .form-container1 form .checkbox-holder {
+            -webkit-flex-wrap: wrap;
+            -moz-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+            .form-content1 .form-container1 form .checkbox-holder .checkbox-title {
+                font-size: 1.7rem;
+                line-height: 3rem;
+                color: #555555;
+                font-weight: 300;
+                margin: .5rem 0 1.1rem;
+            }
+
+            .form-content1 .form-container1 form .checkbox-holder .form-check {
+                margin: 0;
+            }
+
+                .form-content1 .form-container1 form .checkbox-holder .form-check .form-check-label {
+                    font-size: 1.5rem;
+                    line-height: 3.4rem;
+                    color: #555555;
+                    font-weight: 300;
+                }
+
+        .form-content1 .form-container1 form .primary-btn {
+            margin-bottom: 2rem;
+        }
+
+        .form-content1 .form-container1 form .address {
+            height: 100%;
+            padding-top: 1.2rem;
+            padding-bottom: 4rem;
+        }
+
+            .form-content1 .form-container1 form .address address {
+                height: 100%;
+                margin: 0;
+                padding: 3rem 4rem;
+                background: #f9fafb;
+            }
+
+                .form-content1 .form-container1 form .address address p {
+                    font-family: "Vesper Libre", serif;
+                    font-size: 1.8rem;
+                    line-height: 22px;
+                    color: #333333;
+                    margin-bottom: 2rem;
+                }
+
+                    .form-content1 .form-container1 form .address address p span,
+                    .form-content1 .form-container1 form .address address p a {
+                        display: block;
+                        font-family: "Roboto", sans-serif;
+                        font-size: 1.7rem;
+                        line-height: 28px;
+                        color: #555555;
+                        font-weight: 300;
+                        margin-top: 1px;
+                    }
+
+                        .form-content1 .form-container1 form .address address p a:hover {
+                            color: #5c81fa;
+                        }
+.footer-newsletter form .form-group1 {
+    position: relative;
+}
+
+    .footer-newsletter form .form-group1 .form-text {
+        font-size: 16px;
+        line-height: 24px;
+        color: #8c8c8c;
+        font-weight: 300;
+        margin-bottom: 15px;
+    }
+
+    .footer-newsletter form .form-group1 .form-control1 {
+        width: 100%;
+        background: transparent;
+        font-size: 16px;
+        line-height: 24px;
+        color: #ffffff;
+        outline: none;
+        padding: 0 30px 14px 0;
+        border-radius: 0;
+        border-bottom: 2px solid #413f48;
+    }
+
+        .footer-newsletter form .form-group1 .form-control1:focus {
+            border-color: #5c81fa;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1::-webkit-input-placeholder {
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1:-moz-placeholder {
+            /* Firefox 18- */
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1::-moz-placeholder {
+            /* Firefox 19+ */
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1:-ms-input-placeholder {
+            /* IE 10+ */
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1::-ms-input-placeholder {
+            /* Edge */
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+        .footer-newsletter form .form-group1 .form-control1:placeholder-shown {
+            /* Standard one last! */
+            color: #979797 !important;
+            opacity: 1;
+        }
+
+    .footer-newsletter form .form-group1 button {
+        height: 40px;
+        background: transparent;
+        border: none;
+        position: absolute;
+        bottom: 8px;
+        right: 0;
+        padding: 0;
+    }
+
+        .footer-newsletter form .form-group1 button svg {
+            width: 18px;
+        }
+
+            .footer-newsletter form .form-group1 button svg .cls-1 {
+                fill: #979797;
+                -webkit-transition: fill .3s;
+                -o-transition: fill .3s;
+                transition: fill .3s;
+            }
+
+        .footer-newsletter form .form-group1 button:hover svg .cls-1 {
+            fill: #5c81fa;
+        }
+
+.job-application .form-content1 {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #e1e1e1;
+    margin: .5rem auto 3rem;
+    padding: 3rem;
+}
+
+    .job-application .form-content1 .form-container1 {
+        padding-top: 0;
+    }
+
+        .job-application .form-content1 .form-container1 h3 {
+            border-bottom: 1px solid #e1e1e1;
+            padding-bottom: 1.9rem;
+            margin: .8rem auto 3.3rem;
+        }
+
+        .job-application .form-content1 .form-container1 form .form-group1 .form-control1 {
+            margin-bottom: 3.3rem;
+        }
+
+        .job-application .form-content1 .form-container1 form .form-group.file-input {
+            position: relative;
+        }
+
+        .job-application .form-content1 .form-container1 form .primary-btn {
+            margin-bottom: 1rem;
+        }
+.measure-performance-banner .site-performance form .form-control1 {
+    color: #5c81fa;
+    font-weight: 400;
+}
+
+    .measure-performance-banner .site-performance form .form-control1::-webkit-input-placeholder {
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+
+    .measure-performance-banner .site-performance form .form-control1:-moz-placeholder {
+        /* Firefox 18- */
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+
+    .measure-performance-banner .site-performance form .form-control1::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+
+    .measure-performance-banner .site-performance form .form-control1:-ms-input-placeholder {
+        /* IE 10+ */
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+
+    .measure-performance-banner .site-performance form .form-control1::-ms-input-placeholder {
+        /* Edge */
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+
+    .measure-performance-banner .site-performance form .form-control1:placeholder-shown {
+        /* Standard one last! */
+        color: #5c81fa !important;
+        opacity: 1;
+    }
+ 
+input,
+input:focus,
+img {
+    outline: 0;
+    text-decoration: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+    input:-webkit-autofill,
+    textarea:-webkit-autofill,
+    select:-webkit-autofill {
+        background: transparent !important;
+    }

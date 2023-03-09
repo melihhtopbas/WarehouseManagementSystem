@@ -193,6 +193,14 @@ namespace Warehouse.Service.Admin
                 callResult.ErrorMessages.Add("Böyle bir para birimi bulunamadı.");
                 return callResult;
             }
+            bool country = _context.Countries.Any(x => x.CurrencyUnitId == currencyUnitId);
+            if (country)
+            {
+                callResult.ErrorMessages.Add("Aktif olarak kullanılan para birimini silemezsiniz.");
+                return callResult;
+            }
+           
+           
 
 
 

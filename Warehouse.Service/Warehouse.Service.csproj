@@ -90,6 +90,8 @@
     <Compile Include="Admin\CustomerOrderSettingService.cs" />
     <Compile Include="Admin\FaqService.cs" />
     <Compile Include="Admin\LanguageService.cs" />
+    <Compile Include="Admin\TicketBoxAnswerService.cs" />
+    <Compile Include="Admin\TicketBoxService.cs" />
     <Compile Include="Admin\OrderService.cs" />
     <Compile Include="Admin\PageService.cs" />
     <Compile Include="Admin\PropertyService.cs" />

@@ -40,10 +40,25 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         public CurrentUserViewModel CurrentUserViewModel = new CurrentUserViewModel();
         public List<IncomingMessageViewModel> IncomingMessageViewModel;
+        public List<TicketMessageViewModel> TicketMessageViewModel;
+      
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             CurrentUserViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(User.Identity.Name);
             IncomingMessageViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetIncomingMessageViewModel();
+            if (CurrentUserViewModel != null)
+            {
+                if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                {
+                    TicketMessageViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetTicketMessageShowViewModel();
+                }
+                else
+                {
+                    TicketMessageViewModel = DependencyResolver.Current.GetService<CurrentUserService>().GetTicketMessageViewModel(User.Identity.Name);
+                }
+            }
+          
+           
             base.OnActionExecuting(filterContext);
         }
 

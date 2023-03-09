@@ -506,7 +506,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                           select new
                           {
                               Id = x.Id,
-                              Name = x.CargoServiceName,
+                              Name = x.CargoServiceTypes.Name,
                           }).ToList();
 
             return Json(cargoService, JsonRequestBehavior.AllowGet);

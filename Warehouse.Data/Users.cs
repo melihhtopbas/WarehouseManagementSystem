@@ -18,6 +18,8 @@ namespace Warehouse.Data
         public Users()
         {
             this.Orders = new HashSet<Orders>();
+            this.Tickets = new HashSet<Tickets>();
+            this.TicketAnswers = new HashSet<TicketAnswers>();
         }
     
         public long Id { get; set; }
@@ -36,5 +38,9 @@ namespace Warehouse.Data
         public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tickets> Tickets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TicketAnswers> TicketAnswers { get; set; }
     }
 }

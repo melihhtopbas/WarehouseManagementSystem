@@ -84,7 +84,8 @@ namespace Warehouse.Service.Admin
                                select new CountryShippingPriceViewModel()
                                {
                                    Active = p.Active, 
-                                   CargoServiceName = p.CargoServiceName,
+                                   CargoServiceName = p.CargoServiceTypes.Name,
+                                   DeliveryTime = p.DeliveryTime,
                                    Price = p.Price,
                                    Id = p.Id,
                                    CountryId = shipPriceId,
@@ -129,6 +130,7 @@ namespace Warehouse.Service.Admin
             {
                 shippingPrice[i].Active = model.CountryShippingPriceViewModels[i].Active;
                 shippingPrice[i].Price = model.CountryShippingPriceViewModels[i].Price;
+                shippingPrice[i].DeliveryTime = model.CountryShippingPriceViewModels[i].DeliveryTime;
             }
         
             

@@ -136,6 +136,12 @@
     <Compile Include="Sliders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="TicketAnswers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tickets.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

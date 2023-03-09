@@ -1,0 +1,40 @@
+﻿
+@model Warehouse.ViewModels.Common.TicketBoxViewModel
+<tr id="@("ticket_"+Model.Id)" class="master-row">
+     
+    <td>@Model.SenderName</td>
+    <td>
+        @Model.Subject
+    </td>
+    <td>
+        @Model.Date.ToString("dd/MM/yyyy HH:mm")
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="İncele"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxDetailAsync", "TicketBox", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> İncele
+        </a>
+
+    </td>
+   
+    <td>
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="Cevap Görüntüle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxAnswerShow", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa-solid fa-square-poll-vertical"></i> Sonuç Görüntüle @if (Model.isAnswer == true) { <i class="fa-solid fa-check"></i>} else if (Model.isAnswer != true) {<i class="fa-solid fa-spinner"></i> }
+        </a>
+       
+    </td>
+
+
+
+
+
+</tr>

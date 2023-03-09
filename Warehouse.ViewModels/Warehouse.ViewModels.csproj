@@ -96,6 +96,8 @@
     <Compile Include="Admin\SliderViewModel.cs" />
     <Compile Include="Admin\UserViewModel.cs" />
     <Compile Include="Common\CurrentUserViewModel.cs" />
+    <Compile Include="Common\TicketBoxAnswerViewModel.cs" />
+    <Compile Include="Common\TicketBoxViewModel.cs" />
     <Compile Include="Common\ServiceCallResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebSite\BlogViewModel.cs" />

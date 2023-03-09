@@ -282,6 +282,8 @@
     <Compile Include="Areas\Admin\Controllers\CustomerOrderSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\FaqSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TicketBoxAnswerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TicketBoxController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\PropertySettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReferenceSettingController.cs" />
@@ -4600,6 +4602,16 @@
     <Content Include="Areas\Admin\Views\ShippingPriceSetting\DisplayTemplates\ShippingPriceListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\ShippingPriceSetting\_ShippingPriceEdit.cshtml" />
     <Content Include="Areas\Admin\Views\ShippingPriceSetting\_CountryShippingPrice.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\TicketList.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\_TicketView.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\DisplayTemplates\TicketBoxViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\_TicketAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\TicketBoxShow.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\TicketListShow.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\DisplayTemplates\TicketBoxShowViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBoxAnswer\_TicketAnswer.cshtml" />
+    <Content Include="Areas\Admin\Views\TicketBox\_TicketAnswerView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

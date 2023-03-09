@@ -1,0 +1,74 @@
+﻿
+@model Warehouse.ViewModels.Common.TicketBoxShowViewModel
+<tr id="@("ticket_"+Model.Id)" class="master-row">
+    <td>
+        @if (Model.isShow != true)
+        {
+            <i class="fa-solid fa-envelope"></i>
+        }
+        else if (Model.isShow)
+        {
+            <i class="fa-solid fa-envelope-open"></i>
+        }
+    </td>
+    <td>@Model.SenderName</td>
+    <td>
+        @Model.Subject
+    </td>
+    <td>
+        @Model.Date.ToString("dd/MM/yyyy HH:mm")
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="İncele"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxDetailAsync", "TicketBox", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> İncele
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-ticket-id="@Model.Id"
+           data-on-confirm="deleteTicketShow"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i>Ticket Sil
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="Cevap Görüntüle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxAnswerShow", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa-solid fa-square-poll-vertical"></i> Cevap Görüntüle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg" 
+           data-modal-update="#ticket_@Model.Id"
+           data-modal-highlight="#ticket_@Model.Id"
+           data-modal-title="Cevapla"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxAnswerAsync", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Cevapla @if (Model.isAnswer == true) {<i class="fa-solid fa-check"></i> } else if (Model.isAnswer != true) {<i class="fa-solid fa-spinner"></i> }
+        </a>
+
+    </td>
+
+
+
+
+</tr>

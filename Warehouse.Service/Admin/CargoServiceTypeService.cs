@@ -77,6 +77,19 @@ namespace Warehouse.Service.Admin
 
             };
 
+            var country = _context.Countries.ToList();
+            
+            foreach (var item in country)
+            {
+                _context.ShippingPrices.Add(new ShippingPrices
+                {
+                    Active = false,
+                    CargoServiceId = cargoService.Id,
+                    CountryId = item.Id,
+                    LanguageId = cargoService.LanguageId,
+                    
+                });
+            }
 
 
 
@@ -174,6 +187,20 @@ namespace Warehouse.Service.Admin
             {
                 callResult.ErrorMessages.Add("Böyle bir kargo servisi bulunamadı.");
                 return callResult;
+            }
+            var shippingCargo = _context.ShippingPrices.Where(x=>x.CargoServiceId== cargoServiceId && x.Active == true).ToList();
+            if (shippingCargo.Count >0)
+            {
+                callResult.ErrorMessages.Add("Aktif olarak kullanılan kargo servisini silemezsiniz!");
+                return callResult;
+            }
+            else if (shippingCargo.Count == 0)
+            {
+                var shippingService = _context.ShippingPrices.Where(x => x.CargoServiceId == cargoServiceId).ToList();
+                foreach (var item in shippingService)
+                {
+                    _context.ShippingPrices.Remove(item);
+                }
             }
 
 

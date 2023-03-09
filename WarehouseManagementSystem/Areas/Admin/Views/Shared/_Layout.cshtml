@@ -11,8 +11,7 @@
     <link href="~/Areas/Admin/Content/loadingoverlay.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/Site.css" rel="stylesheet" />
     <link href="~/Areas/Admin/Content/dropdown.css" rel="stylesheet" />
-    <script src="~/Areas/Admin/Scripts/prawms.jquery.min.js"></script>
-
+    <script src="~/Areas/Admin/Scripts/prawms.jquery.min.js"></script>  
 
 </head>
 <body class="hold-transition skin-yellow sidebar-mini">
@@ -41,10 +40,11 @@
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
+                            @if (CurrentUserViewModel.Role == "admin")
+                            { 
                             <span class="label label-danger new-icon-messages-total-count">
-                                @if (CurrentUserViewModel.Role == "admin")
-                                {@CurrentUserViewModel.MessageCount}
-                            </span>
+                                @CurrentUserViewModel.MessageCount  
+                            </span>}
                         </a>
                         @if (CurrentUserViewModel.Role != "admin")
                         {
@@ -59,57 +59,167 @@
                         }
                         else if (CurrentUserViewModel.Role == "admin")
                         {
-                            <div class="dropdown-menu" style="border: 1px solid rgba(0,0,0,.15); bottom:auto ">
-                                <div class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</div>
+                            <ul class="dropdown-menu" style="border: 1px solid rgba(0,0,0,.15); bottom:auto ">
+                                <li class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</li>
                                 @foreach (var item in IncomingMessageViewModel)
                                 {
 
 
-                                   
-                                        <!-- inner menu: contains the actual data -->
-                                        <div class="menu messages-ecommerce-menu">
-                                            <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
-                                               class="dropdown-item"
-                                               style="display:block; text-align:center"
-                                               data-modal-form="true"
-                                               data-modal-title="Gelen kutusu"
-                                               data-hook-beforeunload="true"
-                                               data-modal-size="modal-ml">
 
-                                                <div class="media" style="display:flex; align-items:flex-start">
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu messages-ecommerce-menu">
+                                        <a href="@Url.Action("IncomingMessage", "ContactForm", new {contactId = item.Id})"
+                                           class="dropdown-item"
+                                           style="display:block; text-align:center"
+                                           data-modal-form="true"
+                                           data-modal-title="Gelen kutusu"
+                                           data-hook-beforeunload="true"
+                                           data-modal-size="modal-ml">
+
+                                            <div class="media" style="display:flex; align-items:flex-start">
 
 
-                                                    <div class="media-body" style="flex:1">
-                                                        <h6 class="dropdown-item-title" style="color:black">Gönderen: <strong>@item.FullName</strong></h6>
-                                                        <p class="text-sm">Konu: @item.Subject</p>
-                                                        @if (item.TimeMinute == 0 && item.TimeDay == 0 && item.TimeHour == 0)
-                                                        {
-                                                            <span><i class="far fa-clock mr-1"></i>Az önce</span>
-                                                        }
-                                                        @if (item.TimeMinute > 0 && item.TimeMinute <= 59 && item.TimeDay < 1 && item.TimeHour < 1)
-                                                        {
-                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeMinute dakika önce</span>
-                                                        }
-                                                        @if (item.TimeMinute >= 60 && item.TimeHour >= 1 && item.TimeHour <= 23 && item.TimeDay < 1)
-                                                        {
-                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeHour saat önce</span>
-                                                        }
-                                                        @if (item.TimeMinute >= 60 && item.TimeHour >= 24 && item.TimeDay >= 1)
-                                                        {
-                                                            <span><i class="far fa-clock mr-1"></i> @item.TimeDay gün önce</span>
-                                                        }
-                                                    </div>
+                                                <div class="media-body" style="flex:1">
+                                                    <h6 class="dropdown-item-title" style="color:black">Gönderen: <strong>@item.FullName</strong></h6>
+                                                    <p class="text-sm">Konu: @item.Subject</p>
+                                                    @if (item.TimeMinute == 0 && item.TimeDay == 0 && item.TimeHour == 0)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i>Az önce</span>
+                                                    }
+                                                    @if (item.TimeMinute > 0 && item.TimeMinute <= 59 && item.TimeDay < 1 && item.TimeHour < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeMinute dakika önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 1 && item.TimeHour <= 23 && item.TimeDay < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeHour saat önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 24 && item.TimeDay >= 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeDay gün önce</span>
+                                                    }
                                                 </div>
-                                            </a>
-                                         <div class="dropdown-divider"><hr /></div>
-                                        </div>
-                                     
-                                    
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-divider"><hr /></div>
+                                    </ul>
+
+
                                 }
-                            <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/contactform">Bütün mesajları gör</a>
-                            </div>
+                                <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/contactform">Bütün mesajları gör</a>
+                            </ul>
                         }
-                        
+
+                    </li>
+                    <li class="message-box dropdown notifications-menu" id="message-box">
+                        <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
+                            <i class="fa-solid fa-inbox"></i>
+                            <span class="label label-danger new-icon-messages-total-count">
+                                @TicketMessageViewModel.Count
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu" style="border: 1px solid rgba(0,0,0,.15); bottom:auto ">
+                            <li class="header">Toplam <strong class="new-messages-total-count">@TicketMessageViewModel.Count</strong> işlem bekleyen mesajınız var</li>
+
+                            @foreach (var item in TicketMessageViewModel)
+                            {
+
+                                if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                                {
+
+
+
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu messages-ecommerce-menu">
+                                        <a href="@Url.Action("TicketBoxDetailAsync", "TicketBox", new {ticketId = item.TicketId})"
+                                           class="dropdown-item"
+                                           style="display:block; text-align:center"
+                                           data-modal-form="true"
+                                           data-modal-title="Ticket kutusu"
+                                           data-hook-beforeunload="true"
+                                           data-modal-size="modal-lg">
+
+                                            <div class="media" style="display:flex; align-items:flex-start">
+
+
+                                                <div class="media-body" style="flex:1">
+                                                    <h6 class="dropdown-item-title" style="color:black">Gönderen: <strong>@item.FullName</strong></h6>
+                                                    <p class="text-sm">Konu: @item.Subject</p>
+                                                    @if (item.TimeMinute == 0 && item.TimeDay == 0 && item.TimeHour == 0)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i>Az önce</span>
+                                                    }
+                                                    @if (item.TimeMinute > 0 && item.TimeMinute <= 59 && item.TimeDay < 1 && item.TimeHour < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeMinute dakika önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 1 && item.TimeHour <= 23 && item.TimeDay < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeHour saat önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 24 && item.TimeDay >= 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeDay gün önce</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-divider"><hr /></div>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <!-- inner menu: contains the actual data -->
+                                    <div class="menu messages-ecommerce-menu">
+                                        <a href="@Url.Action("TicketBoxAnswerShow", "TicketBoxAnswer", new {ticketId = item.TicketId})"
+                                           class="dropdown-item"
+                                           style="display:block; text-align:center"
+                                           data-modal-form="true"
+                                           data-modal-title="Ticket kutusu"
+                                           data-hook-beforeunload="true"
+                                           data-modal-size="modal-lg">
+
+                                            <div class="media" style="display:flex; align-items:flex-start">
+
+
+                                                <div class="media-body" style="flex:1">
+                                                    <h6 class="dropdown-item-title" style="color:black">Gönderen: <strong>@item.FullName</strong></h6>
+                                                    <p class="text-sm">Konu: @item.Subject</p>
+                                                    @if (item.TimeMinute == 0 && item.TimeDay == 0 && item.TimeHour == 0)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i>Az önce</span>
+                                                    }
+                                                    @if (item.TimeMinute > 0 && item.TimeMinute <= 59 && item.TimeDay < 1 && item.TimeHour < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeMinute dakika önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 1 && item.TimeHour <= 23 && item.TimeDay < 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeHour saat önce</span>
+                                                    }
+                                                    @if (item.TimeMinute >= 60 && item.TimeHour >= 24 && item.TimeDay >= 1)
+                                                    {
+                                                        <span><i class="far fa-clock mr-1"></i> @item.TimeDay gün önce</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-divider"><hr /></div>
+                                    </div>
+                                }
+
+                            }
+                            @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                            {
+                                <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/ticketbox/ticketboxshow">Bütün mesajları gör</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/ticketbox">Bütün mesajları gör</a>
+                            }
+                        </ul>
+
+
                     </li>
 
 
@@ -266,6 +376,29 @@
 
                 <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
 
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa-solid fa-list-check"></i> <span>Mesajlar</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+
+
+                        @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                        {
+                            <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li> 
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Index","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
+                        }
+
+
+                    </ul>
+                </li>
+
                 @if (CurrentUserViewModel.Role == "admin")
                 {
                     @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
@@ -347,6 +480,7 @@
         function myFunction() {
             document.getElementById("openDropDown").classList.toggle("open");
             document.getElementById("new-messages-notifications-menu").classList.toggle("open");
+            document.getElementById("message-box").classList.toggle("open");
         };
 
     </script>
@@ -410,6 +544,8 @@
             $('#currencyUnitSearchForm').submit();
             $('#userSearchForm').submit();
             $('#shippingPriceSearchForm').submit();
+            $('#ticketBoxSearchForm').submit();
+            $('#ticketBoxShowSearchForm').submit();
 
 
 
@@ -971,6 +1107,47 @@
                 type: "POST",
                 cache: false,
                 data: { contactId: contactId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
+        function deleteTicketShow() {
+            var that = $(this);
+            var ticketId = that.data('ticketId');
+
+            var container = $('#TicketBoxListShowContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/ticketbox/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { ticketId: ticketId }
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {

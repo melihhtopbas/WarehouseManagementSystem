@@ -1,0 +1,76 @@
+﻿@model IPagedList<Warehouse.ViewModels.Common.TicketBoxViewModel>
+@{
+    Layout = null;
+}
+<div class="products-list-tools clearfix">
+
+
+    <a class="btn btn-warning btn-sm"
+       data-modal-form="true"
+       data-modal-size="modal-lg"
+       data-modal-prepend="tbody#TicketBoxList"
+       data-modal-title="Destek Talebi Ekle"
+       data-hook-beforeunload="true"
+       href="@Url.Action("Add", "TicketBox", routeValues: new {Area ="Admin"})">
+        <i class="fa fa-plus"></i>Destek Talebi Oluştur
+    </a>
+
+
+    <div class="pull-right hidden-xs hidden-sm">
+        @if (Model.Any())
+        {
+            <div style="margin: 20px 0; float: left !important;">
+                @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+            </div>
+        }
+
+        &nbsp;
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "TicketBoxListContainer" }).Options(o => o
+            .Action("TicketList")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+
+
+            )
+    </div>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            
+            <th>Gönderen</th>
+            <th>Konu</th>
+            <th>Tarih</th>
+            <th style="width:50px">Ticket İncele</th> 
+            <th style="width:50px">Sonuç</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody id="TicketBoxList">
+        @Html.DisplayFor(m => m)
+
+
+    </tbody>
+
+</table>
+<div class="pull-left">
+
+
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "TicketBoxListContainer" }).Options(o => o
+        .Action("TicketList")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+
+        )
+</div>
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+

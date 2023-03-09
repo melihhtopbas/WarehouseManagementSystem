@@ -52,10 +52,13 @@ namespace Warehouse.ViewModels.Admin
         public Nullable<long> CountryId { get; set; }
 
         [Required(ErrorMessage ="Lütfen doldurunuz!")]
+        [Display(Name = "Fiyat")]
         public decimal Price { get; set; }
 
         public string CargoServiceName { get; set; }
         public string CurrencyUnitName { get; set; }
+        [Display(Name = "Süre")]
+        public string DeliveryTime { get; set; }
 
     }
 }

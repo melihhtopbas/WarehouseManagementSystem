@@ -240,6 +240,7 @@ namespace Warehouse.ViewModels.Admin
         public string Description { get; set; }
         public string Icon { get; set; }
         public double? TotalPrice { get; set; }
+        public string DeliveryTime{ get; set; }
 
 
     }

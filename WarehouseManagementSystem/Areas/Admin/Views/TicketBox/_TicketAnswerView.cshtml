@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+@model Warehouse.ViewModels.Common.TicketBoxAnswerViewModel
+
+<div class="row">
+    <div class="box box-warning">
+
+
+        <div class="box-body no-padding">
+            <div class="mailbox-read-info">
+                <h3>@Model.Subject</h3>
+                <h5>
+                    Yanıtlayan: @Model.SenderName<br />
+
+                    <span class="mailbox-read-time pull-right">@Model.Date.ToString("dd/MM/yyyy HH:mm")</span>
+                </h5>
+            </div>
+
+            <div class="mailbox-read-message">
+                @Html.Raw(Model.Message)
+            </div>
+            <div class="clearfix"></div>
+            <div class="mailbox-read-message">
+                @Html.Raw(Model.AnswerMessage)
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<style>
+    p {
+        color: black
+    }
+</style>

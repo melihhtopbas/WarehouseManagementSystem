@@ -41,6 +41,15 @@ namespace WarehouseManagementSystem
                 return null;
             }
         }
+        protected List<TicketMessageViewModel> TicketMessageViewModel
+        {
+            get
+            {
+                if (ViewContext.Controller is AdminBaseController adminBaseController)
+                    return adminBaseController.TicketMessageViewModel ?? new List<TicketMessageViewModel>();
+                return null;
+            }
+        }
 
 
     }

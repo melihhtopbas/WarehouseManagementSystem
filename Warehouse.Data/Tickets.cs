@@ -12,23 +12,25 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CargoServiceTypes
+    public partial class Tickets
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CargoServiceTypes()
+        public Tickets()
         {
-            this.Orders = new HashSet<Orders>();
-            this.ShippingPrices = new HashSet<ShippingPrices>();
+            this.TicketAnswers = new HashSet<TicketAnswers>();
         }
     
         public long Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<long> LanguageId { get; set; }
+        public Nullable<long> UserId { get; set; }
+        public string FullName { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+        public System.DateTime Date { get; set; }
+        public bool isShow { get; set; }
+        public bool isAnswer { get; set; }
     
-        public virtual Languages Languages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShippingPrices> ShippingPrices { get; set; }
+        public virtual ICollection<TicketAnswers> TicketAnswers { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

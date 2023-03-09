@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Warehouse.Data;
 using Warehouse.Infrastructure;
 using Warehouse.ViewModels.Admin;
@@ -49,8 +50,7 @@ namespace Warehouse.Service.Admin
 
         public List<IncomingMessageViewModel> GetIncomingMessageViewModel()
         {
-            var time = _context.Contact.FirstOrDefault(x => x.Id == 2).Date;
-            int timehour = DifferenceTime(time);
+
             var model = _cacheService.Get("setting", () => (from a in _context.Contact.AsEnumerable()
                                                            .Where(x => x.isShow != true)
 
@@ -64,8 +64,8 @@ namespace Warehouse.Service.Admin
                                                                 TimeHour = (int)(DateTime.Now - a.Date).TotalHours,
                                                                 TimeDay = (int)(DateTime.Now - a.Date).TotalDays,
                                                                 TimeMinute = (int)(DateTime.Now - a.Date).TotalMinutes,
-                                                                
-                                                                 
+
+
 
 
 
@@ -75,25 +75,62 @@ namespace Warehouse.Service.Admin
 
             return model;
         }
-        public int DifferenceTime(DateTime date)
+        public List<TicketMessageViewModel> GetTicketMessageShowViewModel()
         {
-            TimeSpan difference = DateTime.Now - date;
-            int hour = Convert.ToInt32(difference.TotalHours);  
-            int day = Convert.ToInt32(difference.TotalDays);
-            int minute = Convert.ToInt32(difference.TotalMinutes);
-            if (minute >= 0 && minute <= 59 && day < 1 && hour < 1)
-            {
-                return minute;
-            }
-            else if (minute >= 60 && hour >= 1 && hour <= 23 && day < 1)
-            {
-                return hour;
-            }
-            else if (minute >= 60 && hour >= 24 && day >= 1 )
-            {
-                return day;
-            }
-            return 0;
+
+            var model = _cacheService.Get("setting", () => (from a in _context.Tickets.AsEnumerable()
+                                                           .Where(x => x.isAnswer != true)
+
+                                                            select new TicketMessageViewModel()
+                                                            {
+
+                                                                FullName = a.FullName,
+                                                                Id = a.Id,
+                                                                Message = a.Message,
+                                                                Subject = a.Subject,
+                                                                TimeHour = (int)(DateTime.Now - a.Date).TotalHours,
+                                                                TimeDay = (int)(DateTime.Now - a.Date).TotalDays,
+                                                                TimeMinute = (int)(DateTime.Now - a.Date).TotalMinutes,
+                                                                TicketId = a.Id,
+
+
+
+
+
+
+
+                                                            }).ToList());
+
+            return model;
+        }
+        public List<TicketMessageViewModel> GetTicketMessageViewModel(string name)
+        {
+            var user = _context.Users.Where(x=>x.UserName == name).FirstOrDefault();
+            var model = _cacheService.Get("setting", () => (from a in _context.TicketAnswers.AsEnumerable()
+                                                           .Where(x => x.isShow != true && x.UserId == user.Id)
+
+                                                            select new TicketMessageViewModel()
+                                                            {
+
+                                                                FullName = a.AnsweringPerson,
+                                                                Id = a.Id,
+                                                                Message = a.Message,
+                                                                Subject = a.Subject,
+                                                                TimeHour = (int)(DateTime.Now - a.Date).TotalHours,
+                                                                TimeDay = (int)(DateTime.Now - a.Date).TotalDays,
+                                                                TimeMinute = (int)(DateTime.Now - a.Date).TotalMinutes,
+                                                                TicketId = (long)a.TicketId,
+
+
+
+
+
+
+
+                                                            }).ToList());
+
+            return model;
         }
     }
+
 }

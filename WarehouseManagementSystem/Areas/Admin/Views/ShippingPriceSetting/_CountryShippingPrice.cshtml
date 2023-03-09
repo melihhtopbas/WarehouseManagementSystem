@@ -36,9 +36,10 @@
                 </div>
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Price)
+             @Html.TextBoxBlockLabelAsAddonFor(m=>m.Price)
             </td>
             <td>@Model.CurrencyUnitName</td>
+            <td>  @Html.TextBoxBlockLabelAsAddonFor(m => m.DeliveryTime)</td>
 
 
         </tr>

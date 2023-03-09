@@ -261,11 +261,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CargoServiceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CargoServiceId" Type="bigint" />
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CountryId" Type="bigint" />
           <Property Name="Price" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="DeliveryTime" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Sliders">
           <Key>
@@ -286,6 +287,32 @@
           <Property Name="ButtonLink2" Type="nvarchar" MaxLength="200" />
           <Property Name="ButtonLink3" Type="nvarchar" MaxLength="200" />
           <Property Name="ButtonLink4" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TicketAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="bigint" />
+          <Property Name="AnsweringPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+          <Property Name="isShow" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="isShow" Type="bit" Nullable="false" />
+          <Property Name="isAnswer" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -591,6 +618,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ShippingPrices_CargoServiceTypes">
+          <End Role="CargoServiceTypes" Type="Self.CargoServiceTypes" Multiplicity="0..1" />
+          <End Role="ShippingPrices" Type="Self.ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CargoServiceTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="CargoServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ShippingPrices_Countries">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="ShippingPrices" Type="Self.ShippingPrices" Multiplicity="*" />
@@ -624,6 +663,42 @@
             </Principal>
             <Dependent Role="Sliders">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_Tickets">
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="0..1" />
+          <End Role="TicketAnswers" Type="Self.TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="TicketAnswers" Type="Self.TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -674,6 +749,8 @@
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippingPrices" EntityType="Self.ShippingPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sliders" EntityType="Self.Sliders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketAnswers" EntityType="Self.TicketAnswers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_About_Languages" Association="Self.FK_About_Languages">
             <End Role="Languages" EntitySet="Languages" />
@@ -771,6 +848,10 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Settings" EntitySet="Settings" />
           </AssociationSet>
+          <AssociationSet Name="FK_ShippingPrices_CargoServiceTypes" Association="Self.FK_ShippingPrices_CargoServiceTypes">
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
           <AssociationSet Name="FK_ShippingPrices_Countries" Association="Self.FK_ShippingPrices_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="ShippingPrices" EntitySet="ShippingPrices" />
@@ -782,6 +863,18 @@
           <AssociationSet Name="FK_Sliders_Languages" Association="Self.FK_Sliders_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Sliders" EntitySet="Sliders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_Tickets" Association="Self.FK_TicketAnswers_Tickets">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_Users" Association="Self.FK_TicketAnswers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Users" Association="Self.FK_Tickets_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
             <End Role="Cities" EntitySet="Cities" />
@@ -805,6 +898,7 @@
           <Property Name="LanguageId" Type="Int64" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_CargoServiceTypes_Languages" FromRole="CargoServiceTypes" ToRole="Languages" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="Orders" />
+          <NavigationProperty Name="ShippingPrices" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_CargoServiceTypes" FromRole="CargoServiceTypes" ToRole="ShippingPrices" />
         </EntityType>
         <EntityType Name="Countries">
           <Key>
@@ -989,6 +1083,10 @@
             <End Role="SenderAddresses" EntitySet="SenderAddresses" />
           </AssociationSet>
           <EntitySet Name="ShippingPrices" EntityType="WarehouseManagementSystemModel.ShippingPrices" />
+          <AssociationSet Name="FK_ShippingPrices_CargoServiceTypes" Association="WarehouseManagementSystemModel.FK_ShippingPrices_CargoServiceTypes">
+            <End Role="CargoServiceTypes" EntitySet="CargoServiceTypes" />
+            <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
           <AssociationSet Name="FK_ShippingPrices_Countries" Association="WarehouseManagementSystemModel.FK_ShippingPrices_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="ShippingPrices" EntitySet="ShippingPrices" />
@@ -996,6 +1094,20 @@
           <AssociationSet Name="FK_ShippingPrices_Languages" Association="WarehouseManagementSystemModel.FK_ShippingPrices_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="ShippingPrices" EntitySet="ShippingPrices" />
+          </AssociationSet>
+          <EntitySet Name="TicketAnswers" EntityType="WarehouseManagementSystemModel.TicketAnswers" />
+          <EntitySet Name="Tickets" EntityType="WarehouseManagementSystemModel.Tickets" />
+          <AssociationSet Name="FK_TicketAnswers_Tickets" Association="WarehouseManagementSystemModel.FK_TicketAnswers_Tickets">
+            <End Role="Tickets" EntitySet="Tickets" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Users" Association="WarehouseManagementSystemModel.FK_Tickets_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_Users" Association="WarehouseManagementSystemModel.FK_TicketAnswers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
@@ -1304,6 +1416,8 @@
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
           <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="Tickets" Relationship="WarehouseManagementSystemModel.FK_Tickets_Users" FromRole="Users" ToRole="Tickets" />
+          <NavigationProperty Name="TicketAnswers" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Users" FromRole="Users" ToRole="TicketAnswers" />
         </EntityType>
         <Association Name="FK_Countries_Languages">
           <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
@@ -1609,14 +1723,28 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CargoServiceName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CargoServiceId" Type="Int64" />
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="CountryId" Type="Int64" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
+          <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_CargoServiceTypes" FromRole="ShippingPrices" ToRole="CargoServiceTypes" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Countries" FromRole="ShippingPrices" ToRole="Countries" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Languages" FromRole="ShippingPrices" ToRole="Languages" />
+          <Property Name="DeliveryTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_ShippingPrices_CargoServiceTypes">
+          <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.ShippingPrices" Role="ShippingPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CargoServiceTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShippingPrices">
+              <PropertyRef Name="CargoServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ShippingPrices_Countries">
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
           <End Type="WarehouseManagementSystemModel.ShippingPrices" Role="ShippingPrices" Multiplicity="*" />
@@ -1638,6 +1766,72 @@
             </Principal>
             <Dependent Role="ShippingPrices">
               <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TicketAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int64" />
+          <Property Name="AnsweringPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="isShow" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tickets" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Tickets" FromRole="TicketAnswers" ToRole="Tickets" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Int64" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Users" FromRole="TicketAnswers" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isShow" Type="Boolean" Nullable="false" />
+          <Property Name="isAnswer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TicketAnswers" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Tickets" FromRole="Tickets" ToRole="TicketAnswers" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Tickets_Users" FromRole="Tickets" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_TicketAnswers_Tickets">
+          <End Type="WarehouseManagementSystemModel.Tickets" Role="Tickets" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.TicketAnswers" Role="TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tickets">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.TicketAnswers" Role="TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1959,11 +2153,40 @@
           <EntitySetMapping Name="ShippingPrices">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.ShippingPrices">
               <MappingFragment StoreEntitySet="ShippingPrices">
+                <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
-                <ScalarProperty Name="CargoServiceName" ColumnName="CargoServiceName" />
+                <ScalarProperty Name="CargoServiceId" ColumnName="CargoServiceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketAnswers">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.TicketAnswers">
+              <MappingFragment StoreEntitySet="TicketAnswers">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="isShow" ColumnName="isShow" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="AnsweringPerson" ColumnName="AnsweringPerson" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="isAnswer" ColumnName="isAnswer" />
+                <ScalarProperty Name="isShow" ColumnName="isShow" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
