@@ -180,6 +180,7 @@ namespace Warehouse.Service.Admin
                 model.Mail = mail;
                 model.Password = user.Password;
                 model.UserName = user.UserName;
+                model.FullName = user.Name + " " + user.Surname;
 
             }
             return model;

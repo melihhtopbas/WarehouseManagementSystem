@@ -116,7 +116,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             string senderPassword = "Topbas1907";
             string receiverEmail = user.Mail;
             string subject = "Şifre Değişikliği";
-            string body = "Şifreniz aşağıda verilmiştir.\n" + user.Password + "\n" + "Kullanıcı Adınız: "+ user.UserName;
+            string body = "Sayın "+ user.FullName +" şifreniz aşağıda verilmiştir.\n" + user.Password + "\n" + "Kullanıcı Adınız: "+ user.UserName;
 
             SmtpClient client = new SmtpClient("smtp-mail.outlook.com", 587);
             client.EnableSsl = true;
