@@ -8,6 +8,7 @@
         </div>
     </div>
 </div>
+<div id="selectedPackageCount"></div>
 
 @using (Html.BeginForm("OrderPackageProductAdd", "Order", new { Area = "Admin" }, FormMethod.Post, new { id = "orderPackageProductAddForm", role = "form" }))
 {
@@ -31,8 +32,9 @@
                             <th>Ürün İçeriği</th>
                             <th>Toplam Ürün Adeti</th>
                             <th>
-                                @Html.LabelFor(m => m.PackagedCount)
+                                Paketlenecek ürün miktarı
                             </th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,3 +78,5 @@
     </div>
     <div class="clearfix"></div>
 }
+
+ 

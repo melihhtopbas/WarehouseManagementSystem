@@ -137,7 +137,7 @@
           <Property Name="PackageCount" Type="int" />
           <Property Name="LanguageId" Type="bigint" />
           <Property Name="isPackage" Type="bit" />
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="CustomerId" Type="bigint" />
         </EntityType>
         <EntityType Name="PackagedProductGroups">
@@ -1598,7 +1598,7 @@
           <Property Name="PackageCount" Type="Int32" />
           <Property Name="LanguageId" Type="Int64" />
           <Property Name="isPackage" Type="Boolean" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="CustomerId" Type="Int64" />
           <NavigationProperty Name="CargoServiceTypes" Relationship="WarehouseManagementSystemModel.FK_Orders_CargoServiceTypes" FromRole="Orders" ToRole="CargoServiceTypes" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Orders" ToRole="Cities" />

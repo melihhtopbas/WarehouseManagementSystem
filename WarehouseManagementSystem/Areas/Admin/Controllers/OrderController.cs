@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.AspNet.Identity;
 using Microsoft.Web.Mvc;
 using MvcPaging;
 using System;
@@ -148,21 +149,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
             return PartialView("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", new ProductTransactionGroupViewModel());
         }
-        [HttpGet]
-        public async Task<ActionResult> Edit(int orderId)
-        {
-
-            var model = await _orderService.GetOrderEditViewModelAsync(orderId);
-            if (model != null)
-            {
-                ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
-                ViewData["Cities"] = _orderService.GetOrderCityList(model.Country.CountryId).ToList();
-                ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-            
-                return PartialView("~/Areas/Admin/Views/Order/_OrderEdit.cshtml", model);
-            }
-            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
-        }
+      
         [HttpGet]
         //Siparişteki ürünleri görüntüle modal'i
         public async Task<ActionResult> ProductGroupShow(int orderId)
@@ -294,13 +281,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> OrderPackageAdd(int orderId)
         {
             var readOnlyProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).ToList();
-            //foreach (var item in readOnlyProduct)
-            //{
-            //    if (item.isPackage == null || item.isPackage == false)
-            //    {
-            //        item.isPackagedCount = item.Count;
-            //    }
-            //}
+            
             foreach (var item in readOnlyProduct)
             {
                 item.isPackagedCount = item.isPackagedCount2;
@@ -417,6 +398,21 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/_OrderPackageProductAdd.cshtml", model)
                 });
         }
+        [HttpGet]
+        public async Task<ActionResult> Edit(int orderId)
+        {
+
+            var model = await _orderService.GetOrderEditViewModelAsync(orderId);
+            if (model != null)
+            {
+                ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
+                ViewData["Cities"] = _orderService.GetOrderCityList(model.Country.CountryId).ToList();
+                ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
+
+                return PartialView("~/Areas/Admin/Views/Order/_OrderEdit.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
 
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(OrderEditViewModel model)
@@ -510,6 +506,27 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                           }).ToList();
 
             return Json(cargoService, JsonRequestBehavior.AllowGet);
+        }
+        [AjaxOnly,HttpPost]
+        public ActionResult SelectAllPackageProduct(int selectId)
+        {
+            var result = (from x in _context.ProductTransactionGroup
+                                where x.Id == selectId
+                                select new
+                                {
+                                    selectCount = x.isPackagedCount,
+                                });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult SelectPackageCount(int selectId)
+        {
+            var model = _orderService.SelectPackageCount(selectId);
+           
+            return PartialView("~/Areas/Admin/Views/Order/_OrderSelectedPackageProduct.cshtml", model);
+
+
         }
 
     }

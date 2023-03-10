@@ -225,7 +225,7 @@ namespace Warehouse.Service.Admin
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
-                order.Date = DateTime.Now.Date;
+                order.Date = DateTime.Now;
                 order.CustomerId = users.Id;
 
 
@@ -252,7 +252,7 @@ namespace Warehouse.Service.Admin
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
-                order.Date = DateTime.Now.Date;
+                order.Date = DateTime.Now;
                 order.CustomerId = users.Id;
 
 
@@ -575,6 +575,7 @@ namespace Warehouse.Service.Admin
             var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
             var recipientAddress = await _context.RecipientAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
             var productGroup = await _context.ProductTransactionGroup.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var productGroupList = _context.ProductTransactionGroup.Where(x => x.OrderId == model.Id).ToList();
             if (order == null)
             {
                 callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
@@ -620,20 +621,17 @@ namespace Warehouse.Service.Admin
                 recipientAddress.Name = model.RecipientAddress;
                 senderAddress.Name = model.SenderAddress;
             }
-           
 
-            foreach (var prd in model.ProductTransactionGroup)
+
+            for (int i = 0; i < model.ProductTransactionGroup.Count(); i++)
             {
-                productGroup.isPackagedCount = prd.isPackagedCount;
-                productGroup.isPackage = prd.isPackage;
-                productGroup.isReadOnly = prd.isReadOnly;
+                productGroupList[i].isPackagedCount = model.ProductTransactionGroup.ElementAt(i).isPackagedCount;
+                productGroupList[i].isPackage = model.ProductTransactionGroup.ElementAt(i).isPackage;
+                productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly; 
+
             }
 
-
-
-
-
-
+        
 
 
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
@@ -951,6 +949,26 @@ namespace Warehouse.Service.Admin
                 }
             }
 
+        }
+        public ProductGroupShowViewModel SelectPackageCount(int selectId)
+        {
+            var package = _context.ProductTransactionGroup.FirstOrDefault(x=>x.Id == selectId);
+            var model = new ProductGroupShowViewModel
+            {
+                Id= selectId,
+                Count= package.Count,   
+                Content= package.Content,
+                GtipCode= package.GtipCode,
+                isPackagedCount = package.isPackagedCount,
+                isPackage = package.isPackage,
+                isReadOnly= package.isReadOnly,
+                OrderId= package.OrderId,
+                QuantityPerUnit= package.QuantityPerUnit,
+                SKU = package.SKU,
+                PackagedCount = package.isPackagedCount
+                
+            };
+            return model;
         }
 
     }

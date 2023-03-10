@@ -1,54 +1,62 @@
 ﻿@model Warehouse.ViewModels.Admin.ProductGroupShowViewModel
 @using WarehouseManagementSystem.Extensions
- 
-    @using (Html.BeginCollectionItem("OrderProductGroups"))
-    {
-        <div class="row">
-            <div class="col-xs-12">
+
+@using (Html.BeginCollectionItem("OrderProductGroups"))
+{
+    <div class="row">
+        <div class="col-xs-12">
 
 
-                @Html.HiddenFor(a => a.Id)
-                @Html.HiddenFor(a => a.Content)
-                @Html.HiddenFor(a => a.Count)
-                @Html.HiddenFor(a => a.SKU)
-                @Html.HiddenFor(a => a.GtipCode)
-                @Html.HiddenFor(a => a.QuantityPerUnit)
-                @Html.HiddenFor(a => a.isPackagedCount)
+            @Html.HiddenFor(a => a.Id)
+            @Html.HiddenFor(a => a.Content)
+            @Html.HiddenFor(a => a.Count)
+            @Html.HiddenFor(a => a.SKU)
+            @Html.HiddenFor(a => a.GtipCode)
+            @Html.HiddenFor(a => a.QuantityPerUnit)
+            @Html.HiddenFor(a => a.isPackagedCount)
 
 
-            </div>
         </div>
-        <div class="form-group form-group-sm col-xs-12  @Html.ModelStateFor(m => m.isChecked)">
+    </div>
+     
+
+        <div id="orderSelectedPackage" class="form-group form-group-sm col-xs-12  @Html.ModelStateFor(m => m.isChecked)">
             <div class="input-group input-group-sm">
                 @if (Model.isPackagedCount != 0)
                 {
-                    
-                        <tr class="master-row">
+
+                    <tr class="master-row">
 
 
 
-                            <td>
-                                @Html.CheckBoxFor(u => u.isChecked)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(m => m.Content)
-                            </td>
-                            <td>
-                                <span>x</span><span>@Html.DisplayFor(m => m.isPackagedCount)</span>
-                            </td>
-                            <td>
+                        <td>
+                            @Html.CheckBoxFor(u => u.isChecked)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.Content)
+                        </td>
+                        <td>
+                            <span>x</span><span>@Html.DisplayFor(m => m.isPackagedCount, new { id = "isPackagedProductCount" })</span>
+                        </td>
+                        <td id="packageProductCount">
 
-                                @Html.TextBoxFor(m => m.PackagedCount)
-                                @Html.ValidationMessageFor(m => m.PackagedCount, "", new { @style = "color:red" })
-                            </td>
+                            @Html.TextBoxFor(m => m.PackagedCount)
+                            @Html.ValidationMessageFor(m => m.PackagedCount, "", new { @style = "color:red" })
+                        </td>
+                        <td style="width:50px">
+                            <a  
+                               class="pressActive btn btn-block btn-success btn-sm"
+                               href="@Url.Action("SelectPackageCount", "Order", routeValues: new {Area = "Admin",selectId=Model.Id})">
+                                <i class="fa fa-edit fa-fw text-success"></i> Seç
+                            </a>
 
+                        </td>
 
-                        </tr>
-                    
+                    </tr>
+
                 }
             </div>
         </div>
-
-    }
  
+}
 
