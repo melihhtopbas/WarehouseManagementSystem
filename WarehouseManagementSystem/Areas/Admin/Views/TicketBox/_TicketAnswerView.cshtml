@@ -17,12 +17,14 @@
                     <span class="mailbox-read-time pull-right">@Model.Date.ToString("dd/MM/yyyy HH:mm")</span>
                 </h5>
             </div>
-
-            <div class="mailbox-read-message">
+            <h5><strong>Ticket:</strong></h5>
+            <div class="framed-div mailbox-read-message">
                 @Html.Raw(Model.Message)
             </div>
-            <div class="clearfix"></div>
-            <div class="mailbox-read-message">
+
+             <br />   <br />    <br />
+            <h5><strong>Cevap:</strong></h5>
+             <div class="framed-div mailbox-read-message">
                 @Html.Raw(Model.AnswerMessage)
             </div>
 
@@ -33,5 +35,12 @@
 <style>
     p {
         color: black
+    }
+    .framed-div {
+        border: 1.5px solid orange; 
+        padding: 10px; 
+        border-top-style:dotted;
+        border-bottom-style:dotted;
+        
     }
 </style>

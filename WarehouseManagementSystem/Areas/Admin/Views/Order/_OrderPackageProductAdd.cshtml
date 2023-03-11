@@ -8,7 +8,7 @@
         </div>
     </div>
 </div>
-<div id="selectedPackageCount"></div>
+ 
 
 @using (Html.BeginForm("OrderPackageProductAdd", "Order", new { Area = "Admin" }, FormMethod.Post, new { id = "orderPackageProductAddForm", role = "form" }))
 {
@@ -79,4 +79,33 @@
     <div class="clearfix"></div>
 }
 
- 
+<script>
+    //function selectAll() {
+    //    var that = $(this);
+    //    var selectId = that.data('selectId');
+    //    var container = $('#orderSelectedPackage');
+    //    var textarea = document.getElementById("PackagedCount");
+    //    var currentValue = textarea.value;
+    //    //The overlay
+    //    var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+    //    container.append(overlay);
+    //    $.ajax({
+    //        url: '/admin/Order/SelectAllPackageProduct',
+    //        dataType: 'json',
+    //        type: "POST",
+
+    //        traditional: true,
+    //        cache: false,
+    //        data: { selectId: selectId },
+    //        success: function (response, status, xhr) {
+    //            container.find(overlay).remove();
+    //            console.log(response[0].selectCount);
+
+
+    //            var appendedValue = response[0].selectCount;
+
+    //            textarea.value = currentValue + appendedValue;
+    //        },
+    //    });
+    //};
+</script>

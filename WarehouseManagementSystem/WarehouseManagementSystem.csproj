@@ -282,6 +282,7 @@
     <Compile Include="Areas\Admin\Controllers\CustomerOrderSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\FaqSettingController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderPackageController.cs" />
     <Compile Include="Areas\Admin\Controllers\TicketBoxAnswerController.cs" />
     <Compile Include="Areas\Admin\Controllers\TicketBoxController.cs" />
     <Compile Include="Areas\Admin\Controllers\PageSettingController.cs" />
@@ -4612,6 +4613,9 @@
     <Content Include="Areas\Admin\Views\TicketBox\DisplayTemplates\TicketBoxShowViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\TicketBoxAnswer\_TicketAnswer.cshtml" />
     <Content Include="Areas\Admin\Views\TicketBox\_TicketAnswerView.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\OrderPackageList.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\DisplayTemplates\OrderPackageListViewModel.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

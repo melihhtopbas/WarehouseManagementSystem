@@ -1,0 +1,37 @@
+﻿
+@model Warehouse.ViewModels.Admin.OrderPackageListViewModel
+<tr id="@("orderPackage_"+Model.Id)" class="master-row">
+
+    <td>@Model.Id</td>
+    <td>
+        @Model.Desi
+    </td>
+   
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#orderPackage_@Model.Id"
+           data-modal-highlight="#orderPackage_@Model.Id"
+           data-modal-title="Sipariş Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("Edit", "OrderPackage", routeValues: new {Area = "Admin",packageId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Sipariş Paketi Düzenle
+        </a>
+
+    </td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-order-package-id="@Model.Id"
+           data-on-confirm="deleteOrderPackage"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i>Sipariş Paketi Sil
+        </a>
+
+    </td>
+</tr>

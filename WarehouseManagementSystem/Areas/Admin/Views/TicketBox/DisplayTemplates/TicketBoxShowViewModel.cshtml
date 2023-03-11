@@ -10,6 +10,15 @@
         {
             <i class="fa-solid fa-envelope-open"></i>
         }
+        <span>/</span>
+        @if (Model.isAnswer == true)
+        {
+            <i class="fa-solid fa-check"></i>
+        }
+        else
+        {
+            <i class="fa-solid fa-hourglass"></i>
+        }
     </td>
     <td>@Model.SenderName</td>
     <td>

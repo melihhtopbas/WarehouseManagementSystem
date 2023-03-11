@@ -19,7 +19,7 @@
         <!-- Logo -->
         <a href="@Url.Action("Index","Order")" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>P</b><b>RA</b></span>
+            <span class="logo-mini"><b>W</b><b>MS</b></span>
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg"><b>Pra</b>WMS</span>
         </a>
@@ -344,7 +344,21 @@
 
 
                 <li><a href="/"> <i class="fa-solid fa-warehouse"></i> <span>Anasayfa</span></a></li>
-                <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span></a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa-solid fa-truck-fast"></i> <span>Gönderiler</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+
+                        <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Sipariş Oluştur</span></a></li>
+                        <li><a href="@Url.Action("Index","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-packing"></i> <span>Sipariş Paketleri</span></a></li>
+
+                    </ul>
+                </li>
+              
                 <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
                 <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
                 <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
@@ -388,7 +402,8 @@
 
                         @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
                         {
-                            <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li> 
+                            <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
+
                         }
                         else
                         {
@@ -546,6 +561,7 @@
             $('#shippingPriceSearchForm').submit();
             $('#ticketBoxSearchForm').submit();
             $('#ticketBoxShowSearchForm').submit();
+            $('#orderPackageSearchForm').submit();
 
 
 
@@ -1174,29 +1190,33 @@
             });
         };
         function selectAll() {
+
             var that = $(this);
             var selectId = that.data('selectId'); 
             var container = $('#orderSelectedPackage');
-            //The overlay
-            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
-            container.append(overlay);
-            $.ajax({
-                url: '/admin/Order/SelectAllPackageProduct',
-                dataType: 'json',
-                type: "POST",
+            var textarea = document.getElementById("packagedCount_" + selectId);
+            var currentValue = textarea.value;
+            if (currentValue == "" || currentValue == null) {
+                var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+                container.append(overlay);
+                $.ajax({
+                    url: '/admin/Order/SelectAllPackageProduct',
+                    dataType: 'json',
+                    type: "POST",
 
-                traditional:true,
-                cache: false,
-                data: { selectId: 400246 },
-                success: function (response, status, xhr) {
-                    container.find(overlay).remove();
-                    console.log(response[0].selectCount);
-                    $("#packageProductCount").append(response[0].selectCount);
+                    traditional: true,
+                    cache: false,
+                    data: { selectId: selectId },
+                    success: function (response, status, xhr) {
+                        container.find(overlay).remove();
+                      
+                        var appendedValue = response[0].selectCount;
 
-              
-                    $("#selectedPackageCount").append(response[0].selectCount);
-                },
-            }); 
+                        textarea.value = currentValue + appendedValue;
+                    },
+                }); 
+            }
+           
         };
     </script>
 </body>

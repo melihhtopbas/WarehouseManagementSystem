@@ -104,6 +104,8 @@ namespace Warehouse.ViewModels.Admin
 
         [Display(Name = "Koli içerisindeki toplam ürün sayısı")]
         public int? CountProductsInThePackage { get; set; }
+        public long OrderId { get; set; }
+
 
     }
     public class OrderPackageAddViewModel
@@ -171,6 +173,11 @@ namespace Warehouse.ViewModels.Admin
         public decimal Desi { get; set; }
         public IEnumerable<ProductGroupShowViewModel> OrderPackagedProductGroups { get; set; }
 
+    }
+    public class OrderPackageSearchViewModel
+    {
+        [Display(Name = "Arama Metni")]
+        public string SearchName { get; set; }
     }
 
 }
