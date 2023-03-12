@@ -24,10 +24,13 @@
 
         @if (Model.OrderProductGroups != null)
         {
+         
             <div class="col-xs-12">
+                <input type="checkbox" id="selectAllProducts" /> <span>Tümünü seç</span>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+
                             <th>Paketlenecek Ürünleri Seçiniz</th>
                             <th>Ürün İçeriği</th>
                             <th>Toplam Ürün Adeti</th>
@@ -78,34 +81,10 @@
     </div>
     <div class="clearfix"></div>
 }
-
-<script>
-    //function selectAll() {
-    //    var that = $(this);
-    //    var selectId = that.data('selectId');
-    //    var container = $('#orderSelectedPackage');
-    //    var textarea = document.getElementById("PackagedCount");
-    //    var currentValue = textarea.value;
-    //    //The overlay
-    //    var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
-    //    container.append(overlay);
-    //    $.ajax({
-    //        url: '/admin/Order/SelectAllPackageProduct',
-    //        dataType: 'json',
-    //        type: "POST",
-
-    //        traditional: true,
-    //        cache: false,
-    //        data: { selectId: selectId },
-    //        success: function (response, status, xhr) {
-    //            container.find(overlay).remove();
-    //            console.log(response[0].selectCount);
-
-
-    //            var appendedValue = response[0].selectCount;
-
-    //            textarea.value = currentValue + appendedValue;
-    //        },
-    //    });
-    //};
-</script>
+ <script>
+     $(document).ready(function () {
+         $("#selectAllProducts").click(function () {
+             $(".CheckClass").prop('checked', $(this).prop('checked'));
+         });
+     });
+ </script>

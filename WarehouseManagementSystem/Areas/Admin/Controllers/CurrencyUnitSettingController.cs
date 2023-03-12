@@ -32,7 +32,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
             ViewBag.Title = "Para Birimleri";
             ViewBag.Languages = await _languageService.GetLanguageListViewAsync();
-
+          
             return View("~/Areas/Admin/Views/CurrencyUnitSetting/Index.cshtml");
 
         }
@@ -112,6 +112,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     success = false,
                     responseText = RenderPartialViewToString("~/Areas/Admin/Views/CurrencyUnitSetting/_CurrencyUnitAdd.cshtml", model)
+                    
                 });
 
         }

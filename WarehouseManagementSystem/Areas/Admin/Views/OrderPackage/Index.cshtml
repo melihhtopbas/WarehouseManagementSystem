@@ -1,4 +1,4 @@
-﻿@model Warehouse.ViewModels.Admin.CountrySearchViewModel
+﻿@model Warehouse.ViewModels.Admin.OrderPackageSearchViewModel
 @{
     ViewBag.Title = "Sipariş Paketleri";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -15,8 +15,8 @@
                 @using (Html.BeginForm("OrderPackageList", "OrderPackage", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "orderPackageSearchForm", data_ajax_form = "true", data_target_container = "#OrderPackageListContainer" }))
                 {
                     <div class="row">
-                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchName)">
-                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchName)
+                        <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchId)">
+                            @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchId)
                         </div>
 
                        

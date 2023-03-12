@@ -1196,6 +1196,8 @@
             var container = $('#orderSelectedPackage');
             var textarea = document.getElementById("packagedCount_" + selectId);
             var currentValue = textarea.value;
+            currentValue = "";
+            
             if (currentValue == "" || currentValue == null) {
                 var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
                 container.append(overlay);
@@ -1218,6 +1220,9 @@
             }
            
         };
+
+      
+
     </script>
 </body>
 </html>

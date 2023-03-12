@@ -63,7 +63,9 @@ namespace Warehouse.Service.Admin
             var callResult = new ServiceCallResult() { Success = false };
             if (model.Name.Length > 5 )
             {
-                callResult.ErrorMessages.Add("Para birimi 5 karakter uzunluğundan büyük olamaz.");
+                callResult.ErrorMessages.Add("Para birimi 5 karakter uzunluğundan büyük olamaz." + "<a href='/Admin/Order/Index'>Details</a>");
+                
+                 
                 return callResult;
             }
 

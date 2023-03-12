@@ -178,6 +178,7 @@ namespace Warehouse.ViewModels.Admin
     {
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
+        public string SearchId { get; set; }
     }
 
 }

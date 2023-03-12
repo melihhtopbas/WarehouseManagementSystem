@@ -22,7 +22,7 @@ namespace Warehouse.Service.Admin
         }
         private IQueryable<CargoServiceTypeListViewModel> _getCargoServiceListIQueryable(Expression<Func<Data.CargoServiceTypes, bool>> expr)
         {
-             
+
 
             return (from b in _context.CargoServiceTypes.AsExpandable().Where(expr)
                     select new CargoServiceTypeListViewModel()
@@ -30,7 +30,7 @@ namespace Warehouse.Service.Admin
                         Id = b.Id,
                         Name = b.Name,
                         LanguageId = b.LanguageId,
-                         
+
 
                     });
         }
@@ -46,7 +46,7 @@ namespace Warehouse.Service.Admin
             }
             return _getCargoServiceListIQueryable(predicate);
         }
-       
+
 
         public async Task<CargoServiceTypeListViewModel> GetCargoServiceListViewAsync(long cargoId)
         {
@@ -72,13 +72,13 @@ namespace Warehouse.Service.Admin
 
                 Name = model.Name,
                 LanguageId = model.LanguageId,
-                 
+
 
 
             };
 
             var country = _context.Countries.ToList();
-            
+
             foreach (var item in country)
             {
                 _context.ShippingPrices.Add(new ShippingPrices
@@ -87,7 +87,7 @@ namespace Warehouse.Service.Admin
                     CargoServiceId = cargoService.Id,
                     CountryId = item.Id,
                     LanguageId = cargoService.LanguageId,
-                    
+
                 });
             }
 
@@ -119,15 +119,15 @@ namespace Warehouse.Service.Admin
         public async Task<CargoServiceTypeViewModel> GetCargoServiceEditViewModelAsync(int cargoServiceId)
         {
             var cargoService = await (from p in _context.CargoServiceTypes
-                                 where p.Id == cargoServiceId
-                                 select new CargoServiceTypeViewModel()
-                                 {
-                                     Name = p.Name,
-                                     Id = p.Id,
-                                     LanguageId = p.LanguageId,
-                                      
+                                      where p.Id == cargoServiceId
+                                      select new CargoServiceTypeViewModel()
+                                      {
+                                          Name = p.Name,
+                                          Id = p.Id,
+                                          LanguageId = p.LanguageId,
 
-                                 }).FirstOrDefaultAsync();
+
+                                      }).FirstOrDefaultAsync();
             return cargoService;
         }
         public async Task<ServiceCallResult> EditCargoServiceAsync(CargoServiceTypeViewModel model)
@@ -148,7 +148,7 @@ namespace Warehouse.Service.Admin
             }
 
 
-            cargoService.Name = model.Name; 
+            cargoService.Name = model.Name;
 
 
 
@@ -180,7 +180,7 @@ namespace Warehouse.Service.Admin
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-           
+
 
             var cargoService = await _context.CargoServiceTypes.FirstOrDefaultAsync(a => a.Id == cargoServiceId).ConfigureAwait(false);
             if (cargoService == null)
@@ -188,20 +188,15 @@ namespace Warehouse.Service.Admin
                 callResult.ErrorMessages.Add("Böyle bir kargo servisi bulunamadı.");
                 return callResult;
             }
-            var shippingCargo = _context.ShippingPrices.Where(x=>x.CargoServiceId== cargoServiceId && x.Active == true).ToList();
-            if (shippingCargo.Count >0)
+            var shippingCargo = _context.ShippingPrices.Where(x => x.CargoServiceId == cargoServiceId && x.Active == true).ToList();
+
+
+            var shippingService = _context.ShippingPrices.Where(x => x.CargoServiceId == cargoServiceId).ToList();
+            foreach (var item in shippingService)
             {
-                callResult.ErrorMessages.Add("Aktif olarak kullanılan kargo servisini silemezsiniz!");
-                return callResult;
+                _context.ShippingPrices.Remove(item);
             }
-            else if (shippingCargo.Count == 0)
-            {
-                var shippingService = _context.ShippingPrices.Where(x => x.CargoServiceId == cargoServiceId).ToList();
-                foreach (var item in shippingService)
-                {
-                    _context.ShippingPrices.Remove(item);
-                }
-            }
+
 
 
 
