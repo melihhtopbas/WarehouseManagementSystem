@@ -177,7 +177,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Kargo Servis Tipi")]
 
         public string CargoService { get; set; }
-
+        
         public bool? isPackage { get; set; }
         [Display(Name = "Sipariş Oluşturulma Tarihi")]
         public DateTime DateTime { get; set; }

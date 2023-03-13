@@ -41,10 +41,10 @@
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
                             @if (CurrentUserViewModel.Role == "admin")
-                            { 
-                            <span class="label label-danger new-icon-messages-total-count">
-                                @CurrentUserViewModel.MessageCount  
-                            </span>}
+                            {
+                                <span class="label label-danger new-icon-messages-total-count">
+                                    @CurrentUserViewModel.MessageCount
+                                </span>}
                         </a>
                         @if (CurrentUserViewModel.Role != "admin")
                         {
@@ -355,10 +355,11 @@
 
                         <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Sipariş Oluştur</span></a></li>
                         <li><a href="@Url.Action("Index","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-packing"></i> <span>Sipariş Paketleri</span></a></li>
+                        <li><a href="@Url.Action("OrderPackage","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-stacked"></i> <span>Sipariş Kolileri</span></a></li>
 
                     </ul>
                 </li>
-              
+
                 <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
                 <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
                 <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
@@ -442,6 +443,7 @@
     @RenderSection("scripts", required: false)
 
     <link href="~/Areas/Admin/Content/wms.bootstrap.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/page.main.css" rel="stylesheet" />
 
     <script src="https://kit.fontawesome.com/d0ade9b5d6.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
@@ -562,6 +564,7 @@
             $('#ticketBoxSearchForm').submit();
             $('#ticketBoxShowSearchForm').submit();
             $('#orderPackageSearchForm').submit();
+            $('#PackageSearchForm').submit();
 
 
 
@@ -1192,12 +1195,12 @@
         function selectAll() {
 
             var that = $(this);
-            var selectId = that.data('selectId'); 
+            var selectId = that.data('selectId');
             var container = $('#orderSelectedPackage');
             var textarea = document.getElementById("packagedCount_" + selectId);
             var currentValue = textarea.value;
             currentValue = "";
-            
+
             if (currentValue == "" || currentValue == null) {
                 var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
                 container.append(overlay);
@@ -1211,17 +1214,17 @@
                     data: { selectId: selectId },
                     success: function (response, status, xhr) {
                         container.find(overlay).remove();
-                      
+
                         var appendedValue = response[0].selectCount;
 
                         textarea.value = currentValue + appendedValue;
                     },
-                }); 
+                });
             }
-           
+
         };
 
-      
+
 
     </script>
 </body>

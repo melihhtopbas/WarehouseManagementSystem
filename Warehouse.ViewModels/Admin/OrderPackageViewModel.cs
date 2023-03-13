@@ -104,7 +104,10 @@ namespace Warehouse.ViewModels.Admin
 
         [Display(Name = "Koli içerisindeki toplam ürün sayısı")]
         public int? CountProductsInThePackage { get; set; }
-        public long OrderId { get; set; }
+        public long? OrderId { get; set; }
+        public string Barcode { get; set; }
+
+      
 
 
     }
@@ -178,7 +181,10 @@ namespace Warehouse.ViewModels.Admin
     {
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
-        public string SearchId { get; set; }
+        public long? SearchId { get; set; }
+        public long? PackageId { get; set; }
+
+     
     }
 
 }

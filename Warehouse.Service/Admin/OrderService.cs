@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Web.Mvc;
 using System.Web;
 using Microsoft.VisualBasic;
+using System.Net.NetworkInformation;
 
 namespace Warehouse.Service.Admin
 {
@@ -34,10 +35,8 @@ namespace Warehouse.Service.Admin
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
-             
 
-            
-
+         
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
@@ -61,6 +60,8 @@ namespace Warehouse.Service.Admin
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
                         CustomerId = users.Id,
+                        
+                        
 
 
 
@@ -335,6 +336,7 @@ namespace Warehouse.Service.Admin
                     packages.Length = item.Length;
                     packages.Desi = item.Desi;
                     packages.Count = item.Count;
+                    packages.Barcode = Convert.ToString(item.Id);
 
                     foreach (var product in item.OrderPackagedProductGroups)
                     {

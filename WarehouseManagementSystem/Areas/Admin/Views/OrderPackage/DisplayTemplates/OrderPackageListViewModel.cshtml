@@ -2,11 +2,11 @@
 @model Warehouse.ViewModels.Admin.OrderPackageListViewModel
 <tr id="@("orderPackage_"+Model.Id)" class="master-row">
 
-    <td>@Model.Id</td>
+    <td>@Model.Barcode</td>
     <td>
         @Model.Desi
     </td>
-   
+   <td>@Model.OrderId</td>
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"

@@ -247,6 +247,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 QuantityPerUnit = a.QuantityPerUnit,
                 SKU = a.SKU,
             }).ToList();
+            ViewData["OrderId"] = orderId;
             var model = await _orderService.GetOrderPackageGroup(orderId);
             int? count = 0;
             foreach (var item in model)

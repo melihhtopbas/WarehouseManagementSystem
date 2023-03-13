@@ -164,6 +164,7 @@
           <Property Name="Count" Type="int" />
           <Property Name="Desi" Type="decimal" Precision="9" Scale="3" Nullable="false" />
           <Property Name="OrderId" Type="bigint" />
+          <Property Name="Barcode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -1142,6 +1143,7 @@
           <Property Name="OrderId" Type="Int64" />
           <NavigationProperty Name="PackagedProductGroups" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="Packages" ToRole="PackagedProductGroups" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Packages" ToRole="Orders" />
+          <Property Name="Barcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
           <Key>
@@ -1903,6 +1905,7 @@
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Packages">
               <MappingFragment StoreEntitySet="Packages">
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Desi" ColumnName="Desi" />
                 <ScalarProperty Name="Count" ColumnName="Count" />

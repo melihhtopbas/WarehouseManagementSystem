@@ -1,0 +1,83 @@
+﻿ 
+@model IQueryable<Warehouse.ViewModels.Admin.OrderPackageListViewModel>
+<section class="section featured-works" data-target="PackageListContainer">
+    <div class="container">
+        <div class="section-heading text-center">
+            <h2>Koliler</h2>
+        </div>
+        <!-- End of .section-heading -->
+
+
+        <div class="featured-work-content">
+            <div class="master-row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+
+                        <div class="content box-with-img">
+
+                            <!-- End of .img-container -->
+
+                            <div class="text-content  text-left">
+                                <h3>
+                                    @item.Desi DESİ
+                                </h3>
+                                <h4>@item.Length x @item.Width x @item.Height</h4>
+                                <h5>@item.Weight KG</h5>
+                                <!-- End of .readmore-btn -->
+                            </div>
+                            <!-- End of .text-content -->
+
+                            <a data-toggle="confirmation"
+                               title="Koli hakkında"
+                               data-btn-ok-label="İçeriği Görüntüle"
+                               data-btn-cancel-label="Sil"
+                               data-placement="top"
+                               href="javascript:void(0);" class="overlay">
+                                <div class="text-content  text-left">
+                                    <h3> 
+                                        @item.Barcode <i class="fa-solid fa-barcode"></i>
+                                    </h3>
+                                    <div class="readmore-btn">
+                                        <div>
+                                            Daha fazla
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                    <!-- End of .readmore-btn -->
+                                </div>
+                                <!-- End of .text-content -->
+                            </a>
+                            <!-- End of .overlay -->
+                        </div>
+                        <!-- End of .content -->
+                        
+                            <a style="margin:auto; width:100%;" href="javascript:void(0);"
+                               data-toggle="confirmation"
+                               title="Emin Misiniz"
+                               data-btn-ok-label="Evet"
+                               data-btn-cancel-label="Hayır"
+                               data-placement="top"
+                               data-order-package-id="@item.Id"
+                               data-on-confirm="deleteOrderPackage"
+                               class="btn btn-block btn-danger btn-sm">
+                                <i class="fa fa-trash fa-fw text-danger"></i>
+                            </a>
+                        
+                         
+                    </div>
+                    <!-- End of .col-md-6 -->
+
+                }
+
+
+
+            </div>
+            <!-- End of .row -->
+
+        </div>
+        <!-- End of .featured-work-content -->
+    </div>
+    <!-- End of .container -->
+</section>
+<!-- End of .service-cat-checklist-->

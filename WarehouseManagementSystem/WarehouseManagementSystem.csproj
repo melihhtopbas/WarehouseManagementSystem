@@ -763,6 +763,8 @@
     <Content Include="Areas\Admin\Content\loadingoverlay.css" />
     <Content Include="Areas\Admin\Content\loadingoverlay.min.css" />
     <Content Include="Areas\Admin\Content\main.css" />
+    <Content Include="Areas\Admin\Content\page.bootstrap.css" />
+    <Content Include="Areas\Admin\Content\page.main.css" />
     <Content Include="Areas\Admin\Content\Site.css" />
     <Content Include="Areas\Admin\Content\style.css" />
     <Content Include="Areas\Admin\Content\switchery.css" />
@@ -4616,6 +4618,8 @@
     <Content Include="Areas\Admin\Views\OrderPackage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\OrderPackageList.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\DisplayTemplates\OrderPackageListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\PackageList.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\OrderPackage.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
