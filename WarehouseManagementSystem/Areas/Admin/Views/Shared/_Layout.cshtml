@@ -1223,7 +1223,47 @@
             }
 
         };
+        function deleteOrderPackage() {
+            var that = $(this);
+            var packageId = that.data('packageId');
 
+            var container = $('#PackageListContainer');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/orderpackage/delete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { packageId: packageId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    var $tr = that.closest('div.packageRow');
+                    $tr.nextUntil('div.packageRow').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
 
 
     </script>

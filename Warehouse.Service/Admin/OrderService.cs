@@ -348,6 +348,8 @@ namespace Warehouse.Service.Admin
                             Id = product.Id,
                             QuantityPerUnit = product.QuantityPerUnit,
                             SKU = product.SKU,
+                            ProductId = product.Id,
+                            
                         });
                     }
 

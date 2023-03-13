@@ -102,5 +102,31 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 })
             };
         }
+        [AjaxOnly, HttpPost]
+        public async Task<ActionResult> Delete(int packageId)
+        {
+            var callResult = await _orderPackageService.DeleteOrderPackageAsync(packageId);
+            if (callResult.Success)
+            {
+
+                ModelState.Clear();
+
+                return Json(
+                    new
+                    {
+                        success = true,
+                        warningMessages = callResult.WarningMessages,
+                        successMessages = callResult.SuccessMessages,
+                    });
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    errorMessages = callResult.ErrorMessages
+                });
+
+        }
     }
 }

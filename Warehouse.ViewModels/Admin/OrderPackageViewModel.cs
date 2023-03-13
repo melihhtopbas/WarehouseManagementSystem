@@ -181,7 +181,11 @@ namespace Warehouse.ViewModels.Admin
     {
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
+
+        [Display(Name = "Arama Metni")]
         public long? SearchId { get; set; }
+
+        [Display(Name = "Arama Metni")]
         public long? PackageId { get; set; }
 
      

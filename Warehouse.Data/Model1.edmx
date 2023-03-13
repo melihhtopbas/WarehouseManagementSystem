@@ -151,6 +151,7 @@
           <Property Name="SKU" Type="nvarchar(max)" />
           <Property Name="GtipCode" Type="nvarchar(max)" />
           <Property Name="PackageId" Type="bigint" />
+          <Property Name="ProductId" Type="bigint" />
         </EntityType>
         <EntityType Name="Packages">
           <Key>
@@ -1174,6 +1175,7 @@
           <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PackageId" Type="Int64" />
           <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="PackagedProductGroups" ToRole="Packages" />
+          <Property Name="ProductId" Type="Int64" />
         </EntityType>
         <Association Name="FK_PackagedProductGroups_Packages">
           <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="0..1" />
@@ -1937,6 +1939,7 @@
           <EntitySetMapping Name="PackagedProductGroups">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.PackagedProductGroups">
               <MappingFragment StoreEntitySet="PackagedProductGroups">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="PackageId" ColumnName="PackageId" />
                 <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
                 <ScalarProperty Name="SKU" ColumnName="SKU" />

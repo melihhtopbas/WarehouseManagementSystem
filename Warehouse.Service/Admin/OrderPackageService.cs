@@ -43,6 +43,7 @@ namespace Warehouse.Service.Admin
                         Width = b.Width,
                         Desi = b.Desi,
                         OrderId = b.OrderId,
+                        Barcode = b.Barcode,
                          
 
                         
@@ -104,6 +105,67 @@ namespace Warehouse.Service.Admin
             predicate.And(a => a.Id == packageId);
             var country = await _getOrderPackageListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return country;
+        }
+        public async Task<ServiceCallResult> DeleteOrderPackageAsync(int packageId)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+
+            var package = await _context.Packages.FirstOrDefaultAsync(a => a.Id == packageId).ConfigureAwait(false);
+            if (package == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir paket bulunamadı.");
+                return callResult;
+            }
+            var order = _context.Orders.FirstOrDefault(x => x.Id == package.OrderId);
+            order.isPackage = false;
+
+            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == packageId).ToList();
+            foreach (var product in packagedProducts)
+            {
+                var productGroups = _context.ProductTransactionGroup.Where(x => x.Id == product.ProductId).FirstOrDefault();
+                if (product.ProductId == productGroups.Id)
+                {
+                    productGroups.isPackagedCount += product.Count;
+                    productGroups.isPackagedCount2 += product.Count;
+                    productGroups.isPackage = false;
+                    if (productGroups.Count == productGroups.isPackagedCount)
+                    {
+                        productGroups.isReadOnly = false;
+                    }
+                }
+            }
+
+            foreach (var product in packagedProducts)
+            {
+                _context.PackagedProductGroups.Remove(product);
+            }
+            _context.Packages.Remove(package);
+          
+
+
+
+        
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
         }
     }
 }
