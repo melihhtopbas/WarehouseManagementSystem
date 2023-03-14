@@ -106,8 +106,10 @@ namespace Warehouse.ViewModels.Admin
         public int? CountProductsInThePackage { get; set; }
         public long? OrderId { get; set; }
         public string Barcode { get; set; }
+        public string CountryName { get; set; }
+        public string ReceiverName { get; set; }
 
-      
+
 
 
     }
@@ -118,8 +120,8 @@ namespace Warehouse.ViewModels.Admin
 
 
         public IEnumerable<ProductGroupShowViewModel> OrderProductGroups { get; set; }
-        public IEnumerable<OrderPackageProductAddViewModel> OrderPackageProductAddViewModels{ get; set; }
-        public IEnumerable<OrderPackageProductListViewModel> OrderPackageProductListViewModels{ get; set; }
+        public IEnumerable<OrderPackageProductAddViewModel> OrderPackageProductAddViewModels { get; set; }
+        public IEnumerable<OrderPackageProductListViewModel> OrderPackageProductListViewModels { get; set; }
     }
     public class OrderPackageProductAddViewModel
     {
@@ -179,16 +181,53 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderPackageSearchViewModel
     {
-        [Display(Name = "Arama Metni")]
+        [Display(Name = "Barkod Id")]
         public string SearchName { get; set; }
 
-        [Display(Name = "Arama Metni")]
+        [Display(Name = "Sipariş Id")]
         public long? SearchId { get; set; }
 
-        [Display(Name = "Arama Metni")]
+        [Display(Name = "Package Id")]
         public long? PackageId { get; set; }
 
-     
+
+    }
+    public class ProductGroupsEditViewModel
+    {
+        public long Id { get; set; }
+
+        [Display(Name = "İçerik")]
+        public string Content { get; set; }
+        public string SKU { get; set; }
+        [Display(Name = "Paketlenmemiş Ürün Sayısı")]
+        public int? ProductCount { get; set; }
+        [Display(Name = "Toplam Ürün Sayısı")]
+        public int? TotalCount { get; set; }
+        [Display(Name = "Paketlenmiş Ürün Sayısı")]
+        public int? PackagedProductCount { get; set; }
+        [Display(Name = "Paketlenecek Ürün Sayısı")]
+        [Range(1, int.MaxValue, ErrorMessage = "0'dan farklı adet giriniz")]
+        public int? IsPackagedProductCount { get; set; }
+        public long ProductId { get; set; }
+
+
+        public long PackageId { get; set; }
+
+    }
+    public class OrderPackageProductEditViewModel
+    {
+        public OrderPackageProductEditViewModel()
+        {
+            ProductGroupsEditViewModels = new List<ProductGroupsEditViewModel>();
+        }
+        public long Id { get; set; }
+
+        public IEnumerable<ProductGroupsEditViewModel> ProductGroupsEditViewModels { get; set; }
+
+  
+        public long OrderId { get; set; }
+
+        public string Barcode { get; set; }
     }
 
 }

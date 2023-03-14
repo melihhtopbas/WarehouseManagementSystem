@@ -106,6 +106,7 @@
 
 
                                 }
+                                
                                 <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/contactform">Bütün mesajları gör</a>
                             </ul>
                         }
@@ -354,7 +355,6 @@
                     <ul class="treeview-menu" style="display: none;">
 
                         <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Sipariş Oluştur</span></a></li>
-                        <li><a href="@Url.Action("Index","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-packing"></i> <span>Sipariş Paketleri</span></a></li>
                         <li><a href="@Url.Action("OrderPackage","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-stacked"></i> <span>Sipariş Kolileri</span></a></li>
 
                     </ul>
@@ -1264,7 +1264,48 @@
                 container.find(overlay).remove();
             });
         };
+        function deleteOrderPackageProduct() {
+            var that = $(this);
+            var packageProductId = that.data('packageProductId');
 
+            var container = $('#packageEditForm');
+            //The overlay
+            var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+            container.append(overlay);
+
+            $.ajax({
+                url: '/admin/orderpackage/packageproductdelete',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { packageProductId: packageProductId }
+            }).done(function (result) {
+                container.find(overlay).remove();
+                if (result.success) {
+                    console.log(result);
+                    var $tr = that.closest('tr.master-row');
+                    $tr.nextUntil('tr.master-row').empty().remove();
+                    $tr.animateDelete();
+
+                    $.each(result.successMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.success(item);
+                        });
+                } else {
+                    $.each(result.errorMessages,
+                        function (i, item) {
+                            toastr.error(item);
+                        });
+                }
+            }).fail(function () {
+                container.find(overlay).remove();
+            });
+        };
 
     </script>
 </body>

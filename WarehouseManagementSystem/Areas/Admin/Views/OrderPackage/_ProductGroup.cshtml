@@ -1,0 +1,46 @@
+﻿
+@model Warehouse.ViewModels.Admin.ProductGroupsEditViewModel
+
+
+@using (Html.BeginCollectionItem("ProductGroupsEditViewModels"))
+{
+
+
+    <tr id="@("packageProduct_" + Model.Id)" class="master-row">
+
+
+        <td>
+            @Model.Content
+        </td>
+        <td>@Model.SKU</td>
+        <td>@Model.TotalCount</td>
+        <td>@Model.ProductCount</td>
+        <td>@Model.PackagedProductCount</td>
+        <td>@Html.TextBoxBlockLabelAsAddonFor(m => m.IsPackagedProductCount, new { placeholder = "Kolide ne kadar ürün olmasını istiyorsanız yazınız." })</td>
+        <td style="width:50px">
+            <a href="javascript:void(0);"
+               data-toggle="confirmation"
+               title="Emin Misiniz, sildikten sonra geri alamayacaksınız!"
+               data-btn-ok-label="Evet"
+               data-btn-cancel-label="Hayır"
+               data-placement="top"
+               data-package-product-id="@Model.Id"
+               data-on-confirm="deleteOrderPackageProduct"
+               class="btn btn-block btn-danger btn-sm">
+                <i class="fa fa-trash fa-fw text-danger"></i>Sil
+            </a>
+
+        </td>
+    </tr>
+ 
+
+    @Html.HiddenFor(a => a.Content)
+    @Html.HiddenFor(a => a.ProductId)
+    @Html.HiddenFor(a => a.SKU)
+    @Html.HiddenFor(a => a.ProductId)
+    @Html.HiddenFor(a => a.PackagedProductCount)
+    @Html.HiddenFor(a => a.TotalCount)
+    @Html.HiddenFor(a => a.PackageId)
+    @Html.HiddenFor(a => a.ProductCount)
+    @Html.HiddenFor(a => a.Id)
+}

@@ -128,5 +128,79 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 });
 
         }
+        public async Task<ActionResult> Edit(int packageId)
+        {
+
+            var model = await _orderPackageService.GetPackageEditViewModelAsync(packageId);
+            if (model != null)
+            {
+
+                return PartialView("~/Areas/Admin/Views/OrderPackage/_PackageEdit.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Paket sistemde bulunamadı!");
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(OrderPackageProductEditViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderPackageService.EditPackageAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                   
+
+
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/_PackageEdit.cshtml", model)
+                });
+
+        }
+        [AjaxOnly, HttpPost]
+        public async Task<ActionResult> PackageProductDelete(int packageProductId)
+        {
+            var callResult = await _orderPackageService.DeleteOrderPackageProductAsync(packageProductId);
+            if (callResult.Success)
+            {
+
+                ModelState.Clear();
+
+                return Json(
+                    new
+                    {
+                        success = true,
+                        warningMessages = callResult.WarningMessages,
+                        successMessages = callResult.SuccessMessages,
+                    });
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    errorMessages = callResult.ErrorMessages
+                });
+
+        }
     }
 }

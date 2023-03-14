@@ -22,12 +22,12 @@ namespace Warehouse.Service.Admin
         private readonly CurrentUserViewModel _currentUser;
         public OrderPackageService(WarehouseManagementSystemEntities1 context)
         {
-            _context = context; 
+            _context = context;
             _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
         private IQueryable<OrderPackageListViewModel> _getOrderPackageListIQueryable(Expression<Func<Data.Packages, bool>> expr)
         {
-              
+
             return (from b in _context.Packages.AsExpandable().Where(expr)
 
                     join o in _context.Orders
@@ -44,10 +44,13 @@ namespace Warehouse.Service.Admin
                         Desi = b.Desi,
                         OrderId = b.OrderId,
                         Barcode = b.Barcode,
-                         
+                        CountryName = o.Countries.Name,
+                        ReceiverName = o.RecipientName,
 
-                        
-                        
+
+
+
+
 
                     });
         }
@@ -56,16 +59,16 @@ namespace Warehouse.Service.Admin
 
             var result = _context.Packages.Select(b => new OrderPackageListViewModel
             {
-                 Desi= b.Desi,
-                 OrderId= b.OrderId,
-                 Barcode= b.Barcode,
-                 Count= b.Count,
-                 Height= b.Height,
-                 Id= b.Id,
-                 Length= b.Length,
-                 Weight= b.Weight,
-                 Width= b.Width,
-              
+                Desi = b.Desi,
+                OrderId = b.OrderId,
+                Barcode = b.Barcode,
+                Count = b.Count,
+                Height = b.Height,
+                Id = b.Id,
+                Length = b.Length,
+                Weight = b.Weight,
+                Width = b.Width,
+
 
             }).ToList();
             return result;
@@ -74,7 +77,7 @@ namespace Warehouse.Service.Admin
         public IQueryable<OrderPackageListViewModel> GetOrderPackageListIQueryable(OrderPackageSearchViewModel model)
         {
             var predicate = PredicateBuilder.New<Data.Packages>(true);/*AND*/
-         
+
             if (!string.IsNullOrWhiteSpace(model.SearchName))
             {
                 predicate.And(a => a.Barcode.Contains(model.SearchName));
@@ -82,8 +85,8 @@ namespace Warehouse.Service.Admin
             }
             string name = Convert.ToString(model.SearchId);
             string packageName = Convert.ToString(model.PackageId);
-             
-          
+
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 predicate.And(a => a.OrderId.Value.Equals(model.SearchId.Value));
@@ -96,7 +99,7 @@ namespace Warehouse.Service.Admin
             }
             return _getOrderPackageListIQueryable(predicate);
         }
-       
+
 
         public async Task<OrderPackageListViewModel> GetOrderPackageListViewAsync(long packageId)
         {
@@ -142,11 +145,11 @@ namespace Warehouse.Service.Admin
                 _context.PackagedProductGroups.Remove(product);
             }
             _context.Packages.Remove(package);
-          
 
 
 
-        
+
+
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try
@@ -158,6 +161,208 @@ namespace Warehouse.Service.Admin
 
                     callResult.Success = true;
                     callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+        }
+        public async Task<OrderPackageProductEditViewModel> GetPackageEditViewModelAsync(long packageId)
+        {
+            var package = await (from p in _context.Packages
+                                 where p.Id == packageId
+                                 
+                                 select new OrderPackageProductEditViewModel()
+                                 {
+
+                                     Id = p.Id,
+                                     OrderId = (long)p.OrderId,
+                                     Barcode = p.Barcode,
+
+
+
+                                     ProductGroupsEditViewModels = from i in p.PackagedProductGroups
+                                                                    join packaged in _context.Packages
+                                                                    on i.PackageId equals packaged.Id
+                                                                    join product in _context.ProductTransactionGroup
+                                                                    on i.ProductId equals product.Id    
+                                                                   select new ProductGroupsEditViewModel
+                                                                   {
+                                                                       Id = i.Id,
+                                                                       Content = i.Content,
+                                                                       SKU = i.SKU,
+                                                                       ProductCount = product.isPackagedCount,
+                                                                       PackageId = (long)i.PackageId,
+                                                                       ProductId = (long)i.ProductId,
+                                                                       PackagedProductCount = i.Count,
+                                                                       TotalCount = product.Count
+
+
+
+
+
+
+                                                                   },
+
+
+                                 }).FirstOrDefaultAsync();
+            return package;
+        }
+        public async Task<ServiceCallResult> EditPackageAsync(OrderPackageProductEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+            var package = await _context.Packages.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
+            package.Barcode = model.Barcode;
+
+            if (package == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir paket bulunamadı.");
+                return callResult;
+            }
+            if (model.ProductGroupsEditViewModels != null)
+            {
+                foreach (var item in model.ProductGroupsEditViewModels)
+                {
+                    if (item.IsPackagedProductCount != null && item.IsPackagedProductCount != item.PackagedProductCount)
+                    {
+                        if (item.IsPackagedProductCount > (item.PackagedProductCount + item.ProductCount))
+                        {
+                            callResult.ErrorMessages.Add("Belirtilen adetten daha fazla giremezsiniz.");
+                            return callResult;
+                        }
+                        else if (item.IsPackagedProductCount <= (item.PackagedProductCount + item.ProductCount) && item.IsPackagedProductCount > item.PackagedProductCount)
+                        {
+                            int counter = (int)(item.IsPackagedProductCount - item.PackagedProductCount);
+                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
+                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
+                            packagedProducts.Count += counter;
+                            productTransaction.isPackagedCount -= counter; productTransaction.isPackagedCount2 -= counter;
+                            if (productTransaction.isPackagedCount == 0)
+                            {
+                                productTransaction.isPackage = true;
+                            }
+                        }
+                        else if (item.IsPackagedProductCount < item.PackagedProductCount)
+                        {
+                            int counter = (int)(item.PackagedProductCount - item.IsPackagedProductCount);
+                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
+                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
+                            packagedProducts.Count -= counter;
+                            productTransaction.isPackagedCount += counter; productTransaction.isPackagedCount2 += counter;
+                            if (productTransaction.Count == productTransaction.isPackagedCount)
+                            {
+                                productTransaction.isReadOnly = false;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            _context.SaveChanges();
+            var productTransactionGroup = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId).ToList();
+            var productTransactionGroup1 = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId && x.isPackagedCount == 0).ToList();
+            var order = _context.Orders.Where(x => x.Id == package.OrderId).FirstOrDefault();
+            if (productTransactionGroup.Count() == productTransactionGroup1.Count())
+            {
+                
+                order.isPackage = true;
+            }
+            else
+            {
+                order.isPackage = false;
+            }
+
+             
+
+
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+        }
+        public async Task<ServiceCallResult> DeleteOrderPackageProductAsync(int packageProductId)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+
+            var productPackageGroup =  _context.PackagedProductGroups.Where(a => a.Id == packageProductId).FirstOrDefault();
+            long packadeId = (long)productPackageGroup.PackageId;
+            if (productPackageGroup == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir paket ürünü bulunamadı.");
+                return callResult;
+            }
+            var productTransactionGroup =  _context.ProductTransactionGroup.Where(x => x.Id == productPackageGroup.ProductId).FirstOrDefault();
+            var order = _context.Orders.FirstOrDefault(x => x.Id == productTransactionGroup.OrderId);
+            order.isPackage = false;
+
+            var packagedProducts = _context.PackagedProductGroups.Where(x => x.Id == packageProductId).ToList();
+            foreach (var product in packagedProducts)
+            {
+                var productGroups = _context.ProductTransactionGroup.Where(x => x.Id == product.ProductId).FirstOrDefault();
+                if (product.ProductId == productGroups.Id)
+                {
+                    productGroups.isPackagedCount += product.Count;
+                    productGroups.isPackagedCount2 += product.Count;
+                    productGroups.isPackage = false;
+                    if (productGroups.Count == productGroups.isPackagedCount)
+                    {
+                        productGroups.isReadOnly = false;
+                    }
+                }
+                _context.PackagedProductGroups.Remove(product);
+            }
+
+            _context.SaveChanges();
+            var packagedProductGroup = _context.PackagedProductGroups.Where(x => x.PackageId == packadeId).ToList();
+
+            if (packagedProductGroup.Count() == 0)
+            {
+                var package = _context.Packages.Where(x=>x.Id == packadeId).FirstOrDefault();
+                _context.Packages.Remove(package);
+                callResult.Item = true;
+            }
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetPackageEditViewModelAsync((long)productPackageGroup.PackageId).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)

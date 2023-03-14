@@ -962,11 +962,6 @@
           <EntitySet Name="SenderAddresses" EntityType="WarehouseManagementSystemModel.SenderAddresses" />
           <EntitySet Name="Packages" EntityType="WarehouseManagementSystemModel.Packages" />
           <EntitySet Name="ProductTransactionGroup" EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" />
-          <EntitySet Name="PackagedProductGroups" EntityType="WarehouseManagementSystemModel.PackagedProductGroups" />
-          <AssociationSet Name="FK_PackagedProductGroups_Packages" Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages">
-            <End Role="Packages" EntitySet="Packages" />
-            <End Role="PackagedProductGroups" EntitySet="PackagedProductGroups" />
-          </AssociationSet>
           <EntitySet Name="Sliders" EntityType="WarehouseManagementSystemModel.Sliders" />
           <AssociationSet Name="FK_Sliders_Languages" Association="WarehouseManagementSystemModel.FK_Sliders_Languages">
             <End Role="Languages" EntitySet="Languages" />
@@ -1111,6 +1106,11 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="TicketAnswers" EntitySet="TicketAnswers" />
           </AssociationSet>
+          <EntitySet Name="PackagedProductGroups" EntityType="WarehouseManagementSystemModel.PackagedProductGroups" />
+          <AssociationSet Name="FK_PackagedProductGroups_Packages" Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="PackagedProductGroups" EntitySet="PackagedProductGroups" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
           <Key>
@@ -1142,9 +1142,9 @@
           <Property Name="Count" Type="Int32" />
           <Property Name="Desi" Type="Decimal" Nullable="false" Precision="9" Scale="3" />
           <Property Name="OrderId" Type="Int64" />
-          <NavigationProperty Name="PackagedProductGroups" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="Packages" ToRole="PackagedProductGroups" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Packages" ToRole="Orders" />
           <Property Name="Barcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PackagedProductGroups" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="Packages" ToRole="PackagedProductGroups" />
         </EntityType>
         <EntityType Name="ProductTransactionGroup">
           <Key>
@@ -1163,32 +1163,6 @@
           <Property Name="isPackagedCount2" Type="Int32" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="ProductTransactionGroup" ToRole="Orders" />
         </EntityType>
-        <EntityType Name="PackagedProductGroups">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Count" Type="Int32" />
-          <Property Name="QuantityPerUnit" Type="Int64" />
-          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PackageId" Type="Int64" />
-          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="PackagedProductGroups" ToRole="Packages" />
-          <Property Name="ProductId" Type="Int64" />
-        </EntityType>
-        <Association Name="FK_PackagedProductGroups_Packages">
-          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.PackagedProductGroups" Role="PackagedProductGroups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Packages">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PackagedProductGroups">
-              <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Sliders">
           <Key>
             <PropertyRef Name="Id" />
@@ -1839,6 +1813,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PackagedProductGroups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="QuantityPerUnit" Type="Int64" />
+          <Property Name="SKU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GtipCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PackageId" Type="Int64" />
+          <Property Name="ProductId" Type="Int64" />
+          <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" FromRole="PackagedProductGroups" ToRole="Packages" />
+        </EntityType>
+        <Association Name="FK_PackagedProductGroups_Packages">
+          <End Type="WarehouseManagementSystemModel.Packages" Role="Packages" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.PackagedProductGroups" Role="PackagedProductGroups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackagedProductGroups">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1927,20 +1927,6 @@
                 <ScalarProperty Name="isReadOnly" ColumnName="isReadOnly" />
                 <ScalarProperty Name="isPackage" ColumnName="isPackage" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
-                <ScalarProperty Name="SKU" ColumnName="SKU" />
-                <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PackagedProductGroups">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.PackagedProductGroups">
-              <MappingFragment StoreEntitySet="PackagedProductGroups">
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
                 <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
                 <ScalarProperty Name="SKU" ColumnName="SKU" />
                 <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
@@ -2193,6 +2179,20 @@
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackagedProductGroups">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.PackagedProductGroups">
+              <MappingFragment StoreEntitySet="PackagedProductGroups">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="GtipCode" ColumnName="GtipCode" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="QuantityPerUnit" ColumnName="QuantityPerUnit" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

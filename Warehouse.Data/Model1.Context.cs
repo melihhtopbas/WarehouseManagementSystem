@@ -33,7 +33,6 @@ namespace Warehouse.Data
         public virtual DbSet<SenderAddresses> SenderAddresses { get; set; }
         public virtual DbSet<Packages> Packages { get; set; }
         public virtual DbSet<ProductTransactionGroup> ProductTransactionGroup { get; set; }
-        public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
         public virtual DbSet<Sliders> Sliders { get; set; }
         public virtual DbSet<About> About { get; set; }
         public virtual DbSet<Settings> Settings { get; set; }
@@ -50,5 +49,6 @@ namespace Warehouse.Data
         public virtual DbSet<ShippingPrices> ShippingPrices { get; set; }
         public virtual DbSet<TicketAnswers> TicketAnswers { get; set; }
         public virtual DbSet<Tickets> Tickets { get; set; }
+        public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
     }
 }

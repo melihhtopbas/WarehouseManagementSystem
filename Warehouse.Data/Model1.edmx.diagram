@@ -13,8 +13,6 @@
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.SenderAddresses" Width="1.5" PointX="12.25" PointY="4.875" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Packages" Width="1.5" PointX="12.25" PointY="8.375" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.ProductTransactionGroup" Width="1.5" PointX="12.25" PointY="12.125" />
-        <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
-        <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.Sliders" Width="1.5" PointX="3" PointY="2" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Sliders_Languages" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.About" Width="1.5" PointX="3" PointY="14.875" />
@@ -63,6 +61,8 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_TicketAnswers_Tickets" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_Tickets_Users" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_TicketAnswers_Users" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
