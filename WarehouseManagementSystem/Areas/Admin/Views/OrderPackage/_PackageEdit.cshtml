@@ -14,7 +14,7 @@
    data-modal-prepend="tbody#PackageProductsList"
    data-modal-title="Koliye Ürün Ekle"
    data-hook-beforeunload="true"
-   href="@Url.Action("PackageProductAdd", "OrderPackage", routeValues: new {Area ="Admin",orderPackageId = Model.OrderId})">
+   href="@Url.Action("Add", "OrderPackage", routeValues: new {Area ="Admin",orderId = Model.OrderId, orderPackageId = Model.Id})">
     <i class="fa fa-plus"></i>Bu koliye ekleme yap
 </a>
 <div class="clearfix"></div>
@@ -93,6 +93,7 @@
 
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Barcode)">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.Barcode, new { @class = "show-maxlength" })
+
         </div>
         <div class="clearfix"></div>
 

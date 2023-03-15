@@ -1,0 +1,80 @@
+﻿@model Warehouse.ViewModels.Admin.ProductGroupsAddViewModel
+
+
+@using (Html.BeginCollectionItem("ProductGroupsAddViewModels"))
+{
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            @Html.HiddenFor(a => a.Content)
+            @Html.HiddenFor(a => a.ProductId)
+            @Html.HiddenFor(a => a.SKU)
+            @Html.HiddenFor(a => a.ProductId) 
+            @Html.HiddenFor(a => a.TotalCount)
+            @Html.HiddenFor(a => a.PackageId)
+            @Html.HiddenFor(a => a.ProductCount)
+            @Html.HiddenFor(a => a.Id)
+
+
+
+        </div>
+    </div>
+
+
+    <div id="orderSelectedPackage" class="form-group form-group-sm col-xs-12">
+        <div class="input-group input-group-sm">
+            @if (Model.ProductCount != 0)
+            {
+
+                <tr class="master-row">
+
+
+
+                    <td>
+                        @Html.CheckBoxFor(u => u.isChecked, new { @class = "CheckClass" })
+                    </td>
+                    <td>
+                        <span>
+                            <span id="contentVal">@Model.Content</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span>x</span><span>@Html.DisplayFor(m => m.ProductCount)</span>
+                    </td>
+                    <td>
+
+
+                        @Html.TextBoxFor(m => m.PackagedProductCount, new { id = "packagedCount_" + Model.Id })
+
+                    </td>
+                    <td style="width:50px">
+                        <a href="javascript:void(0);"
+                           data-toggle="confirmation"
+                           title="Emin Misiniz"
+                           data-btn-ok-label="Evet"
+                           data-btn-cancel-label="Hayır"
+                           data-placement="top"
+                           data-select-id="@Model.Id"
+                           data-on-confirm="selectAll"
+                           class="btn btn-block">
+                            Tümünü paketle
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            }
+        </div>
+    </div>
+
+}
+
+<script>
+     $(document).ready(function () {
+         $("#selectAllPackageProducts").click(function () {
+             $(".CheckClass").prop('checked', $(this).prop('checked'));
+         });
+     });
+</script>

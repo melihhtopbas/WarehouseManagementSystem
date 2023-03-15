@@ -150,14 +150,16 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
 
                     ModelState.Clear();
-                   
+                    var viewModel = (OrderPackageListViewModel)callResult.Item;
 
 
                     var jsonResult = Json(
                         new
                         {
                             success = true,
-                            
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/DisplayTemplates/OrderPackageListViewModel.cshtml", viewModel),
+                            item = viewModel
+
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;
                     return jsonResult;
@@ -200,6 +202,60 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     success = false,
                     errorMessages = callResult.ErrorMessages
+                });
+
+        }
+        [AjaxOnly,HttpGet]
+        public async Task<ActionResult> Add(long orderId , long orderPackageId)
+        {
+
+
+
+            var model = await _orderPackageService.GetPackageProductAddViewModelAsync(orderId, orderPackageId);
+            if (model != null)
+            {
+
+                return PartialView("~/Areas/Admin/Views/OrderPackage/_PackageProductAdd.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Eklenecek ürün bulunamadı!");
+           
+
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> Add(OrderPackageIntoAddProductViewModel model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderPackageService.PackageProductAddAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (OrderPackageProductEditViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/_PackageEdit.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = true,
+                    //                responseText = RenderPartialViewToString("~/Areas/Admin/Views/CountrySetting/DisplayTemplates/CountryListViewModel.cshtml", viewModel),
+                    //                item = viewModel
                 });
 
         }

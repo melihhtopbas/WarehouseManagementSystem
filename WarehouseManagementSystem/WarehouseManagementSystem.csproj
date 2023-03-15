@@ -4622,6 +4622,8 @@
     <Content Include="Areas\Admin\Views\OrderPackage\OrderPackage.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\_PackageEdit.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\_ProductGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\_PackageProductAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderPackage\_PackageProductGroupAdd.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1,0 +1,112 @@
+﻿@model Warehouse.ViewModels.Admin.OrderPackageIntoAddProductViewModel
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="alert alert-info alert-dismissible">
+            <h4><i class="fa-solid fa-circle-info"></i> Bilgilendirme!</h4>
+            Kolinize hangi üründen kaç tane girmek istiyorsanız ürünüzü seçin ve miktarını belirtiniz!
+            Eğerki ürününüz zaten kolide varsa, paket içeriği düzenle kısmından ürünün miktarını arttırabilir veya azaltabilirsiniz.
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<br />
+<div class="clearfix"></div>
+@using (Html.BeginForm("Add", "OrderPackage", new { Area = "Admin" }, FormMethod.Post, new { id = "packageProductAddForm", role = "form" }))
+{
+    <style>
+        form ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        form li {
+            float: left;
+        }
+
+            form li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+
+                form li a:hover {
+                    background-color: #111111;
+                }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+           
+            @Html.HiddenFor(m => m.OrderId)
+            @Html.HiddenFor(m => m.PackageId)
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12">
+            <input type="checkbox" id="selectAllPackageProducts" /> <span>Tümünü seç</span>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>Paketlenecek Ürünleri Seçiniz</th>
+                        <th>Ürün İçeriği</th>
+                        <th>Toplam Ürün Adeti</th>
+                        <th>
+                            Paketlenecek ürün miktarı
+                        </th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.ProductGroupsAddViewModels != null)
+                    {
+
+
+                        foreach (var item in Model.ProductGroupsAddViewModels)
+                        {
+                            @Html.Partial("~/Areas/Admin/Views/OrderPackage/_PackageProductGroupAdd.cshtml", item)
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+
+
+
+        <div class="clearfix"></div>
+
+
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+}
+<script>
+     $(document).ready(function () {
+         $("#selectAllPackageProducts").click(function () {
+             $(".CheckClass").prop('checked', $(this).prop('checked'));
+         });
+     });
+</script>
