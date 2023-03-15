@@ -1283,7 +1283,7 @@
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {
-                    console.log(result);
+                   
                     var $tr = that.closest('tr.master-row');
                     $tr.nextUntil('tr.master-row').empty().remove();
                     $tr.animateDelete();
@@ -1301,6 +1301,14 @@
                         function (i, item) {
                             toastr.error(item);
                         });
+                   
+                }
+                if (result.item == true) {
+                    toastr.success("Koli silindi!");
+                    setTimeout(
+                        function () {
+                            location.href = "/Admin/OrderPackage/OrderPackage";
+                        }, 1500);
                 }
             }).fail(function () {
                 container.find(overlay).remove();

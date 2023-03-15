@@ -191,6 +191,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                         success = true,
                         warningMessages = callResult.WarningMessages,
                         successMessages = callResult.SuccessMessages,
+                        item = callResult.Item,
                     });
             }
 
