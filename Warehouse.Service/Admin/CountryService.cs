@@ -20,16 +20,16 @@ namespace Warehouse.Service.Admin
 
         public CountryService(WarehouseManagementSystemEntities1 context)
         {
-            _context = context; 
+            _context = context;
         }
         private IQueryable<CountryListViewModel> _getCountryListIQueryable(Expression<Func<Data.Countries, bool>> expr)
         {
-            
+
 
             return (from b in _context.Countries.AsExpandable().Where(expr)
                     select new CountryListViewModel()
                     {
-                        Id= b.Id,
+                        Id = b.Id,
                         Name = b.Name,
                         LanguageId = b.LanguageId,
                         Active = (bool)b.Active,
@@ -57,7 +57,7 @@ namespace Warehouse.Service.Admin
 
                 Id = b.Id,
                 Name = b.Name,
-                Active= (bool)b.Active,
+                Active = (bool)b.Active,
                 LanguageId = b.LanguageId,
                 CurrencyUnitName = b.CurrencyUnits.Name
 
@@ -92,13 +92,13 @@ namespace Warehouse.Service.Admin
                 LanguageId = model.LanguageId,
                 Active = model.Active,
                 CurrencyUnitId = model.CurrenyUnit.CurrencyUnitId
-                
-                
-                
-                
+
+
+
+
             };
-             
-            
+
+
 
 
             _context.Countries.Add(country);
@@ -138,7 +138,7 @@ namespace Warehouse.Service.Admin
                                      {
                                          CurrencyUnitId = p.CurrencyUnitId
                                      }
-                                     
+
 
                                  }).FirstOrDefaultAsync();
             return country;
@@ -147,7 +147,7 @@ namespace Warehouse.Service.Admin
         {
             var callResult = new ServiceCallResult() { Success = false };
             bool nameExist = await _context.Countries.AnyAsync(a => a.Id != model.Id && a.Name == model.Name).ConfigureAwait(false);
-                if (nameExist)
+            if (nameExist)
             {
                 callResult.ErrorMessages.Add("Bu isimde Ülke bulunmaktadır.");
                 return callResult;
@@ -166,10 +166,10 @@ namespace Warehouse.Service.Admin
             country.CurrencyUnitId = model.CurrenyUnit.CurrencyUnitId;
 
 
-           
-            
 
- 
+
+
+
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try
@@ -177,7 +177,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
 
-                   
+
 
                     callResult.Success = true;
                     callResult.Item = await GetCountryListViewAsync(country.Id).ConfigureAwait(false);
@@ -195,7 +195,7 @@ namespace Warehouse.Service.Admin
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-            var citiesAny =  _context.Cities.Any(x => x.CountryId == countryId);
+            var citiesAny = _context.Cities.Any(x => x.CountryId == countryId);
             if (citiesAny)
             {
                 callResult.ErrorMessages.Add("Şehri bulunan ülkeyi silemezsiniz.");
@@ -210,7 +210,7 @@ namespace Warehouse.Service.Admin
             }
 
 
-            
+
             _context.Countries.Remove(country);
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
@@ -219,7 +219,7 @@ namespace Warehouse.Service.Admin
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
 
-                     
+
 
                     callResult.Success = true;
                     callResult.Item = await GetCountryListViewAsync(country.Id).ConfigureAwait(false);

@@ -198,6 +198,9 @@ namespace Warehouse.ViewModels.Admin
 
         [Display(Name = "İçerik")]
         public string Content { get; set; }
+       
+        public long? QuantityPerUnit { get; set; }
+        public string GtipCode { get; set; }
         public string SKU { get; set; }
         [Display(Name = "Paketlenmemiş Ürün Sayısı")]
         public int? ProductCount { get; set; }
@@ -212,6 +215,7 @@ namespace Warehouse.ViewModels.Admin
 
 
         public long PackageId { get; set; }
+        public bool isChecked { get; set; }
 
     }
     public class OrderPackageProductEditViewModel

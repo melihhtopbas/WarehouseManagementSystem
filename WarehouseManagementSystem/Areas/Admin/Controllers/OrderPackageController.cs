@@ -212,12 +212,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
 
             var model = await _orderPackageService.GetPackageProductAddViewModelAsync(orderId, orderPackageId);
-            if (model != null)
+            if (model.ProductGroupsEditViewModels.Count() != 0)
             {
 
                 return PartialView("~/Areas/Admin/Views/OrderPackage/_PackageProductAdd.cshtml", model);
             }
-            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Eklenecek ürün bulunamadı!");
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Eklenecek ürün bulunamadı! Lütfen paket içeriğini kontrol edin.");
            
 
         }
@@ -233,13 +233,16 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
 
                     ModelState.Clear();
-                    var viewModel = (OrderPackageProductEditViewModel)callResult.Item;
+                    var viewModel = (OrderPackageListViewModel)callResult.Item;
+
+
                     var jsonResult = Json(
                         new
                         {
                             success = true,
-                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/_PackageEdit.cshtml", viewModel),
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/DisplayTemplates/OrderPackageListViewModel.cshtml", viewModel),
                             item = viewModel
+
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;
                     return jsonResult;
@@ -253,9 +256,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             return Json(
                 new
                 {
-                    success = true,
-                    //                responseText = RenderPartialViewToString("~/Areas/Admin/Views/CountrySetting/DisplayTemplates/CountryListViewModel.cshtml", viewModel),
-                    //                item = viewModel
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/_PackageProductAdd.cshtml", model),
+                  
                 });
 
         }

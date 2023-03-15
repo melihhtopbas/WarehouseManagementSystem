@@ -59,7 +59,7 @@
 
                         <th>Paketlenecek Ürünleri Seçiniz</th>
                         <th>Ürün İçeriği</th>
-                        <th>Toplam Ürün Adeti</th>
+                        <th>Paketlenmeyen Ürün Adeti</th>
                         <th>
                             Paketlenecek ürün miktarı
                         </th>
@@ -67,11 +67,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model != null && Model.ProductGroupsAddViewModels != null)
+                    @if (Model != null && Model.ProductGroupsEditViewModels != null)
                     {
 
 
-                        foreach (var item in Model.ProductGroupsAddViewModels)
+                        foreach (var item in Model.ProductGroupsEditViewModels)
                         {
                             @Html.Partial("~/Areas/Admin/Views/OrderPackage/_PackageProductGroupAdd.cshtml", item)
 

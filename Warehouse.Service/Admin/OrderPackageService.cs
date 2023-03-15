@@ -211,6 +211,7 @@ namespace Warehouse.Service.Admin
                                  }).FirstOrDefaultAsync();
             return package;
         }
+
         public async Task<ServiceCallResult> EditPackageAsync(OrderPackageProductEditViewModel model)
         {
             var callResult = new ServiceCallResult() { Success = false };
@@ -379,7 +380,7 @@ namespace Warehouse.Service.Admin
             {
                 OrderId= orderId,
                 PackageId = orderPackageId,
-                ProductGroupsAddViewModels = _context.ProductTransactionGroup.Where(x=>x.OrderId == orderId && x.isPackagedCount != 0 && (_context.PackagedProductGroups.Any(a=>a.ProductId == x.Id) == false)).Select(x=> new ProductGroupsAddViewModel
+                ProductGroupsEditViewModels = _context.ProductTransactionGroup.Where(x=>x.OrderId == orderId && x.isPackagedCount != 0).Select(x=> new ProductGroupsEditViewModel
                 {
                     Content= x.Content,
                     Id= x.Id,
@@ -404,47 +405,59 @@ namespace Warehouse.Service.Admin
                 callResult.ErrorMessages.Add("Böyle bir paket bulunamadı.");
                 return callResult;
             }
-            if (model.ProductGroupsAddViewModels != null)
+            bool isCheckedProducts = false;
+            foreach (var item in model.ProductGroupsEditViewModels)
             {
-                foreach (var item in model.ProductGroupsAddViewModels)
+                var productTransaction = _context.ProductTransactionGroup.Where(x=>x.Id == item.ProductId).FirstOrDefault();
+                var packageTransaction = _context.PackagedProductGroups.Where(x => x.PackageId == item.PackageId && x.ProductId == item.ProductId).FirstOrDefault();
+                if (item.isChecked == true)
                 {
-                    if (item.IsPackagedProductCount != null && item.IsPackagedProductCount != item.PackagedProductCount)
+                    isCheckedProducts = true;
+                    if (item.PackagedProductCount > item.ProductCount)
                     {
-                        if (item.IsPackagedProductCount > (item.PackagedProductCount + item.ProductCount))
-                        {
-                            callResult.ErrorMessages.Add("Belirtilen adetten daha fazla giremezsiniz.");
-                            return callResult;
-                        }
-                        else if (item.IsPackagedProductCount <= (item.PackagedProductCount + item.ProductCount) && item.IsPackagedProductCount > item.PackagedProductCount)
-                        {
-                            int counter = (int)(item.IsPackagedProductCount - item.PackagedProductCount);
-                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
-                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
-                            packagedProducts.Count += counter;
-                            productTransaction.isPackagedCount -= counter; productTransaction.isPackagedCount2 -= counter;
-                            if (productTransaction.isPackagedCount == 0)
-                            {
-                                productTransaction.isPackage = true;
-                            }
-                        }
-                        else if (item.IsPackagedProductCount < item.PackagedProductCount)
-                        {
-                            int counter = (int)(item.PackagedProductCount - item.IsPackagedProductCount);
-                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
-                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
-                            packagedProducts.Count -= counter;
-                            productTransaction.isPackagedCount += counter; productTransaction.isPackagedCount2 += counter;
-                            if (productTransaction.Count == productTransaction.isPackagedCount)
-                            {
-                                productTransaction.isReadOnly = false;
-                            }
-                        }
-
+                        callResult.ErrorMessages.Add("Toplam ürün sayısından fazla adet girmeyiniz!");
+                        return callResult;
                     }
+                    if (item.PackagedProductCount == null || item.PackagedProductCount == 0)
+                    {
+                        callResult.ErrorMessages.Add("Lütfen geçerli bir ürün adet değeri giriniz!");
+                        return callResult;
+                    }
+
+                    productTransaction.isPackagedCount2 -= item.PackagedProductCount;
+                    productTransaction.isReadOnly = true;
+                    productTransaction.isPackagedCount -= item.PackagedProductCount;
+                    if (productTransaction.isPackagedCount == 0)
+                    {
+                        productTransaction.isPackage = true;
+                    }
+                    if (packageTransaction != null)
+                    {
+                        packageTransaction.Count += item.PackagedProductCount;
+                    }
+                    else
+                    {
+                        _context.PackagedProductGroups.Add(new PackagedProductGroups
+                        {
+                            Content = item.Content,
+                            SKU = item.SKU,
+                            PackageId = item.PackageId, 
+                            ProductId = item.ProductId,
+                            QuantityPerUnit = item.QuantityPerUnit,
+                            GtipCode = item.GtipCode,
+                            Count = item.PackagedProductCount,
+                        });
+                    }
+              
 
                 }
             }
-        //    _context.SaveChanges();
+            if (isCheckedProducts == false)
+            {
+                callResult.ErrorMessages.Add("Lütfen paketlemek istediğiniz ürünleri seçiniz ve adet miktarı giriniz!");
+                return callResult;
+            }
+               _context.SaveChanges();
             var productTransactionGroup = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId).ToList();
             var productTransactionGroup1 = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId && x.isPackagedCount == 0).ToList();
             var order = _context.Orders.Where(x => x.Id == package.OrderId).FirstOrDefault();
@@ -457,8 +470,7 @@ namespace Warehouse.Service.Admin
             {
                 order.isPackage = false;
             }
-
-
+           
 
 
 
@@ -469,13 +481,13 @@ namespace Warehouse.Service.Admin
             {
                 try
                 {
-                   // await _context.SaveChangesAsync().ConfigureAwait(false);
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                     dbtransaction.Commit();
 
 
 
                     callResult.Success = true;
-                    callResult.Item = await GetPackageEditViewModelAsync(package.Id).ConfigureAwait(false);
+                    callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)

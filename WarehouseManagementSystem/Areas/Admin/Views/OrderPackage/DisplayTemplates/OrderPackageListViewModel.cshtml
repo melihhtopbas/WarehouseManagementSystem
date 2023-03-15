@@ -40,19 +40,40 @@
         </a>
         <!-- End of .overlay -->
     </div>
-    <!-- End of .content -->
 
-    <a style="margin:auto; width:100%;" href="javascript:void(0);"
-       data-toggle="confirmation"
-       title="Silmek İstediğinize Emin Misiniz"
-       data-btn-ok-label="Evet"
-       data-btn-cancel-label="Hayır"
-       data-placement="top"
-       data-package-id="@Model.Id"
-       data-on-confirm="deleteOrderPackage"
-       class="btn btn-block btn-danger btn-sm">
-        <i class="fa fa-trash fa-fw text-danger"></i>
-    </a>
+    <div class="row">
 
 
-</div>
+        <div class="col-md-6 col-lg-6 col-md-push-0">
+
+
+            <a class="btn btn-block btn-primary btn-sm"
+               data-modal-form="true"
+               data-modal-size="modal-lg"
+               data-modal-update="#packageRow_@Model.Id"
+               data-modal-highlight="#packageRow_@Model.Id"
+               data-modal-save-message="Başarılı"
+               data-modal-title="Koliye Ürün Ekle"
+               data-hook-beforeunload="true"
+               href="@Url.Action("Add", "OrderPackage", routeValues: new {Area ="Admin",orderId = Model.OrderId, orderPackageId = Model.Id})">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-6 col-md-push-0">
+
+
+            <a  href="javascript:void(0);"
+               data-toggle="confirmation"
+               title="Silmek İstediğinize Emin Misiniz"
+               data-btn-ok-label="Evet"
+               data-btn-cancel-label="Hayır"
+               data-placement="top"
+               data-package-id="@Model.Id"
+               data-on-confirm="deleteOrderPackage"
+               class="btn btn-block btn-danger btn-sm">
+                <i class="fa fa-trash fa-fw text-danger"></i>
+            </a>
+        </div>
+    </div>
+
+</div> 

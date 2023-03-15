@@ -98,7 +98,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                         {
                             success = true,
                             responseText = RenderPartialViewToString("~/Areas/Admin/Views/CountrySetting/DisplayTemplates/CountryListViewModel.cshtml", viewModel),
-                            item = viewModel
+                            //item = viewModel
                         });
                     jsonResult.MaxJsonLength = int.MaxValue;
                     return jsonResult;

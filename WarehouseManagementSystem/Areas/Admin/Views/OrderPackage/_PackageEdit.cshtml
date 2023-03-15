@@ -8,15 +8,7 @@
         </div>
     </div>
 </div>
-<a class="btn btn-warning btn-sm"
-   data-modal-form="true"
-   data-modal-size="modal-lg"
-   data-modal-prepend="tbody#PackageProductsList"
-   data-modal-title="Koliye Ürün Ekle"
-   data-hook-beforeunload="true"
-   href="@Url.Action("Add", "OrderPackage", routeValues: new {Area ="Admin",orderId = Model.OrderId, orderPackageId = Model.Id})">
-    <i class="fa fa-plus"></i>Bu koliye ekleme yap
-</a>
+
 <div class="clearfix"></div>
 <br />
 <div class="clearfix"></div>
@@ -72,16 +64,12 @@
                 </tr>
             </thead>
             <tbody id="PackageProductsList">
-                @if (Model != null && Model.ProductGroupsEditViewModels != null)
-                {
+                
 
 
-                    foreach (var item in Model.ProductGroupsEditViewModels)
-                    {
-                        @Html.Partial("~/Areas/Admin/Views/OrderPackage/_ProductGroup.cshtml", item)
+                @Html.DisplayFor(m=>m.ProductGroupsEditViewModels)
 
-                    }
-                }
+                 
 
 
             </tbody>
