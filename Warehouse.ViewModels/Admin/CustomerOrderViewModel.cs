@@ -240,5 +240,43 @@ namespace Warehouse.ViewModels.Admin
 
 
     }
+    public class CustomerOrderPackageListViewModel
+    {
+        public long Id { get; set; }
+
+        public long? CustomerId { get; set; }
+        [Display(Name = "Yükseklik")]
+
+        public long? Height { get; set; }
+        [Display(Name = "Ağırlık")]
+
+        public long? Weight { get; set; }
+        [Display(Name = "En")]
+
+        public long? Width { get; set; }
+        [Display(Name = "Boy")]
+
+        public long? Length { get; set; }
+        [Display(Name = "Adet")]
+
+        public int? Count { get; set; }
+        [Display(Name = "Desi")]
+
+        public decimal? Desi { get; set; }
+        public IEnumerable<ProductGroupShowViewModel> OrderPackageProductGroups { get; set; }
+
+        [Display(Name = "Koli içerisindeki toplam ürün sayısı")]
+        public int? CountProductsInThePackage { get; set; }
+        public long? OrderId { get; set; }
+        public string Barcode { get; set; }
+        public string CountryName { get; set; }
+        public string ReceiverName { get; set; }
+        public string UserName { get; set; }
+        public string FullName { get; set; }
+
+
+
+
+    }
 
 }

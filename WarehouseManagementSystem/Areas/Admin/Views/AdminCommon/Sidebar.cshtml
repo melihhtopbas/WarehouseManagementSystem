@@ -18,7 +18,22 @@
         {
             <li><a href="@Url.Action("Index", "Setting", new {Area = "Admin",id=item.Id})"><i class="fa fa-cog"></i> <span>Ayarlar </span></a></li>
             <li><a href="@Url.Action("Index", "ShippingPriceSetting", new {Area = "Admin"})"><i class="fa-solid fa-tag"></i> <span>Fiyatlandırma </span></a></li>
-            <li><a href="@Url.Action("Index", "UserSetting", new {Area = "Admin"})"><i class="fa-solid fa-users"></i> <span>Kullanıcılar </span></a></li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa-solid fa-users"></i> <span>Kullanıcılar</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+
+                    <li><a href="@Url.Action("Index", "UserSetting", new {Area = "Admin"})"><i class="fa-solid fa-users"></i> <span>Kullanıcılar </span></a></li>
+                    <li><a href="@Url.Action("UserOrders","UserSetting",new {Area="Admin"})"><i class="fa-solid fa-boxes-stacked"></i> <span>Tüm Gönderiler</span></a></li>
+                    <li><a href="@Url.Action("CustomerOrderPackages","CustomerOrderSetting",new {Area="Admin"})"><i class="fa-solid fa-cube"></i> <span>Tüm Gönderi Paketleri</span></a></li>
+
+                </ul>
+            </li>
 
         }
 

@@ -11,20 +11,23 @@ using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System.Web;
 
 namespace Warehouse.Service.Admin
 {
     public class CustomerOrderSettingService
     {
         private readonly WarehouseManagementSystemEntities1 _context;
+        private readonly CurrentUserViewModel _currentUser;
         public CustomerOrderSettingService(WarehouseManagementSystemEntities1 context)
         {
             _context = context;
+            _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
 
         public UserListViewModel Detail(long customerId)
         {
-            var customer = _context.Users.FirstOrDefault(x=>x.Id == customerId);
+            var customer = _context.Users.FirstOrDefault(x => x.Id == customerId);
             var model = new UserListViewModel
             {
                 Name = customer.Name,
@@ -45,11 +48,11 @@ namespace Warehouse.Service.Admin
         public async Task<List<UserListViewModel>> GetCustomerListViewAsync(long customerId)
         {
 
-            var result = _context.Users.Where(x=>x.Id == customerId).Select(x => new UserListViewModel
+            var result = _context.Users.Where(x => x.Id == customerId).Select(x => new UserListViewModel
             {
                 Id = x.Id,
                 UserName = x.UserName,
-                
+
             }).ToList();
             return result;
         }
@@ -61,7 +64,7 @@ namespace Warehouse.Service.Admin
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
                     join rAd in _context.RecipientAddresses
-                    on b.Id equals rAd.OrderId 
+                    on b.Id equals rAd.OrderId
                     select new CustomerOrderListViewModel()
                     {
                         Id = b.Id,
@@ -74,10 +77,10 @@ namespace Warehouse.Service.Admin
                         RecipientZipCode = b.RecipientZipCode,
                         SenderName = b.SenderName,
                         SenderPhone = b.SenderPhone,
-                        RecipientCountry = b.Countries.Name, 
+                        RecipientCountry = b.Countries.Name,
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
-                        DateTime = (DateTime)b.Date, 
+                        DateTime = (DateTime)b.Date,
 
 
 
@@ -157,7 +160,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now;
@@ -184,7 +187,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now;
@@ -304,7 +307,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId; 
+                order.RecipientCountryId = model.Country.CountryId;
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientCityId = null;
@@ -325,7 +328,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId; 
+                order.RecipientCountryId = model.Country.CountryId;
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 recipientAddress.Name = model.RecipientAddress;
@@ -454,7 +457,7 @@ namespace Warehouse.Service.Admin
                                    {
                                        CountryId = p.RecipientCountryId
                                    },
-                                   
+
 
                                    OrderDescription = p.ProductOrderDescription,
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup
@@ -510,6 +513,7 @@ namespace Warehouse.Service.Admin
                             Id = product.Id,
                             QuantityPerUnit = product.QuantityPerUnit,
                             SKU = product.SKU,
+                            ProductId = product.Id
                         });
                     }
 
@@ -561,7 +565,7 @@ namespace Warehouse.Service.Admin
 
 
 
-        
+
         }
         public async Task<ServiceCallResult> DeleteOrderAsync(long customerOrderId)
         {
@@ -622,6 +626,360 @@ namespace Warehouse.Service.Admin
                 }
             }
         }
+        public async Task<List<CustomerOrderPackageListViewModel>> GetOrderPackageGroup(int orderId)
+        {
 
+
+            var result = _context.Packages.Where(p => p.OrderId == orderId).Select(p => new CustomerOrderPackageListViewModel
+            {
+                Id = p.Id,
+                Count = p.Count,
+                Height = p.Height,
+                Length = p.Length,
+                Weight = p.Weight,
+                Width = p.Width,
+                Desi = p.Desi,
+
+                OrderPackageProductGroups = from i in p.PackagedProductGroups
+                                            where i.PackageId == p.Id
+
+                                            select new ProductGroupShowViewModel
+                                            {
+                                                Content = i.Content,
+                                                Id = i.Id,
+                                                Count = i.Count,
+                                                GtipCode = i.GtipCode,
+                                                QuantityPerUnit = i.QuantityPerUnit,
+                                                SKU = i.SKU,
+
+
+                                            },
+
+
+
+
+            }).ToList();
+
+            return result.OrderBy(a => a.Count).ToList();
+        }
+        private IQueryable<CustomerOrderPackageListViewModel> _getOrderPackageListIQueryable(Expression<Func<Data.Packages, bool>> expr)
+        {
+
+            return (from b in _context.Packages.AsExpandable().Where(expr)
+
+                    join o in _context.Orders
+                    on b.OrderId equals o.Id
+                    join u in _context.Users
+                    on o.CustomerId equals u.Id
+
+
+                    select new CustomerOrderPackageListViewModel()
+                    {
+                        Id = b.Id,
+                        Height = b.Height,
+                        Weight = b.Weight,
+                        Length = b.Length,
+                        Width = b.Width,
+                        Desi = b.Desi,
+                        OrderId = b.OrderId,
+                        Barcode = b.Barcode,
+                        CountryName = o.Countries.Name,
+                        ReceiverName = o.RecipientName,
+                        UserName = u.UserName,
+                        FullName = u.Name + " " + u.Surname,
+
+
+                    });
+        }
+        private IQueryable<CustomerOrderPackageListViewModel> _getCustomerOrderPackageListIQueryable(Expression<Func<Data.Users, bool>> expr)
+        {
+
+            return (from b in _context.Packages
+
+                    join o in _context.Orders
+                    on b.OrderId equals o.Id
+                    join u in _context.Users.AsExpandable().Where(expr)
+                    on o.CustomerId equals u.Id
+
+
+                    select new CustomerOrderPackageListViewModel()
+                    {
+                        Id = b.Id,
+                        Height = b.Height,
+                        Weight = b.Weight,
+                        Length = b.Length,
+                        Width = b.Width,
+                        Desi = b.Desi,
+                        OrderId = b.OrderId,
+                        Barcode = b.Barcode,
+                        CountryName = o.Countries.Name,
+                        ReceiverName = o.RecipientName,
+                        UserName = u.UserName,
+                        FullName = u.Name + " " + u.Surname,
+
+
+                    });
+        }
+
+        public IQueryable<CustomerOrderPackageListViewModel> GetOrderPackageListIQueryable(OrderPackageSearchViewModel model)
+        {
+            var predicatePackage = PredicateBuilder.New<Data.Packages>(true);/*AND*/
+            var predicateUser = PredicateBuilder.New<Data.Users>(true);/*AND*/
+            var user = _context.Users.Where(x => x.UserName == model.SearchName).FirstOrDefault();
+
+            if (user==null)
+            {
+                if (!string.IsNullOrWhiteSpace(model.SearchName))
+                {
+                    predicatePackage.And(a => a.Barcode.Contains(model.SearchName));
+                }
+                string name = Convert.ToString(model.SearchId);
+                string packageName = Convert.ToString(model.PackageId);
+
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    predicatePackage.And(a => a.OrderId.Value.Equals(model.SearchId.Value));
+
+                }
+                if (!string.IsNullOrWhiteSpace(packageName))
+                {
+                    predicatePackage.And(a => a.Id.Equals(model.PackageId.Value));
+
+                }
+                return _getOrderPackageListIQueryable(predicatePackage);
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(model.SearchName))
+                {
+                    predicateUser.And(a=>a.UserName.Contains(model.SearchName));
+                }
+                string name = Convert.ToString(model.SearchId);
+                string packageName = Convert.ToString(model.PackageId);
+
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    predicatePackage.And(a => a.OrderId.Value.Equals(model.SearchId.Value));
+
+                }
+                if (!string.IsNullOrWhiteSpace(packageName))
+                {
+                    predicatePackage.And(a => a.Id.Equals(model.PackageId.Value));
+
+                }
+                return _getCustomerOrderPackageListIQueryable(predicateUser);
+            }
+          
+        }
+        public async Task<CustomerOrderPackageListViewModel> GetOrderPackageListViewAsync(long packageId)
+        {
+
+            var predicate = PredicateBuilder.New<Data.Packages>(true);/*AND*/
+            predicate.And(a => a.Id == packageId);
+            var package = await _getOrderPackageListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return package;
+        }
+        public async Task<ServiceCallResult> EditPackageAsync(OrderPackageProductEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+            var package = await _context.Packages.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
+            package.Barcode = model.Barcode;
+
+            if (package == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir paket bulunamadı.");
+                return callResult;
+            }
+            if (model.ProductGroupsEditViewModels != null)
+            {
+                foreach (var item in model.ProductGroupsEditViewModels)
+                {
+                    if (item.IsPackagedProductCount != null && item.IsPackagedProductCount != item.PackagedProductCount)
+                    {
+                        if (item.IsPackagedProductCount > (item.PackagedProductCount + item.ProductCount))
+                        {
+                            callResult.ErrorMessages.Add("Belirtilen adetten daha fazla giremezsiniz.");
+                            return callResult;
+                        }
+                        else if (item.IsPackagedProductCount <= (item.PackagedProductCount + item.ProductCount) && item.IsPackagedProductCount > item.PackagedProductCount)
+                        {
+                            int counter = (int)(item.IsPackagedProductCount - item.PackagedProductCount);
+                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
+                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
+                            packagedProducts.Count += counter;
+                            productTransaction.isPackagedCount -= counter; productTransaction.isPackagedCount2 -= counter;
+                            if (productTransaction.isPackagedCount == 0)
+                            {
+                                productTransaction.isPackage = true;
+                            }
+                        }
+                        else if (item.IsPackagedProductCount < item.PackagedProductCount)
+                        {
+                            int counter = (int)(item.PackagedProductCount - item.IsPackagedProductCount);
+                            var packagedProducts = _context.PackagedProductGroups.Where(x => x.PackageId == model.Id && x.ProductId == item.ProductId).FirstOrDefault();
+                            var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
+                            packagedProducts.Count -= counter;
+                            productTransaction.isPackagedCount += counter; productTransaction.isPackagedCount2 += counter;
+                            if (productTransaction.Count == productTransaction.isPackagedCount)
+                            {
+                                productTransaction.isReadOnly = false;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            _context.SaveChanges();
+            var productTransactionGroup = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId).ToList();
+            var productTransactionGroup1 = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId && x.isPackagedCount == 0).ToList();
+            var order = _context.Orders.Where(x => x.Id == package.OrderId).FirstOrDefault();
+            if (productTransactionGroup.Count() == productTransactionGroup1.Count())
+            {
+
+                order.isPackage = true;
+            }
+            else
+            {
+                order.isPackage = false;
+            }
+
+
+
+
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+        }
+        public async Task<ServiceCallResult> PackageProductAddAsync(OrderPackageIntoAddProductViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+            var package = await _context.Packages.FirstOrDefaultAsync(a => a.Id == model.PackageId).ConfigureAwait(false);
+
+            if (package == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir paket bulunamadı.");
+                return callResult;
+            }
+            bool isCheckedProducts = false;
+            foreach (var item in model.ProductGroupsEditViewModels)
+            {
+                var productTransaction = _context.ProductTransactionGroup.Where(x => x.Id == item.ProductId).FirstOrDefault();
+                var packageTransaction = _context.PackagedProductGroups.Where(x => x.PackageId == item.PackageId && x.ProductId == item.ProductId).FirstOrDefault();
+                if (item.isChecked == true)
+                {
+                    isCheckedProducts = true;
+                    if (item.PackagedProductCount > item.ProductCount)
+                    {
+                        callResult.ErrorMessages.Add("Toplam ürün sayısından fazla adet girmeyiniz!");
+                        return callResult;
+                    }
+                    if (item.PackagedProductCount == null || item.PackagedProductCount == 0)
+                    {
+                        callResult.ErrorMessages.Add("Lütfen geçerli bir ürün adet değeri giriniz!");
+                        return callResult;
+                    }
+
+                    productTransaction.isPackagedCount2 -= item.PackagedProductCount;
+                    productTransaction.isReadOnly = true;
+                    productTransaction.isPackagedCount -= item.PackagedProductCount;
+                    if (productTransaction.isPackagedCount == 0)
+                    {
+                        productTransaction.isPackage = true;
+                    }
+                    if (packageTransaction != null)
+                    {
+                        packageTransaction.Count += item.PackagedProductCount;
+                    }
+                    else
+                    {
+                        _context.PackagedProductGroups.Add(new PackagedProductGroups
+                        {
+                            Content = item.Content,
+                            SKU = item.SKU,
+                            PackageId = item.PackageId,
+                            ProductId = item.ProductId,
+                            QuantityPerUnit = item.QuantityPerUnit,
+                            GtipCode = item.GtipCode,
+                            Count = item.PackagedProductCount,
+                        });
+                    }
+
+
+                }
+            }
+            if (isCheckedProducts == false)
+            {
+                callResult.ErrorMessages.Add("Lütfen paketlemek istediğiniz ürünleri seçiniz ve adet miktarı giriniz!");
+                return callResult;
+            }
+            _context.SaveChanges();
+            var productTransactionGroup = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId).ToList();
+            var productTransactionGroup1 = _context.ProductTransactionGroup.Where(x => x.OrderId == package.OrderId && x.isPackagedCount == 0).ToList();
+            var order = _context.Orders.Where(x => x.Id == package.OrderId).FirstOrDefault();
+            if (productTransactionGroup.Count() == productTransactionGroup1.Count())
+            {
+
+                order.isPackage = true;
+            }
+            else
+            {
+                order.isPackage = false;
+            }
+
+
+
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderPackageListViewAsync(package.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+        }
     }
 }

@@ -46,34 +46,10 @@ namespace Warehouse.Service.Admin
                         Barcode = b.Barcode,
                         CountryName = o.Countries.Name,
                         ReceiverName = o.RecipientName,
-
-
-
-
-
-
+                        
                     });
         }
-        public List<OrderPackageListViewModel> GetPackageList()
-        {
-
-            var result = _context.Packages.Select(b => new OrderPackageListViewModel
-            {
-                Desi = b.Desi,
-                OrderId = b.OrderId,
-                Barcode = b.Barcode,
-                Count = b.Count,
-                Height = b.Height,
-                Id = b.Id,
-                Length = b.Length,
-                Weight = b.Weight,
-                Width = b.Width,
-
-
-            }).ToList();
-            return result;
-        }
-
+   
         public IQueryable<OrderPackageListViewModel> GetOrderPackageListIQueryable(OrderPackageSearchViewModel model)
         {
             var predicate = PredicateBuilder.New<Data.Packages>(true);/*AND*/

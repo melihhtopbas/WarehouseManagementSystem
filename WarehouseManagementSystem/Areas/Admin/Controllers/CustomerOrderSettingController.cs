@@ -19,12 +19,14 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         private readonly CustomerOrderSettingService _customerOrderSettingService;
         private readonly OrderService _orderService;
         private readonly WarehouseManagementSystemEntities1 _context;
+        private readonly OrderPackageService _orderPackageService;
 
-        public CustomerOrderSettingController(CustomerOrderSettingService customerOrderSettingService, OrderService orderService, WarehouseManagementSystemEntities1 context)
+        public CustomerOrderSettingController(CustomerOrderSettingService customerOrderSettingService, OrderService orderService, WarehouseManagementSystemEntities1 context, OrderPackageService orderPackageService)
         {
             _customerOrderSettingService = customerOrderSettingService;
             _orderService = orderService;
             _context = context;
+            _orderPackageService = orderPackageService; 
         }
         // GET: Admin/CustomerOrderSetting
         public async Task<ActionResult> Index(long customerId)
@@ -34,8 +36,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewBag.CustomerId = await _customerOrderSettingService.GetCustomerListViewAsync(customerId);
             ViewBag.CustomerUserName = _context.Users.FirstOrDefault(x=>x.Id == customerId).UserName;
             ViewBag.CustomerName = _context.Users.FirstOrDefault(a => a.Id == customerId).Name+ " " + _context.Users.FirstOrDefault(a => a.Id == customerId).Surname;
-
-
+ 
             return View("~/Areas/Admin/Views/CustomerOrderSetting/Index.cshtml");
         }
         [AjaxOnly, HttpPost, ValidateInput(false)]
@@ -280,6 +281,197 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     success = false,
                     errorMessages = callResult.ErrorMessages
+                });
+
+        }
+        [HttpGet]
+        //koli adetine basınca kolilenmiş ürünleri gösterme
+        public async Task<ActionResult> OrderPackageGroupShow(int orderId)
+        {
+
+            ViewData["ProductList"] = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).Select(a => new ProductGroupShowViewModel
+            {
+                Content = a.Content,
+                Count = a.Count,
+                GtipCode = a.GtipCode,
+                Id = a.Id,
+                isPackagedCount = a.isPackagedCount,
+                QuantityPerUnit = a.QuantityPerUnit,
+                SKU = a.SKU,
+            }).ToList();
+            ViewData["OrderId"] = orderId;
+            
+            
+            var model = await _customerOrderSettingService.GetOrderPackageGroup(orderId);
+            int? count = 0;
+            foreach (var item in model)
+            {
+
+                foreach (var prd in item.OrderPackageProductGroups)
+                {
+                    count += prd.Count;
+                }
+
+                item.CountProductsInThePackage = count;
+                count = 0;
+            }
+
+
+
+            if (model != null && model.Count() > 0)
+            {
+
+                return PartialView("~/Areas/Admin/Views/CustomerOrderSetting/_CustomerOrderPackageGroupShow.cshtml", model);
+            }
+            else if (model != null && model.Count() <= 0)
+            {
+                return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş paketlenmedi!");
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
+        public async Task<ActionResult> CustomerOrderPackages(long? packageId, long? searchId)
+        {
+
+            ViewBag.Title = "Sipariş Paketleri";
+
+            var model = new OrderPackageSearchViewModel
+            {
+                SearchId = searchId,
+                PackageId = packageId
+
+            };
+            return View("~/Areas/Admin/Views/CustomerOrderSetting/CustomerOrderPackages.cshtml", model);
+
+        }
+        [AjaxOnly, HttpPost, ValidateInput(false)]
+        public async Task<ActionResult> CustomerPackageList(OrderPackageSearchViewModel searchViewModel, int? page)
+        {
+
+
+
+
+            var result = _customerOrderSettingService.GetOrderPackageListIQueryable(searchViewModel)
+                .OrderBy(x => x.Id);
+
+
+
+
+            ModelState.Clear();
+
+            return new ContentResult
+            {
+                ContentType = "application/json",
+                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(new
+                {
+                    success = true,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/CustomerPackageList.cshtml", result)
+                })
+            };
+        }
+        public async Task<ActionResult> CustomerPackageEdit(int packageId)
+        {
+
+            var model = await _orderPackageService.GetPackageEditViewModelAsync(packageId);
+            if (model != null)
+            {
+
+                return PartialView("~/Areas/Admin/Views/CustomerOrderSetting/_PackageEdit.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Paket sistemde bulunamadı!");
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> CustomerPackageEdit(OrderPackageProductEditViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _customerOrderSettingService.EditPackageAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (CustomerOrderPackageListViewModel)callResult.Item;
+
+
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/DisplayTemplates/CustomerOrderPackageListViewModel.cshtml", viewModel),
+                            item = viewModel
+
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/_PackageEdit.cshtml", model)
+                });
+
+        }
+        [AjaxOnly, HttpGet]
+        public async Task<ActionResult> CustomerPackageProductAdd(long orderId, long orderPackageId)
+        {
+
+
+
+            var model = await _orderPackageService.GetPackageProductAddViewModelAsync(orderId, orderPackageId);
+            if (model.ProductGroupsEditViewModels.Count() != 0)
+            {
+
+                return PartialView("~/Areas/Admin/Views/CustomerOrderSetting/_PackageProductAdd.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Eklenecek ürün bulunamadı! Lütfen paket içeriğini kontrol edin.");
+
+
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> CustomerPackageProductAdd(OrderPackageIntoAddProductViewModel model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _customerOrderSettingService.PackageProductAddAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (CustomerOrderPackageListViewModel)callResult.Item;
+
+
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/DisplayTemplates/CustomerOrderPackageListViewModel.cshtml", viewModel),
+                            item = viewModel
+
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/_PackageProductAdd.cshtml", model),
+
                 });
 
         }

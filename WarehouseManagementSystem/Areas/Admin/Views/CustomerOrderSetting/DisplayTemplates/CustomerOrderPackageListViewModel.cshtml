@@ -1,0 +1,79 @@
+﻿
+@model Warehouse.ViewModels.Admin.CustomerOrderPackageListViewModel
+<div id="@("customePackageRow_"+Model.Id)" class="col-md-6 col-lg-4 packageRow">
+
+    <div class="content box-with-img">
+        <p>@Model.UserName / @Model.FullName</p>
+        <!-- End of .img-container -->
+
+        <div class="text-content  text-left">
+            <h3>
+                @Model.Desi.Value.ToString("0.0") Desi
+            </h3>
+
+            <h4>Alıcı: @Model.ReceiverName</h4>
+            <h5>Ülke: @Model.CountryName</h5>
+        </div>
+        <!-- End of .text-content -->
+
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-title="Paket Düzenle"
+           data-modal-update="#customePackageRow_@Model.Id"
+           data-modal-highlight="#customePackageRow_@Model.Id"
+           data-modal-save-message="Paket başarıyla düzenlendi"
+           data-hook-beforeunload="true"
+           href="@Url.Action("CustomerPackageEdit", "CustomerOrderSetting", routeValues: new {Area = "Admin",packageId=Model.Id})" class="overlay">
+            <div class="text-content  text-left">
+                <h3>
+                    @Model.Barcode <i class="fa-solid fa-barcode"></i>
+                </h3>
+                <div class="readmore-btn">
+                    <div>
+                        Düzenlemek için tıklayın
+                        <i class="fa fa-long-arrow-right"></i>
+                    </div>
+                </div>
+                <!-- End of .readmore-btn -->
+            </div>
+            <!-- End of .text-content -->
+        </a>
+        <!-- End of .overlay -->
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-6 col-lg-6 col-md-push-0">
+
+
+            <a class="btn btn-block btn-primary btn-sm"
+               data-modal-form="true"
+               data-modal-size="modal-lg"
+               data-modal-update="#customePackageRow_@Model.Id"
+               data-modal-highlight="#customePackageRow_@Model.Id"
+               data-modal-save-message="Başarılı"
+               data-modal-title="Koliye Ürün Ekle"
+               data-hook-beforeunload="true"
+               href="@Url.Action("CustomerPackageProductAdd", "CustomerOrderSetting", routeValues: new {Area ="Admin",orderId = Model.OrderId, orderPackageId = Model.Id})">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-6 col-md-push-0">
+
+
+            <a  href="javascript:void(0);"
+               data-toggle="confirmation"
+               title="Silmek İstediğinize Emin Misiniz"
+               data-btn-ok-label="Evet"
+               data-btn-cancel-label="Hayır"
+               data-placement="top"
+               data-package-id="@Model.Id"
+               data-on-confirm="deleteOrderPackage"
+               class="btn btn-block btn-danger btn-sm">
+                <i class="fa fa-trash fa-fw text-danger"></i>
+            </a>
+        </div>
+    </div>
+
+</div> 

@@ -23,45 +23,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             _languageService = languageService;
         }
 
-        public async Task<ActionResult> Index(long? packageId, long? searchId)
-        {
-
-            ViewBag.Title = "Sipariş Paketleri";
-
-            var model = new OrderPackageSearchViewModel
-            {
-                SearchId = searchId,
-                PackageId = packageId
-
-            };
-            return View("~/Areas/Admin/Views/OrderPackage/Index.cshtml", model);
-
-        }
-        [AjaxOnly, HttpPost, ValidateInput(false)]
-        public async Task<ActionResult> OrderPackageList(OrderPackageSearchViewModel searchViewModel, int? page)
-        {
-
-
-            var currentPageIndex = page - 1 ?? 0;
-
-            var result = _orderPackageService.GetOrderPackageListIQueryable(searchViewModel)
-                .OrderBy(x => x.Id)
-                .ToPagedList(currentPageIndex, SystemConstants.DefaultCountryPageSize);
-
-
-
-            ModelState.Clear();
-
-            return new ContentResult
-            {
-                ContentType = "application/json",
-                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(new
-                {
-                    success = true,
-                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/OrderPackage/OrderPackageList.cshtml", result)
-                })
-            };
-        }
+     
 
         public async Task<ActionResult> OrderPackage(long? packageId, long? searchId)
         {
@@ -86,7 +48,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
             var result = _orderPackageService.GetOrderPackageListIQueryable(searchViewModel)
                 .OrderBy(x => x.Id);
-            var model = _orderPackageService.GetPackageList();
+           
 
 
 

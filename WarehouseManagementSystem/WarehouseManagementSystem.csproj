@@ -4615,8 +4615,6 @@
     <Content Include="Areas\Admin\Views\TicketBox\DisplayTemplates\TicketBoxShowViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\TicketBoxAnswer\_TicketAnswer.cshtml" />
     <Content Include="Areas\Admin\Views\TicketBox\_TicketAnswerView.cshtml" />
-    <Content Include="Areas\Admin\Views\OrderPackage\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\OrderPackage\OrderPackageList.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\DisplayTemplates\OrderPackageListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\PackageList.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\OrderPackage.cshtml" />
@@ -4625,6 +4623,13 @@
     <Content Include="Areas\Admin\Views\OrderPackage\_PackageProductAdd.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\_PackageProductGroupAdd.cshtml" />
     <Content Include="Areas\Admin\Views\OrderPackage\DisplayTemplates\ProductGroupsEditViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_CustomerOrderPackageGroupShow.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\CustomerOrderPackages.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\CustomerPackageList.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\CustomerOrderPackageListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_PackageEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\_PackageProductAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\ProductGroupsEditViewModel.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

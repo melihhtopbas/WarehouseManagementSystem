@@ -181,7 +181,7 @@ namespace Warehouse.ViewModels.Admin
     }
     public class OrderPackageSearchViewModel
     {
-        [Display(Name = "Barkod Id")]
+        [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
 
         [Display(Name = "Sipariş Id")]
