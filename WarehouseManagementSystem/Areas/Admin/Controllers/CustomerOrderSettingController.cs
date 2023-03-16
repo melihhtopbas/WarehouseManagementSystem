@@ -137,7 +137,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult> CustomerOrderEdit(int orderId)
         {
-
+            
             var model = await _customerOrderSettingService.GetOrderEditViewModelAsync(orderId);
             if (model != null)
             {
