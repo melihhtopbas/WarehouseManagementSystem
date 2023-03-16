@@ -25,15 +25,7 @@ namespace Warehouse.Service.Admin
             _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
 
-        public UserListViewModel Detail(long customerId)
-        {
-            var customer = _context.Users.FirstOrDefault(x => x.Id == customerId);
-            var model = new UserListViewModel
-            {
-                Name = customer.Name,
-            };
-            return model;
-        }
+      
         public async Task<List<LanguageListModel>> GetLanguageListViewAsync()
         {
 
@@ -56,6 +48,17 @@ namespace Warehouse.Service.Admin
             }).ToList();
             return result;
         }
+        public async Task<List<UserListViewModel>> GetCustomerIdListViewAsync()
+        {
+
+            var result = _context.Users.Select(x => new UserListViewModel
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+
+            }).ToList();
+            return result;
+        }
 
         private IQueryable<CustomerOrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
@@ -65,6 +68,8 @@ namespace Warehouse.Service.Admin
                     on b.Id equals sAd.OrderId
                     join rAd in _context.RecipientAddresses
                     on b.Id equals rAd.OrderId
+                    join u in _context.Users
+                    on b.CustomerId equals u.Id
                     select new CustomerOrderListViewModel()
                     {
                         Id = b.Id,
@@ -81,6 +86,10 @@ namespace Warehouse.Service.Admin
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
+                        CustomerId = b.CustomerId,
+                        CustomerName = u.Name + " " +u.Surname,
+                        CustomerUserName = u.UserName,
+
 
 
 
@@ -101,12 +110,125 @@ namespace Warehouse.Service.Admin
             }
             return _getOrderListIQueryable(predicate);
         }
+      
         public async Task<CustomerOrderListViewModel> GetOrderListViewAsync(long orderId)
         {
 
             var predicate = PredicateBuilder.New<Data.Orders>(true);/*AND*/
             predicate.And(a => a.Id == orderId);
             var order = await _getOrderListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return order;
+        }
+        private IQueryable<AllCustomerOrderListViewModel> _getAllOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
+        {
+
+            return (from b in _context.Orders.AsExpandable().Where(expr)
+                    join sAd in _context.SenderAddresses
+                    on b.Id equals sAd.OrderId
+                    join rAd in _context.RecipientAddresses
+                    on b.Id equals rAd.OrderId
+                    join u in _context.Users
+                   on b.CustomerId equals u.Id
+                    select new AllCustomerOrderListViewModel()
+                    {
+                        Id = b.Id,
+                        PackageCount = _context.Packages.Where(x => x.OrderId == b.Id).Count(),
+                        RecipientAddress = rAd.Name,
+                        SenderAddress = sAd.Name,
+                        RecipientCity = b.Cities.Name,
+                        RecipientName = b.RecipientName,
+                        RecipientPhone = b.RecipientPhone,
+                        RecipientZipCode = b.RecipientZipCode,
+                        SenderName = b.SenderName,
+                        SenderPhone = b.SenderPhone,
+                        RecipientCountry = b.Countries.Name,
+                        CargoService = b.CargoServiceTypes.Name,
+                        isPackage = b.isPackage,
+                        DateTime = (DateTime)b.Date,
+                        CustomerId= b.CustomerId,
+                        CustomerName = u.Name + " "+u.Surname ,
+                        CustomerUserName = u.UserName,
+
+
+
+
+
+
+                    });
+
+        }
+        private IQueryable<AllCustomerOrderListViewModel> _getAllOrderListIQueryable2(Expression<Func<Data.Users, bool>> expr)
+        {
+
+            return (from b in _context.Orders
+                    join sAd in _context.SenderAddresses
+                    on b.Id equals sAd.OrderId
+                    join rAd in _context.RecipientAddresses
+                    on b.Id equals rAd.OrderId
+                    join u in _context.Users.AsExpandable().Where(expr)
+                    on b.CustomerId equals u.Id
+                    where b.LanguageId == 1
+                    select new AllCustomerOrderListViewModel()
+                    {
+                        Id = b.Id,
+                        PackageCount = _context.Packages.Where(x => x.OrderId == b.Id).Count(),
+                        RecipientAddress = rAd.Name,
+                        SenderAddress = sAd.Name,
+                        RecipientCity = b.Cities.Name,
+                        RecipientName = b.RecipientName,
+                        RecipientPhone = b.RecipientPhone,
+                        RecipientZipCode = b.RecipientZipCode,
+                        SenderName = b.SenderName,
+                        SenderPhone = b.SenderPhone,
+                        RecipientCountry = b.Countries.Name,
+                        CargoService = b.CargoServiceTypes.Name,
+                        isPackage = b.isPackage,
+                        DateTime = (DateTime)b.Date,
+                        CustomerId = b.CustomerId,
+                        CustomerName = u.Name,
+                        CustomerUserName = u.UserName,
+
+
+
+
+
+                    });
+
+        }
+        public IQueryable<AllCustomerOrderListViewModel> GetAllOrderListIQueryable(CustomerOrderSearchViewModel model)
+        {
+            var predicateOrder = PredicateBuilder.New<Data.Orders>(true);/*AND*/
+            var predicateUser = PredicateBuilder.New<Data.Users>(true);/*AND*/
+            predicateOrder.And(a => a.LanguageId == model.LanguageId);
+            var user = _context.Users.Where(x=>x.UserName == model.UserName).FirstOrDefault();
+            if (user == null)
+            {
+                if (!string.IsNullOrWhiteSpace(model.SearchName))
+                {
+                    predicateOrder.And(a => a.SenderName.Contains(model.SearchName) || a.SenderPhone.Contains(model.SearchName));
+                   
+
+                }
+                return _getAllOrderListIQueryable(predicateOrder);
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(model.UserName))
+                {
+                    predicateUser.And(a => a.UserName.Contains(model.UserName));
+
+                }
+                return _getAllOrderListIQueryable2(predicateUser);
+            }
+        }
+          
+
+        public async Task<AllCustomerOrderListViewModel> GetAllOrderListViewAsync(long orderId)
+        {
+
+            var predicate = PredicateBuilder.New<Data.Orders>(true);/*AND*/
+            predicate.And(a => a.Id == orderId);
+            var order = await _getAllOrderListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return order;
         }
         public async Task<ServiceCallResult> AddOrderAsync(CustomerOrderAddViewModel model)

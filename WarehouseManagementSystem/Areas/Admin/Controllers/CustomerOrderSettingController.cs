@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.Mvc;
+﻿using Castle.Core.Resource;
+using Microsoft.Web.Mvc;
 using MvcPaging;
 using System;
 using System.Collections.Generic;
@@ -31,21 +32,19 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         // GET: Admin/CustomerOrderSetting
         public async Task<ActionResult> Index(long customerId)
         {
-           var model =  _customerOrderSettingService.Detail(customerId);
+           
             ViewBag.Languages = await _customerOrderSettingService.GetLanguageListViewAsync();
             ViewBag.CustomerId = await _customerOrderSettingService.GetCustomerListViewAsync(customerId);
-            ViewBag.CustomerUserName = _context.Users.FirstOrDefault(x=>x.Id == customerId).UserName;
-            ViewBag.CustomerName = _context.Users.FirstOrDefault(a => a.Id == customerId).Name+ " " + _context.Users.FirstOrDefault(a => a.Id == customerId).Surname;
+            ViewBag.CustomerListId = await _customerOrderSettingService.GetCustomerIdListViewAsync();
+            
  
             return View("~/Areas/Admin/Views/CustomerOrderSetting/Index.cshtml");
         }
         [AjaxOnly, HttpPost, ValidateInput(false)]
         public async Task<ActionResult> CustomerOrderList(CustomerOrderSearchViewModel model, int? page)
         {
-
-
-
-
+            ViewData["CustomerUserName"] = _context.Users.FirstOrDefault(x => x.Id == model.CustomerId).UserName;
+            ViewData["CustomerName"] = _context.Users.FirstOrDefault(a => a.Id == model.CustomerId).Name + " " + _context.Users.FirstOrDefault(a => a.Id == model.CustomerId).Surname;
             var currentPageIndex = page - 1 ?? 0;
 
             var result = _customerOrderSettingService.GetOrderListIQueryable(model)
@@ -347,13 +346,14 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> CustomerPackageList(OrderPackageSearchViewModel searchViewModel, int? page)
         {
 
-
+            var currentPageIndex = page - 1 ?? 0;
 
 
             var result = _customerOrderSettingService.GetOrderPackageListIQueryable(searchViewModel)
-                .OrderBy(x => x.Id);
+                .OrderBy(x => x.Id)
+                .ToPagedList(currentPageIndex,SystemConstants.DefaultOrderPageSize);
 
-
+            
 
 
             ModelState.Clear();
@@ -474,6 +474,35 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
                 });
 
+        }
+        public async Task<ActionResult> AllCustomerOrder()
+        {
+
+            ViewBag.Languages = await _customerOrderSettingService.GetLanguageListViewAsync();        
+            return View("~/Areas/Admin/Views/CustomerOrderSetting/AllCustomerOrder.cshtml");
+        }
+        [AjaxOnly, HttpPost, ValidateInput(false)]
+        public async Task<ActionResult> AllCustomerOrderList(CustomerOrderSearchViewModel model, int? page)
+        {
+             
+            var currentPageIndex = page - 1 ?? 0;
+
+            var result = _customerOrderSettingService.GetAllOrderListIQueryable(model)
+                .OrderBy(p => p.DateTime).OrderBy(x => x.isPackage)
+                .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
+            ViewBag.Languages = await _customerOrderSettingService.GetLanguageListViewAsync();
+           
+            ModelState.Clear();
+            ViewBag.LanguageId = model.LanguageId;
+            return new ContentResult
+            {
+                ContentType = "application/json",
+                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(new
+                {
+                    success = true,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/CustomerOrderSetting/AllCustomerOrderList.cshtml", result)
+                })
+            };
         }
 
 

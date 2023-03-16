@@ -184,6 +184,9 @@ namespace Warehouse.ViewModels.Admin
         public virtual CountryViewModel Countries { get; set; }
         public virtual CurrencyUnitViewModel CurrencyUnits { get; set; }
         public virtual ICollection<ProductTransactionGroupViewModel> ProductTransactionGroup { get; set; }
+
+        public string CustomerName { get; set; }
+        public string CustomerUserName { get; set; }
     }
     public class CustomerOrderSearchViewModel
     {
@@ -192,6 +195,8 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
         public long CustomerId { get; set; }
+        public string UserName { get; set; }
+
     }
     public class CustomerOrderEditViewModel : CustomerOrderCrudBaseViewModel
     {
@@ -278,5 +283,18 @@ namespace Warehouse.ViewModels.Admin
 
 
     }
+    public class AllCustomerOrderListViewModel : CustomerOrderListViewModel
+    {
+        public string CustomerName { get; set; }
+        public string CustomerUserName { get; set; }
 
+    }
+    public class AllCustomerOrderAddViewModel : CustomerOrderCrudBaseViewModel
+    {
+        public string CustomerName { get; set; }
+        public string CustomerUserName { get; set; }
+
+    }
+     
+   
 }

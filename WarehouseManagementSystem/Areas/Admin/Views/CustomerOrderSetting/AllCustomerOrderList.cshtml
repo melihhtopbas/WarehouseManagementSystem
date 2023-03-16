@@ -1,23 +1,7 @@
-﻿@model IPagedList<Warehouse.ViewModels.Admin.CustomerOrderListViewModel>
+﻿@model IPagedList<Warehouse.ViewModels.Admin.AllCustomerOrderListViewModel>
 
 
  
-<div class="box-header">
-    <i class="fa-solid fa-truck-fast"></i> 
-    <strong class="col-md-push-6"> @ViewData["CustomerUserName"] / @ViewData["CustomerName"]</strong>
-</div>
-
- 
-    <a id="MyModal" class="pressActive btn btn-warning btn-sm"
-       data-modal-form="true"
-       data-modal-size="modal-lg"
-       data-modal-prepend="tbody#CustomerOrderList"
-       data-modal-title="Yeni Gönderi Oluştur"
-       data-hook-beforeunload="true"
-       data-modal-save-message="Gönderi başarıyla oluşturuldu"
-       href="@Url.Action("CustomerOrderAdd", "CustomerOrderSetting",new { Area = "Admin",customerId = ViewBag.CustomerId })">
-        <i class="fa-solid fa-cart-plus"></i> Yeni Gönderi Oluştur
-    </a>
  
 
 <div class="pull-right hidden-xs hidden-sm">
@@ -29,8 +13,8 @@
     }
 
     &nbsp;
-    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CustomerOrderListContainer" }).Options(o => o
-        .Action("CustomerOrderList")
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "AllCustomerOrderListContainer" }).Options(o => o
+        .Action("AllCustomerOrderList")
         .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()
@@ -45,7 +29,7 @@
 <table id="tblOrders" class="table table-bordered">
     <thead>
         <tr>
-
+            <th>Kullanıcı</th>
             <th>Gönderici Adı</th>
             <th>Gönderici Adres</th>
             <th>Alıcı Adı</th>
@@ -65,7 +49,7 @@
 
         </tr>
     </thead>
-    <tbody id="CustomerOrderList">
+    <tbody id="AllCustomerOrderList">
         @Html.DisplayFor(m => m)
     </tbody>
 
@@ -74,8 +58,8 @@
 <div class="pull-left">
 
 
-    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "CustomerOrderListContainer" }).Options(o => o
-        .Action("CustomerOrderList")
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "AllCustomerOrderListContainer" }).Options(o => o
+        .Action("AllCustomerOrderList")
         .DisplayTemplate("BootstrapPage")
         .MaxNrOfPages(6)
         .AlwaysAddFirstPageNumber()

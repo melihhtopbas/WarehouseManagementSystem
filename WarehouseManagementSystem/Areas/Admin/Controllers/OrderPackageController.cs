@@ -44,13 +44,14 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
 
 
-            
+            var currentPageIndex = page - 1 ?? 0;
 
             var result = _orderPackageService.GetOrderPackageListIQueryable(searchViewModel)
-                .OrderBy(x => x.Id);
+                .OrderBy(x => x.Id)
+                .ToPagedList(currentPageIndex,SystemConstants.DefaultOrderPageSize);
+
+
            
-
-
 
             ModelState.Clear();
 

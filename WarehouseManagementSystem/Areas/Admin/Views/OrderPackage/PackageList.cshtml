@@ -1,7 +1,27 @@
 ﻿
-@model IQueryable<Warehouse.ViewModels.Admin.OrderPackageListViewModel>
+@model IPagedList<Warehouse.ViewModels.Admin.OrderPackageListViewModel>
 <section class="section featured-works" data-target="PackageListContainer">
     <div class="container">
+        <div class="pull-right hidden-xs hidden-sm">
+            @if (Model.Any())
+            {
+                <div style="margin: 20px 0; float: left !important;">
+                    @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+                </div>
+            }
+
+
+            @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "PackageListContainer" }).Options(o => o
+                .Action("PackageList")
+                .DisplayTemplate("BootstrapPage")
+                .MaxNrOfPages(6)
+                .AlwaysAddFirstPageNumber()
+                .RouteValues(new { languageId = @ViewBag.LanguageId })
+
+
+
+            )
+        </div>
         <div class="section-heading text-center">
             <h2>Koliler</h2>
         </div>
@@ -11,13 +31,31 @@
         <div class="featured-work-content">
             <div class="master-row">
                 @Html.DisplayFor(m => m)
-                 
+
             </div>
             <!-- End of .row -->
 
         </div>
         <!-- End of .featured-work-content -->
     </div>
+    <div class="pull-left">
+
+
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "PackageListContainer" }).Options(o => o
+            .Action("PackageList")
+            .DisplayTemplate("BootstrapPage")
+            .MaxNrOfPages(6)
+            .AlwaysAddFirstPageNumber()
+            .RouteValues(new { languageId = @ViewBag.LanguageId })
+
+            )
+    </div>
+    @if (Model.Any())
+    {
+        <div style="margin: 20px 0; float: left !important;">
+            @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+        </div>
+    }
     <!-- End of .container -->
 </section>
 <!-- End of .service-cat-checklist-->

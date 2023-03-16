@@ -4630,6 +4630,9 @@
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\_PackageEdit.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\_PackageProductAdd.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\ProductGroupsEditViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\AllCustomerOrderListViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrderList.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrder.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
