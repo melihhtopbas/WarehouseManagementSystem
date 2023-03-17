@@ -564,8 +564,8 @@
             $('#ticketBoxSearchForm').submit();
             $('#ticketBoxShowSearchForm').submit();
             $('#orderPackageSearchForm').submit();
-            $('#PackageSearchForm').submit();
-
+            $('#PackageSearchForm').submit(); 
+           
 
 
 
@@ -1063,6 +1063,14 @@
                     $.each(result.errorMessages,
                         function (i, item) {
                             toastr.error(item);
+                        });
+                    $.each(result.infoMessages,
+                        function (i, item) {
+                            toastr.info(item);
+                        });
+                    $.each(result.warningMessages,
+                        function (i, item) {
+                            toastr.warning(item);
                         });
                 }
             }).fail(function () {

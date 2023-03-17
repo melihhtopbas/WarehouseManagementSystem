@@ -45,6 +45,7 @@
     <!-- demo purposes only remove these links before uploading to servers -->
     <link rel="stylesheet" type="text/css" href="~/Content/switcher/my_switcher.css">
     <link rel="stylesheet" type="text/css" id="theme-switch" href="~/Content/css/main.css">
+    <link href="~/Areas/Admin/Content/toastr.css" rel="stylesheet" />
 
     <!-- Responsive styling -->
     <link rel="stylesheet" type="text/css" href="~/Content/css/responsive.css">
@@ -260,7 +261,20 @@
     <!-- Switcher scripts. Remove before uploading to server
     <!-- Custom js -->
     <script src="~/Content/js/main.js"></script>
+    <script src="~/Areas/Admin/Scripts/wms.toastr.js"></script>
+    <script>
+  $(function(){
 
+       var message = "@(TempData["message"] as string)";
+      if (message !== "") {
+          toastr.success(message);
+         
+
+     }
+
+
+  });
+    </script>
 
 </body>
 

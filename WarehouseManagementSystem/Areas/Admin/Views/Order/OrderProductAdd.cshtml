@@ -1,0 +1,81 @@
+﻿@model Warehouse.ViewModels.Admin.ProductGroupAddViewModel
+@using (Html.BeginForm("OrderProductAdd", "Order", new { Area = "Admin" }, FormMethod.Post, new { id = "orderProductAddForm", role = "form" }))
+{
+    <style>
+        form ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        form li {
+            float: left;
+        }
+
+            form li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+
+                form li a:hover {
+                    background-color: #111111;
+                }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+            @Html.HiddenFor(x=>x.OrderId)
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.Content, new { @class = "kt_docs_maxlength_basic", maxlength = "50" })
+        </div>
+
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.QuantityPerUnit, new { placeholder = "" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-3 col-lg-3">
+
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.Count, new { placeholder = "" })
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            @Html.TextBoxBlockLabelAsAddonForAsteriks(m => m.SKU)
+        </div>
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            @Html.TextBoxBlockLabelAsAddonFor(m => m.GtipCode)
+        </div>
+        
+
+
+        <div class="clearfix"></div>
+
+
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+}
+<style>
+    .required::after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>

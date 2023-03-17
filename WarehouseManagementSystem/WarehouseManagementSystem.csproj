@@ -4633,6 +4633,12 @@
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\DisplayTemplates\AllCustomerOrderListViewModel.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrderList.cshtml" />
     <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrderEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CustomerOrderSetting\AllCustomerOrderPackageAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\DisplayTemplates\ProductGroupShowViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\OrderProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\OrderProductList.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\OrderProductAdd.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -67,8 +67,8 @@
            data-modal-title="Siparişteki Ürün Listesi"
            data-hook-beforeunload="true"
            class="pressActive btn btn-block btn-warning btn-sm"
-           href="@Url.Action("ProductGroupShow", "Order", routeValues: new {Area = "Admin",orderId=Model.Id})">
-            <i class="fa-solid fa-book"></i> Ürünleri Görüntüle
+           href="@Url.Action("OrderProduct", "Order", routeValues: new {Area = "Admin",orderId=Model.Id})">
+            <i class="fa-solid fa-book"></i> Ürünleri Düzenle
         </a>
 
     </td>

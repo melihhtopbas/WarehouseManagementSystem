@@ -29,9 +29,13 @@ namespace WarehouseManagementSystem.Controllers
             var result = _contactService.AddContactForm(model);
             if (result.Success)
             {
-                ViewData[StringConstants.SuccessMessage] = "Formunuz Başarıyla Kaydedilmiştir.";
+                //ViewData[StringConstants.SuccessMessage] = "Formunuz Başarıyla Kaydedilmiştir.";
+                //return View();
+                TempData["message"] = "İletişim formunuz başarıyla alınmıştır.";
                 return View();
+                //return Json(new { success = result.Success, item = result.ErrorMessages.FirstOrDefault() }, JsonRequestBehavior.AllowGet);
             }
+
             else
             {
                 return Json(new { success = result.Success, item = result.ErrorMessages.FirstOrDefault() }, JsonRequestBehavior.AllowGet);

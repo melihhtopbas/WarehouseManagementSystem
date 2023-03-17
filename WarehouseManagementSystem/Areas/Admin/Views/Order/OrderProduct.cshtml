@@ -1,0 +1,40 @@
+﻿@model Warehouse.ViewModels.Admin.ProductSearchViewModel
+ 
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <i class="fa-solid fa-house-user"></i>
+            <h3 class="box-title">@ViewBag.Title</h3>
+        </div>
+        <div class="box-body">
+            @using (Html.BeginForm("OrderProductList", "Order", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "orderProductSearchForm", data_ajax_form = "true", data_target_container = "#OrderProductListContainer" }))
+            {
+                <div class="row">
+                    <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchName)">
+                        @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchName)
+                    </div>
+
+                    <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.OrderId)">
+                        @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderId)
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group form-group-sm col-xs-12 col-sm-4 col-sm-push-3 col-md-4 col-md-push-3">
+                        <div class="input-group">
+                            <button type='submit' class="btn btn-sm btn-default btn-block"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            <div>
+                <div id="OrderProductListContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+ <script>
+     $(function () {
+         $('#orderProductSearchForm').submit();
+     })
+ </script>

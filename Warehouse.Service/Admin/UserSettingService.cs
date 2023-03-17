@@ -225,6 +225,9 @@ namespace Warehouse.Service.Admin
             if (citiesAny)
             {
                 callResult.ErrorMessages.Add("Siparişi bulunan kullanıcıyı silemezsiniz.");
+                callResult.WarningMessages.Add("Siparişi bulunan kullanıcıyı silemezsiniz.");
+                callResult.InfoMessages.Add("Lütfen kullanıcı siparişlerini kontrol ediniz.");
+               
                 return callResult;
             }
 
@@ -238,7 +241,7 @@ namespace Warehouse.Service.Admin
                     dbtransaction.Commit();
 
 
-
+                    callResult.SuccessMessages.Add("Kullanıcı başarıyla silindi.");
                     callResult.Success = true;
                     callResult.Item = await GetUserListViewAsync(user.Id).ConfigureAwait(false);
                     return callResult;

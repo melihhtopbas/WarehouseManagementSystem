@@ -1,0 +1,24 @@
+﻿@model Warehouse.ViewModels.Admin.ProductGroupShowViewModel
+
+<tr id="@("orderProduct"+Model.Id)" class="master-row">
+    <td>@Model.Content</td>
+    <td>@Model.Count</td>
+    <td>@Model.QuantityPerUnit</td>
+    <td>@Model.SKU</td>
+    <td>@Model.GtipCode</td>
+    <td style="width:50px">
+        <a href="javascript:void(0);"
+           data-toggle="confirmation"
+           title="Emin Misiniz, sildikten sonra geri alamayacaksınız!"
+           data-btn-ok-label="Evet"
+           data-btn-cancel-label="Hayır"
+           data-placement="top"
+           data-order-product-id="@Model.Id"
+           data-on-confirm="deleteOrderProduct"
+           class="btn btn-block btn-danger btn-sm">
+            <i class="fa fa-trash fa-fw text-danger"></i>Sil
+        </a>
+
+    </td>
+
+</tr>

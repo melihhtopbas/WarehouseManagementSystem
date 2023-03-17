@@ -25,7 +25,7 @@ namespace Warehouse.Service.Admin
             _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
 
-      
+
         public async Task<List<LanguageListModel>> GetLanguageListViewAsync()
         {
 
@@ -87,7 +87,7 @@ namespace Warehouse.Service.Admin
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
                         CustomerId = b.CustomerId,
-                        CustomerName = u.Name + " " +u.Surname,
+                        CustomerName = u.Name + " " + u.Surname,
                         CustomerUserName = u.UserName,
 
 
@@ -110,7 +110,7 @@ namespace Warehouse.Service.Admin
             }
             return _getOrderListIQueryable(predicate);
         }
-      
+
         public async Task<CustomerOrderListViewModel> GetOrderListViewAsync(long orderId)
         {
 
@@ -129,6 +129,7 @@ namespace Warehouse.Service.Admin
                     on b.Id equals rAd.OrderId
                     join u in _context.Users
                    on b.CustomerId equals u.Id
+                   where u.Role != "admin"
                     select new AllCustomerOrderListViewModel()
                     {
                         Id = b.Id,
@@ -145,8 +146,8 @@ namespace Warehouse.Service.Admin
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
-                        CustomerId= b.CustomerId,
-                        CustomerName = u.Name + " "+u.Surname ,
+                        CustomerId = b.CustomerId,
+                        CustomerName = u.Name + " " + u.Surname,
                         CustomerUserName = u.UserName,
 
 
@@ -168,6 +169,7 @@ namespace Warehouse.Service.Admin
                     join u in _context.Users.AsExpandable().Where(expr)
                     on b.CustomerId equals u.Id
                     where b.LanguageId == 1
+                    where u.Role != "admin"
                     select new AllCustomerOrderListViewModel()
                     {
                         Id = b.Id,
@@ -200,13 +202,13 @@ namespace Warehouse.Service.Admin
             var predicateOrder = PredicateBuilder.New<Data.Orders>(true);/*AND*/
             var predicateUser = PredicateBuilder.New<Data.Users>(true);/*AND*/
             predicateOrder.And(a => a.LanguageId == model.LanguageId);
-            var user = _context.Users.Where(x=>x.UserName == model.UserName).FirstOrDefault();
+            var user = _context.Users.Where(x => x.UserName == model.UserName).FirstOrDefault();
             if (user == null)
             {
                 if (!string.IsNullOrWhiteSpace(model.SearchName))
                 {
                     predicateOrder.And(a => a.SenderName.Contains(model.SearchName) || a.SenderPhone.Contains(model.SearchName));
-                   
+
 
                 }
                 return _getAllOrderListIQueryable(predicateOrder);
@@ -221,7 +223,7 @@ namespace Warehouse.Service.Admin
                 return _getAllOrderListIQueryable2(predicateUser);
             }
         }
-          
+
 
         public async Task<AllCustomerOrderListViewModel> GetAllOrderListViewAsync(long orderId)
         {
@@ -464,19 +466,7 @@ namespace Warehouse.Service.Admin
                 productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly;
 
             }
-
-            //foreach (var prd in model.ProductTransactionGroup)
-            //{
-            //    productGroup.isPackagedCount = prd.isPackagedCount;
-            //    productGroup.isPackage = prd.isPackage;
-            //    productGroup.isReadOnly = prd.isReadOnly;
-            //}
-
-
-
-
-
-
+ 
 
 
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
@@ -530,6 +520,159 @@ namespace Warehouse.Service.Admin
 
                     callResult.Success = true;
                     callResult.Item = await GetOrderListViewAsync(order.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+        }
+        public async Task<ServiceCallResult> AllCustomerOrderEditOrderAsync(CustomerOrderEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+            foreach (var item in model.ProductTransactionGroup)
+            {
+                bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.Id != item.Id && a.SKU == item.SKU).ConfigureAwait(false);
+                if (nameExist)
+                {
+                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır!");
+                    return callResult;
+                }
+            }
+
+            if (model.ProductTransactionGroup.Count() > 1)
+            {
+                for (int i = 0; i <= model.ProductTransactionGroup.Count() - 1; i++)
+                {
+                    for (int j = i + 1; j <= model.ProductTransactionGroup.Count() - 1; j++)
+                    {
+                        bool skuexist = model.ProductTransactionGroup.ElementAt(i).SKU.Equals(model.ProductTransactionGroup.ElementAt(j).SKU);
+                        if (skuexist)
+                        {
+                            callResult.ErrorMessages.Add("Grup içinde benzersiz stok kodu olmalıdır!");
+                            return callResult;
+
+
+                        }
+                    }
+                }
+            }
+
+            var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == model.Id).ConfigureAwait(false);
+            var senderAddress = await _context.SenderAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var recipientAddress = await _context.RecipientAddresses.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var productGroup = await _context.ProductTransactionGroup.FirstOrDefaultAsync(a => a.OrderId == model.Id).ConfigureAwait(false);
+            var productGroupList = _context.ProductTransactionGroup.Where(x => x.OrderId == model.Id).ToList();
+            if (order == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
+                return callResult;
+            }
+            if (model.City == null)
+            {
+                order.SenderName = model.SenderName;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderMail = model.SenderMail;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.RecipientPhone = model.RecipientPhone;
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.RecipientName = model.RecipientName;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductOrderDescription = model.OrderDescription;
+                order.RecipientCityId = null;
+                recipientAddress.Name = model.RecipientAddress;
+                senderAddress.Name = model.SenderAddress;
+            }
+            else
+            {
+                order.SenderName = model.SenderName;
+                order.SenderIdentityNumber = model.SenderIdentityNumber;
+                order.SenderPhone = model.SenderPhone;
+                order.SenderMail = model.SenderMail;
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
+                order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
+                order.RecipientPhone = model.RecipientPhone;
+                order.RecipientCityId = model.City.CityId;
+                order.RecipientIdentityNumber = model.RecipientIdentityNumber;
+                order.RecipientMail = model.RecipientMail;
+                order.RecipientZipCode = model.RecipientZipCode;
+                order.RecipientName = model.RecipientName;
+                order.RecipientCountryId = model.Country.CountryId;
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
+                order.ProductOrderDescription = model.OrderDescription;
+                recipientAddress.Name = model.RecipientAddress;
+                senderAddress.Name = model.SenderAddress;
+            }
+
+            for (int i = 0; i < model.ProductTransactionGroup.Count(); i++)
+            {
+                productGroupList[i].isPackagedCount = model.ProductTransactionGroup.ElementAt(i).isPackagedCount;
+                productGroupList[i].isPackage = model.ProductTransactionGroup.ElementAt(i).isPackage;
+                productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly;
+
+            }
+
+
+
+            foreach (var groupDb in order.ProductTransactionGroup.ToArray()
+                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU)))
+            {
+
+                order.ProductTransactionGroup.Remove(groupDb);
+                _context.ProductTransactionGroup.Remove(groupDb);
+            }
+            // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
+
+
+
+            byte imageOrder = 0;
+            foreach (var groupViewModel in model.ProductTransactionGroup)
+            {
+                var skuExist = order.ProductTransactionGroup.Any(a => a.SKU == groupViewModel.SKU);
+                if (!skuExist)
+                {
+
+                    order.ProductTransactionGroup.Add(new ProductTransactionGroup()
+                    {
+                        SKU = groupViewModel.SKU,
+                        GtipCode = groupViewModel.GtipCode,
+                        Count = groupViewModel.Count,
+                        Content = groupViewModel.Content,
+                        QuantityPerUnit = groupViewModel.QuantityPerUnit,
+                        isPackagedCount = productGroup.isPackagedCount,
+                        isPackage = productGroup.isPackage,
+                        Id = groupViewModel.Id,
+                        isReadOnly = productGroup.isReadOnly,
+
+                    });
+
+
+                    imageOrder++;
+                }
+
+
+            }
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetAllOrderListViewAsync(order.Id).ConfigureAwait(false);
                     return callResult;
                 }
                 catch (Exception exc)
@@ -675,6 +818,91 @@ namespace Warehouse.Service.Admin
 
                     callResult.Success = true;
                     callResult.Item = await GetOrderListViewAsync(model.OrderId).ConfigureAwait(false);
+
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+
+        }
+        public async Task<ServiceCallResult> AddAllCustomerOrderPackageAsync(OrderPackageAddViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+            if (model.OrderPackageProductListViewModels != null)
+            {
+                foreach (var item in model.OrderPackageProductListViewModels)
+                {
+                    var packages = new Packages
+                    {
+                        OrderId = model.OrderId,
+                    };
+                    packages.Id = item.Id;
+                    packages.Width = item.Width;
+                    packages.Height = item.Height;
+                    packages.Weight = item.Weight;
+                    packages.Length = item.Length;
+                    packages.Desi = item.Desi;
+                    packages.Count = item.Count;
+
+                    foreach (var product in item.OrderPackagedProductGroups)
+                    {
+                        packages.PackagedProductGroups.Add(new PackagedProductGroups
+                        {
+                            Count = product.PackagedCount,
+                            Content = product.Content,
+                            GtipCode = product.GtipCode,
+                            Id = product.Id,
+                            QuantityPerUnit = product.QuantityPerUnit,
+                            SKU = product.SKU,
+                            ProductId = product.Id
+                        });
+                    }
+
+
+
+                    _context.Packages.Add(packages);
+                }
+            }
+
+
+            var isPackageProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
+            var isPackageProduct1 = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId && x.isPackagedCount == 0).ToList();
+            var order = _context.Orders.Find(model.OrderId);
+            if (isPackageProduct.Count() == isPackageProduct1.Count())
+            {
+                order.isPackage = true;
+            }
+
+            foreach (var prd1 in isPackageProduct)
+            {
+                prd1.isPackagedCount2 = prd1.isPackagedCount;
+                if (prd1.Count > prd1.isPackagedCount && prd1.isPackagedCount == 0)
+                {
+                    prd1.isPackage = true;
+                }
+            }
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetAllOrderListViewAsync(model.OrderId).ConfigureAwait(false);
 
                     return callResult;
                 }
@@ -849,7 +1077,7 @@ namespace Warehouse.Service.Admin
             var predicateUser = PredicateBuilder.New<Data.Users>(true);/*AND*/
             var user = _context.Users.Where(x => x.UserName == model.SearchName).FirstOrDefault();
 
-            if (user==null)
+            if (user == null)
             {
                 if (!string.IsNullOrWhiteSpace(model.SearchName))
                 {
@@ -875,7 +1103,7 @@ namespace Warehouse.Service.Admin
             {
                 if (!string.IsNullOrWhiteSpace(model.SearchName))
                 {
-                    predicateUser.And(a=>a.UserName.Contains(model.SearchName));
+                    predicateUser.And(a => a.UserName.Contains(model.SearchName));
                 }
                 string name = Convert.ToString(model.SearchId);
                 string packageName = Convert.ToString(model.PackageId);
@@ -893,7 +1121,7 @@ namespace Warehouse.Service.Admin
                 }
                 return _getCustomerOrderPackageListIQueryable(predicateUser);
             }
-          
+
         }
         public async Task<CustomerOrderPackageListViewModel> GetOrderPackageListViewAsync(long packageId)
         {

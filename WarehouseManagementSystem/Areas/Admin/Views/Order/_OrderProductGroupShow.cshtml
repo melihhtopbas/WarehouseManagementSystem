@@ -7,6 +7,7 @@
             <th>Birim Fiyat</th>
             <th>SKU</th>
             <th>Gtip Code</th>
+            <th>Sil</th>
 
 
 
@@ -14,20 +15,8 @@
 
         </tr>
     </thead>
-    <tbody id="OrderList">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Content</td>
-                <td>@item.Count</td>
-                <td>@item.QuantityPerUnit</td>
-                <td>@item.SKU</td>
-                <td>@item.GtipCode</td>
-
-            </tr>
-        }
-
-
+    <tbody id="OrderProductsList">
+       @Html.DisplayFor(m=>m)
     </tbody>
 
 
@@ -45,7 +34,7 @@
 </div>
 <div class="form-group form-group-sm row">
     <div class="col-xs-12">
-         
-        <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;Kapat</button>
+
+        <button  class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Onayla</button>
     </div>
 </div>

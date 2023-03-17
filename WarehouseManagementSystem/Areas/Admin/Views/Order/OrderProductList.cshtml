@@ -1,0 +1,81 @@
+﻿@model IPagedList<Warehouse.ViewModels.Admin.ProductGroupShowViewModel>
+
+ 
+
+ 
+    <a class="pressActive btn btn-warning btn-sm"
+       data-modal-form="true"
+       data-modal-size="modal-lg"
+       data-modal-prepend="tbody#OrderProductsList"
+       data-modal-title="Yeni Ürün Ekle"
+       data-hook-beforeunload="true"
+       data-modal-save-message="Ürün başarıyla eklendi"
+       href="@Url.Action("OrderProductAdd", "Order",new { Area = "Admin",orderId = @ViewBag.OrderId })">
+        <i class="fa-solid fa-cart-plus"></i> Yeni Ürün Ekle
+    </a>
+ 
+
+<div class="pull-right hidden-xs hidden-sm">
+    @if (Model.Any())
+    {
+        <div style="margin: 20px 0; float: left !important;">
+            @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+        </div>
+    }
+
+    &nbsp;
+    @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "OrderProductListContainer" }).Options(o => o
+        .Action("OrderProductList")
+        .DisplayTemplate("BootstrapPage")
+        .MaxNrOfPages(6)
+        .AlwaysAddFirstPageNumber()
+        )
+
+
+</div>
+
+
+
+<div class="clearfix"><div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"></div></div>
+<table id="showOrderGroup" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>İçerik</th>
+            <th>Adet</th>
+            <th>Birim Fiyat</th>
+            <th>SKU</th>
+            <th>Gtip Code</th>
+            <th>Sil</th>
+
+
+
+
+
+        </tr>
+    </thead>
+    <tbody id="OrderProductsList">
+        @Html.DisplayFor(m => m)
+    </tbody>
+
+
+</table>
+<div class="clearfix"></div>
+<hr />
+<div class="clearfix"></div>
+
+<div class="form-group form-group-sm row">
+    <div class="col-xs-12">
+
+        <h4><i class="fa-duotone fa-bags-shopping"></i>Siparişiniz <strong>@Model.Count()</strong> adet ürün içermektedir</h4>
+        <h4>Siparişte <strong>@ViewData["TotalCount"]</strong> toplam parça ürün vardır</h4>
+    </div>
+</div>
+ 
+@if (Model.Any())
+{
+    <div style="margin: 20px 0; float: left !important;">
+        @((Model.PageIndex * Model.PageSize) + 1)-@((Model.PageIndex * Model.PageSize) + Model.Count())/@Model.TotalItemCount
+    </div>
+}
+ 
+ 

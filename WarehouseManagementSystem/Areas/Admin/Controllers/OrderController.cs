@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.AspNet.Identity;
 using Microsoft.Web.Mvc;
 using MvcPaging;
@@ -149,7 +150,98 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
             return PartialView("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", new ProductTransactionGroupViewModel());
         }
-      
+
+        public async Task<ActionResult> OrderProduct(int orderId)
+        {
+            var model = new ProductSearchViewModel
+            {
+                OrderId = orderId,
+            };
+            
+             
+            return PartialView("~/Areas/Admin/Views/Order/OrderProduct.cshtml", model);
+        }
+
+        //Anasayfa'da gözüken sipariş listesi
+        [AjaxOnly, HttpPost, ValidateInput(false)]
+        public async Task<ActionResult> OrderProductList(ProductSearchViewModel searchModel, int? page)
+        {
+            var currentPageIndex = page - 1 ?? 0;
+            ViewBag.OrderId = searchModel.OrderId;
+            var result = _orderService.GetOrderProductListIQueryable(searchModel)
+                .OrderBy(p => p.Id)
+                .ToPagedList(currentPageIndex, SystemConstants.DefaultOrderPageSize);
+            int? counter = 0;
+            foreach (var item in result)
+            {
+                counter += item.Count;
+            }
+           
+
+            ModelState.Clear();
+            ViewData["TotalCount"] = counter;
+            return new ContentResult
+            {
+                ContentType = "application/json",
+                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(new
+                {
+                    success = true,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/OrderProductList.cshtml", result)
+                })
+            };
+
+ 
+        }
+        [AjaxOnly,HttpGet]
+        public ActionResult OrderProductAdd(long orderId)
+        {
+
+          
+
+            var model = new ProductGroupAddViewModel
+            {
+                OrderId = orderId
+            };
+            return PartialView("~/Areas/Admin/Views/Order/OrderProductAdd.cshtml", model);
+
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> OrderProductAdd(ProductGroupAddViewModel model)
+        {
+            
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderService.AddOrderProductAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (ProductGroupShowViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/DisplayTemplates/ProductGroupShowViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/OrderProductAdd.cshtml", model)
+                });
+
+        }
         [HttpGet]
         //Siparişteki ürünleri görüntüle modal'i
         public async Task<ActionResult> ProductGroupShow(int orderId)

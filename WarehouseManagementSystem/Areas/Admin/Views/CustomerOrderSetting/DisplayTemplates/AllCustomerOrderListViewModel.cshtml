@@ -1,24 +1,16 @@
 ﻿@model Warehouse.ViewModels.Admin.AllCustomerOrderListViewModel
 
 <tr id="@("AllCustomerOrder_"+Model.Id)" class="master-row">
-    <td>@Model.CustomerUserName / @Model.CustomerName</td>
+    <td style="width:30%"><a href="@Url.Action("Index","UserSetting", new {userName = Model.CustomerUserName})">@Model.CustomerUserName / @Model.CustomerName</a></td>
 
-    <td>
-        @Model.SenderName
-    </td>
-
-    <td style="width:50%"> @Model.SenderAddress</td>
-    <td>@Model.RecipientName</td>
-
-
-    <td>@Model.RecipientCountry</td>
-    <td>
+   
+    <td style="width:25%">
         <span>@Model.DateTime.ToString("dd/MM/yyyy HH:mm")</span>
 
 
     </td>
 
-    <td style="width:50%">@Model.RecipientAddress</td>
+    <td style="width:20%">@Model.RecipientCountry</td>
     <td>@Model.CargoService</td>
     <td>
         @if (@Model.isPackage == true)
@@ -47,10 +39,10 @@
            data-modal-update="#AllCustomerOrder_@Model.Id"
            data-modal-highlight="#AllCustomerOrder_@Model.Id"
            data-modal-title="Gönderi Düzenle"
-           data-modal-save-message="Gönderi başarıyla düzenlendi"
+           data-modal-save-message="Kullanıcı gönderisi başarıyla düzenlendi"
            data-hook-beforeunload="true"
            class="pressActive btn btn-block btn-success btn-sm"
-           href="@Url.Action("CustomerOrderEdit", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
+           href="@Url.Action("AllCustomerOrderEdit", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
             <i class="fa fa-edit fa-fw text-success"></i> Gönderi Düzenle
         </a>
 
@@ -88,7 +80,7 @@
            data-modal-title="Sipariş Paketle"
            data-hook-beforeunload="true"
            class="pressActive btn btn-block btn-sm showOrderPackage"
-           href="@Url.Action("OrderPackageAdd", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
+           href="@Url.Action("AllCustomerOrderPackageAdd", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
             <i class="fa-solid fa-cube"></i> Sipariş Paketle
         </a>
 

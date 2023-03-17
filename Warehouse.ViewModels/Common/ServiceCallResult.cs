@@ -16,6 +16,7 @@ namespace Warehouse.ViewModels.Common
             ErrorMessages = new List<string>();
             WarningMessages = new List<string>();
             SuccessMessages = new List<string>();
+            InfoMessages = new List<string>();
         }
         public bool Success { get; set; }
         public object Item { get; set; }
@@ -23,6 +24,7 @@ namespace Warehouse.ViewModels.Common
         public IList<string> ErrorMessages { get; set; }
         public IList<string> SuccessMessages { get; set; }
         public IList<string> WarningMessages { get; set; }
+        public IList<string> InfoMessages { get; set; }
     }
     public class LanguageListModel
     {

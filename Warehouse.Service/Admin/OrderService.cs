@@ -19,24 +19,24 @@ namespace Warehouse.Service.Admin
 {
     [Authorize]
     public class OrderService
-    { 
+    {
         private readonly WarehouseManagementSystemEntities1 _context;
         private readonly Users users;
         string name = System.Web.HttpContext.Current.User.Identity.Name;
-         
+
 
 
 
         public OrderService(WarehouseManagementSystemEntities1 context)
         {
             _context = context;
-             users = _context.Users.FirstOrDefault(x=>x.UserName==name);
+            users = _context.Users.FirstOrDefault(x => x.UserName == name);
         }
 
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
 
-         
+
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
@@ -55,13 +55,13 @@ namespace Warehouse.Service.Admin
                         RecipientZipCode = b.RecipientZipCode,
                         SenderName = b.SenderName,
                         SenderPhone = b.SenderPhone,
-                        RecipientCountry = b.Countries.Name, 
+                        RecipientCountry = b.Countries.Name,
                         CargoService = b.CargoServiceTypes.Name,
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
                         CustomerId = users.Id,
-                        
-                        
+
+
 
 
 
@@ -90,10 +90,104 @@ namespace Warehouse.Service.Admin
             var order = await _getOrderListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
             return order;
         }
+        private IQueryable<ProductGroupShowViewModel> _getOrderProductListIQueryable(Expression<Func<Data.ProductTransactionGroup, bool>> expr)
+        {
+
+
+            return (from b in _context.ProductTransactionGroup.AsExpandable().Where(expr)
+
+                    select new ProductGroupShowViewModel()
+                    {
+                        Id = b.Id,
+                        Count = b.Count,
+                        Content = b.Content,
+                        OrderId = b.OrderId,
+                        GtipCode = b.GtipCode,
+                        isPackage = b.isPackage,
+                        isReadOnly = b.isReadOnly,
+                        isPackagedCount = b.isPackagedCount,
+                        QuantityPerUnit = b.QuantityPerUnit,
+                        SKU = b.SKU,
+                    });
+
+        }
+        public IQueryable<ProductGroupShowViewModel> GetOrderProductListIQueryable(ProductSearchViewModel model)
+        {
+            var predicate = PredicateBuilder.New<Data.ProductTransactionGroup>(true);/*AND*/
+            predicate.And(a => a.OrderId == model.OrderId);
+            if (!string.IsNullOrWhiteSpace(model.SearchName))
+            {
+                predicate.And(a => a.Content.Contains(model.SearchName));
+
+            }
+            return _getOrderProductListIQueryable(predicate);
+        }
+        public async Task<ProductGroupShowViewModel> GetOrderProductListViewAsync(long productId)
+        {
+
+            var predicate = PredicateBuilder.New<Data.ProductTransactionGroup>(true);/*AND*/
+            predicate.And(a => a.Id == productId);
+            var order = await _getOrderProductListIQueryable(predicate).SingleOrDefaultAsync().ConfigureAwait(false);
+            return order;
+        }
+        public async Task<ServiceCallResult> AddOrderProductAsync(ProductGroupAddViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+            bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == model.SKU).ConfigureAwait(false);
+            if (nameExist)
+            {
+                callResult.ErrorMessages.Add("Bu stok kodunda ürün var!");
+                return callResult;
+            }
+
+            var product = new ProductTransactionGroup()
+            {
+                SKU = model.SKU,
+                Content = model.Content,
+                Count = model.Count,
+                GtipCode = model.GtipCode,
+                QuantityPerUnit = model.QuantityPerUnit,
+                OrderId = model.OrderId, 
+                isPackagedCount = model.Count,
+                isPackagedCount2 = model.Count,
+                
+
+            };
+
+
+
+
+            _context.ProductTransactionGroup.Add(product);
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderProductListViewAsync(product.Id).ConfigureAwait(false);
+
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+        }
         public List<CountryListViewModel> GetOrderCountryList()
         {
 
-            var result = _context.Countries.Where(x=>x.Active==true).Select(b => new CountryListViewModel
+            var result = _context.Countries.Where(x => x.Active == true).Select(b => new CountryListViewModel
             {
 
                 Id = b.Id,
@@ -127,7 +221,7 @@ namespace Warehouse.Service.Admin
 
             }).ToList();
             return result;
-        } 
+        }
         public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList()
         {
 
@@ -144,7 +238,7 @@ namespace Warehouse.Service.Admin
         public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList(long? id)
         {
 
-            var result = _context.ShippingPrices.Where(x=>x.CountryId == id).Select(b => new CargoServiceTypeListViewModel
+            var result = _context.ShippingPrices.Where(x => x.CountryId == id).Select(b => new CargoServiceTypeListViewModel
             {
 
                 Id = b.Id,
@@ -203,9 +297,9 @@ namespace Warehouse.Service.Admin
                     }
                 }
             }
-             
-            
-            var order = new Orders(); 
+
+
+            var order = new Orders();
 
             if (model.City == null)
             {
@@ -215,7 +309,7 @@ namespace Warehouse.Service.Admin
                 order.SenderMail = model.SenderMail;
                 order.SenderName = model.SenderName;
                 order.SenderPhone = model.SenderPhone;
-                order.SenderInvoiceNumber = model.SenderInvoiceNumber; 
+                order.SenderInvoiceNumber = model.SenderInvoiceNumber;
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientName = model.RecipientName;
                 order.RecipientPhone = model.RecipientPhone;
@@ -223,7 +317,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now;
@@ -250,7 +344,7 @@ namespace Warehouse.Service.Admin
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientZipCode = model.RecipientZipCode;
-                order.CargoServiceTypeId = model.CargoService.CargoServiceId; 
+                order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.RecipientCountryId = model.Country.CountryId;
                 order.LanguageId = 1; //türkçe dili olarak ayarlanır.
                 order.Date = DateTime.Now;
@@ -349,7 +443,7 @@ namespace Warehouse.Service.Admin
                             QuantityPerUnit = product.QuantityPerUnit,
                             SKU = product.SKU,
                             ProductId = product.Id,
-                            
+
                         });
                     }
 
@@ -482,7 +576,7 @@ namespace Warehouse.Service.Admin
         }
         public async Task<OrderEditViewModel> GetOrderEditViewModelAsync(int orderId)
         {
-            
+
             var order = await (from p in _context.Orders
                                where p.Id == orderId
                                join sAd in _context.SenderAddresses
@@ -519,7 +613,7 @@ namespace Warehouse.Service.Admin
                                    {
                                        CountryId = p.RecipientCountryId
                                    },
-                                   
+
 
                                    OrderDescription = p.ProductOrderDescription,
                                    ProductTransactionGroup = from i in p.ProductTransactionGroup
@@ -585,7 +679,7 @@ namespace Warehouse.Service.Admin
                 callResult.ErrorMessages.Add("Böyle bir sipariş bulunamadı.");
                 return callResult;
             }
-            if (model.City==null)
+            if (model.City == null)
             {
                 order.SenderName = model.SenderName;
                 order.SenderIdentityNumber = model.SenderIdentityNumber;
@@ -593,12 +687,12 @@ namespace Warehouse.Service.Admin
                 order.SenderMail = model.SenderMail;
                 order.SenderInvoiceNumber = model.SenderInvoiceNumber;
                 order.RecipientInvoiceNumber = model.RecipientInvoiceNumber;
-                order.RecipientPhone = model.RecipientPhone; 
+                order.RecipientPhone = model.RecipientPhone;
                 order.RecipientIdentityNumber = model.RecipientIdentityNumber;
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId; 
+                order.RecipientCountryId = model.Country.CountryId;
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 order.RecipientCityId = null;
@@ -619,7 +713,7 @@ namespace Warehouse.Service.Admin
                 order.RecipientMail = model.RecipientMail;
                 order.RecipientZipCode = model.RecipientZipCode;
                 order.RecipientName = model.RecipientName;
-                order.RecipientCountryId = model.Country.CountryId; 
+                order.RecipientCountryId = model.Country.CountryId;
                 order.CargoServiceTypeId = model.CargoService.CargoServiceId;
                 order.ProductOrderDescription = model.OrderDescription;
                 recipientAddress.Name = model.RecipientAddress;
@@ -631,11 +725,11 @@ namespace Warehouse.Service.Admin
             {
                 productGroupList[i].isPackagedCount = model.ProductTransactionGroup.ElementAt(i).isPackagedCount;
                 productGroupList[i].isPackage = model.ProductTransactionGroup.ElementAt(i).isPackage;
-                productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly; 
+                productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly;
 
             }
 
-        
+
 
 
             foreach (var groupDb in order.ProductTransactionGroup.ToArray()
@@ -904,17 +998,17 @@ namespace Warehouse.Service.Admin
 
 
             var shipping = _context.ShippingPrices.Where(x => x.Id == model.CargoService.CargoServiceId).FirstOrDefault();
-            var country = _context.Countries.Where(x=>x.Id == model.Country.CountryId).FirstOrDefault();
-            var currency = _context.CurrencyUnits.Where(x => x.Id == country.CurrencyUnitId).FirstOrDefault(); 
+            var country = _context.Countries.Where(x => x.Id == model.Country.CountryId).FirstOrDefault();
+            var currency = _context.CurrencyUnits.Where(x => x.Id == country.CurrencyUnitId).FirstOrDefault();
             model.Service = shipping.CargoServiceTypes.Name;
             model.Icon = currency.Icon;
             model.TotalPrice = (double?)(model.Desi * shipping.Price);
             model.DeliveryTime = shipping.DeliveryTime;
             if (model.DeliveryTime != null)
             {
-               
+
                 model.Description = "Kargonuz " + model.Service + " kargo firması ile " + model.DeliveryTime + " iş günü içerisinde teslim edilecektir ";
-                
+
 
 
             }
@@ -922,7 +1016,7 @@ namespace Warehouse.Service.Admin
             {
                 model.Description = "Kargonuz " + model.Service + " kargo firması ile teslim edilecektir";
             }
-       
+
 
 
 
@@ -956,21 +1050,21 @@ namespace Warehouse.Service.Admin
         }
         public ProductGroupShowViewModel SelectPackageCount(int selectId)
         {
-            var package = _context.ProductTransactionGroup.FirstOrDefault(x=>x.Id == selectId);
+            var package = _context.ProductTransactionGroup.FirstOrDefault(x => x.Id == selectId);
             var model = new ProductGroupShowViewModel
             {
-                Id= selectId,
-                Count= package.Count,   
-                Content= package.Content,
-                GtipCode= package.GtipCode,
+                Id = selectId,
+                Count = package.Count,
+                Content = package.Content,
+                GtipCode = package.GtipCode,
                 isPackagedCount = package.isPackagedCount,
                 isPackage = package.isPackage,
-                isReadOnly= package.isReadOnly,
-                OrderId= package.OrderId,
-                QuantityPerUnit= package.QuantityPerUnit,
+                isReadOnly = package.isReadOnly,
+                OrderId = package.OrderId,
+                QuantityPerUnit = package.QuantityPerUnit,
                 SKU = package.SKU,
                 PackagedCount = package.isPackagedCount
-                
+
             };
             return model;
         }

@@ -23,13 +23,16 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             _userSettingService = userSettingService;
         }
     
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string userName)
         {
 
             ViewBag.Title = "Kullanıcılar";
-            
 
-            return View("~/Areas/Admin/Views/UserSetting/Index.cshtml");
+            var model = new UserSearchViewModel
+            {
+                Name = userName,
+            };
+            return View("~/Areas/Admin/Views/UserSetting/Index.cshtml",model);
 
         }
 
@@ -195,8 +198,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             return Json(
                 new
                 {
-                    success = false,
-                    errorMessages = callResult.ErrorMessages
+                    success = false, 
+                    warningMessages = callResult.WarningMessages,
+                    infoMessages = callResult.InfoMessages,
                 });
 
         }
