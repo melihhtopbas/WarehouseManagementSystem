@@ -36,7 +36,6 @@ namespace Warehouse.Service.Admin
         private IQueryable<OrderListViewModel> _getOrderListIQueryable(Expression<Func<Data.Orders, bool>> expr)
         {
 
-
             return (from b in _context.Orders.AsExpandable().Where(expr)
                     join sAd in _context.SenderAddresses
                     on b.Id equals sAd.OrderId
@@ -148,15 +147,16 @@ namespace Warehouse.Service.Admin
                 Count = model.Count,
                 GtipCode = model.GtipCode,
                 QuantityPerUnit = model.QuantityPerUnit,
-                OrderId = model.OrderId, 
+                OrderId = model.OrderId,
                 isPackagedCount = model.Count,
                 isPackagedCount2 = model.Count,
-                
+
 
             };
 
 
-
+            var order = _context.Orders.FirstOrDefault(x => x.Id == product.OrderId);
+            order.isPackage = false;
 
             _context.ProductTransactionGroup.Add(product);
 
@@ -183,6 +183,171 @@ namespace Warehouse.Service.Admin
 
 
 
+        }
+        public async Task<ServiceCallResult> EditOrderProductAsync(ProductGroupEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+            bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == model.SKU && a.Id != model.Id).ConfigureAwait(false);
+            if (nameExist)
+            {
+                callResult.ErrorMessages.Add("Bu stok kodunda ürün var!");
+                return callResult;
+            }
+
+            var product = _context.ProductTransactionGroup.FirstOrDefault(x => x.Id == model.Id);
+           
+            var packageProduct = _context.PackagedProductGroups.Where(x => x.ProductId == product.Id).ToList();
+            int? counter = 0;
+             
+            foreach (var item in packageProduct)
+            {
+
+                counter += item.Count;
+                
+            }
+            if (model.Count < counter)
+            {
+                callResult.ErrorMessages.Add("Bu üründen paketlenmiş "+counter+" adet vardır."+counter+ " adetten daha az miktar giremezsiniz.<a href =\"/Admin/OrderPackage/OrderPackage?searchId="+product.OrderId+"\">Ürünlerin olduğu koli</a>");
+                return callResult;
+            }
+            else if (model.Count > counter)
+            {
+                //product.ispackagedcount = model.Count - product.Count olacak
+                //package product güncelle
+            }
+            else if (model.Count == counter)
+            {
+                //sıkıntı yok güncelle bilgileri
+                //package product güncelle
+            }
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderProductListViewAsync(product.Id).ConfigureAwait(false);
+
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+        }
+        public async Task<ProductGroupEditViewModel> GetOrderProductEditViewModelAsync(int productId)
+        {
+
+            var product = await (from p in _context.ProductTransactionGroup
+                                 where p.Id == productId
+
+                                 select new ProductGroupEditViewModel()
+                                 {
+
+                                     Id = p.Id,
+                                     SKU = p.SKU,
+                                     Content = p.Content,
+                                     Count = p.Count,
+                                     GtipCode = p.GtipCode,
+                                     OrderId = p.OrderId,
+                                     QuantityPerUnit = p.QuantityPerUnit,
+
+
+                                 }).FirstOrDefaultAsync();
+            return product;
+        }
+        public async Task<ServiceCallResult> DeleteOrderProductAsync(int productId)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+            var product = _context.ProductTransactionGroup.FirstOrDefault(x => x.Id == productId);
+            var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == product.OrderId).ConfigureAwait(false);
+            var packageProduct = _context.PackagedProductGroups.FirstOrDefault(x => x.ProductId == productId);
+            long? productOrderId = product.OrderId;
+
+            if (product == null)
+            {
+                callResult.ErrorMessages.Add("Böyle bir ürün bulunamadı.");
+                return callResult;
+            }
+            if (order.ProductTransactionGroup.Count() == 1)
+            {
+                callResult.ErrorMessages.Add("Siparişteki son ürünü silemezsiniz!");
+                return callResult;
+            }
+
+            _context.ProductTransactionGroup.Remove(product);
+            if (packageProduct != null)
+            {
+                var packages = _context.Packages.Where(x => x.Id == packageProduct.PackageId).FirstOrDefault();
+                if (packages.PackagedProductGroups.Count() <= 1)
+                {
+                    _context.Packages.Remove(packages);
+                }
+
+
+                _context.PackagedProductGroups.Remove(packageProduct);
+            }
+
+            _context.SaveChanges();
+
+
+            var products = _context.ProductTransactionGroup.Where(x => x.OrderId == productOrderId).ToList();
+            bool isPackage = false;
+            foreach (var productTransaction in products)
+            {
+                int? counter = 0;
+                var packagedProduct = _context.PackagedProductGroups.Where(a => a.ProductId == productTransaction.Id).ToList();
+                foreach (var package in packagedProduct)
+                {
+                    counter += package.Count;
+                }
+                if (productTransaction.Count == counter)
+                {
+                    isPackage = true;
+                }
+                else isPackage = false;
+
+                if (isPackage == true)
+                {
+                    order.isPackage = true;
+                }
+                else order.isPackage = false;
+            }
+
+
+
+
+
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetOrderProductListViewAsync(order.Id).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
         }
         public List<CountryListViewModel> GetOrderCountryList()
         {

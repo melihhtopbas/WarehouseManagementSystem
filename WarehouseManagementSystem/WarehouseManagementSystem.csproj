@@ -4639,6 +4639,7 @@
     <Content Include="Areas\Admin\Views\Order\OrderProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Order\OrderProductList.cshtml" />
     <Content Include="Areas\Admin\Views\Order\OrderProductAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\OrderProductEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

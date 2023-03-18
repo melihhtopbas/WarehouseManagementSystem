@@ -1,6 +1,6 @@
 ﻿@model Warehouse.ViewModels.Admin.ProductGroupShowViewModel
 
-<tr id="@("orderProduct"+Model.Id)" class="master-row">
+<tr id="@("orderProduct_"+Model.Id)" class="master-row">
     <td>@Model.Content</td>
     <td>@Model.Count</td>
     <td>@Model.QuantityPerUnit</td>
@@ -13,10 +13,24 @@
            data-btn-ok-label="Evet"
            data-btn-cancel-label="Hayır"
            data-placement="top"
-           data-order-product-id="@Model.Id"
+           data-product-id="@Model.Id"
            data-on-confirm="deleteOrderProduct"
            class="btn btn-block btn-danger btn-sm">
             <i class="fa fa-trash fa-fw text-danger"></i>Sil
+        </a>
+
+    </td>
+    
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#orderProduct_@Model.Id"
+           data-modal-highlight="#orderProduct_@Model.Id"
+           data-modal-title="Ürün Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+            href="@Url.Action("OrderProductEdit", "Order", routeValues: new {Area = "Admin",productId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Ürün Düzenle
         </a>
 
     </td>

@@ -3,19 +3,16 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="box-header">
-            <i class="fa-solid fa-house-user"></i>
-            <h3 class="box-title">@ViewBag.Title</h3>
-        </div>
+
         <div class="box-body">
             @using (Html.BeginForm("OrderProductList", "Order", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "orderProductSearchForm", data_ajax_form = "true", data_target_container = "#OrderProductListContainer" }))
             {
                 <div class="row">
-                    <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.SearchName)">
+                    <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-5 @Html.ModelStateFor(m => m.SearchName)">
                         @Html.TextBoxBlockLabelAsAddonFor(m => m.SearchName)
                     </div>
 
-                    <div class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.OrderId)">
+                    <div style="visibility:hidden;" class="form-group form-group-sm col-xs-12 col-sm-6 col-md-4 col-lg-4 @Html.ModelStateFor(m => m.OrderId)">
                         @Html.TextBoxBlockLabelAsAddonFor(m => m.OrderId)
                     </div>
                     <div class="clearfix"></div>
@@ -32,9 +29,15 @@
             </div>
         </div>
     </div>
-</div>
+  
+        <div class="col-xs-12">
+            <a href="/admin/order" class="btn btn-primary pull-right margin-left100"><span class="fa fa-check"></span>&nbsp;&nbsp;TAMAMLA</a>
+         
+        </div>
+ </div>
  <script>
      $(function () {
          $('#orderProductSearchForm').submit();
-     })
+     }) 
+     //partial view'da document(function) yerine $(function) kullanılır      
  </script>

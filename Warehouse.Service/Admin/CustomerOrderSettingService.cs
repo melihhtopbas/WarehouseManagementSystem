@@ -187,7 +187,7 @@ namespace Warehouse.Service.Admin
                         isPackage = b.isPackage,
                         DateTime = (DateTime)b.Date,
                         CustomerId = b.CustomerId,
-                        CustomerName = u.Name,
+                        CustomerName = u.Name + " " +u.Surname,
                         CustomerUserName = u.UserName,
 
 
@@ -202,8 +202,8 @@ namespace Warehouse.Service.Admin
             var predicateOrder = PredicateBuilder.New<Data.Orders>(true);/*AND*/
             var predicateUser = PredicateBuilder.New<Data.Users>(true);/*AND*/
             predicateOrder.And(a => a.LanguageId == model.LanguageId);
-            var user = _context.Users.Where(x => x.UserName == model.UserName).FirstOrDefault();
-            if (user == null)
+           // var user = _context.Users.Where(x => x.UserName == model.UserName).FirstOrDefault();
+            if (model.UserName == null)
             {
                 if (!string.IsNullOrWhiteSpace(model.SearchName))
                 {
@@ -217,7 +217,7 @@ namespace Warehouse.Service.Admin
             {
                 if (!string.IsNullOrWhiteSpace(model.UserName))
                 {
-                    predicateUser.And(a => a.UserName.Contains(model.UserName));
+                    predicateUser.And(a => a.UserName.Contains(model.UserName) || a.Name.Contains(model.UserName) || a.Surname.Contains(model.UserName));
 
                 }
                 return _getAllOrderListIQueryable2(predicateUser);

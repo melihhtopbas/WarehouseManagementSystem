@@ -141,7 +141,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
             var currentPageIndex = page - 1 ?? 0;
 
-            var result = _ticketBoxService.GetTicketListShowIQueryable(contactViewModel).OrderBy(a => a.isShow).OrderBy(a=>a.isAnswer)
+            var result = _ticketBoxService.GetTicketListShowIQueryable(contactViewModel).OrderBy(a => a.isAnswer).OrderByDescending(a=>a.Date)
                 .ToPagedList(currentPageIndex, SystemConstants.DefaultServicePageSize);
 
 

@@ -243,6 +243,85 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [HttpGet]
+        public async Task<ActionResult> OrderProductEdit(int productId)
+        {
+
+            var model = await _orderService.GetOrderProductEditViewModelAsync(productId);
+            if (model != null)
+            {
+                
+
+                return PartialView("~/Areas/Admin/Views/Order/OrderProductEdit.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Sipariş sistemde bulunamadı!");
+        }
+
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> OrderProductEdit(ProductGroupEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var callResult = await _orderService.EditOrderProductAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (ProductGroupShowViewModel)callResult.Item;
+
+
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/DisplayTemplates/ProductGroupShowViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+           
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/OrderProductEdit.cshtml", model)
+                });
+
+        }
+        [HttpPost]
+        public async Task<ActionResult> OrderProductDelete(int productId)
+        {
+            var callResult = await _orderService.DeleteOrderProductAsync(productId);
+            if (callResult.Success)
+            {
+
+                ModelState.Clear();
+
+                return Json(
+                    new
+                    {
+                        success = true,
+                        warningMessages = callResult.WarningMessages,
+                        successMessages = callResult.SuccessMessages,
+                    });
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    errorMessages = callResult.ErrorMessages
+                });
+
+        }
+
+        [HttpGet]
         //Siparişteki ürünleri görüntüle modal'i
         public async Task<ActionResult> ProductGroupShow(int orderId)
         {
