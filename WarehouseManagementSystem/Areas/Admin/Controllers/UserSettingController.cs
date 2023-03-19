@@ -65,11 +65,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpGet,AjaxOnly]
         public async Task<ActionResult> UserEdit(int userId)
         {
-            ViewData["Cities"] = _userSettingService.GetUserCityList(20002);
-            ViewData["Countries"] = _userSettingService.GetUserCountryList().ToList();
+            ViewData["Cities"] = _userSettingService.GetUserCitiesList();
+            ViewData["Countries"] = _userSettingService.GetUserCountriesList().ToList();
 
             var model = await _userSettingService.GetUserEditViewModelAsync(userId);
-            model.Country.CountryId = 20002;
+         //   model.Country.CountryId = 20002;
             if (model != null)
             {
 
@@ -81,7 +81,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> UserEdit(UserEditViewModel model)
         {
             ViewData["Cities"] = _userSettingService.GetUserCityList(model.Country.CountryId).ToList();
-            ViewData["Countries"] = _userSettingService.GetUserCountryList().ToList();
+            ViewData["Countries"] = _userSettingService.GetUserCountriesList().ToList();
 
             if (ModelState.IsValid)
             {
@@ -122,7 +122,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
 
             ViewData["Cities"] = _userSettingService.GetUserCityList(20002);
-            ViewData["Countries"] = _userSettingService.GetUserCountryList().ToList();
+            ViewData["Countries"] = _userSettingService.GetUserCountriesList().ToList();
 
             var model = new UserAddViewModel
             {
@@ -143,7 +143,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> Add(UserAddViewModel model)
         {
             ViewData["Cities"] = _userSettingService.GetUserCityList(model.Country.CountryId).ToList();
-            ViewData["Countries"] = _userSettingService.GetUserCountryList().ToList();
+            ViewData["Countries"] = _userSettingService.GetUserCountriesList().ToList();
 
             if (ModelState.IsValid)
             {

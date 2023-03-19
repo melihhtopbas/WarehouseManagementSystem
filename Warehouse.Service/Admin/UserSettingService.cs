@@ -253,10 +253,23 @@ namespace Warehouse.Service.Admin
                 }
             }
         }
-        public List<CountryListViewModel> GetUserCountryList()
+        public List<CountryListViewModel> GetUserCountriesList()
         {
 
             var result = _context.Countries.Where(x => x.Active == true).Select(b => new CountryListViewModel
+            {
+
+                Id = b.Id,
+                Name = b.Name
+
+
+            }).ToList();
+            return result;
+        }
+        public List<CityListViewModel> GetUserCitiesList()
+        {
+
+            var result = _context.Cities.Where(x => x.Active == true).Select(b => new CityListViewModel
             {
 
                 Id = b.Id,
