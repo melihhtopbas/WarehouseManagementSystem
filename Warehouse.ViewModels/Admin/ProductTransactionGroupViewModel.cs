@@ -118,6 +118,7 @@ namespace Warehouse.ViewModels.Admin
         [Display(Name = "Ürün Adeti")]
 
         [Required(ErrorMessage = "Lütfen giriniz")]
+        [Range(1, int.MaxValue, ErrorMessage = "0'dan farklı bir değer giriniz!")]
         public int? Count { get; set; }
 
         [Display(Name = "Birim Fiyatı")]

@@ -364,6 +364,8 @@ namespace Warehouse.Service.Admin
                     SKU = x.SKU,
                     ProductId = x.Id,
                     PackageId = orderPackageId,
+                    QuantityPerUnit = x.QuantityPerUnit,
+                    GtipCode = x.GtipCode
                     
                 }).ToList(),
             };

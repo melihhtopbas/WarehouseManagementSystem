@@ -196,6 +196,7 @@ namespace Warehouse.Service.Admin
             }
 
             var product = _context.ProductTransactionGroup.FirstOrDefault(x => x.Id == model.Id);
+            var order = _context.Orders.FirstOrDefault(x => x.Id == model.OrderId);
            
             var packageProduct = _context.PackagedProductGroups.Where(x => x.ProductId == product.Id).ToList();
             int? counter = 0;
@@ -215,11 +216,85 @@ namespace Warehouse.Service.Admin
             {
                 //product.ispackagedcount = model.Count - product.Count olacak
                 //package product güncelle
+                int? packagedCount = 0;
+                if (packageProduct.Count()>0) // ürün paketlenmiş grupta varsa
+                {
+                    product.isPackage = false;
+                    
+                    product.SKU = model.SKU;
+                    product.QuantityPerUnit = model.QuantityPerUnit;
+                    product.Count = model.Count;
+                    product.Content = model.Content;
+                    product.GtipCode =model.GtipCode;
+                    foreach (var package in packageProduct)
+                    {
+                       
+                        packagedCount += package.Count;
+                        package.SKU = model.SKU;
+                        package.QuantityPerUnit = model.QuantityPerUnit;
+                        package.Content = model.Content;
+                        package.GtipCode = model.GtipCode;
+
+                    }
+                    product.isPackagedCount = model.Count - packagedCount;
+                    product.isPackagedCount2 = model.Count - packagedCount;
+                    order.isPackage = false;
+                }
+                else
+                {
+                    
+                    product.isPackagedCount = model.Count;
+                    product.isPackagedCount2 = model.Count;
+                    product.SKU = model.SKU;
+                    product.QuantityPerUnit = model.QuantityPerUnit;
+                    product.Count = model.Count;
+                    product.Content = model.Content;
+                    product.GtipCode = model.GtipCode;
+                }
+          
             }
             else if (model.Count == counter)
             {
-                //sıkıntı yok güncelle bilgileri
-                //package product güncelle
+              
+                product.SKU = model.SKU;
+                product.QuantityPerUnit = model.QuantityPerUnit;
+                product.Count = model.Count;
+                product.Content = model.Content;
+                product.GtipCode = model.GtipCode;
+                product.isPackagedCount = 0;
+                product.isPackagedCount2 = 0;
+                product.isPackage = true;
+                foreach (var package in packageProduct)
+                {
+                    package.SKU = model.SKU;
+                    package.QuantityPerUnit = model.QuantityPerUnit;
+                    package.Content = model.Content;
+                    package.GtipCode = model.GtipCode;
+
+                }
+                _context.SaveChanges(); 
+                var pt = _context.ProductTransactionGroup.Where(x => x.OrderId == model.OrderId).ToList();
+                var o = _context.Orders.Where(x=>x.Id == model.OrderId).FirstOrDefault();
+                int? isCount = 0;
+                bool ispcgCount = false;
+                foreach (var item in pt)
+                {
+                    ispcgCount = false;
+                    isCount = 0;
+                    var pcg = _context.PackagedProductGroups.Where(x => x.ProductId == item.Id).ToList();
+                    foreach (var item1 in pcg)
+                    {
+                        isCount += item1.Count;
+                    }
+                    if (item.Count == isCount)
+                    {
+                        ispcgCount = true;
+                    }
+                }
+                if (ispcgCount == true)
+                {
+                    o.isPackage = true;
+                }
             }
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
@@ -271,7 +346,7 @@ namespace Warehouse.Service.Admin
 
             var product = _context.ProductTransactionGroup.FirstOrDefault(x => x.Id == productId);
             var order = await _context.Orders.FirstOrDefaultAsync(a => a.Id == product.OrderId).ConfigureAwait(false);
-            var packageProduct = _context.PackagedProductGroups.FirstOrDefault(x => x.ProductId == productId);
+            var packageProduct = _context.PackagedProductGroups.Where(x => x.ProductId == productId).ToList();
             long? productOrderId = product.OrderId;
 
             if (product == null)
@@ -286,16 +361,16 @@ namespace Warehouse.Service.Admin
             }
 
             _context.ProductTransactionGroup.Remove(product);
-            if (packageProduct != null)
+            foreach (var item in packageProduct)
             {
-                var packages = _context.Packages.Where(x => x.Id == packageProduct.PackageId).FirstOrDefault();
+                var packages = _context.Packages.Where(x => x.Id == item.PackageId).FirstOrDefault();
                 if (packages.PackagedProductGroups.Count() <= 1)
                 {
                     _context.Packages.Remove(packages);
                 }
 
 
-                _context.PackagedProductGroups.Remove(packageProduct);
+                _context.PackagedProductGroups.Remove(item);
             }
 
             _context.SaveChanges();
