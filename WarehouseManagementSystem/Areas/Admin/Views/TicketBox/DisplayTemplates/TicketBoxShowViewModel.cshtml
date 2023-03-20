@@ -52,31 +52,37 @@
         </a>
 
     </td>
+
     <td style="width:50px">
         <a data-modal-form="true"
            data-modal-size="modal-lg"
-           data-modal-title="Cevap Görüntüle"
-           data-hook-beforeunload="true"
-           class="btn btn-block btn-success btn-sm"
-           href="@Url.Action("TicketBoxAnswerShow", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
-            <i class="fa-solid fa-square-poll-vertical"></i> Cevap Görüntüle
-        </a>
-
-    </td>
-    <td style="width:50px">
-        <a data-modal-form="true"
-           data-modal-size="modal-lg" 
            data-modal-update="#ticket_@Model.Id"
            data-modal-highlight="#ticket_@Model.Id"
            data-modal-title="Cevapla"
            data-hook-beforeunload="true"
            class="btn btn-block btn-success btn-sm"
            href="@Url.Action("TicketBoxAnswerAsync", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
-            <i class="fa fa-edit fa-fw text-success"></i> Cevapla @if (Model.isAnswer == true) {<i class="fa-solid fa-check"></i> } else if (Model.isAnswer != true) {<i class="fa-solid fa-spinner"></i> }
+            <i class="fa fa-edit fa-fw text-success"></i> Cevapla @if (Model.isAnswer == true)
+            {<i class="fa-solid fa-check"></i> }
+            else if (Model.isAnswer != true)
+            {<i class="fa-solid fa-spinner"></i>}
         </a>
 
     </td>
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#ticket_@Model.Id"
+           data-modal-highlight="#ticket_@Model.Id"
+           data-modal-title="Düzenle"
+           data-hook-beforeunload="true"
+          
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("TicketBoxAnswerEditAsync", "TicketBoxAnswer", routeValues: new {Area = "Admin",ticketId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Cevap Düzenle  
+        </a>
 
+    </td>
 
 
 

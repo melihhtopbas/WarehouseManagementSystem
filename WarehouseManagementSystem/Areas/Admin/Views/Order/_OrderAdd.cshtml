@@ -91,7 +91,7 @@
         <br />
         <div class="clearfix"></div>
 
-        <div id="transactionGroupRow">
+        <div class="scrollable-div" id="transactionGroupRow">
             @if (Model.ProductTransactionGroup != null)
             {
 
@@ -143,6 +143,15 @@
         font-weight: bold;
         color: red;
     }
+    .scrollable-div {
+        height: auto;
+        overflow: auto;
+        overflow-x: hidden;
+        border: 2.5px solid gray;
+        padding: 10px;
+         
+    }
+   
 </style>
 <script> 
 
@@ -236,15 +245,22 @@
 
      $(function () {
          $('#addProductTransactionGroup').on('click', function () {
-             $('.spinner').css('display', 'block');
+             var container = $('#orderAddForm');
+             //The overlay
+             var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+             container.append(overlay);
             $.ajax({
                 url: '@Url.Action("ProductTransactionGroupRow", "Order", new {Area="Admin"})',
                     cache: false,
                 success: function (html) {
+                    $("#orderAddForm").applyTemplateSetup();
                     $("#transactionGroupRow").append(html);
-                    $('.spinner').hide();
+                    
+                    document.getElementById("transactionGroupRow").style.height = "300px";
+                    container.find(overlay).remove();
                     counter++;
-                    console.log(counter);
+                    
                 }
                 });
                 return false;
@@ -253,10 +269,12 @@
          $('#transactionGroupRow').on('click', '.deleteRow', function () {
              if (counter!=0) {
                  $(this).closest('.productTransactionGroup').remove();
+                  
                  counter--;
              }
              if (counter == 0) {
                  $('#hideDeleteRow').hide();
+                 document.getElementById("transactionGroupRow").style.height = "146px";
              }
 
 

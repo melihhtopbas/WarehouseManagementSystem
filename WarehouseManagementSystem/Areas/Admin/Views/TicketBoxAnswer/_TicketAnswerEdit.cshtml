@@ -1,0 +1,81 @@
+﻿@model Warehouse.ViewModels.Common.TicketBoxAnswerEditViewModel
+@using (Html.BeginForm("TicketBoxAnswerEditAsync", "TicketBoxAnswer", new { Area = "Admin" }, FormMethod.Post, new { id = "ticketAnswerEditForm", role = "form" }))
+{
+    <style>
+        form ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        form li {
+            float: left;
+        }
+
+            form li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 16px;
+                text-decoration: none;
+            }
+
+                form li a:hover {
+                    background-color: #111111;
+                }
+    </style>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.AntiForgeryToken()
+            @Html.RenderValidationSummary(true)
+            @Html.HiddenFor(m => m.TicketId, new { data_val = "false" })
+            @Html.HiddenFor(m => m.Subject, new { data_val = "false" })
+            @Html.HiddenFor(m => m.UserId, new { data_val = "false" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box box-warning">
+
+
+            <div class="box-body no-padding">
+                <div class="mailbox-read-info">
+                    <h3>Konu: @Model.Subject</h3>
+                    <h5>
+                        Kimden: @Model.SenderName<br />
+
+                        <span class="mailbox-read-time pull-right">@Model.Date.ToString("dd/MM/yyyy HH:mm")</span>
+                    </h5>
+                </div>
+
+                <div class="mailbox-read-message">
+                   @Html.Raw(Model.ComingMessage)
+                </div>
+
+            </div>
+            <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.AnswerMessage)">
+                <div class="input-group input-group-sm">
+                    @Html.TextAreaFor(m => m.AnswerMessage, new { @class = "form-control", rows = "5", data_make_cke = "true", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.AnswerMessage).ToString()) })
+                </div>
+                @Html.ValidationMessageFor(m => m.AnswerMessage, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <hr />
+    <div class="form-group form-group-sm row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right margin-left10"><span class="fa fa-check"></span>&nbsp;&nbsp;Kaydet</button>
+            <button class="btn btn-danger pull-right" type="button" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;&nbsp;İptal</button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+}
+<style>
+    p {
+        color: black
+    }
+</style>

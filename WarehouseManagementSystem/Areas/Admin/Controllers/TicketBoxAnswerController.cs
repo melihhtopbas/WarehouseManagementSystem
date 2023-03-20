@@ -36,11 +36,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [AjaxOnly,HttpGet]
         public async Task<ActionResult> TicketBoxAnswerAsync(int ticketId)
         {
-
+            var result = await _ticketBoxService.GetTicketAnswerShowModelAsync(ticketId).ConfigureAwait(false);
             var model = await _ticketBoxService.GetTicketAnswerViewModelAsync(ticketId);
             if (model.isAnswer == true)
             {
-                return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Ticket zaten yanıtlandı!");
+                return PartialView("~/Areas/Admin/Views/TicketBox/_TicketAnswerView.cshtml", result);
             }
             if (model != null)
             {
@@ -85,6 +85,58 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     success = false,
                     responseText = RenderPartialViewToString("~/Areas/Admin/Views/TicketBox/_TicketAdd.cshtml", model)
+                });
+
+        }
+        [AjaxOnly, HttpGet]
+        public async Task<ActionResult> TicketBoxAnswerEditAsync(int ticketId)
+        {
+
+            var model = await _ticketBoxService.GetTicketAnswerEditViewModelAsync(ticketId);
+           
+            if (model != null)
+            {
+
+                return PartialView("~/Areas/Admin/Views/TicketBoxAnswer/_TicketAnswerEdit.cshtml", model);
+            }
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Ticket henüz yanıtlanmadı");
+
+
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> TicketBoxAnswerEditAsync(TicketBoxAnswerEditViewModel model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                var callResult = await _ticketBoxService.EditTicketAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    var viewModel = (TicketBoxShowViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            responseText = RenderPartialViewToString("~/Areas/Admin/Views/TicketBox/DisplayTemplates/TicketBoxShowViewModel.cshtml", viewModel),
+                            item = viewModel
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/TicketBox/_TicketAnswerEdit.cshtml", model)
                 });
 
         }

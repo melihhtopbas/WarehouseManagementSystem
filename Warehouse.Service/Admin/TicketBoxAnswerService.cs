@@ -24,7 +24,7 @@ namespace Warehouse.Service.Admin
         }
         public async Task<TicketBoxAnswerViewModel> GetTicketAnswerShowModelAsync(int ticketId)
         {
-            var ticket = _context.Tickets.Where(x=>x.Id == ticketId).FirstOrDefault();
+            var ticket = _context.Tickets.Where(x => x.Id == ticketId).FirstOrDefault();
             var message = await (from p in _context.TicketAnswers
                                  where p.TicketId == ticketId
                                  select new TicketBoxAnswerViewModel()
@@ -35,7 +35,7 @@ namespace Warehouse.Service.Admin
                                      Id = p.Id,
                                      isShow = p.isShow,
                                      Message = ticket.Message,
-                                     SenderName = p.AnsweringPerson, 
+                                     SenderName = p.AnsweringPerson,
                                      AnswerMessage = p.Message
 
                                  }).FirstOrDefaultAsync();
@@ -47,15 +47,15 @@ namespace Warehouse.Service.Admin
                     messageContact.isShow = true;
                     _context.SaveChanges();
                 }
-              
+
             }
-          
+
             return message;
         }
         private IQueryable<TicketBoxShowViewModel> _getTicketListIQueryable(Expression<Func<Data.Tickets, bool>> expr)
         {
             return (from b in _context.Tickets.AsExpandable().Where(expr)
-                                
+
                     select new TicketBoxShowViewModel()
                     {
 
@@ -87,20 +87,20 @@ namespace Warehouse.Service.Admin
         public async Task<TicketBoxAnswerAddViewModel> GetTicketAnswerViewModelAsync(int ticketId)
         {
             var result = await (from p in _context.Tickets
-                                 where p.Id == ticketId
-                                 select new TicketBoxAnswerAddViewModel()
-                                 {
+                                where p.Id == ticketId
+                                select new TicketBoxAnswerAddViewModel()
+                                {
 
-                                     ComingMessage = p.Message,
-                                     TicketId= ticketId,
-                                     Subject = p.Subject,
-                                     SenderName = p.FullName,
-                                     Date = p.Date,
-                                     isAnswer = p.isAnswer,
-                                     UserId = (long)p.UserId
+                                    ComingMessage = p.Message,
+                                    TicketId = ticketId,
+                                    Subject = p.Subject,
+                                    SenderName = p.FullName,
+                                    Date = p.Date,
+                                    isAnswer = p.isAnswer,
+                                    UserId = (long)p.UserId
 
-                                 }).FirstOrDefaultAsync();
-            
+                                }).FirstOrDefaultAsync();
+
 
             return result;
         }
@@ -114,13 +114,13 @@ namespace Warehouse.Service.Admin
             {
 
                 Subject = model.Subject,
-                AnsweringPerson = user.Name + " " +user.Surname,
+                AnsweringPerson = user.Name + " " + user.Surname,
                 Date = DateTime.Now,
                 isShow = false,
                 Message = model.AnswerMessage,
                 TicketId = model.TicketId,
                 UserId = model.UserId
-               
+
 
 
 
@@ -136,6 +136,65 @@ namespace Warehouse.Service.Admin
             var ticket = _context.Tickets.Where(x => x.Id == model.TicketId).FirstOrDefault();
             ticket.isAnswer = true;
             ticket.isShow = true;
+
+            using (var dbtransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    dbtransaction.Commit();
+
+
+                    callResult.Success = true;
+                    callResult.Item = await GetTicketBoxListViewAsync(model.TicketId).ConfigureAwait(false);
+                    return callResult;
+                }
+                catch (Exception exc)
+                {
+                    callResult.ErrorMessages.Add(exc.GetBaseException().Message);
+                    return callResult;
+                }
+            }
+
+
+
+        }
+        public async Task<TicketBoxAnswerEditViewModel> GetTicketAnswerEditViewModelAsync(int ticketId)
+        {
+            var result = await (from p in _context.TicketAnswers
+                                join t in _context.Tickets
+                                on p.TicketId equals t.Id
+                                where p.TicketId == ticketId
+                                select new TicketBoxAnswerEditViewModel()
+                                {
+                                    ComingMessage = t.Message,
+                                    Id = ticketId,
+                                    AnswerMessage = p.Message,
+                                    Date = p.Date,
+                                    Subject = p.Subject,
+                                    SenderName = t.FullName,
+                                    TicketId = (long)p.TicketId,
+                                    UserId = (long)p.UserId,
+
+
+
+
+
+
+                                }).FirstOrDefaultAsync();
+
+
+            return result;
+        }
+        public async Task<ServiceCallResult> EditTicketAsync(TicketBoxAnswerEditViewModel model)
+        {
+            var callResult = new ServiceCallResult() { Success = false };
+
+
+            var ticketAnswer = _context.TicketAnswers.Where(x => x.TicketId == model.TicketId).FirstOrDefault();
+            ticketAnswer.Message = model.AnswerMessage;
+            ticketAnswer.Date = DateTime.Now;
+            ticketAnswer.AnsweringPerson = user.Name + " " + user.Surname;
 
             using (var dbtransaction = _context.Database.BeginTransaction())
             {

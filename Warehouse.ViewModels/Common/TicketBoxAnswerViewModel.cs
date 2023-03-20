@@ -58,6 +58,28 @@ namespace Warehouse.ViewModels.Common
 
 
     }
+    public class TicketBoxAnswerEditViewModel
+    {
+        public long Id { get; set; }
+        public long TicketId { get; set; }
+        public long UserId { get; set; }
+        [Display(Name = "Alıcı Kullanıcı Adı")]
+        public string SenderName { get; set; }
+        [StringLength(1000, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(Name = "Gelen Mesaj")]
+        public string ComingMessage { get; set; }
+        [StringLength(1000, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(Name = "Cevap")]
+        public string AnswerMessage { get; set; }
+        [StringLength(250, ErrorMessageResourceType = typeof(Localization.Validation.ValidationMessages), ErrorMessageResourceName = "StringLengthMaxLengthError")]
+        [Display(Name = "Konu")]
+        public string Subject { get; set; }
+        public DateTime Date { get; set; }
+
+        public bool isAnswer { get; set; }
+
+
+    }
     public class TicketBoxAnswerShowViewModel
     {
         public long Id { get; set; }

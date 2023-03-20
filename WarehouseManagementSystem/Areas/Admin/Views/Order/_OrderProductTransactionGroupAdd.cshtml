@@ -9,8 +9,8 @@
 
                 @Html.HiddenFor(m => m.Id, new { data_val = "false" })
                 @Html.HiddenFor(m => m.isPackage, new { data_val = "false" })
-                @Html.HiddenFor(m => m.isPackagedCount, new { data_val = "false" }) 
-                @Html.HiddenFor(m => m.isReadOnly, new { data_val = "false" }) 
+                @Html.HiddenFor(m => m.isPackagedCount, new { data_val = "false" })
+                @Html.HiddenFor(m => m.isReadOnly, new { data_val = "false" })
 
 
             </div>
@@ -45,7 +45,7 @@
                 <i class="fas fa-trash-alt text-danger"></i>
             </a>
         </div>
-        
+
 
     }
 </div>
@@ -58,3 +58,9 @@
         limitReachedClass: "label label-primary label-rounded label-inline"
     });
 </script>
+<style>
+    .scrollable-div {
+        height: 300px;
+        overflow: auto;
+    }
+</style>

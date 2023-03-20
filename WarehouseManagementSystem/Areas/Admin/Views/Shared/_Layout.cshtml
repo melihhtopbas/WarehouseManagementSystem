@@ -404,6 +404,7 @@
                         @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
                         {
                             <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
+                            <li><a href="@Url.Action("TicketList","TicketSend",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Cevaplanan Talepler</span></a></li>
 
                         }
                         else
