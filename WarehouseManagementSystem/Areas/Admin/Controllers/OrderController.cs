@@ -143,12 +143,19 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         //Sipariş ekleme sayfasında yeni ürün ekle partial'i
+       
         public PartialViewResult ProductTransactionGroupRow()
         {
-            ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
-            ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-            ViewData["CurrencyUnits"] = _orderService.GetOrderCurrencyUnitList().ToList();
-            return PartialView("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", new ProductTransactionGroupViewModel());
+            var resultModel = new ProductTransactionGroupViewModel();
+            var jsonResult = Json(
+                new
+                {
+                    success = true,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", resultModel),
+                    item = resultModel
+                });
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return PartialView("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", resultModel);
         }
 
         public async Task<ActionResult> OrderProduct(int orderId)

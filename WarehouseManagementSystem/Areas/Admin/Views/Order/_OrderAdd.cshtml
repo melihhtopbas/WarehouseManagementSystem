@@ -91,24 +91,29 @@
         <br />
         <div class="clearfix"></div>
 
-        <div class="scrollable-div" id="transactionGroupRow">
-            @if (Model.ProductTransactionGroup != null)
-            {
-
-
-                foreach (var item in Model.ProductTransactionGroup)
-                {
-                    @Html.Partial("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
-
-                }
-            }
-        </div>
-
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <a data-modal-prepend="div#transactionGroupRow" id="addProductTransactionGroup" class="pressActive btn btn-info btn-sm">
                 <i class="fa fa-plus"></i> Ürün Ekle
             </a>
         </div>
+
+        <div class="scrollable-div" id="transactionGroupRow">
+            @if (Model.ProductTransactionGroup != null)
+            {
+
+                
+
+
+                    foreach (var item in Model.ProductTransactionGroup)
+                    {
+                    @Html.Partial("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
+                    
+
+                    }
+                
+            }
+        </div>
+
 
 
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Paket İşlemleri</strong></em></h5>

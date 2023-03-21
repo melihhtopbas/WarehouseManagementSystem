@@ -478,7 +478,7 @@ namespace Warehouse.Service.Admin
         public List<CargoServiceTypeListViewModel> GetOrderCargoServiceTypeList(long? id)
         {
 
-            var result = _context.ShippingPrices.Where(x => x.CountryId == id).Select(b => new CargoServiceTypeListViewModel
+            var result = _context.ShippingPrices.Where(x => x.CountryId == id && x.Active == true).Select(b => new CargoServiceTypeListViewModel
             {
 
                 Id = b.Id,
