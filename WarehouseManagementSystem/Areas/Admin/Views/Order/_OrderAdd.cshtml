@@ -105,7 +105,7 @@
         </div>
 
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-4 col-lg-4">
-            <a id="addProductTransactionGroup" class="pressActive btn btn-info btn-sm">
+            <a data-modal-prepend="div#transactionGroupRow" id="addProductTransactionGroup" class="pressActive btn btn-info btn-sm">
                 <i class="fa fa-plus"></i> Ürün Ekle
             </a>
         </div>
@@ -246,8 +246,15 @@
      $(function () {
          $('#addProductTransactionGroup').on('click', function () {
              var container = $('#orderAddForm');
-             //The overlay
+            
              var overlay = $("<div class='loader-wrapper'><div class='loadingOverlay'></div></div>");
+
+             
+           
+                 
+
+                 
+                 
 
              container.append(overlay);
             $.ajax({
@@ -255,8 +262,22 @@
                     cache: false,
                 success: function (html) {
                     $("#orderAddForm").applyTemplateSetup();
-                    $("#transactionGroupRow").append(html);
-                    
+                    //$("#transactionGroupRow").append(html);
+                  
+                    var $el;
+                     
+                    $el = $(html);
+                    $el.applyTemplateSetup();
+                    $("#transactionGroupRow").prepend($el);
+                    console.log($el.length);
+                     
+                        if ($el.length > 1) {
+                            $el.first().animateInsert();
+                        } else {
+                            $el.animateInsert();
+                        }
+                     
+                 
                     document.getElementById("transactionGroupRow").style.height = "300px";
                     container.find(overlay).remove();
                     counter++;
@@ -267,8 +288,14 @@
          });
 
          $('#transactionGroupRow').on('click', '.deleteRow', function () {
-             if (counter!=0) {
-                 $(this).closest('.productTransactionGroup').remove();
+             var that = $(this);
+             
+           
+             if (counter != 0) {
+                 var $tr = that.closest('div.productTransactionGroup');
+                 $tr.animateDelete();             
+                 $tr.nextUntil('div.productTransactionGroup').empty().remove();
+                
                   
                  counter--;
              }

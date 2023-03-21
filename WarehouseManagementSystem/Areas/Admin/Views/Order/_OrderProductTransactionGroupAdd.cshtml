@@ -1,9 +1,10 @@
 ﻿@model Warehouse.ViewModels.Admin.ProductTransactionGroupViewModel
 @using WarehouseManagementSystem.Extensions
 
-<div class="productTransactionGroup">
-    @using (Html.BeginCollectionItem("ProductTransactionGroup"))
-    {
+
+@using (Html.BeginCollectionItem("ProductTransactionGroup"))
+{
+    <div class="productTransactionGroup">
         <div class="row">
             <div class="col-xs-12">
 
@@ -46,9 +47,9 @@
             </a>
         </div>
 
+    </div>
+}
 
-    }
-</div>
 <script>
     $('.kt_docs_maxlength_basic').maxlength({
         alwaysShow: true,
