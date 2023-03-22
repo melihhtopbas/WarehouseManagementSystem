@@ -20,7 +20,7 @@ namespace WarehouseManagementSystem.Areas.Security
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             bool authorize = false;
-            var userId = Convert.ToString(httpContext.Session["UserName"]);
+            var userId = Convert.ToString(HttpContext.Current.User.Identity.Name);
             if (!string.IsNullOrEmpty(userId))
                 using (var context = new WarehouseManagementSystemEntities1())
                 {

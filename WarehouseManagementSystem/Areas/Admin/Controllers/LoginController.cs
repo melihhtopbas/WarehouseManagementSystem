@@ -56,8 +56,13 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 var kullaniciInDb = _context.Users.FirstOrDefault(x => x.UserName ==model.UserName&& x.Password == model.Password);
                 if (loginResult)
                 {
-                    System.Web.HttpContext.Current.Session["UserName"] = user.UserName;
-                    System.Web.HttpContext.Current.Session["UserId"] = user.UserName;
+                    if (Session!=null)
+                    {
+                        System.Web.HttpContext.Current.Session["UserName"] = user.UserName;
+                        System.Web.HttpContext.Current.Session["UserId"] = user.UserName;
+
+                    }
+               
 
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
 
@@ -79,9 +84,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
         public ActionResult LogOut()
         {
-            FormsAuthentication.SignOut();
-            Session["UserName"] = string.Empty;
-            Session["UserId"] = string.Empty;
+            FormsAuthentication.SignOut(); 
             return RedirectToAction("Index", "Home", new {Area=String.Empty });
         }
          

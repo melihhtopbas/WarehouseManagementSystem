@@ -15,6 +15,7 @@ using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
+    [Authorize]
     [CustomAuthorize("admin")]
     public class CargoServiceSettingController : AdminBaseController
     {
