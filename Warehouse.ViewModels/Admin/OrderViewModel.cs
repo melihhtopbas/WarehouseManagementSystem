@@ -187,6 +187,8 @@ namespace Warehouse.ViewModels.Admin
         public virtual CountryViewModel Countries { get; set; }
         public virtual CurrencyUnitViewModel CurrencyUnits { get; set; }
         public virtual ICollection<ProductTransactionGroupViewModel> ProductTransactionGroup { get; set; }
+
+        
     }
     public class OrderSearchViewModel
     {

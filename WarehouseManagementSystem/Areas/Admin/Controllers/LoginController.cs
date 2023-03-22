@@ -1,9 +1,13 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +16,7 @@ using Warehouse.Data;
 using Warehouse.Service;
 using Warehouse.Service.Admin;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
@@ -42,6 +47,8 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public ActionResult Index(LoginViewModel model, string returnUrl)
         {
+             
+
             var user = _context.Users.FirstOrDefault(x => x.UserName == model.UserName); 
             if (ModelState.IsValid)
             {
@@ -49,8 +56,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 var kullaniciInDb = _context.Users.FirstOrDefault(x => x.UserName ==model.UserName&& x.Password == model.Password);
                 if (loginResult)
                 {
-                   
-                    
+                    System.Web.HttpContext.Current.Session["UserName"] = user.UserName;
+                    System.Web.HttpContext.Current.Session["UserId"] = user.UserName;
+
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
 
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));
@@ -72,6 +80,8 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
+            Session["UserName"] = string.Empty;
+            Session["UserId"] = string.Empty;
             return RedirectToAction("Index", "Home", new {Area=String.Empty });
         }
          

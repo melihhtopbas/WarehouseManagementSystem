@@ -63,6 +63,8 @@
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_TicketAnswers_Users" />
         <EntityTypeShape EntityType="WarehouseManagementSystemModel.PackagedProductGroups" Width="1.5" PointX="14.5" PointY="8.625" />
         <AssociationConnector Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages" />
+        <EntityTypeShape EntityType="WarehouseManagementSystemModel.Roles" Width="1.5" PointX="7.375" PointY="11.875" />
+        <AssociationConnector Association="WarehouseManagementSystemModel.FK_Users_Roles" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

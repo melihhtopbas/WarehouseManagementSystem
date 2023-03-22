@@ -33,6 +33,7 @@ namespace Warehouse.Data
         public Nullable<long> CountryId { get; set; }
         public Nullable<long> CityId { get; set; }
         public System.DateTime Date { get; set; }
+        public Nullable<long> RoleId { get; set; }
     
         public virtual Cities Cities { get; set; }
         public virtual Countries Countries { get; set; }
@@ -42,5 +43,6 @@ namespace Warehouse.Data
         public virtual ICollection<Tickets> Tickets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TicketAnswers> TicketAnswers { get; set; }
+        public virtual Roles Roles { get; set; }
     }
 }

@@ -50,5 +50,6 @@ namespace Warehouse.Data
         public virtual DbSet<TicketAnswers> TicketAnswers { get; set; }
         public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
     }
 }

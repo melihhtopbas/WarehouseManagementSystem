@@ -15,7 +15,8 @@ using System.Web.UI;
 using Warehouse.Data;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
-using Warehouse.ViewModels.Admin; 
+using Warehouse.ViewModels.Admin;
+using Warehouse.ViewModels.Common;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
@@ -33,10 +34,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
         // GET: Order
         //Anasayfa
+     
         public async Task<ActionResult> Index()
-        { 
+        {
 
-            string userName = User.Identity.Name; 
+            string userName = User.Identity.Name;
             var user = _context.Users.FirstOrDefault(x => x.UserName == userName);
             ViewData["Ad"] = user.Name;
             ViewData["Soyad"] = user.Surname;
@@ -51,7 +53,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> OrderList(OrderSearchViewModel model, int? page)
         {
 
-            
+
 
 
             var currentPageIndex = page - 1 ?? 0;
@@ -74,8 +76,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             };
         }
 
-        [AjaxOnly]
-        [HttpGet]
+        [AjaxOnly, HttpGet]
         //Sipariş ekleme sayfası
         public ActionResult Add()
         {
@@ -83,7 +84,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             ViewData["Cities"] = new List<CityListViewModel>();
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = _orderService.GetOrderCargoServiceTypeList().ToList();
-           
+
 
             var model = new OrderAddViewModel
             {
@@ -143,7 +144,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         //Sipariş ekleme sayfasında yeni ürün ekle partial'i
-       
+
         public PartialViewResult ProductTransactionGroupRow()
         {
             var resultModel = new ProductTransactionGroupViewModel();
@@ -164,11 +165,11 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             {
                 OrderId = orderId,
             };
-            
-             
+
+
             return PartialView("~/Areas/Admin/Views/Order/OrderProduct.cshtml", model);
         }
-
+        
         //Anasayfa'da gözüken sipariş listesi
         [AjaxOnly, HttpPost, ValidateInput(false)]
         public async Task<ActionResult> OrderProductList(ProductSearchViewModel searchModel, int? page)
@@ -183,7 +184,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             {
                 counter += item.Count;
             }
-           
+
 
             ModelState.Clear();
             ViewData["TotalCount"] = counter;
@@ -197,13 +198,13 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 })
             };
 
- 
+
         }
-        [AjaxOnly,HttpGet]
+        [AjaxOnly, HttpGet]
         public ActionResult OrderProductAdd(long orderId)
         {
 
-          
+
 
             var model = new ProductGroupAddViewModel
             {
@@ -215,7 +216,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public async Task<ActionResult> OrderProductAdd(ProductGroupAddViewModel model)
         {
-            
+
 
             if (ModelState.IsValid)
             {
@@ -256,7 +257,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             var model = await _orderService.GetOrderProductEditViewModelAsync(productId);
             if (model != null)
             {
-                
+
 
                 return PartialView("~/Areas/Admin/Views/Order/OrderProductEdit.cshtml", model);
             }
@@ -291,7 +292,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     ModelState.AddModelError("", error);
                 }
             }
-           
+
 
             return Json(
                 new
@@ -355,9 +356,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             {
                 Country = new OrderCountryIdSelectViewModel
                 {
-                    
+
                 }
-                
+
             };
             ViewData["Countries"] = _orderService.GetOrderCountryList().ToList();
             ViewData["CargoServiceTypes"] = new List<CargoServiceTypeListViewModel>();
@@ -460,7 +461,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public async Task<ActionResult> OrderPackageAdd(int orderId)
         {
             var readOnlyProduct = _context.ProductTransactionGroup.Where(x => x.OrderId == orderId).ToList();
-            
+
             foreach (var item in readOnlyProduct)
             {
                 item.isPackagedCount = item.isPackagedCount2;
@@ -677,24 +678,24 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public JsonResult NestedCargo(int id)
         {
             var cargoService = (from x in _context.ShippingPrices
-                               where x.CountryId == id && x.Active == true
-                          select new
-                          {
-                              Id = x.Id,
-                              Name = x.CargoServiceTypes.Name,
-                          }).ToList();
+                                where x.CountryId == id && x.Active == true
+                                select new
+                                {
+                                    Id = x.Id,
+                                    Name = x.CargoServiceTypes.Name,
+                                }).ToList();
 
             return Json(cargoService, JsonRequestBehavior.AllowGet);
         }
-        [AjaxOnly,HttpPost]
+        [AjaxOnly, HttpPost]
         public ActionResult SelectAllPackageProduct(int selectId)
         {
             var result = (from x in _context.ProductTransactionGroup
-                                where x.Id == selectId
-                                select new
-                                {
-                                    selectCount = x.isPackagedCount,
-                                });
+                          where x.Id == selectId
+                          select new
+                          {
+                              selectCount = x.isPackagedCount,
+                          });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -702,7 +703,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         public ActionResult SelectPackageCount(int selectId)
         {
             var model = _orderService.SelectPackageCount(selectId);
-           
+
             return PartialView("~/Areas/Admin/Views/Order/_OrderSelectedPackageProduct.cshtml", model);
 
 

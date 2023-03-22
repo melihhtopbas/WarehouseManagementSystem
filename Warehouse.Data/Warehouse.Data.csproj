@@ -124,6 +124,9 @@
     <Compile Include="References.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Roles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="SenderAddresses.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -961,56 +961,7 @@ namespace Warehouse.Service.Admin
             }
 
 
-            for (int i = 0; i < model.ProductTransactionGroup.Count(); i++)
-            {
-                productGroupList[i].isPackagedCount = model.ProductTransactionGroup.ElementAt(i).isPackagedCount;
-                productGroupList[i].isPackage = model.ProductTransactionGroup.ElementAt(i).isPackage;
-                productGroupList[i].isReadOnly = model.ProductTransactionGroup.ElementAt(i).isReadOnly;
-
-            }
-
-
-
-
-            foreach (var groupDb in order.ProductTransactionGroup.ToArray()
-                .Where(groupDb => model.ProductTransactionGroup.All(x => x.SKU != groupDb.SKU)))
-            {
-
-                order.ProductTransactionGroup.Remove(groupDb);
-                _context.ProductTransactionGroup.Remove(groupDb);
-            }
-            // bu işlem değişim var ise önceki stok koduna ait grubu siliyor.
-
-
-
-            byte imageOrder = 0;
-            foreach (var groupViewModel in model.ProductTransactionGroup)
-            {
-                var skuExist = order.ProductTransactionGroup.Any(a => a.SKU == groupViewModel.SKU);
-                if (!skuExist)
-                {
-
-                    order.ProductTransactionGroup.Add(new ProductTransactionGroup()
-                    {
-                        SKU = groupViewModel.SKU,
-                        GtipCode = groupViewModel.GtipCode,
-                        Count = groupViewModel.Count,
-                        Content = groupViewModel.Content,
-                        QuantityPerUnit = groupViewModel.QuantityPerUnit,
-                        isPackagedCount = productGroup.isPackagedCount,
-                        isPackage = productGroup.isPackage,
-                        Id = groupViewModel.Id,
-                        isReadOnly = productGroup.isReadOnly,
-
-                    });
-
-
-                    imageOrder++;
-                }
-
-
-            }
-
+          
 
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
