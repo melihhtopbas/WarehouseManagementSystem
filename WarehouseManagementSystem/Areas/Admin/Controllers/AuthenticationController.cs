@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.Mvc;
+﻿using DocumentFormat.OpenXml.EMMA;
+using Microsoft.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,18 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         
         public ActionResult UnAuthorized()
         {
-            TempData["AuthorizeMessage"] = "Bu sayfaya erişim yetkiniz yoktur!";
-            return View();
+            return View("~/Areas/Admin/Views/TicketBox/Index.cshtml");
         }
         public ActionResult AccessDenied()
         {
-            TempData["AuthorizeMessage"] = "Bu sayfaya erişim yetkiniz yoktur!";
+           // TempData["AuthorizeMessage"] = "Bu sayfaya erişim yetkiniz yoktur!";
             return View();  
+        }
+        public ActionResult NotAuthorized()
+        {
+            ViewBag.clientside_js = "<script type=\"text/javascript\">  $(function () {\r\n       if (\"@Model\" != \"\")\r\n \r\n        {\r\n \r\n           toastr.error(\"Yetkiniz yok\");\r\n \r\n        };\r\n\r\n    }) </script>";
+            return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Bu işlem için yetkiniz yok!");
+            
         }
     }
 }

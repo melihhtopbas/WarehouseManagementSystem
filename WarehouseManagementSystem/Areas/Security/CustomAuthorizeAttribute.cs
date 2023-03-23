@@ -57,23 +57,24 @@ namespace WarehouseManagementSystem.Areas.Security
             if (action != "Index")
             {
                 filterContext.Result = new RedirectToRouteResult(
-                  new RouteValueDictionary
-                  {
-                      {"area","Admin" },
-                      { "controller", "TicketBox" },
-                      { "action", "Index" },
-                      { "auth", "auth" },
-                  });
+                   new RouteValueDictionary
+                   {
+                      
+                      { "controller", "Authentication" },
+                      { "action", "NotAuthorized" },
+                      
+                   });
             }
             else
-            filterContext.Result = new RedirectToRouteResult(
-                  new RouteValueDictionary
-                  {
+                filterContext.Result = new RedirectToRouteResult(
+                      new RouteValueDictionary
+                      {
                       { "controller", "Authentication" },
                       { "action", "AccessDenied" },
-                      
-                  });
+
+                      });
         }
+
 
 
     }

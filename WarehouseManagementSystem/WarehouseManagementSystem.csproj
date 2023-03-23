@@ -4843,7 +4843,6 @@
     <Content Include="Areas\Admin\Views\Order\OrderProductAdd.cshtml" />
     <Content Include="Areas\Admin\Views\Order\OrderProductEdit.cshtml" />
     <Content Include="Areas\Admin\Views\TicketBoxAnswer\_TicketAnswerEdit.cshtml" />
-    <Content Include="Areas\Admin\Views\Authentication\UnAuthorized.cshtml" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Authentication\AccessDenied.cshtml" />

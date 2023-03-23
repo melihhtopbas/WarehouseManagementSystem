@@ -24,21 +24,9 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             _ticketBoxService = ticketBoxService;
         }
     
-        public ActionResult Index(string auth)
+        public ActionResult Index()
         {
-            if (auth != "" && auth != null)
-            {
-
-                TempData["AuthorizeMessage"] = "Bu sayfaya erişim yetkiniz yoktur!";
-                return Json(
-              new
-              {
-                  success = false, 
-              });
-
-
-
-            }
+           
             ViewBag.Title = "Oluşturduğum Ticketlar";
             return View("~/Areas/Admin/Views/TicketBox/Index.cshtml");
         }
@@ -100,8 +88,8 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         public ActionResult Add()
         {
+             
 
-            
             var model = new TicketBoxAddViewModel
             {
                  
@@ -110,6 +98,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        [CustomAuthorize("TicketAdd")]
         public async Task<ActionResult> Add(TicketBoxAddViewModel model)
         {
              

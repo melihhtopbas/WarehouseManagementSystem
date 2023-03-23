@@ -56,14 +56,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 var kullaniciInDb = _context.Users.FirstOrDefault(x => x.UserName ==model.UserName&& x.Password == model.Password);
                 if (loginResult)
                 {
-                    if (Session!=null)
-                    {
-                        System.Web.HttpContext.Current.Session["UserName"] = user.UserName;
-                        System.Web.HttpContext.Current.Session["UserId"] = user.UserName;
-
-                    }
-               
-
+                    
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
 
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));
