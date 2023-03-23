@@ -77,7 +77,7 @@
  
     <script>
   $(function(){
-     
+
        var registered = "@(TempData["registeredMsg"] as string)";
       if (registered !== "") {
           toastr.success(registered);
@@ -89,7 +89,12 @@
 
 
 
-     }
+      }
+       var AuthorizeMessage = "@(TempData["AuthorizeMessage"] as string)";
+      if (AuthorizeMessage !== "") {
+         toastr.error(AuthorizeMessage);
+
+      }
 
 
   });

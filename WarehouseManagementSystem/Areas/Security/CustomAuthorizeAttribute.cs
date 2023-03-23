@@ -1,10 +1,12 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI;
 using Warehouse.Data;
 
 namespace WarehouseManagementSystem.Areas.Security
@@ -17,6 +19,8 @@ namespace WarehouseManagementSystem.Areas.Security
         {
             this.allowedroles = roles;
         }
+
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             bool authorize = false;
@@ -43,12 +47,17 @@ namespace WarehouseManagementSystem.Areas.Security
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
+            var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            var action = filterContext.ActionDescriptor.ActionName;
+
             filterContext.Result = new RedirectToRouteResult(
-               new RouteValueDictionary
-               {
-                    { "controller", "Authentication" },
-                    { "action", "UnAuthorized" }
-               });
+       new RouteValueDictionary
+       {
+                      { "controller", "Authentication" },
+                      { "action", "AccessDenied" }
+       });
         }
+
+
     }
 }

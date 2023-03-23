@@ -525,7 +525,11 @@
 
 
      }
+      var AuthorizeMessage = "@(TempData["AuthorizeMessage"] as string)";
+      if (AuthorizeMessage !== "") {
+         toastr.error(AuthorizeMessage);
 
+      }
 
   });
     </script>

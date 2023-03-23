@@ -12,6 +12,7 @@ using Warehouse.Service.WebSite;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
@@ -83,6 +84,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
         [AjaxOnly]
         [HttpGet]
+       
         public ActionResult Add()
         {
 
