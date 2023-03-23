@@ -323,6 +323,14 @@
           <Property Name="isShow" Type="bit" Nullable="false" />
           <Property Name="isAnswer" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="RoleId" Type="bigint" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -338,7 +346,6 @@
           <Property Name="CountryId" Type="bigint" />
           <Property Name="CityId" Type="bigint" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="RoleId" Type="bigint" />
         </EntityType>
         <Association Name="FK_About_Languages">
           <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
@@ -712,6 +719,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserRoles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Cities">
           <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -733,18 +764,6 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Roles">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -774,6 +793,7 @@
           <EntitySet Name="Sliders" EntityType="Self.Sliders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TicketAnswers" EntityType="Self.TicketAnswers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_About_Languages" Association="Self.FK_About_Languages">
             <End Role="Languages" EntitySet="Languages" />
@@ -899,16 +919,20 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Users" Association="Self.FK_UserRoles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
             <End Role="Cities" EntitySet="Cities" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Countries" Association="Self.FK_Users_Countries">
             <End Role="Countries" EntitySet="Countries" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
-            <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
@@ -937,11 +961,11 @@
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Countries_Languages" FromRole="Countries" ToRole="Languages" />
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
-          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Countries" ToRole="Users" />
           <Property Name="CurrencyUnitId" Type="Int64" />
           <NavigationProperty Name="CurrencyUnits" Relationship="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits" FromRole="Countries" ToRole="CurrencyUnits" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Countries" ToRole="Orders" />
           <NavigationProperty Name="ShippingPrices" Relationship="WarehouseManagementSystemModel.FK_ShippingPrices_Countries" FromRole="Countries" ToRole="ShippingPrices" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Countries" ToRole="Users" />
         </EntityType>
         <EntityType Name="CurrencyUnits">
           <Key>
@@ -1026,7 +1050,6 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="FAQCategories" EntitySet="FAQCategories" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="WarehouseManagementSystemModel.Users" />
           <AssociationSet Name="FK_Countries_Languages" Association="WarehouseManagementSystemModel.FK_Countries_Languages">
             <End Role="Languages" EntitySet="Languages" />
             <End Role="Countries" EntitySet="Countries" />
@@ -1054,14 +1077,6 @@
             <End Role="Languages" EntitySet="Languages" />
             <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_Cities" Association="WarehouseManagementSystemModel.FK_Users_Cities">
-            <End Role="Cities" EntitySet="Cities" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Countries" Association="WarehouseManagementSystemModel.FK_Users_Countries">
-            <End Role="Countries" EntitySet="Countries" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
           <EntitySet Name="Contact" EntityType="WarehouseManagementSystemModel.Contact" />
           <AssociationSet Name="FK_Countries_CurrencyUnits" Association="WarehouseManagementSystemModel.FK_Countries_CurrencyUnits">
             <End Role="CurrencyUnits" EntitySet="CurrencyUnits" />
@@ -1082,10 +1097,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Languages" Association="WarehouseManagementSystemModel.FK_Orders_Languages">
             <End Role="Languages" EntitySet="Languages" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orders_Users" Association="WarehouseManagementSystemModel.FK_Orders_Users">
-            <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Packages_Orders" Association="WarehouseManagementSystemModel.FK_Packages_Orders">
@@ -1123,23 +1134,41 @@
             <End Role="Tickets" EntitySet="Tickets" />
             <End Role="TicketAnswers" EntitySet="TicketAnswers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tickets_Users" Association="WarehouseManagementSystemModel.FK_Tickets_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Tickets" EntitySet="Tickets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TicketAnswers_Users" Association="WarehouseManagementSystemModel.FK_TicketAnswers_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
-          </AssociationSet>
           <EntitySet Name="PackagedProductGroups" EntityType="WarehouseManagementSystemModel.PackagedProductGroups" />
           <AssociationSet Name="FK_PackagedProductGroups_Packages" Association="WarehouseManagementSystemModel.FK_PackagedProductGroups_Packages">
             <End Role="Packages" EntitySet="Packages" />
             <End Role="PackagedProductGroups" EntitySet="PackagedProductGroups" />
           </AssociationSet>
           <EntitySet Name="Roles" EntityType="WarehouseManagementSystemModel.Roles" />
-          <AssociationSet Name="FK_Users_Roles" Association="WarehouseManagementSystemModel.FK_Users_Roles">
+          <EntitySet Name="UserRoles" EntityType="WarehouseManagementSystemModel.UserRoles" />
+          <AssociationSet Name="FK_UserRoles_Roles" Association="WarehouseManagementSystemModel.FK_UserRoles_Roles">
             <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="WarehouseManagementSystemModel.Users" />
+          <AssociationSet Name="FK_Users_Cities" Association="WarehouseManagementSystemModel.FK_Users_Cities">
+            <End Role="Cities" EntitySet="Cities" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Countries" Association="WarehouseManagementSystemModel.FK_Users_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="WarehouseManagementSystemModel.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketAnswers_Users" Association="WarehouseManagementSystemModel.FK_TicketAnswers_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketAnswers" EntitySet="TicketAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Users" Association="WarehouseManagementSystemModel.FK_Tickets_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Users" Association="WarehouseManagementSystemModel.FK_UserRoles_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="RecipientAddresses">
@@ -1406,29 +1435,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CountryId" Type="Int64" />
-          <Property Name="CityId" Type="Int64" />
-          <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
-          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
-          <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
-          <NavigationProperty Name="Tickets" Relationship="WarehouseManagementSystemModel.FK_Tickets_Users" FromRole="Users" ToRole="Tickets" />
-          <NavigationProperty Name="TicketAnswers" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Users" FromRole="Users" ToRole="TicketAnswers" />
-          <Property Name="RoleId" Type="Int64" />
-          <NavigationProperty Name="Roles" Relationship="WarehouseManagementSystemModel.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
-        </EntityType>
         <Association Name="FK_Countries_Languages">
           <End Type="WarehouseManagementSystemModel.Languages" Role="Languages" Multiplicity="0..1" />
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="*" />
@@ -1485,8 +1491,8 @@
           <Property Name="LanguageId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Cities_Languages" FromRole="Cities" ToRole="Languages" />
-          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Cities" ToRole="Users" />
           <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Cities" ToRole="Orders" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Cities" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Cities_Countries">
           <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
@@ -1533,30 +1539,6 @@
             </Principal>
             <Dependent Role="CurrencyUnits">
               <PropertyRef Name="LanguageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Cities">
-          <End Type="WarehouseManagementSystemModel.Cities" Role="Cities" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cities">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="CityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Countries">
-          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Countries">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1614,11 +1596,11 @@
           <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Orders_Cities" FromRole="Orders" ToRole="Cities" />
           <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Orders_Countries" FromRole="Orders" ToRole="Countries" />
           <NavigationProperty Name="Languages" Relationship="WarehouseManagementSystemModel.FK_Orders_Languages" FromRole="Orders" ToRole="Languages" />
-          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
           <NavigationProperty Name="Packages" Relationship="WarehouseManagementSystemModel.FK_Packages_Orders" FromRole="Orders" ToRole="Packages" />
           <NavigationProperty Name="ProductTransactionGroup" Relationship="WarehouseManagementSystemModel.FK_ProductTransactionGroup_Orders" FromRole="Orders" ToRole="ProductTransactionGroup" />
           <NavigationProperty Name="RecipientAddresses" Relationship="WarehouseManagementSystemModel.FK_RecipientAddresses_Orders" FromRole="Orders" ToRole="RecipientAddresses" />
           <NavigationProperty Name="SenderAddresses" Relationship="WarehouseManagementSystemModel.FK_SenderAddresses_Orders" FromRole="Orders" ToRole="SenderAddresses" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Orders_CargoServiceTypes">
           <End Type="WarehouseManagementSystemModel.CargoServiceTypes" Role="CargoServiceTypes" Multiplicity="0..1" />
@@ -1665,18 +1647,6 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="LanguageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orders_Users">
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="CustomerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1821,30 +1791,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tickets_Users">
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Tickets" Role="Tickets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tickets">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TicketAnswers_Users">
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.TicketAnswers" Role="TicketAnswers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TicketAnswers">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="PackagedProductGroups">
           <Key>
             <PropertyRef Name="Id" />
@@ -1877,17 +1823,121 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+          <NavigationProperty Name="UserRoles" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Roles" FromRole="Roles" ToRole="UserRoles" />
         </EntityType>
-        <Association Name="FK_Users_Roles">
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="RoleId" Type="Int64" />
+          <NavigationProperty Name="Roles" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Roles" FromRole="UserRoles" ToRole="Roles" />
+          <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Users" FromRole="UserRoles" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_UserRoles_Roles">
           <End Type="WarehouseManagementSystemModel.Roles" Role="Roles" Multiplicity="0..1" />
-          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
+          <End Type="WarehouseManagementSystemModel.UserRoles" Role="UserRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Roles">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Users">
+            <Dependent Role="UserRoles">
               <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int64" />
+          <Property Name="CityId" Type="Int64" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cities" Relationship="WarehouseManagementSystemModel.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
+          <NavigationProperty Name="Countries" Relationship="WarehouseManagementSystemModel.FK_Users_Countries" FromRole="Users" ToRole="Countries" />
+          <NavigationProperty Name="Orders" Relationship="WarehouseManagementSystemModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="TicketAnswers" Relationship="WarehouseManagementSystemModel.FK_TicketAnswers_Users" FromRole="Users" ToRole="TicketAnswers" />
+          <NavigationProperty Name="Tickets" Relationship="WarehouseManagementSystemModel.FK_Tickets_Users" FromRole="Users" ToRole="Tickets" />
+          <NavigationProperty Name="UserRoles" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Users" FromRole="Users" ToRole="UserRoles" />
+        </EntityType>
+        <Association Name="FK_Users_Cities">
+          <End Type="WarehouseManagementSystemModel.Cities" Role="Cities" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Countries">
+          <End Type="WarehouseManagementSystemModel.Countries" Role="Countries" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketAnswers_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.TicketAnswers" Role="TicketAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketAnswers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Users">
+          <End Type="WarehouseManagementSystemModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="WarehouseManagementSystemModel.UserRoles" Role="UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2103,24 +2153,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="CityId" ColumnName="CityId" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="References">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.References">
               <MappingFragment StoreEntitySet="References">
@@ -2254,6 +2286,32 @@
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.UserRoles">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WarehouseManagementSystemModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

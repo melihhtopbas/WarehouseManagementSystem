@@ -49,7 +49,6 @@ namespace Warehouse.Data
         public virtual Cities Cities { get; set; }
         public virtual Countries Countries { get; set; }
         public virtual Languages Languages { get; set; }
-        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Packages> Packages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -58,5 +57,6 @@ namespace Warehouse.Data
         public virtual ICollection<RecipientAddresses> RecipientAddresses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SenderAddresses> SenderAddresses { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

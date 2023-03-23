@@ -40,7 +40,6 @@ namespace Warehouse.Data
         public virtual DbSet<Blog> Blog { get; set; }
         public virtual DbSet<FAQ> FAQ { get; set; }
         public virtual DbSet<FAQCategories> FAQCategories { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<References> References { get; set; }
         public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
@@ -51,5 +50,7 @@ namespace Warehouse.Data
         public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<PackagedProductGroups> PackagedProductGroups { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

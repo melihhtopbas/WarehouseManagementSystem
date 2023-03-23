@@ -16,7 +16,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         {
             return View();
         }
-        [HttpGet]
+        
         public ActionResult UnAuthorized()
         {
             TempData["AuthorizeMessage"] = "Bu sayfaya erişim yetkiniz yoktur!";

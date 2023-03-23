@@ -12,18 +12,13 @@ namespace Warehouse.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Roles
+    public partial class UserRoles
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Roles()
-        {
-            this.UserRoles = new HashSet<UserRoles>();
-        }
-    
         public long Id { get; set; }
-        public string Name { get; set; }
+        public Nullable<long> UserId { get; set; }
+        public Nullable<long> RoleId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserRoles> UserRoles { get; set; }
+        public virtual Roles Roles { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

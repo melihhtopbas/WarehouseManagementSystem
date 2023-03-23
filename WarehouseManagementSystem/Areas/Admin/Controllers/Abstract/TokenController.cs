@@ -22,7 +22,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers.Abstract
         {
             _context = context;
         }
-        [CustomAuthorize("Normal", "SuperAdmin")]
+         
         public ActionResult Index()
         {
             return View();

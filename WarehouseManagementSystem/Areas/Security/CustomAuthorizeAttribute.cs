@@ -29,15 +29,20 @@ namespace WarehouseManagementSystem.Areas.Security
                 using (var context = new WarehouseManagementSystemEntities1())
                 {
                     var userRole = (from u in context.Users
-                                    join r in context.Roles on u.RoleId equals r.Id
+                                    join ur in context.UserRoles on u.Id equals ur.UserId
+                                    join r in context.Roles on ur.RoleId equals r.Id
                                     where u.UserName == userId
                                     select new
                                     {
                                         r.Name
-                                    }).FirstOrDefault();
+                                    }).ToList();
                     foreach (var role in allowedroles)
                     {
-                        if (role == userRole.Name) return true;
+                        foreach (var item in userRole)
+                        {
+                            if (role == item.Name) return true;
+                        }
+                         
                     }
                 }
 
@@ -49,13 +54,25 @@ namespace WarehouseManagementSystem.Areas.Security
         {
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             var action = filterContext.ActionDescriptor.ActionName;
-
+            if (action != "Index")
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                  new RouteValueDictionary
+                  {
+                      {"area","Admin" },
+                      { "controller", "TicketBox" },
+                      { "action", "Index" },
+                      { "auth", "auth" },
+                  });
+            }
+            else
             filterContext.Result = new RedirectToRouteResult(
-       new RouteValueDictionary
-       {
+                  new RouteValueDictionary
+                  {
                       { "controller", "Authentication" },
-                      { "action", "AccessDenied" }
-       });
+                      { "action", "AccessDenied" },
+                      
+                  });
         }
 
 
