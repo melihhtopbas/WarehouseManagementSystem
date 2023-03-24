@@ -4,7 +4,12 @@
 
 
     <td>
-        @Model.UserName
+        @Model.UserName @if (CurrentUserViewModel.IsMainUser)
+        {<span>@if (Model.UserName == CurrentUserViewModel.UserName)
+        { <span>(ADMİN)</span>
+
+        }</span>}
+         
     </td>
     <td>@Model.Name @Model.Surname</td>
     <td>@Model.Mail</td>

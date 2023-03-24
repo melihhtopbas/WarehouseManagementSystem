@@ -9,11 +9,13 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
-using Warehouse.ViewModels.Admin; 
+using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("admin")]
     public class FaqSettingController : AdminBaseController
     {
         private readonly FaqService _faqService;

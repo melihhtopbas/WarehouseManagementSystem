@@ -12,10 +12,12 @@ using Warehouse.Data;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("admin")]
     public class CountrySettingController : AdminBaseController
     {
         private readonly WarehouseManagementSystemEntities1 _context;

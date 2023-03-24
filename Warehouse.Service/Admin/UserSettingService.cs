@@ -6,6 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web;
 using System.Web.UI;
 using Warehouse.Data;
 using Warehouse.ViewModels.Admin;
@@ -16,17 +18,19 @@ namespace Warehouse.Service.Admin
     public class UserSettingService
     {
         private readonly WarehouseManagementSystemEntities1 _context;
+        private readonly CurrentUserViewModel _currentUser;
         public UserSettingService(WarehouseManagementSystemEntities1 context)
         {
+
             _context = context;
+            _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
         private IQueryable<UserListViewModel> _getUserListIQueryable(Expression<Func<Data.Users, bool>> expr)
         {
             
              
 
-            return (from b in _context.Users.AsExpandable().Where(expr)
-                    .Where(x=>x.Role != "admin")
+            return (from b in _context.Users.AsExpandable().Where(expr) 
                     select new UserListViewModel()
                     {
                         Id = b.Id,
@@ -68,6 +72,7 @@ namespace Warehouse.Service.Admin
         public async Task<UserEditViewModel> GetUserEditViewModelAsync(int userId)
         {
             var user = await (from p in _context.Users
+                              
                                  where p.Id == userId
                                  select new UserEditViewModel()
                                  {

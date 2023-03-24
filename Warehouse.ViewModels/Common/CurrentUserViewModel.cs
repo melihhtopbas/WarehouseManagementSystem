@@ -31,5 +31,13 @@ namespace Warehouse.ViewModels.Common
         public string City { get; set; }
         public string Country { get; set; }
         public int MessageCount { get; set; }
+        public List<RoleViewModel> Roles { get; set; }
+        public bool IsMainUser { get; set; }
+    }
+    public class RoleViewModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+
     }
 }

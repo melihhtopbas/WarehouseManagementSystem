@@ -11,10 +11,12 @@ using Warehouse.Service.Admin;
 using Warehouse.Service.WebSite;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("admin")]
     public class CitySettingController : AdminBaseController
     {
         private readonly LanguageService _languageService;

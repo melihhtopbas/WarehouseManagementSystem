@@ -23,9 +23,30 @@ namespace Warehouse.Service.Admin
         }
         public CurrentUserViewModel GetCurrentUserViewModel(string userName)
         {
+            var roleList = (from a in _context.Users
+                            join ur in _context.UserRoles
+                            on a.Id equals ur.UserId
+                            join r in _context.Roles
+                            on ur.RoleId equals r.Id
+                            where a.UserName == userName
+                            select new RoleViewModel()
+                            {
+                                Id = ur.Id,
+                                Name = r.Name
+                            }
 
+
+
+                          );
+            
+           
             var model = _cacheService.Get("setting", () => (from a in _context.Users
-                                                            .Where(u => u.UserName == userName)
+                                                            join ur in _context.UserRoles
+                                                            on a.Id equals ur.UserId
+                                                            join r in _context.Roles
+                                                            on ur.RoleId equals r.Id
+                                                            where a.UserName == userName
+
 
                                                             select new CurrentUserViewModel()
                                                             {
@@ -40,9 +61,15 @@ namespace Warehouse.Service.Admin
                                                                 Role = a.Role,
                                                                 Surname = a.Surname,
                                                                 UserName = a.UserName,
-                                                                MessageCount = _context.Contact.Where(x => x.isShow != true).Count()
+                                                                MessageCount = _context.Contact.Where(x => x.isShow != true).Count(),
+                                                                Roles = roleList.ToList(),
+                                                                
 
                                                             }).FirstOrDefault());
+            if (model!= null && model.Roles.Any(x=>x.Name=="admin"))
+            {
+                model.IsMainUser = true;
+            }
 
             return model;
 
@@ -105,7 +132,7 @@ namespace Warehouse.Service.Admin
         }
         public List<TicketMessageViewModel> GetTicketMessageViewModel(string name)
         {
-            var user = _context.Users.Where(x=>x.UserName == name).FirstOrDefault();
+            var user = _context.Users.Where(x => x.UserName == name).FirstOrDefault();
             var model = _cacheService.Get("setting", () => (from a in _context.TicketAnswers.AsEnumerable()
                                                            .Where(x => x.isShow != true && x.UserId == user.Id)
 

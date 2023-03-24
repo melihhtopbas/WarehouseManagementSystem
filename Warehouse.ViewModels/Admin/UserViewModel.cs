@@ -108,6 +108,7 @@ namespace Warehouse.ViewModels.Admin
         public OrderCountryIdSelectViewModel Country { get; set; }
 
         public OrderCityIdSelectViewModel City { get; set; }
+        public List<RoleViewModel> Roles{ get; set; }
 
     }
     public class UserChangePasswordViewModel

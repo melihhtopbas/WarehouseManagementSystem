@@ -9,10 +9,12 @@ using System.Web.Mvc;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("admin")]
     public class SettingController : AdminBaseController
     {
         private readonly SettingService _settingService;

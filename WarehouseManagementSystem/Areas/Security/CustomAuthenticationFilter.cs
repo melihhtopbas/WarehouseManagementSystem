@@ -15,7 +15,6 @@ namespace WarehouseManagementSystem.Areas.Security
         private readonly CurrentUserViewModel _currentUser;
         public CustomAuthenticationFilter()
         {
-
             _currentUser = DependencyResolver.Current.GetService<CurrentUserService>().GetCurrentUserViewModel(HttpContext.Current.User.Identity.Name);
         }
         public void OnAuthentication(AuthenticationContext filterContext)
@@ -34,8 +33,8 @@ namespace WarehouseManagementSystem.Areas.Security
                 new RouteValueDictionary
                 {
                      { "controller", "Login" },
-                     { "action", "Index" }, 
-                     
+                     { "action", "Index" },
+
                 });
             }
         }

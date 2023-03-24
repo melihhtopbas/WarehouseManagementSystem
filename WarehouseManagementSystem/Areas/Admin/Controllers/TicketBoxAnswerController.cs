@@ -7,9 +7,12 @@ using System.Web;
 using System.Web.Mvc;
 using Warehouse.Service.Admin;
 using Warehouse.ViewModels.Common;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
+    [Authorize]
+   
     public class TicketBoxAnswerController : AdminBaseController
     {
         private readonly TicketBoxAnswerService _ticketBoxService;
@@ -34,6 +37,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [AjaxOnly,HttpGet]
+        [CustomAuthorize("admin")]
         public async Task<ActionResult> TicketBoxAnswerAsync(int ticketId)
         {
             var result = await _ticketBoxService.GetTicketAnswerShowModelAsync(ticketId).ConfigureAwait(false);
@@ -52,6 +56,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        [CustomAuthorize("admin")]
         public async Task<ActionResult> TicketBoxAnswerAsync(TicketBoxAnswerAddViewModel model)
         {
 
@@ -89,6 +94,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [AjaxOnly, HttpGet]
+        [CustomAuthorize("admin")]
         public async Task<ActionResult> TicketBoxAnswerEditAsync(int ticketId)
         {
 
@@ -104,6 +110,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
 
         }
         [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        [CustomAuthorize("admin")]
         public async Task<ActionResult> TicketBoxAnswerEditAsync(TicketBoxAnswerEditViewModel model)
         {
 

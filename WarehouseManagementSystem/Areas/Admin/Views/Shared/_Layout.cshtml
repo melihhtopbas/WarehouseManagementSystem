@@ -40,13 +40,13 @@
                     <li class="dropdown notifications-menu" id="new-messages-notifications-menu">
                         <a onclick="myFunction()" href="javascript:void(0);" class="dropdown-toggle new-messages-icon" data-toggle="dropdown">
                             <i class="far fa-comments"></i>
-                            @if (CurrentUserViewModel.Role == "admin")
+                            @if (CurrentUserViewModel.IsMainUser)
                             {
                                 <span class="label label-danger new-icon-messages-total-count">
                                     @CurrentUserViewModel.MessageCount
                                 </span>}
                         </a>
-                        @if (CurrentUserViewModel.Role != "admin")
+                        @if (!CurrentUserViewModel.IsMainUser)
                         {
                             <ul class="dropdown-menu">
                                 <li class="header">Toplam <strong class="new-messages-total-count">0</strong> işlem bekleyen mesajınız var</li>
@@ -57,7 +57,7 @@
                                 </li>
                             </ul>
                         }
-                        else if (CurrentUserViewModel.Role == "admin")
+                        else if (CurrentUserViewModel.IsMainUser)
                         {
                             <ul class="dropdown-menu" style="border: 1px solid rgba(0,0,0,.15); bottom:auto ">
                                 <li class="header">Toplam <strong class="new-messages-total-count">@CurrentUserViewModel.MessageCount</strong> işlem bekleyen mesajınız var</li>
@@ -106,7 +106,7 @@
 
 
                                 }
-                                
+
                                 <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/contactform">Bütün mesajları gör</a>
                             </ul>
                         }
@@ -125,7 +125,7 @@
                             @foreach (var item in TicketMessageViewModel)
                             {
 
-                                if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                                if (CurrentUserViewModel.IsMainUser)
                                 {
 
 
@@ -210,7 +210,7 @@
                                 }
 
                             }
-                            @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                            @if (CurrentUserViewModel.IsMainUser)
                             {
                                 <a class="dropdown-item dropdown-footer" style="display:block; text-align:center; color:darkblue" href="/admin/ticketbox/ticketboxshow">Bütün ticketları gör</a>
                             }
@@ -241,7 +241,12 @@
 
                                     @CurrentUserViewModel.Name @CurrentUserViewModel.Surname
                                     <small>@CurrentUserViewModel.UserName</small>
+
                                 </p>
+                                @if (CurrentUserViewModel.IsMainUser)
+                                {
+                                    <p>Şuanda admin hesabındasınız</p>
+                                }
 
                             </li>
                             <!-- Menu Body -->
@@ -360,36 +365,42 @@
                     </ul>
                 </li>
 
-                <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
-                <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
-                <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
-                <li><a href="@Url.Action("Index","CargoServiceSetting",new {Area="Admin"})"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
-                <li><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
-                <li><a href="@Url.Action("Index","PageSetting",new {Area="Admin"})"><i class="fa fa-file-text-o"></i> <span>Sayfalar</span></a></li>
-                <li><a href="@Url.Action("Index","SliderSetting",new {Area="Admin"})"><i class="fa fa-sliders"></i> <span>Slider</span></a></li>
-                <li><a href="@Url.Action("Index","PropertySetting",new {Area="Admin"})"><i class="fa fa-check-square-o"></i> <span>Özellikler</span></a></li>
-                <li><a href="@Url.Action("Index","ReferenceSetting",new {Area="Admin"})"><i class="fa fa-registered"></i> <span>Referanslar</span></a></li>
-                <li><a href="@Url.Action("Index","FaqSetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>Sık Sorulan Sorular</span></a></li>
+                @if (CurrentUserViewModel.IsMainUser)
+                {
+                    <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
+                    <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
+                    <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
+                    <li><a href="@Url.Action("Index","CargoServiceSetting",new {Area="Admin"})"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
+                    <li><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
+                    <li><a href="@Url.Action("Index","PageSetting",new {Area="Admin"})"><i class="fa fa-file-text-o"></i> <span>Sayfalar</span></a></li>
+                    <li><a href="@Url.Action("Index","SliderSetting",new {Area="Admin"})"><i class="fa fa-sliders"></i> <span>Slider</span></a></li>
+                    <li><a href="@Url.Action("Index","PropertySetting",new {Area="Admin"})"><i class="fa fa-check-square-o"></i> <span>Özellikler</span></a></li>
+                    <li><a href="@Url.Action("Index","ReferenceSetting",new {Area="Admin"})"><i class="fa fa-registered"></i> <span>Referanslar</span></a></li>
+                    <li><a href="@Url.Action("Index","FaqSetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>Sık Sorulan Sorular</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-check"></i> <span>Kategori</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu" style="display: none;">
+
+                            <li><a href="@Url.Action("FaqCategory","CategorySetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>SSS Kategori</span></a></li>
+
+                        </ul>
+                    </li>
+
+                    <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
+                }
 
 
 
 
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-check"></i> <span>Kategori</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu" style="display: none;">
 
-                        <li><a href="@Url.Action("FaqCategory","CategorySetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>SSS Kategori</span></a></li>
 
-                    </ul>
-                </li>
 
-                <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
 
                 <li class="treeview">
                     <a href="#">
@@ -401,10 +412,10 @@
                     <ul class="treeview-menu" style="display: none;">
 
 
-                        @if (CurrentUserViewModel.Role == "admin" || CurrentUserViewModel.Role == "admin2")
+                        @if (CurrentUserViewModel.IsMainUser)
                         {
                             <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
-                            
+
 
                         }
                         else
@@ -416,7 +427,7 @@
                     </ul>
                 </li>
 
-                @if (CurrentUserViewModel.Role == "admin")
+                @if (CurrentUserViewModel.IsMainUser)
                 {
                     @Html.Action("Sidebar", "AdminCommon", new { Area = "Admin" });
                 }
@@ -457,7 +468,8 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/Content/admin-lte/css/AdminLTE.css" rel="stylesheet" />
+     
+    <link href="~/Areas/Admin/Content/admin-lte/css/praAdminLTE.css" rel="stylesheet" />
     <script src="~/Areas/Admin/Scripts/maxlength.js"></script>
 
 
@@ -530,8 +542,8 @@
          toastr.error(AuthorizeMessage);
 
       }
-    
-   
+
+
   });
     </script>
 
@@ -570,8 +582,8 @@
             $('#ticketBoxSearchForm').submit();
             $('#ticketBoxShowSearchForm').submit();
             $('#orderPackageSearchForm').submit();
-            $('#PackageSearchForm').submit(); 
-           
+            $('#PackageSearchForm').submit();
+
 
 
 
@@ -1297,7 +1309,7 @@
             }).done(function (result) {
                 container.find(overlay).remove();
                 if (result.success) {
-                   
+
                     var $tr = that.closest('tr.master-row');
                     $tr.nextUntil('tr.master-row').empty().remove();
                     $tr.animateDelete();
@@ -1315,7 +1327,7 @@
                         function (i, item) {
                             toastr.error(item);
                         });
-                   
+
                 }
                 if (result.item == true) {
                     toastr.success("Koli silindi!");

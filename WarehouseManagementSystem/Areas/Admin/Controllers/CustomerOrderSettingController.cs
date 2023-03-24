@@ -12,9 +12,12 @@ using Warehouse.Data;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
+    [Authorize]
+    [CustomAuthorize("admin")]
     public class CustomerOrderSettingController : AdminBaseController
     {
         private readonly CustomerOrderSettingService _customerOrderSettingService;

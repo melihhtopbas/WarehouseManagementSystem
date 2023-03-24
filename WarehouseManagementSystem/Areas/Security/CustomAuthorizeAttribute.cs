@@ -54,7 +54,7 @@ namespace WarehouseManagementSystem.Areas.Security
         {
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             var action = filterContext.ActionDescriptor.ActionName;
-            if (action != "Index")
+            if (action != "Index" && action != "Blog" && action != "FaqCategory" && action != "CustomerOrderPackages" && action != "AllCustomerOrder")
             {
                 filterContext.Result = new RedirectToRouteResult(
                    new RouteValueDictionary
@@ -74,7 +74,7 @@ namespace WarehouseManagementSystem.Areas.Security
 
                       });
         }
-
+      
 
 
     }

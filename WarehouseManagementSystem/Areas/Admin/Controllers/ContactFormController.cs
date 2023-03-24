@@ -10,10 +10,12 @@ using System.Web.Script.Serialization;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("admin")]
     public class ContactFormController : AdminBaseController
     {
         private readonly ContactService _contactService;

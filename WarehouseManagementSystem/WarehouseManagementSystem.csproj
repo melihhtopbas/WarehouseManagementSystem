@@ -523,6 +523,7 @@
     <Content Include="Areas\Admin\Content\admin-lte\css\alt\AdminLTE-select2.min.css" />
     <Content Include="Areas\Admin\Content\admin-lte\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Areas\Admin\Content\admin-lte\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Areas\Admin\Content\admin-lte\css\praAdminLTE.css" />
     <Content Include="Areas\Admin\Content\admin-lte\css\skins\skin-black-light.css" />
     <Content Include="Areas\Admin\Content\admin-lte\css\skins\skin-black-light.min.css" />
     <Content Include="Areas\Admin\Content\admin-lte\css\skins\skin-black.css" />
@@ -4846,6 +4847,7 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Authentication\AccessDenied.cshtml" />
+    <Content Include="Areas\Admin\Views\Authentication\YedekAccessDenied.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
