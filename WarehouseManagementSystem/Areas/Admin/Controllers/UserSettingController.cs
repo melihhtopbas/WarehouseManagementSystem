@@ -11,6 +11,7 @@ using Warehouse.Data;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using Warehouse.ViewModels.Common;
 using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
@@ -206,8 +207,53 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 });
 
         }
+        [AjaxOnly, HttpGet]
+        public ActionResult UserRoles(int userId)
+        {
+            var result = new RoleViewModel
+            {
+                UserRolesViewModel = _userSettingService.GetUserRolesViewModelAsync(userId)
+            };
+            
+            return PartialView("~/Areas/Admin/Views/UserSetting/_UserRoles.cshtml", result);
 
-        
+        }
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
+        public async Task<ActionResult> UserRoles(RoleViewModel model)
+        { 
+            if (ModelState.IsValid)
+            {
+                var callResult = await _userSettingService.EditUserRolesAsync(model);
+                if (callResult.Success)
+                {
+
+                    ModelState.Clear();
+                    //var viewModel = (UserListViewModel)callResult.Item;
+                    var jsonResult = Json(
+                        new
+                        {
+                            success = true,
+                            
+                        });
+                    jsonResult.MaxJsonLength = int.MaxValue;
+                    return jsonResult;
+                }
+                foreach (var error in callResult.ErrorMessages)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    success = false,
+                    responseText = RenderPartialViewToString("~/Areas/Admin/Views/UserSetting/_UserRoles.cshtml", model)
+                });
+
+        }
+
+
 
     }
 }

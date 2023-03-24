@@ -1,0 +1,52 @@
+﻿@model Warehouse.ViewModels.Common.UserRolesViewModel
+
+@using (Html.BeginCollectionItem("UserRolesViewModel"))
+{
+
+
+
+    @Html.HiddenFor(a => a.RoleId)
+    @Html.HiddenFor(a => a.UserId)
+    @Html.HiddenFor(a => a.Name)
+    @Html.HiddenFor(a => a.Id)
+
+
+
+
+
+    <div>
+
+
+        <tr>
+
+
+
+          
+            <td>
+                <div class="form-group form-group-sm col-xs-12 @Html.ModelStateFor(m => m.Active)">
+                    <div class="input-group input-group-sm">
+                        @Html.CheckBoxFor(m => m.Active,
+                            new
+                            {
+                                data_make_switchery_small = "true",
+                                @class = "form-control",
+                                data_val = "true"
+                            })
+
+                    </div>
+                </div>
+            </td>
+            <td>
+              @Model.Name
+            </td>
+          
+
+
+        </tr>
+
+    </div>
+
+
+}
+
+

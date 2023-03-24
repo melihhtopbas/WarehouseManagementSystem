@@ -52,8 +52,21 @@ namespace Warehouse.Service.Admin
                 
             };
 
+           
 
             _context.Users.Add(register);
+            _context.SaveChanges();
+
+            var roles = _context.Roles.Where(x => x.Name != "admin").ToList();
+            foreach (var item in roles)
+            {
+                _context.UserRoles.Add(new UserRoles
+                {
+                    Active= true,
+                    RoleId = item.Id,
+                    UserId = register.Id,
+                });
+            }
 
             using (var dbtransaction = _context.Database.BeginTransaction())
             {

@@ -17,6 +17,7 @@ namespace Warehouse.Data
         public long Id { get; set; }
         public Nullable<long> UserId { get; set; }
         public Nullable<long> RoleId { get; set; }
+        public Nullable<bool> Active { get; set; }
     
         public virtual Roles Roles { get; set; }
         public virtual Users Users { get; set; }

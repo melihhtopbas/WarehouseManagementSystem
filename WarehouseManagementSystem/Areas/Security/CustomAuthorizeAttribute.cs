@@ -31,7 +31,7 @@ namespace WarehouseManagementSystem.Areas.Security
                     var userRole = (from u in context.Users
                                     join ur in context.UserRoles on u.Id equals ur.UserId
                                     join r in context.Roles on ur.RoleId equals r.Id
-                                    where u.UserName == userId
+                                    where u.UserName == userId && ur.Active == true
                                     select new
                                     {
                                         r.Name

@@ -52,8 +52,16 @@
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Phone)">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.Phone, new { @class = "show-maxlength" })
         </div>
-        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6 @Html.ModelStateFor(m => m.Role)">
-            @Html.TextBoxBlockLabelAsAddonFor(m => m.Role, new { @class = "show-maxlength" })
+        <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <a class="btn btn-warning btn-sm"
+               data-modal-form="true"
+               data-modal-size="modal-lg"
+               data-modal-save-message="Başarıyla kaydedildi"
+               data-modal-title="Kullanıcı Ekle"
+               data-hook-beforeunload="true"
+               href="@Url.Action("UserRoles", "UserSetting", routeValues: new {Area ="Admin",userId =Model.Id})">
+                <i class="fa fa-plus"></i>Kullanıcı Rolleri
+            </a>
         </div>
         <div class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12 @Html.ModelStateFor(m => m.Mail)">
             @Html.TextBoxBlockLabelAsAddonFor(m => m.Mail, new { @class = "show-maxlength" })

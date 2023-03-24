@@ -4848,6 +4848,8 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Authentication\AccessDenied.cshtml" />
     <Content Include="Areas\Admin\Views\Authentication\YedekAccessDenied.cshtml" />
+    <Content Include="Areas\Admin\Views\UserSetting\_UserRoles.cshtml" />
+    <Content Include="Areas\Admin\Views\UserSetting\DisplayTemplates\UserRolesViewModel.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

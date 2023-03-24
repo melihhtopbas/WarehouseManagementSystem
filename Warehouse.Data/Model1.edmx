@@ -330,6 +330,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" />
           <Property Name="RoleId" Type="bigint" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -1834,6 +1835,7 @@
           <Property Name="RoleId" Type="Int64" />
           <NavigationProperty Name="Roles" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Roles" FromRole="UserRoles" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="WarehouseManagementSystemModel.FK_UserRoles_Users" FromRole="UserRoles" ToRole="Users" />
+          <Property Name="Active" Type="Boolean" />
         </EntityType>
         <Association Name="FK_UserRoles_Roles">
           <End Type="WarehouseManagementSystemModel.Roles" Role="Roles" Multiplicity="0..1" />
@@ -2293,6 +2295,7 @@
           <EntitySetMapping Name="UserRoles">
             <EntityTypeMapping TypeName="WarehouseManagementSystemModel.UserRoles">
               <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
