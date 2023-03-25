@@ -367,16 +367,16 @@
 
                 @if (CurrentUserViewModel.IsMainUser)
                 {
-                    <li><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
-                    <li><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
-                    <li><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
-                    <li><a href="@Url.Action("Index","CargoServiceSetting",new {Area="Admin"})"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
-                    <li><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
-                    <li><a href="@Url.Action("Index","PageSetting",new {Area="Admin"})"><i class="fa fa-file-text-o"></i> <span>Sayfalar</span></a></li>
-                    <li><a href="@Url.Action("Index","SliderSetting",new {Area="Admin"})"><i class="fa fa-sliders"></i> <span>Slider</span></a></li>
-                    <li><a href="@Url.Action("Index","PropertySetting",new {Area="Admin"})"><i class="fa fa-check-square-o"></i> <span>Özellikler</span></a></li>
-                    <li><a href="@Url.Action("Index","ReferenceSetting",new {Area="Admin"})"><i class="fa fa-registered"></i> <span>Referanslar</span></a></li>
-                    <li><a href="@Url.Action("Index","FaqSetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>Sık Sorulan Sorular</span></a></li>
+                    <li class="@Html.ActivePage("CountrySetting","Index")"><a href="@Url.Action("Index","CountrySetting",new {Area="Admin"})"><i class="fa-solid fa-globe"></i> <span>Ülkeler</span></a></li>
+                    <li class="@Html.ActivePage("CitySetting","Index")"><a href="@Url.Action("Index","CitySetting",new {Area="Admin"})"><i class="fa-solid fa-city"></i> <span>Şehirler</span></a></li>
+                    <li class="@Html.ActivePage("CurrencyUnitSetting","Index")"><a href="@Url.Action("Index","CurrencyUnitSetting",new {Area="Admin"})"><i class="fa-solid fa-money-bill"></i> <span>Para Birimleri</span></a></li>
+                    <li class="@Html.ActivePage("CargoServiceSetting","Index")"><a href="@Url.Action("Index","CargoServiceSetting",new {Area="Admin"})"><i class="fa-solid fa-truck"></i> <span>Kargo Servisleri</span></a></li>
+                    <li class="@Html.ActivePage("Setting","Blog")"><a href="@Url.Action("Blog","Setting",new {Area="Admin",id=1})"><i class="fa fa-book"></i> <span>Blog</span></a></li>
+                    <li class="@Html.ActivePage("PageSetting","Index")"><a href="@Url.Action("Index","PageSetting",new {Area="Admin"})"><i class="fa fa-file-text-o"></i> <span>Sayfalar</span></a></li>
+                    <li class="@Html.ActivePage("SliderSetting","Index")"><a href="@Url.Action("Index","SliderSetting",new {Area="Admin"})"><i class="fa fa-sliders"></i> <span>Slider</span></a></li>
+                    <li class="@Html.ActivePage("PropertySetting","Index")"><a href="@Url.Action("Index","PropertySetting",new {Area="Admin"})"><i class="fa fa-check-square-o"></i> <span>Özellikler</span></a></li>
+                    <li class="@Html.ActivePage("ReferenceSetting","Index")"><a href="@Url.Action("Index","ReferenceSetting",new {Area="Admin"})"><i class="fa fa-registered"></i> <span>Referanslar</span></a></li>
+                    <li class="@Html.ActivePage("FaqSetting","Index")"><a href="@Url.Action("Index","FaqSetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>Sık Sorulan Sorular</span></a></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-check"></i> <span>Kategori</span>
@@ -386,12 +386,12 @@
                         </a>
                         <ul class="treeview-menu" style="display: none;">
 
-                            <li><a href="@Url.Action("FaqCategory","CategorySetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>SSS Kategori</span></a></li>
+                            <li class="@Html.ActivePage("CategorySetting","FaqCategory")"><a href="@Url.Action("FaqCategory","CategorySetting",new {Area="Admin"})"><i class="fa fa-question-circle"></i> <span>SSS Kategori</span></a></li>
 
                         </ul>
                     </li>
 
-                    <li><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
+                    <li class="@Html.ActivePage("ContactForm","Index")"><a href="@Url.Action("Index","ContactForm",new {Area="Admin"})"><i class="fa fa-phone"></i> <span>İletişim Formu</span></a></li>
                 }
 
 
@@ -414,13 +414,13 @@
 
                         @if (CurrentUserViewModel.IsMainUser)
                         {
-                            <li><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
+                            <li class="@Html.ActivePage("TicketBox","TicketBoxShow")"><a href="@Url.Action("TicketBoxShow","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
 
 
                         }
                         else
                         {
-                            <li><a href="@Url.Action("Index","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
+                            <li class="@Html.ActivePage("TicketBox","Index")"><a href="@Url.Action("Index","TicketBox",new {Area="Admin"})"><i class="fa-solid fa-inbox"></i> <span>Destek Talepleri</span></a></li>
                         }
 
 
@@ -542,9 +542,15 @@
          toastr.error(AuthorizeMessage);
 
       }
-
+     
 
   });
+        $(document).ready(function () {
+            $('ul li').click(function () {
+                $('li').removeClass("active");
+                $(this).addClass("active");
+            });
+        });
     </script>
 
     <style>

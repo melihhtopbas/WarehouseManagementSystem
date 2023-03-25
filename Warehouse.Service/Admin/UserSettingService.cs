@@ -12,6 +12,7 @@ using System.Web.UI;
 using Warehouse.Data;
 using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
+using Microsoft.Win32;
 
 namespace Warehouse.Service.Admin
 {
@@ -178,8 +179,7 @@ namespace Warehouse.Service.Admin
                 Mail = model.Mail,
                 Name = model.Name,
                 Password = model.Password,
-                Phone = model.Phone,
-                Role = model.Role,
+                Phone = model.Phone, 
                 Surname = model.Surname,
                 UserName = model.UserName,
 
@@ -192,6 +192,18 @@ namespace Warehouse.Service.Admin
 
 
             _context.Users.Add(user);
+            _context.SaveChanges();
+
+            var roles = _context.Roles.Where(x => x.Name != "admin").ToList();
+            foreach (var item in roles)
+            {
+                _context.UserRoles.Add(new UserRoles
+                {
+                    Active = true,
+                    RoleId = item.Id,
+                    UserId = user.Id,
+                });
+            }
             using (var dbtransaction = _context.Database.BeginTransaction())
             {
                 try
@@ -235,7 +247,11 @@ namespace Warehouse.Service.Admin
 
                 return callResult;
             }
-
+            var userRoles = _context.UserRoles.Where(x=>x.UserId == userId).ToList();
+            foreach (var item in userRoles)
+            {
+                _context.UserRoles.Remove(item);
+            }
 
             _context.Users.Remove(user);
             using (var dbtransaction = _context.Database.BeginTransaction())

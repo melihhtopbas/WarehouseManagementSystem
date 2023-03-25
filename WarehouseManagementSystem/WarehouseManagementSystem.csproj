@@ -503,6 +503,7 @@
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Extensions\BootstrapExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelpers.cs" />
     <Compile Include="Extensions\SystemConstants.cs" />
     <Compile Include="Extensions\StringConstants.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
