@@ -359,8 +359,8 @@
                     </a>
                     <ul class="treeview-menu" style="display: none;">
 
-                        <li><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Sipariş Oluştur</span></a></li>
-                        <li><a href="@Url.Action("OrderPackage","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-stacked"></i> <span>Sipariş Kolileri</span></a></li>
+                        <li class="@Html.ActivePage("Order","Index")"><a href="@Url.Action("Index","Order",new {Area="Admin"})"><i class="fa-solid fa-truck-fast"></i> <span>Sipariş Oluştur</span></a></li>
+                        <li class="@Html.ActivePage("OrderPackage","OrderPackage")"><a href="@Url.Action("OrderPackage","OrderPackage",new {Area="Admin"})"><i class="fa-solid fa-boxes-stacked"></i> <span>Sipariş Kolileri</span></a></li>
 
                     </ul>
                 </li>
@@ -545,12 +545,8 @@
      
 
   });
-        $(document).ready(function () {
-            $('ul li').click(function () {
-                $('li').removeClass("active");
-                $(this).addClass("active");
-            });
-        });
+        
+       
     </script>
 
     <style>
