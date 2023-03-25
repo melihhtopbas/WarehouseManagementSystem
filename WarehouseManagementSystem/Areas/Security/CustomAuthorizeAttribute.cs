@@ -19,7 +19,7 @@ namespace WarehouseManagementSystem.Areas.Security
         {
             this.allowedroles = roles;
         }
-
+      
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {

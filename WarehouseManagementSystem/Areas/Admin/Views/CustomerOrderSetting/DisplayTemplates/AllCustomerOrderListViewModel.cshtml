@@ -10,19 +10,9 @@
 
     </td>
 
-    <td style="width:20%">@Model.RecipientCountry</td>
-    <td>@Model.CargoService</td>
-    <td>
-        @if (@Model.isPackage == true)
-        {
-            <span>✅</span>
-        }
-        else
-        {
-            <span>⌛</span>
-        }
-
-    </td>
+    <td style="width:20%">@Model.RecipientAddress / @Model.RecipientCountry</td>
+    
+  
     <td>
 
         <a data-modal-form="true"
@@ -47,20 +37,7 @@
         </a>
 
     </td>
-    <td style="width:50px">
-        <a href="javascript:void(0);"
-           data-toggle="confirmation"
-           title="Emin Misiniz"
-           data-btn-ok-label="Evet"
-           data-btn-cancel-label="Hayır"
-           data-placement="top"
-           data-customer-order-id="@Model.Id"
-           data-on-confirm="deleteCustomerOrder"
-           class="btn btn-block btn-danger btn-sm">
-            <i class="fa fa-trash fa-fw text-danger"></i> Gönderi Sil
-        </a>
-
-    </td>
+  
     <td>
         <a data-modal-form="true"
            data-modal-size="modal-lg"
@@ -72,20 +49,7 @@
         </a>
 
     </td>
-    <td>
-        <a data-modal-form="true"
-           data-modal-size="modal-lg"
-           data-modal-update="#AllCustomerOrder_@Model.Id"
-           data-modal-highlight="#AllCustomerOrder_@Model.Id"
-           data-modal-title="Sipariş Paketle"
-           data-hook-beforeunload="true"
-           class="pressActive btn btn-block btn-sm showOrderPackage"
-           href="@Url.Action("AllCustomerOrderPackageAdd", "CustomerOrderSetting", routeValues: new {Area = "Admin",orderId=Model.Id})">
-            <i class="fa-solid fa-cube"></i> Sipariş Paketle
-        </a>
-
-    </td>
-
+  
 
 
 

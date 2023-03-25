@@ -5,7 +5,7 @@
     ViewBag.Title1 = ViewBag.CustomerName;
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-<title>Gönderiler</title>
+<title>Kullanıcı Gönderileri</title>
 <div class="row">
     <div class="col-xs-12">
         @using (Html.BeginForm("CustomerOrderList", "CustomerOrderSetting", new { Area = "Admin" }, FormMethod.Post, new { role = "form", id = "orderSearchForm", data_ajax_form = "true", data_target_container = "#CustomerOrderListContainer" }))

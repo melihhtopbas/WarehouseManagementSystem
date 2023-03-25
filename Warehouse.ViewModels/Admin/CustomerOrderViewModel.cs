@@ -194,6 +194,7 @@ namespace Warehouse.ViewModels.Admin
         public long LanguageId { get; set; }
         [Display(Name = "Arama Metni")]
         public string SearchName { get; set; }
+        [Display(Name = "Kullanıcı")]
         public long CustomerId { get; set; }
         public string UserName { get; set; }
 

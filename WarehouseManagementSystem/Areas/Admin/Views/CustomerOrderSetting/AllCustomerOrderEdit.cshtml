@@ -89,18 +89,7 @@
         <br />
         <div class="clearfix"></div>
 
-        <div id="transactionGroupRow">
-            @if (Model.ProductTransactionGroup != null)
-            {
-
-
-                foreach (var item in Model.ProductTransactionGroup)
-                {
-                    @Html.Partial("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
-
-                }
-            }
-        </div>
+     
 
 
 

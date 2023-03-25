@@ -89,19 +89,7 @@
         <br />
         <div class="clearfix"></div>
 
-        <div id="transactionGroupRow">
-            @if (Model.ProductTransactionGroup != null)
-            {
-
-
-                foreach (var item in Model.ProductTransactionGroup)
-                {
-                    @Html.Partial("~/Areas/Admin/Views/Order/_OrderProductTransactionGroupAdd.cshtml", item)
-
-                }
-            }
-        </div>
-
+      
 
 
         <h5 class="form-group form-group-sm col-xs-12 col-sm-12 col-md-12 col-lg-12"><em><strong>Paket İşlemleri</strong></em></h5>

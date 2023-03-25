@@ -6,6 +6,21 @@
     <td>@Model.QuantityPerUnit</td>
     <td>@Model.SKU</td>
     <td>@Model.GtipCode</td>
+
+
+    <td style="width:50px">
+        <a data-modal-form="true"
+           data-modal-size="modal-lg"
+           data-modal-update="#orderProduct_@Model.Id"
+           data-modal-highlight="#orderProduct_@Model.Id"
+           data-modal-title="Ürün Düzenle"
+           data-hook-beforeunload="true"
+           class="btn btn-block btn-success btn-sm"
+           href="@Url.Action("OrderProductEdit", "Order", routeValues: new {Area = "Admin",productId=Model.Id})">
+            <i class="fa fa-edit fa-fw text-success"></i> Ürün Düzenle
+        </a>
+
+    </td>
     <td style="width:50px">
         <a href="javascript:void(0);"
            data-toggle="confirmation"
@@ -20,19 +35,4 @@
         </a>
 
     </td>
-    
-    <td style="width:50px">
-        <a data-modal-form="true"
-           data-modal-size="modal-lg"
-           data-modal-update="#orderProduct_@Model.Id"
-           data-modal-highlight="#orderProduct_@Model.Id"
-           data-modal-title="Ürün Düzenle"
-           data-hook-beforeunload="true"
-           class="btn btn-block btn-success btn-sm"
-            href="@Url.Action("OrderProductEdit", "Order", routeValues: new {Area = "Admin",productId=Model.Id})">
-            <i class="fa fa-edit fa-fw text-success"></i> Ürün Düzenle
-        </a>
-
-    </td>
-
 </tr>

@@ -133,7 +133,7 @@ namespace Warehouse.Service.Admin
         {
             var callResult = new ServiceCallResult() { Success = false };
 
-            bool nameExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == model.SKU).ConfigureAwait(false);
+            bool nameExist = await _context.ProductTransactionGroup.Where(x=>x.OrderId == model.OrderId).AnyAsync(a => a.SKU == model.SKU).ConfigureAwait(false);
             if (nameExist)
             {
                 callResult.ErrorMessages.Add("Bu stok kodunda ürün var!");
@@ -356,7 +356,7 @@ namespace Warehouse.Service.Admin
             }
             if (order.ProductTransactionGroup.Count() == 1)
             {
-                callResult.ErrorMessages.Add("Siparişteki son ürünü silemezsiniz!");
+                callResult.ErrorMessages.Add("Siparişteki son ürünü silemezsiniz!"); 
                 return callResult;
             }
 
@@ -508,17 +508,25 @@ namespace Warehouse.Service.Admin
 
         public async Task<ServiceCallResult> AddOrderAsync(OrderAddViewModel model)
         {
+
             var callResult = new ServiceCallResult() { Success = false };
-            //eklenen her gruptaki skuyu tek tek kontrol eder. Bunlardan birisi bile VERİTABANINDA var ise hata verir.
+
+            var userOrders = _context.Orders.Where(x=>x.CustomerId == users.Id).ToList();
+            
+            
             foreach (var item in model.ProductTransactionGroup)
             {
-                bool skuExist = await _context.ProductTransactionGroup.AnyAsync(a => a.SKU == item.SKU).ConfigureAwait(false);
-                if (skuExist)
+                foreach (var productSku in userOrders)
                 {
-                    callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır! " + "{" + item.SKU + "}");
+                    bool skuExist = await _context.ProductTransactionGroup.Where(x=>x.OrderId == productSku.Id).AnyAsync(a => a.SKU == item.SKU).ConfigureAwait(false);
+                    if (skuExist)
+                    {
+                        callResult.ErrorMessages.Add("Bu stok kodu kullanılmaktadır! " + "{" + item.SKU + "}");
 
-                    return callResult;
+                        return callResult;
+                    }
                 }
+            
             }
             if (model.ProductTransactionGroup.Count() > 1)
             {

@@ -29,9 +29,19 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         }
         public ActionResult NotAuthorized()
         {
-            ViewBag.clientside_js = "<script type=\"text/javascript\">  $(function () {\r\n       if (\"@Model\" != \"\")\r\n \r\n        {\r\n \r\n           toastr.error(\"Yetkiniz yok\");\r\n \r\n        };\r\n\r\n    }) </script>";
+            ViewBag.clientside_js = "<script type=\"text/javascript\">  $(function () {\r\n       if (\"@Model\" != \"\")\r\n \r\n        {\r\n \r\n           toastr.error(\"Yetkiniz Yok!\");\r\n \r\n        };\r\n\r\n    }) </script>";
             return PartialView("~/Areas/Admin/Views/Shared/_ItemNotFoundPartial.cshtml", "Bu işlem için yetkiniz yok!");
-            
+            //var callResult = new ServiceCallResult() { Success = false };
+            //callResult.Success = false;
+            //callResult.ErrorMessages.Add("ver yetkiyi gör etkiyi");
+            //return Json(
+            // new
+            // {
+            //     success = false,
+            //     errorMessages = callResult.ErrorMessages
+            // });
+
+
         }
     }
 }
