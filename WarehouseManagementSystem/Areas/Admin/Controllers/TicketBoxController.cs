@@ -16,6 +16,8 @@ using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
+    [Authorize]
+    [CustomAuthorize("user")]
     public class TicketBoxController : AdminBaseController
     {
         private readonly TicketBoxService _ticketBoxService;

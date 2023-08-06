@@ -68,11 +68,12 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
         [HttpGet,AjaxOnly]
         public async Task<ActionResult> UserEdit(int userId)
         {
-            ViewData["Cities"] = _userSettingService.GetUserCitiesList();
+            var model = await _userSettingService.GetUserEditViewModelAsync(userId);
+            ViewData["Cities"] = _userSettingService.GetUserCityList(model.Country.CountryId);
             ViewData["Countries"] = _userSettingService.GetUserCountriesList().ToList();
 
-            var model = await _userSettingService.GetUserEditViewModelAsync(userId);
-         //   model.Country.CountryId = 20002;
+            
+            
             if (model != null)
             {
 

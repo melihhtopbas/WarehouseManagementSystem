@@ -2740,6 +2740,7 @@
     <Content Include="Content\css\vendor\magnific-popup.css" />
     <Content Include="Content\css\vendor\slick-theme.css" />
     <Content Include="Content\css\vendor\slick.css" />
+    <Content Include="Content\images\324425518_509247041296835_5554987010421074298_n.jpg" />
     <Content Include="Content\images\404-banner.jpg" />
     <Content Include="Content\images\404-error.png" />
     <Content Include="Content\images\about-us\more-about\1.jpg" />
@@ -2867,6 +2868,7 @@
     <Content Include="Content\images\partner1.png" />
     <Content Include="Content\images\partner2.png" />
     <Content Include="Content\images\partner3.png" />
+    <Content Include="Content\images\photo-1542831371-29b0f74f9713.jpeg" />
     <Content Include="Content\images\ppc-process\1.png" />
     <Content Include="Content\images\ppc-process\2.png" />
     <Content Include="Content\images\ppc-process\3.png" />

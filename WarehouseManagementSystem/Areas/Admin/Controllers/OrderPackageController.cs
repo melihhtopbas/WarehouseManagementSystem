@@ -10,9 +10,12 @@ using System.Web.Script.Serialization;
 using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
+    [Authorize]
+    [CustomAuthorize("user")]
     public class OrderPackageController : AdminBaseController
     {
         private readonly OrderPackageService _orderPackageService;

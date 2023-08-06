@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Web.Mvc;
 using System;
@@ -58,6 +59,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                 {
                     
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
+                   
 
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));
 
@@ -67,8 +69,7 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre");
                     //Response.Write("<script language='javascript'>alert(\"Geçersiz kullanıcı adı veya şifre!\")</script>");
                 }
-                
-
+             
 
 
             }

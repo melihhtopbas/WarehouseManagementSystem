@@ -17,10 +17,12 @@ using Warehouse.Service.Admin;
 using Warehouse.Utils.Constants;
 using Warehouse.ViewModels.Admin;
 using Warehouse.ViewModels.Common;
+using WarehouseManagementSystem.Areas.Security;
 
 namespace WarehouseManagementSystem.Areas.Admin.Controllers
 {
     [Authorize]
+    [CustomAuthorize("user")]
     public class OrderController : AdminBaseController
     {
         private readonly OrderService _orderService;
