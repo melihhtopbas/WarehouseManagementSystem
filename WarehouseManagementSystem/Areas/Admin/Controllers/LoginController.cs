@@ -55,11 +55,26 @@ namespace WarehouseManagementSystem.Areas.Admin.Controllers
             {
                 var loginResult = _settingService.Login(model);
                 var kullaniciInDb = _context.Users.FirstOrDefault(x => x.UserName ==model.UserName&& x.Password == model.Password);
+                var userRoles = (from u in _context.Users
+                                 join ur in _context.UserRoles on u.Id equals ur.UserId
+                                 join r in _context.Roles on ur.RoleId equals r.Id
+                                 where u.UserName == kullaniciInDb.UserName && ur.Active == true
+                                 select new
+                                 {
+                                     r.Name
+                                 }).ToList();
+                var userRole = userRoles.Any(x => x.Name == "user");
+
+                if (!userRole)
+                {
+                    ModelState.AddModelError("", "Maalesef sisteme giriş yetkiniz yok!");
+                    return View();
+                }
                 if (loginResult)
                 {
                     
                     FormsAuthentication.SetAuthCookie(kullaniciInDb.UserName, false);
-                   
+                    
 
                     return RedirectToLocalOr(returnUrl, () => RedirectToAction("Index", "Order", new { Area = "Admin" }));
 
